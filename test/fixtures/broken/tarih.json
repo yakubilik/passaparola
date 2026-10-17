@@ -1,0 +1,25 @@
+{
+  "category": "tarih",
+  "title": "Tarih (broken on purpose)",
+  "levels": [
+    {
+      "level": 1,
+      "questions": [
+        {"id": "tarih-1-A-1", "letter": "A", "type": "starts", "clue": "Orhan Gazi'nin 1326'da aldığı şehir.", "answers": ["Bursa"]},
+        {"id": "tarih-1-I-1", "letter": "I", "type": "starts", "clue": "Başkenti Bağdat olan ülke.", "answers": ["Irak"]},
+        {"id": "tarih-1-I-2", "letter": "I", "type": "starts", "clue": "9 Eylül 1922'de kurtarılan Ege şehri.", "answers": ["İzmir"]},
+        {"id": "tarih-1-I-3", "letter": "I", "type": "contains", "clue": "Kleopatra'nın ülkesi.", "answers": ["Mısır"]},
+        {"id": "tarih-1-I-4", "letter": "I", "type": "contains", "clue": "Piramitlerin ülkesi, Türkçe karakter olmadan yazılmış.", "answers": ["Misir"]},
+        {"id": "tarih-1-İ-1", "letter": "İ", "type": "starts", "clue": "1453'te fethedilen şehir.", "answers": ["Istanbul"]},
+        {"id": "tarih-1-İ-2", "letter": "İ", "type": "starts", "clue": "Çin'den Avrupa'ya uzanan ticaret yolu.", "answers": ["İpek Yolu"]},
+        {"id": "tarih-1-Ö-1", "letter": "Ö", "type": "contains", "clue": "Osmanlı'nın ilk merkezi olan ilçe.", "answers": ["Sogut"]},
+        {"id": "tarih-1-B-1", "letter": "B", "type": "starts", "clue": "Millî simgemiz.", "answers": ["Bayrak"]},
+        {"id": "tarih-1-B-1", "letter": "B", "type": "starts", "clue": "1453'te sona eren imparatorluk.", "answers": ["Bizans"]},
+        {"id": "tarih-1-C-1", "letter": "C", "type": "starts", "clue": "Cumhuriyet'in 29 Ekim 1923'te ilan edildiği gün kurulan yönetim.", "answers": ["Cumhuriyet"]},
+        {"id": "tarih-1-E-1", "letter": "E", "type": "starts", "clue": "Selimiye Camii'nin bulunduğu şehir.", "answers": ["Edirne"]},
+        {"id": "tarih-1-E-2", "letter": "E", "type": "starts", "clue": "İstanbul'dan önceki Osmanlı başkenti.", "answers": ["Edirne"]},
+        {"id": "tarih-1-L-1", "letter": "L", "type": "starts", "clue": "24 Temmuz 1923'te imzalanan, Türkiye'nin bağımsızlığını uluslararası alanda tanıtan, çok uzun süren görüşmelerin sonunda varılan barış antlaşması.", "answers": ["Lozan"]}
+      ]
+    }
+  ]
+}

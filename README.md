@@ -17,3 +17,7 @@ next lap, the clock decides.
   `assets/sounds/` and they are played instead.
 - Questions: `js/questions.js`, 5 sets; `npm test` checks every set covers the
   alphabet and every answer fits its letter.
+
+Harfiyen (the mobile version, `docs/design/harfiyen/`) reads its questions from
+`app/assets/questions/<category>.json`; the format and the writing rules are in
+`docs/questions.md`, and `node tools/validate-questions.mjs` checks them.
