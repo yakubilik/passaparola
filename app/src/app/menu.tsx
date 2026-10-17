@@ -1,12 +1,13 @@
 import { router } from 'expo-router';
 import type { ReactNode } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Switch, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { CATEGORIES } from '../data/questions';
 import { difficulty, mapLength, MIXED, parseCats, selectionTitle } from '../game/selection';
 import { selectionUnlocked } from '../store/progress';
 import { useProgress } from '../store/ProgressContext';
+import { useSettings } from '../store/SettingsContext';
 import { SoonTag } from '../ui/Button';
 import { Screen } from '../ui/Screen';
 import { C, F } from '../ui/theme';
@@ -31,6 +32,7 @@ function Card({ children, onPress, testID }: { children: ReactNode; onPress?: ()
 // 1e: main menu.
 export default function Menu() {
   const { progress } = useProgress();
+  const { settings, update } = useSettings();
   const insets = useSafeAreaInsets();
   const last = progress.last;
   const lastParam = last ? last.cats.join(',') : '';
@@ -112,6 +114,18 @@ export default function Menu() {
               <Text style={{ fontFamily: F.body, fontSize: 13, color: C.dim }}>Arkadaşının kodunu gir</Text>
             </View>
             <SoonTag />
+          </View>
+        </Card>
+
+        <Card>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+            <View style={{ gap: 2, flex: 1 }}>
+              <Text style={{ fontFamily: F.bodyBold, fontSize: 16, color: C.text }}>Sesli oyun</Text>
+              <Pressable accessibilityRole="link" onPress={() => router.push('/mic')} hitSlop={8}>
+                <Text style={{ fontFamily: F.bodySemi, fontSize: 13, color: C.accentSoft }}>Mikrofonu dene ›</Text>
+              </Pressable>
+            </View>
+            <Switch accessibilityLabel="Sesli oyun" value={settings.voice} onValueChange={(on) => update({ voice: on })} />
           </View>
         </Card>
 

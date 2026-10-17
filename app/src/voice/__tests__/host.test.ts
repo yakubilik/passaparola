@@ -1,0 +1,96 @@
+import { CATEGORIES } from '../../data/questions';
+import { audio, CLIP_MS, speech, ttsMs } from '../../test-utils/fakeAudio';
+import { CLIPS } from '../clips.generated';
+import { Host } from '../host';
+import { answerLine, clueLine, host as hostLine, HOST_LINES } from '../lines';
+
+// Node's fs and path, without Node's type definitions in the app.
+declare const __dirname: string;
+const { existsSync } = jest.requireActual<{ existsSync(p: string): boolean }>('fs');
+const { join } = jest.requireActual<{ join(...p: string[]): string }>('path');
+
+const q = { id: 'tarih-1-B-1', letter: 'B', type: 'starts' as const, clue: 'Bir şehir.', answers: ['Bursa'] };
+const qc = { id: 'tarih-1-Ö-1', letter: 'Ö', type: 'contains' as const, clue: 'Bir meyve', answers: ['Kayısı'] };
+
+beforeEach(() => {
+  jest.useFakeTimers();
+  speech.spoken.length = 0;
+  audio.players.length = 0;
+});
+afterEach(() => jest.useRealTimers());
+
+test('lines read the way the recordings do', () => {
+  expect(clueLine(q)).toEqual({ key: 'tarih-1-B-1', text: 'Bir şehir... Be ile başlıyor.' });
+  expect(clueLine(qc)).toEqual({ key: 'tarih-1-Ö-1', text: 'Bir meyve... İçinde ö var.' });
+  expect(clueLine({ ...q, letter: 'İ' }).text).toBe('Bir şehir... İ ile başlıyor.');
+  expect(answerLine(q)).toEqual({ key: 'tarih-1-B-1-cevap', text: 'Bursa olacaktı.' });
+  expect(hostLine('wrong')).toEqual({ key: 'wrong', text: 'Değil, olmadı.' });
+});
+
+test('host lines match tools/host-lines.json', () => {
+  const json = require('../../../../tools/host-lines.json');
+  for (const [k, v] of Object.entries(HOST_LINES)) expect(json[k]).toBe(v);
+});
+
+test('a line with a clip plays app/assets/voice/<key>.mp3, then calls done', () => {
+  const h = new Host({ 'tarih-1-B-1': 101, wrong: 102 });
+  const done = jest.fn();
+  h.speak([hostLine('wrong'), clueLine(q)], done);
+  expect(h.speaking).toBe(true);
+  expect(audio.players[0].source).toBe(102);
+  jest.advanceTimersByTime(CLIP_MS + 10);
+  expect(audio.players[0].source).toBe(101);
+  expect(done).not.toHaveBeenCalled();
+  jest.advanceTimersByTime(CLIP_MS + 10);
+  expect(done).toHaveBeenCalledTimes(1);
+  expect(h.said).toEqual(['clip:wrong', 'clip:tarih-1-B-1']);
+  expect(speech.spoken).toEqual([]);
+});
+
+test('a missing clip is read with expo-speech in tr-TR', () => {
+  const h = new Host({ wrong: 102 });
+  const done = jest.fn();
+  h.speak([hostLine('wrong'), answerLine(q)], done);
+  jest.advanceTimersByTime(CLIP_MS + 10);
+  expect(speech.spoken).toEqual([{ text: 'Bursa olacaktı.', language: 'tr-TR' }]);
+  expect(done).not.toHaveBeenCalled();
+  jest.advanceTimersByTime(ttsMs('Bursa olacaktı.') + 10);
+  expect(done).toHaveBeenCalledTimes(1);
+  expect(h.said).toEqual(['clip:wrong', 'tts:Bursa olacaktı.']);
+});
+
+test('a clip that never loads is read aloud instead', () => {
+  const h = new Host({ wrong: 102 });
+  const done = jest.fn();
+  h.speak([hostLine('wrong')], done);
+  const p = audio.players[0];
+  p.isLoaded = false;
+  p.pause(); // never reports an end
+  jest.advanceTimersByTime(4100);
+  expect(speech.spoken.map((s) => s.text)).toEqual(['Değil, olmadı.']);
+  jest.advanceTimersByTime(ttsMs('Değil, olmadı.') + 10);
+  expect(done).toHaveBeenCalledTimes(1);
+});
+
+test('cancel cuts the host off without calling done, and reports quiet', () => {
+  const h = new Host({});
+  const states: (string[] | null)[] = [];
+  h.onSpeaking = (t) => states.push(t);
+  const done = jest.fn();
+  h.speak([clueLine(q)], done);
+  h.cancel();
+  jest.advanceTimersByTime(10_000);
+  expect(done).not.toHaveBeenCalled();
+  expect(states).toEqual([['Bir şehir... Be ile başlıyor.'], null]);
+  expect(h.speaking).toBe(false);
+});
+
+test('the clip index points at files that exist, under the contract names', () => {
+  const dir = join(__dirname, '../../../assets/voice');
+  for (const key of Object.keys(CLIPS)) expect(existsSync(join(dir, key + '.mp3'))).toBe(true);
+  // Names: <question id>, <question id>-cevap, host line keys.
+  const ids = new Set(CATEGORIES.flatMap((c) => c.levels.flatMap((l) => l.questions.map((x) => x.id))));
+  for (const key of Object.keys(CLIPS)) {
+    expect(ids.has(key.replace(/-cevap$/, '')) || key in HOST_LINES || ['welcome2', 'turn2', 'end2', 'draw'].includes(key)).toBe(true);
+  }
+});

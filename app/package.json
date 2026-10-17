@@ -34,8 +34,11 @@
     "typescript": "~6.0.3"
   },
   "scripts": {
+    "prestart": "node scripts/gen-voice-index.mjs",
     "start": "expo start",
+    "preios": "node scripts/gen-voice-index.mjs",
     "ios": "expo run:ios",
+    "voice-index": "node scripts/gen-voice-index.mjs",
     "test": "jest",
     "typecheck": "tsc --noEmit"
   },

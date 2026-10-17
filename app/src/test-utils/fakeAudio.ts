@@ -21,7 +21,7 @@ export class FakePlayer {
     if (!this.loop) {
       this.timer = setTimeout(() => {
         this.playing = false;
-        this.subs.forEach((f) => f({ didJustFinish: true }));
+        [...this.subs].forEach((f) => f({ didJustFinish: true }));
       }, CLIP_MS);
     }
   }

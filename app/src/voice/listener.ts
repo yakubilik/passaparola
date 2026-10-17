@@ -92,8 +92,8 @@ export class AnswerListener {
     if (this.echoUntil === Infinity) this.echoUntil = this.now() + ECHO_TAIL_MS;
   }
 
-  private get hostTalking() {
-    return this.echoUntil === Infinity;
+  private get echoActive() {
+    return this.now() <= this.echoUntil;
   }
 
   // A heard word is the game's own voice if it matches, or nearly matches, a word being said.
@@ -146,7 +146,7 @@ export class AnswerListener {
     });
     if (!alts.length) {
       // Only the game's own voice so far: mark it handled so it never prefixes an answer.
-      if (!this.lastAlts && this.hostTalking) this.used = Math.max(skip, count);
+      if (!this.lastAlts && this.echoActive) this.used = Math.max(skip, count);
       if (e.isFinal) this.used = 0;
       return;
     }
