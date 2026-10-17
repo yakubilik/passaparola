@@ -1,6 +1,6 @@
 import { CATEGORIES, categoryById, hasQuestions, levelIsPlayable } from '../../data/questions';
 import { LETTERS } from '../letters';
-import { answer, counts, createRound, current, formatClock, pickQuestions, promptLine, settle, tick, type Round } from '../round';
+import { answer, counts, seededRng, createRound, current, formatClock, pickQuestions, promptLine, settle, tick, type Round } from '../round';
 
 const tarih = categoryById('tarih')!;
 
@@ -80,4 +80,12 @@ test('prompt line', () => {
   const r = round();
   expect(promptLine(r.letters[0])).toBe('A HARFİYLE BAŞLIYOR');
   expect(promptLine({ ...r.letters[0], letter: 'Ö', question: { ...r.letters[0].question, type: 'contains' } })).toBe('İÇİNDE Ö VAR');
+});
+
+test('a seed gives the same round every time', () => {
+  const a = pickQuestions(CATEGORIES, ['tarih'], 1, seededRng(7))!.map((p) => p.question.id);
+  const b = pickQuestions(CATEGORIES, ['tarih'], 1, seededRng(7))!.map((p) => p.question.id);
+  const c = pickQuestions(CATEGORIES, ['tarih'], 1, seededRng(8))!.map((p) => p.question.id);
+  expect(a).toEqual(b);
+  expect(a).not.toEqual(c);
 });

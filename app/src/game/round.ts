@@ -28,6 +28,19 @@ export const PASS_MARK = 18;
 
 export type Rng = () => number;
 
+// A repeatable draw (mulberry32): the same seed gives everyone the same 28
+// questions, as a shared daily round will need.
+export function seededRng(seed: number): Rng {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 // Picks one question per ring letter from the chosen categories' pool for
 // this level; with several categories every letter draws its own category.
 // Returns null when a letter has no question (the level is not ready).

@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import { CATEGORIES } from '../data/questions';
-import { counts, createRound, current, formatClock, pickQuestions, PASS_MARK, promptLine, type Round, type RoundLetter } from '../game/round';
+import { counts, createRound, seededRng, current, formatClock, pickQuestions, PASS_MARK, promptLine, type Round, type RoundLetter } from '../game/round';
 import { parseCats } from '../game/selection';
 import { setLastResult } from '../game/session';
 import { useRound } from '../game/useRound';
@@ -29,14 +29,14 @@ function kindOf(l: RoundLetter, active: boolean): BubbleKind {
 // The game, variant 1a "Klasik": the face inside the letter ring, the
 // question below, the answer typed in.
 export default function Game() {
-  const params = useLocalSearchParams<{ cats?: string; level?: string; quick?: string }>();
+  const params = useLocalSearchParams<{ cats?: string; level?: string; quick?: string; seed?: string }>();
   const level = Number(params.level) || 1;
   const quick = params.quick === '1';
   const cats = parseCats(params.cats);
   const { progress, ready, record } = useProgress();
 
   // The round is drawn once per visit.
-  const [picked] = useState(() => pickQuestions(CATEGORIES, cats, level));
+  const [picked] = useState(() => pickQuestions(CATEGORIES, cats, level, params.seed ? seededRng(Number(params.seed)) : Math.random));
   const initial = useMemo(() => (picked ? createRound(picked) : null), [picked]);
   const locked = !!initial && ready && !quick && level > selectionUnlocked(progress, cats);
 
@@ -96,7 +96,7 @@ function GameView({ game }: { game: ReturnType<typeof useRound> }) {
   const compact = size < 300;
 
   const send = () => {
-    if (!text.trim()) return;
+    if (!live || !text.trim()) return;
     game.submit(text);
     setText('');
   };
@@ -104,7 +104,7 @@ function GameView({ game }: { game: ReturnType<typeof useRound> }) {
     if (phase === 'over') return;
     Alert.alert('Oyundan çıkılsın mı?', 'Bu tur sayılmaz.', [
       { text: 'Vazgeç', style: 'cancel' },
-      { text: 'Çık', style: 'destructive', onPress: () => router.back() },
+      { text: 'Çık', style: 'destructive', onPress: () => (router.canGoBack() ? router.back() : router.replace('/menu')) },
     ]);
   };
 
