@@ -22,15 +22,21 @@ test('a round draws one question per letter, in ring order', () => {
 });
 
 test('categories without questions, or missing levels, give no round', () => {
-  expect(hasQuestions(categoryById('cografya')!)).toBe(false);
-  expect(pickQuestions(CATEGORIES, ['cografya'], 1)).toBeNull();
-  expect(pickQuestions(CATEGORIES, ['tarih'], 2)).toBeNull();
+  const bank = CATEGORIES.map((c) => (c.category === 'cografya' ? { ...c, levels: [] } : c));
+  const empty = bank.find((c) => c.category === 'cografya')!;
+  expect(hasQuestions(empty)).toBe(false);
+  expect(pickQuestions(bank, ['cografya'], 1)).toBeNull();
+  expect(pickQuestions(CATEGORIES, ['tarih'], 99)).toBeNull();
   expect(levelIsPlayable(tarih, 1)).toBe(true);
 });
 
-test('several categories: every letter comes from one of them', () => {
-  const picked = pickQuestions(CATEGORIES, ['tarih', 'cografya'], 1)!;
-  expect(picked.every((p) => p.category === 'tarih')).toBe(true);
+test('several categories: every letter comes from one of them, both get used', () => {
+  const picked = pickQuestions(CATEGORIES, ['tarih', 'cografya'], 1, seededRng(3))!;
+  expect(picked.every((p) => p.category === 'tarih' || p.category === 'cografya')).toBe(true);
+  expect(new Set(picked.map((p) => p.category))).toEqual(new Set(['tarih', 'cografya']));
+  // A category without the level simply does not contribute.
+  const bank = CATEGORIES.map((c) => (c.category === 'cografya' ? { ...c, levels: [] } : c));
+  expect(pickQuestions(bank, ['tarih', 'cografya'], 1)!.every((p) => p.category === 'tarih')).toBe(true);
 });
 
 test('right, wrong and pas colour the letter and move to the next pending one', () => {

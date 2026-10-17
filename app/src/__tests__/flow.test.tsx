@@ -6,7 +6,11 @@ import { REVEAL_MS } from '../game/useRound';
 import { C } from '../ui/theme';
 
 // Drives the app the way a player does, from the intro to the round end,
-// with the real question files.
+// with the real question files cut down to a fixed shape: tarih and spor
+// have level 1 only, the other three categories nothing yet.
+jest.mock('../data/questions', () =>
+  require('../test-utils/mockQuestions').mockQuestions({ tarih: [1], spor: [1], cografya: [], bilim: [], sanat: [] }),
+);
 
 function answerFor(clue: string): string {
   for (const c of CATEGORIES) for (const l of c.levels) for (const q of l.questions) if (q.clue === clue) return q.answers[0];
@@ -52,7 +56,7 @@ test('intro → menu → category → level map → game: right, wrong and Pas; 
   // 1f category choice: empty categories are "yakında" and can not be picked
   expect(await screen.findByText('Kategori seç')).toBeOnTheScreen();
   expect(screen.getByTestId('cat-cografya')).toBeDisabled();
-  expect(screen.getAllByText('Yakında')).toHaveLength(4);
+  expect(screen.getAllByText('Yakında')).toHaveLength(3);
   expect(screen.getByText('Bölümlere git')).toBeOnTheScreen();
   await press(screen.getByTestId('cat-tarih'));
   expect(screen.getByTestId('cat-tarih')).toBeChecked();
@@ -117,10 +121,30 @@ test('time up ends the round with the letters left empty', async () => {
   expect(screen.getByText('Sonraki bölüm için en az 18 doğru gerekiyor.')).toBeOnTheScreen();
 });
 
-test('a level or category without questions shows "yakında" instead of crashing', async () => {
+test('a level without questions shows "yakında" instead of crashing', async () => {
   await renderRouter('./src/app', { initialUrl: '/game?cats=tarih&level=2' });
   expect(await screen.findByText('Bu bölüm yakında')).toBeOnTheScreen();
-  screen.unmount();
+});
+
+test('a category without questions shows "yakında" on its map', async () => {
   await renderRouter('./src/app', { initialUrl: '/levels?cats=cografya' });
   expect(await screen.findByLabelText('Bölüm 1, yakında')).toBeDisabled();
+});
+
+test('karışık: every category with questions, each letter from one of them', async () => {
+  await renderRouter('./src/app', { initialUrl: '/category' });
+  await press(await screen.findByTestId('cat-tarih'));
+  await press(screen.getByTestId('cat-karisik'));
+  expect(screen.getByTestId('cat-karisik')).toBeChecked();
+  // Karışık replaces a hand-picked choice and checks every playable category.
+  expect(screen.getByTestId('cat-tarih')).toBeChecked();
+  expect(screen.getByTestId('cat-spor')).toBeChecked();
+  expect(screen.getByTestId('cat-cografya')).not.toBeChecked();
+  await press(screen.getByText('Bölümlere git'));
+  expect(await screen.findByText('Karışık')).toBeOnTheScreen();
+  await press(screen.getByLabelText('Bölüm 1, açık'));
+  await press(await screen.findByText('Başla'));
+  expect(screen.getByTestId('prompt')).toHaveTextContent('A HARFİYLE BAŞLIYOR');
+  await type(answerFor(clueText()));
+  expect(screen.getByLabelText('A harfi, doğru')).toBeOnTheScreen();
 });

@@ -4,15 +4,8 @@ import { fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 import { CATEGORIES } from '../data/questions';
 import { PROGRESS_KEY } from '../store/progress';
 
-// Tarih has only level 1 written so far; give it a level 2 here so the map
-// has something to unlock.
-jest.mock('../data/questions', () => {
-  const actual = jest.requireActual('../data/questions');
-  const [tarih, ...rest] = actual.CATEGORIES;
-  const lv1 = tarih.levels[0];
-  const lv2 = { level: 2, questions: lv1.questions.map((q: { id: string }) => ({ ...q, id: q.id.replace('-1-', '-2-') })) };
-  return { ...actual, CATEGORIES: [{ ...tarih, levels: [lv1, lv2] }, ...rest] };
-});
+// Tarih with two levels, so the map has exactly one level to unlock.
+jest.mock('../data/questions', () => require('../test-utils/mockQuestions').mockQuestions({ tarih: [1, 2] }));
 
 jest.setTimeout(60_000);
 
