@@ -1,0 +1,47 @@
+# The voice game on the simulator: mic check, then a seeded round with the
+# host reading and the mic listening. Needs a Debug build and Metro (README).
+appId: com.skolalabs.harfiyen
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    text: "Vazgeç"
+    optional: true
+- extendedWaitUntil:
+    visible: ".*Misafir olarak oyna.*"
+    timeout: 180000
+- tapOn: ".*Misafir olarak oyna.*"
+- extendedWaitUntil:
+    visible: ".*Hızlı oyun.*"
+    timeout: 10000
+- openLink: "harfiyen://game?cats=tarih&level=1&seed=7"
+- tapOn:
+    text: "Aç"
+    optional: true
+- extendedWaitUntil:
+    visible: ".*Sesli cevap verelim.*"
+    timeout: 10000
+- tapOn: "^Mikrofonu dene$"
+- tapOn:
+    text: "(Allow|OK|İzin Ver|Tamam)"
+    optional: true
+- tapOn:
+    text: "(Allow|OK|İzin Ver|Tamam)"
+    optional: true
+- extendedWaitUntil:
+    visible: "(DUYDUM|DUYAMADIM)"
+    timeout: 15000
+- takeScreenshot: mic-check
+- tapOn: "(Oyuna geç|Denemeden geç)"
+- extendedWaitUntil:
+    visible: ".*Hazır mısın.*"
+    timeout: 10000
+- tapOn: "^Başla$"
+- extendedWaitUntil:
+    visible: ".*Sunucu okuyor.*"
+    timeout: 5000
+- takeScreenshot: game-reading
+- extendedWaitUntil:
+    visible: "(Dinliyorum.*|Mikrofon.*)"
+    timeout: 30000
+- takeScreenshot: game-listening
