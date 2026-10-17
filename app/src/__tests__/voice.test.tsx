@@ -7,6 +7,7 @@ import { SETTINGS_KEY } from '../store/settings';
 import { fakeRecognizer as rec } from '../test-utils/fakeRecognizer';
 import { C } from '../ui/theme';
 import { host, sounds } from '../voice/engine';
+import { answerLine, clueLine, host as hostLine, type Line } from '../voice/lines';
 import { SETTLE_MS } from '../voice/listener';
 import { BG_DUCKED, BG_VOLUME } from '../voice/sounds';
 
@@ -25,6 +26,9 @@ function clueText(): string {
   const kids = screen.getByTestId('clue').props.children;
   return Array.isArray(kids) ? kids.join('') : String(kids);
 }
+
+// How the host says a line: its clip when there is one, else expo-speech.
+const said = (l: Line) => (host.hasClip(l.key!) ? `clip:${l.key}` : `tts:${l.text}`);
 
 const wait = (ms: number) => act(() => jest.advanceTimersByTime(ms));
 async function say(words: string) {
@@ -62,7 +66,7 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; the mic 
   // The host reads A (after "İşte sağ cepten sorular çıkıyor"); the clock waits, the bed is lowered.
   const a = question(clueText());
   expect(host.speaking).toBe(true);
-  expect(host.said).toEqual(['clip:go']);
+  expect(host.said).toEqual([said(hostLine('go'))]);
   expect(sounds.bgVolume).toBe(BG_DUCKED);
   expect(screen.getByTestId('voice-status')).toHaveTextContent(/Sunucu okuyor/);
   await wait(1000);
@@ -73,7 +77,7 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; the mic 
   expect(screen.getByLabelText('A harfi, doğru')).toHaveStyle({ backgroundColor: C.green });
   expect(sounds.played).toContain('correct');
   const b = question(clueText());
-  expect(host.said[host.said.length - 1]).toBe(`clip:${b.id}`);
+  expect(host.said[host.said.length - 1]).toBe(said(clueLine(b)));
   expect(screen.getByTestId('clock')).toHaveTextContent('03:00');
 
   // The mic hears the host reading B: not an answer.
@@ -94,7 +98,7 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; the mic 
   expect(screen.getByText(b.answers[0])).toBeOnTheScreen();
   expect(sounds.played).toContain('wrong');
   await wait(REVEAL_MS + 50);
-  expect(host.said.slice(-2)).toEqual(['clip:wrong', `clip:${b.id}-cevap`]);
+  expect(host.said.slice(-2)).toEqual([said(hostLine('wrong')), said(answerLine(b))]);
   expect(screen.getByTestId('reveal')).toBeOnTheScreen();
   await wait(2000);
   expect(screen.getByLabelText('C harfi, sırada')).toBeOnTheScreen();
@@ -127,7 +131,7 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; the mic 
   expect(await screen.findByText('Az kaldı!')).toBeOnTheScreen();
   expect(rec.aborts).toBe(1);
   expect(sounds.bgPlaying).toBe(false);
-  expect(host.said).toContain('clip:timeup');
+  expect(host.said).toContain(said(hostLine('timeup')));
   expect(rec.starts).toBe(1);
 });
 
