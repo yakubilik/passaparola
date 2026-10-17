@@ -11,14 +11,15 @@ type Props = {
   size: number;
   bubble: number;
   children?: ReactNode;
+  testID?: string;
 };
 
 // Letters on a circle, A at twelve o'clock, clockwise; children sit in the middle.
-export function Ring({ items, size, bubble, children }: Props) {
+export function Ring({ items, size, bubble, children, testID }: Props) {
   const r = (size - bubble - 12) / 2;
   const c = size / 2;
   return (
-    <View style={{ width: size, height: size }}>
+    <View testID={testID} style={{ width: size, height: size }}>
       <View style={{ position: 'absolute', inset: 0, alignItems: 'center', justifyContent: 'center' }}>{children}</View>
       {items.map((it, i) => {
         const a = -Math.PI / 2 + (i / items.length) * Math.PI * 2;
