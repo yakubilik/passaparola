@@ -1,0 +1,109 @@
+appId: com.skolalabs.harfiyen
+---
+- launchApp
+- tapOn:
+    text: "Vazgeç"
+    optional: true
+- extendedWaitUntil:
+    visible: ".*Misafir olarak oyna.*"
+    timeout: 180000
+- takeScreenshot: intro
+- tapOn: ".*Misafir olarak oyna.*"
+- extendedWaitUntil:
+    visible: ".*Hızlı oyun.*"
+    timeout: 10000
+- takeScreenshot: menu
+- tapOn: "^Kategoriler$"
+- tapOn:
+    id: "cat-tarih"
+- takeScreenshot: category
+- tapOn: ".*Bölümlere git.*"
+- extendedWaitUntil:
+    visible: ".*BÖLÜM HARİTASI.*"
+    timeout: 10000
+- takeScreenshot: levels
+- openLink: "harfiyen://game?cats=tarih&level=1&seed=7"
+- tapOn:
+    text: "Aç"
+    optional: true
+- extendedWaitUntil:
+    visible: ".*Hazır mısın.*"
+    timeout: 10000
+- tapOn: "^Başla$"
+- inputText: "Ataturk"
+- pressKey: Enter
+- inputText: "Kale"
+- pressKey: Enter
+- tapOn:
+    id: "reveal"
+- tapOn:
+    id: "pass"
+- inputText: "Canakkale"
+- pressKey: Enter
+- inputText: "Divan"
+- pressKey: Enter
+- inputText: "Erzurum"
+- pressKey: Enter
+- takeScreenshot: game
+- inputText: "Fransa"
+- pressKey: Enter
+- inputText: "Gelibolu"
+- pressKey: Enter
+- inputText: "Harf Devrimi"
+- pressKey: Enter
+- inputText: "Misir"
+- pressKey: Enter
+- inputText: "Ipek Yolu"
+- pressKey: Enter
+- inputText: "Kale"
+- pressKey: Enter
+- tapOn:
+    id: "reveal"
+- inputText: "Kurtulus Savasi"
+- pressKey: Enter
+- inputText: "Lincoln"
+- pressKey: Enter
+- inputText: "Mohac"
+- pressKey: Enter
+- inputText: "Nasreddin Hoca"
+- pressKey: Enter
+- inputText: "Orhan Gazi"
+- pressKey: Enter
+- inputText: "Sovalye"
+- pressKey: Enter
+- inputText: "Piri Reis"
+- pressKey: Enter
+- inputText: "Ronesans"
+- pressKey: Enter
+- inputText: "Sakarya"
+- pressKey: Enter
+- tapOn:
+    id: "pass"
+- inputText: "Truva"
+- pressKey: Enter
+- inputText: "Urartu"
+- pressKey: Enter
+- inputText: "Birinci Dunya Savasi"
+- pressKey: Enter
+- inputText: "Kale"
+- pressKey: Enter
+- tapOn:
+    id: "reveal"
+- inputText: "Yavuz"
+- pressKey: Enter
+- inputText: "Zeus"
+- pressKey: Enter
+- inputText: "Cengiz Han"
+- pressKey: Enter
+- inputText: "Sam"
+- pressKey: Enter
+- extendedWaitUntil:
+    visible: ".*TUR SONU.*"
+    timeout: 10000
+- takeScreenshot: result
+- tapOn: ".*Bölüm haritası.*"
+- extendedWaitUntil:
+    visible: ".*BÖLÜM HARİTASI.*"
+    timeout: 10000
+- takeScreenshot: levels-after-pass
+
