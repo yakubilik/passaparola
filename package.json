@@ -1,0 +1,10 @@
+{
+  "name": "passaparola",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Passaparola word-wheel game in the browser",
+  "scripts": {
+    "start": "python3 -m http.server 5173",
+    "test": "node --test test/*.test.js"
+  }
+}

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#04103a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Passaparola</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="bg"><div class="spot"></div><div class="rays"></div></div>
+
+  <!-- Start screen -->
+  <section id="menu" class="screen">
+    <div class="logo" aria-label="Passaparola">
+      <div class="logo-ring"></div>
+      <h1><span>PASSA</span><span>PAROLA</span></h1>
+    </div>
+
+    <form id="setup" class="card setup" autocomplete="off">
+      <div class="row">
+        <label>Oyuncu</label>
+        <div class="seg" data-name="players">
+          <button type="button" data-v="1">Tek kişi</button>
+          <button type="button" data-v="2">İki kişi</button>
+        </div>
+      </div>
+      <div class="row names">
+        <input id="name1" maxlength="14" placeholder="1. yarışmacı">
+        <input id="name2" maxlength="14" placeholder="2. yarışmacı" class="p2only">
+      </div>
+      <div class="row">
+        <label>Süre</label>
+        <div class="seg" data-name="time">
+          <button type="button" data-v="100">100 sn</button>
+          <button type="button" data-v="150">150 sn</button>
+          <button type="button" data-v="200">200 sn</button>
+        </div>
+      </div>
+      <div class="row">
+        <label title="Biri soruları okur, cevabı görür ve Doğru / Yanlış / Pas'a basar">Sunucu modu</label>
+        <div class="seg" data-name="host">
+          <button type="button" data-v="0">Kapalı</button>
+          <button type="button" data-v="1">Açık</button>
+        </div>
+      </div>
+      <div class="row">
+        <label>Kamera</label>
+        <div class="seg" data-name="camera">
+          <button type="button" data-v="0">Kapalı</button>
+          <button type="button" data-v="1">Açık</button>
+        </div>
+      </div>
+      <button id="start" class="big" type="submit">BAŞLA</button>
+      <p class="help">Her harf için bir soru. Bilemiyorsan <b>Pas</b> de, tur dönünce yeniden gelir.
+        Süre bitmeden bütün harfleri yeşile çevirmeye çalış.</p>
+    </form>
+  </section>
+
+  <!-- Game -->
+  <section id="game" class="screen" hidden>
+    <header class="topbar">
+      <button id="quit" class="icon" aria-label="Çık">✕</button>
+      <div id="scoreboard" class="scoreboard"></div>
+      <button id="mute" class="icon" aria-label="Ses">🔊</button>
+    </header>
+
+    <div id="stages" class="stages"></div>
+
+    <div id="panel" class="panel">
+      <div class="qhead"><span id="qletter" class="qletter">A</span><span id="qtype">ile başlar</span></div>
+      <p id="qtext" class="qtext"></p>
+      <div id="reveal" class="reveal" hidden></div>
+      <form id="answer" class="answer" autocomplete="off">
+        <input id="guess" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="send" placeholder="Cevabın">
+        <button id="send" type="submit">Cevapla</button>
+        <button id="pass" type="button" class="pas">Pas</button>
+      </form>
+      <div id="hostbar" class="hostbar" hidden>
+        <div class="hostanswer">Cevap: <b id="hostanswer"></b></div>
+        <button type="button" data-judge="correct" class="ok">Doğru</button>
+        <button type="button" data-judge="wrong" class="no">Yanlış</button>
+        <button type="button" data-judge="pas" class="pas">Pas</button>
+      </div>
+    </div>
+
+    <div id="overlay" class="overlay" hidden>
+      <div class="card">
+        <p id="overlaytext"></p>
+        <button id="overlaygo" class="big">Hazırım</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Result -->
+  <section id="result" class="screen" hidden>
+    <h2 id="winner" class="winner"></h2>
+    <div id="results" class="results"></div>
+    <div class="actions">
+      <button id="again" class="big">Tekrar oyna</button>
+      <button id="tomenu">Ana menü</button>
+    </div>
+  </section>
+
+  <video id="cam" playsinline muted autoplay hidden></video>
+
+  <script src="js/normalize.js"></script>
+  <script src="js/questions.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
