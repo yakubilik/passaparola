@@ -1,5 +1,3150 @@
 {
   "category": "sanat",
   "title": "Sanat",
-  "levels": []
+  "levels": [
+    {
+      "level": 1,
+      "questions": [
+        {
+          "id": "sanat-1-A-1",
+          "letter": "A",
+          "type": "starts",
+          "clue": "\"Uzun ince bir yoldayım\" dizesiyle bilinen, gözleri görmeyen Sivaslı halk ozanı.",
+          "answers": [
+            "Aşık Veysel",
+            "Âşık Veysel"
+          ]
+        },
+        {
+          "id": "sanat-1-A-2",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Atalarımızdan kalan, öğüt veren, kalıplaşmış kısa söz.",
+          "answers": [
+            "Atasözü"
+          ]
+        },
+        {
+          "id": "sanat-1-A-3",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Hababam Sınıfı'nda Hafize Ana'yı canlandıran, kahkahasıyla hatırlanan oyuncu.",
+          "answers": [
+            "Adile Naşit"
+          ]
+        },
+        {
+          "id": "sanat-1-A-4",
+          "letter": "A",
+          "type": "starts",
+          "clue": "\"Süperstar\" lakabıyla anılan, \"Petrol\" şarkısının sahibi kadın şarkıcı.",
+          "answers": [
+            "Ajda Pekkan"
+          ]
+        },
+        {
+          "id": "sanat-1-B-1",
+          "letter": "B",
+          "type": "starts",
+          "clue": "Parmak uçlarında yapılan, müzik eşliğindeki klasik sahne dansı.",
+          "answers": [
+            "Bale"
+          ]
+        },
+        {
+          "id": "sanat-1-B-2",
+          "letter": "B",
+          "type": "starts",
+          "clue": "Türk halk müziğinin en yaygın, uzun saplı ve perdeli telli çalgısı.",
+          "answers": [
+            "Bağlama"
+          ]
+        },
+        {
+          "id": "sanat-1-B-3",
+          "letter": "B",
+          "type": "starts",
+          "clue": "\"Arkadaşım Eşek\" şarkısı ve \"Adam Olacak Çocuk\" programıyla hatırlanan sanatçı.",
+          "answers": [
+            "Barış Manço"
+          ]
+        },
+        {
+          "id": "sanat-1-B-4",
+          "letter": "B",
+          "type": "starts",
+          "clue": "Bir nesneyi üstü kapalı anlatıp karşıdakine buldurmaya çalışan halk edebiyatı ürünü.",
+          "answers": [
+            "Bilmece"
+          ]
+        },
+        {
+          "id": "sanat-1-C-1",
+          "letter": "C",
+          "type": "starts",
+          "clue": "\"Hokkabaz\" ve \"Arog\" filmleriyle bilinen, gösterileriyle ünlü komedyen.",
+          "answers": [
+            "Cem Yılmaz"
+          ]
+        },
+        {
+          "id": "sanat-1-C-2",
+          "letter": "C",
+          "type": "starts",
+          "clue": "Pamuk Prenses masalında ormandaki evde yaşayan yedi küçük adam.",
+          "answers": [
+            "Cüceler",
+            "Cüce"
+          ]
+        },
+        {
+          "id": "sanat-1-C-3",
+          "letter": "C",
+          "type": "starts",
+          "clue": "Rasim Kaygusuz'un, çöp adam çizimleriyle okumayı öğreten kitaplarının küçük kahramanı.",
+          "answers": [
+            "Cin Ali"
+          ]
+        },
+        {
+          "id": "sanat-1-C-4",
+          "letter": "C",
+          "type": "starts",
+          "clue": "\"Malkoçoğlu\" ve \"Dünyayı Kurtaran Adam\" filmlerinin yıldızı.",
+          "answers": [
+            "Cüneyt Arkın"
+          ]
+        },
+        {
+          "id": "sanat-1-Ç-1",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Çizimlerin art arda gösterilmesiyle hareket ediyormuş gibi görünen film türü.",
+          "answers": [
+            "Çizgi film"
+          ]
+        },
+        {
+          "id": "sanat-1-Ç-2",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Reşat Nuri Güntekin'in, Feride'nin Anadolu'daki öğretmenlik yıllarını anlatan romanı.",
+          "answers": [
+            "Çalıkuşu"
+          ]
+        },
+        {
+          "id": "sanat-1-Ç-3",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Fırınlanmış kil üzerine sırlı desenlerle yapılan, camileri süsleyen geleneksel sanat.",
+          "answers": [
+            "Çini"
+          ]
+        },
+        {
+          "id": "sanat-1-Ç-4",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Müzik yapmak için kullanılan araçların genel adı; enstrümanın Türkçesi.",
+          "answers": [
+            "Çalgı"
+          ]
+        },
+        {
+          "id": "sanat-1-D-1",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Tokmak ve çubukla çalınan, düğünlerin ve bayramların büyük vurmalı çalgısı.",
+          "answers": [
+            "Davul"
+          ]
+        },
+        {
+          "id": "sanat-1-D-2",
+          "letter": "D",
+          "type": "starts",
+          "clue": "On iki hikâyeden oluşan, Oğuzların en önemli destan kitabı sayılan eser.",
+          "answers": [
+            "Dede Korkut",
+            "Dede Korkut Hikâyeleri",
+            "Dede Korkut Kitabı"
+          ]
+        },
+        {
+          "id": "sanat-1-D-3",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Bir milletin kahramanlıklarını ve olağanüstü olaylarını anlatan uzun manzum eser.",
+          "answers": [
+            "Destan"
+          ]
+        },
+        {
+          "id": "sanat-1-D-4",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Cervantes'in, kendini şövalye sanıp yel değirmenleriyle savaşan kahramanı.",
+          "answers": [
+            "Don Kişot",
+            "Don Kişot de la Mancha",
+            "Don Quijote"
+          ]
+        },
+        {
+          "id": "sanat-1-E-1",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Su üzerine serpilen boyalarla desen oluşturup kâğıda aktarma sanatı.",
+          "answers": [
+            "Ebru"
+          ]
+        },
+        {
+          "id": "sanat-1-E-2",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Baran'ın otuz beş yıl sonra hapisten çıkıp İstanbul'a geldiği 1996 yapımı Yavuz Turgul filmi.",
+          "answers": [
+            "Eşkıya"
+          ]
+        },
+        {
+          "id": "sanat-1-E-3",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Türkçede \"yapıt\" ile aynı anlamda kullanılan, sanatçının ortaya koyduğu ürün.",
+          "answers": [
+            "Eser"
+          ]
+        },
+        {
+          "id": "sanat-1-E-4",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Melodi anlamında kullanılan Türkçe kelime.",
+          "answers": [
+            "Ezgi"
+          ]
+        },
+        {
+          "id": "sanat-1-F-1",
+          "letter": "F",
+          "type": "starts",
+          "clue": "\"Kara Toprak\" yorumu ve \"Nazım\" oratoryosuyla bilinen dünyaca ünlü piyanist.",
+          "answers": [
+            "Fazıl Say"
+          ]
+        },
+        {
+          "id": "sanat-1-F-2",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Kısa, güldürücü, sonu nükteyle biten halk anlatısı; Temel ile Dursun'unkiler meşhurdur.",
+          "answers": [
+            "Fıkra"
+          ]
+        },
+        {
+          "id": "sanat-1-F-3",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Okulların müzik derslerinde de çalınan, delikli borudan oluşan üflemeli çalgı.",
+          "answers": [
+            "Flüt"
+          ]
+        },
+        {
+          "id": "sanat-1-F-4",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Işığı kaydeden makineyle bir anı görüntü olarak saklama sanatı.",
+          "answers": [
+            "Fotoğraf",
+            "Fotoğrafçılık"
+          ]
+        },
+        {
+          "id": "sanat-1-G-1",
+          "letter": "G",
+          "type": "starts",
+          "clue": "Altı telli, mızrapla ya da parmakla çalınan popüler telli çalgı.",
+          "answers": [
+            "Gitar"
+          ]
+        },
+        {
+          "id": "sanat-1-G-2",
+          "letter": "G",
+          "type": "starts",
+          "clue": "Cem Yılmaz'ın uzaylılarca kaçırılan halıcı Arif'i oynadığı 2004 filmi.",
+          "answers": [
+            "GORA",
+            "G.O.R.A."
+          ]
+        },
+        {
+          "id": "sanat-1-G-3",
+          "letter": "G",
+          "type": "starts",
+          "clue": "Jonathan Swift'in, cüceler ülkesi Lilliput'a düşen gezgin kahramanı.",
+          "answers": [
+            "Gulliver"
+          ]
+        },
+        {
+          "id": "sanat-1-G-4",
+          "letter": "G",
+          "type": "starts",
+          "clue": "Kedisi Azman'la mavi tenli minik yaratıkları yakalamaya uğraşan kötü büyücü.",
+          "answers": [
+            "Gargamel"
+          ]
+        },
+        {
+          "id": "sanat-1-H-1",
+          "letter": "H",
+          "type": "starts",
+          "clue": "Kel Mahmut ve Damat Ferit'in okuduğu Özel Çamlıca Lisesi'ni anlatan film serisi.",
+          "answers": [
+            "Hababam Sınıfı",
+            "Hababam"
+          ]
+        },
+        {
+          "id": "sanat-1-H-2",
+          "letter": "H",
+          "type": "starts",
+          "clue": "El ele, omuz omuza tutuşularak davul zurnayla oynanan halk oyunu.",
+          "answers": [
+            "Halay"
+          ]
+        },
+        {
+          "id": "sanat-1-H-3",
+          "letter": "H",
+          "type": "starts",
+          "clue": "Taş, metal ya da ağaçtan yontularak yapılan üç boyutlu sanat eseri.",
+          "answers": [
+            "Heykel"
+          ]
+        },
+        {
+          "id": "sanat-1-H-4",
+          "letter": "H",
+          "type": "starts",
+          "clue": "Karagöz'ün kitabi konuşan, bilgiçlik taslayan perde arkadaşı.",
+          "answers": [
+            "Hacivat"
+          ]
+        },
+        {
+          "id": "sanat-1-I-1",
+          "letter": "I",
+          "type": "starts",
+          "clue": "Hababam Sınıfı romanının yazarı Rıfat'ın soyadı.",
+          "answers": [
+            "Ilgaz"
+          ]
+        },
+        {
+          "id": "sanat-1-I-2",
+          "letter": "I",
+          "type": "starts",
+          "clue": "Temel Reis'in güçlenmek için yediği sebze.",
+          "answers": [
+            "Ispanak"
+          ]
+        },
+        {
+          "id": "sanat-1-I-3",
+          "letter": "I",
+          "type": "contains",
+          "clue": "İlmek ilmek düğümlenerek dokunan, yere serilen geleneksel el sanatı ürünü.",
+          "answers": [
+            "Halı"
+          ]
+        },
+        {
+          "id": "sanat-1-I-4",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Büyükannesine giderken ormanda kurtla karşılaşan masal kahramanı.",
+          "answers": [
+            "Kırmızı Başlıklı Kız",
+            "Kırmızı Başlıklı"
+          ]
+        },
+        {
+          "id": "sanat-1-İ-1",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Kemal Sunal'ın Hababam Sınıfı'nda canlandırdığı saf ve tembel öğrenci.",
+          "answers": [
+            "İnek Şaban"
+          ]
+        },
+        {
+          "id": "sanat-1-İ-2",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Mehmet Akif Ersoy'un yazdığı, 1921'de kabul edilen millî marşımız.",
+          "answers": [
+            "İstiklal Marşı"
+          ]
+        },
+        {
+          "id": "sanat-1-İ-3",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "\"Mavi Mavi\" ve \"Haydi Söyle\" şarkılarıyla bilinen, İmparator lakaplı Urfalı şarkıcı.",
+          "answers": [
+            "İbrahim Tatlıses"
+          ]
+        },
+        {
+          "id": "sanat-1-İ-4",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Çukurova'da ağalara karşı dağa çıkan eşkıyayı anlatan dört ciltlik roman.",
+          "answers": [
+            "İnce Memed",
+            "İnce Memet"
+          ]
+        },
+        {
+          "id": "sanat-1-J-1",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Bir yarışmada sanatçıları ya da eserleri değerlendirip karar veren kurul.",
+          "answers": [
+            "Jüri"
+          ]
+        },
+        {
+          "id": "sanat-1-J-2",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Havaya birkaç top atıp hiçbirini düşürmeden tutan gösteri sanatçısı.",
+          "answers": [
+            "Jonglör"
+          ]
+        },
+        {
+          "id": "sanat-1-J-3",
+          "letter": "J",
+          "type": "starts",
+          "clue": "\"Seksen Günde Devriâlem\" ve \"Denizler Altında Yirmi Bin Fersah\"ın yazarı.",
+          "answers": [
+            "Jules Verne",
+            "Jül Vern"
+          ]
+        },
+        {
+          "id": "sanat-1-J-4",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Çizgi filmde kedi Tom'un sürekli kovaladığı akıllı fare.",
+          "answers": [
+            "Jerry"
+          ]
+        },
+        {
+          "id": "sanat-1-K-1",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Hacivat'ın saf, kaba ama hazırcevap gölge oyunu arkadaşı.",
+          "answers": [
+            "Karagöz"
+          ]
+        },
+        {
+          "id": "sanat-1-K-2",
+          "letter": "K",
+          "type": "starts",
+          "clue": "\"Tosun Paşa\" ve \"Çöpçüler Kralı\" filmleriyle hafızalara kazınan komedi oyuncusu.",
+          "answers": [
+            "Kemal Sunal"
+          ]
+        },
+        {
+          "id": "sanat-1-K-3",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Masallarımızın kurnaz ve iyi kalpli, saçsız kahramanı.",
+          "answers": [
+            "Keloğlan"
+          ]
+        },
+        {
+          "id": "sanat-1-K-4",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Düğümsüz, atkı ve çözgü iplikleriyle dokunan ince yaygı.",
+          "answers": [
+            "Kilim"
+          ]
+        },
+        {
+          "id": "sanat-1-L-1",
+          "letter": "L",
+          "type": "starts",
+          "clue": "Mona Lisa tablosunu yapan İtalyan sanatçı.",
+          "answers": [
+            "Leonardo da Vinci",
+            "Leonardo"
+          ]
+        },
+        {
+          "id": "sanat-1-L-2",
+          "letter": "L",
+          "type": "starts",
+          "clue": "Mecnun'un aşkıyla çöllere düştüğü sevgili.",
+          "answers": [
+            "Leyla"
+          ]
+        },
+        {
+          "id": "sanat-1-L-3",
+          "letter": "L",
+          "type": "starts",
+          "clue": "Osmanlı süslemelerinde çok kullanılan, 18. yüzyıldaki bir döneme adını veren çiçek motifi.",
+          "answers": [
+            "Lale"
+          ]
+        },
+        {
+          "id": "sanat-1-L-4",
+          "letter": "L",
+          "type": "starts",
+          "clue": "Gölgesinden hızlı silah çeken, yalnız kovboy çizgi roman kahramanı.",
+          "answers": [
+            "Lucky Luke"
+          ]
+        },
+        {
+          "id": "sanat-1-M-1",
+          "letter": "M",
+          "type": "starts",
+          "clue": "\"Bir varmış bir yokmuş\" diye başlayan anlatı türü.",
+          "answers": [
+            "Masal"
+          ]
+        },
+        {
+          "id": "sanat-1-M-2",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Louvre Müzesi'nde sergilenen, gizemli gülümsemesiyle ünlü tablo.",
+          "answers": [
+            "Mona Lisa",
+            "Mona Liza"
+          ]
+        },
+        {
+          "id": "sanat-1-M-3",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Mesnevi'yi yazan, Konya'da türbesi bulunan mutasavvıf şair.",
+          "answers": [
+            "Mevlana",
+            "Mevlana Celaleddin Rumi",
+            "Mevlânâ"
+          ]
+        },
+        {
+          "id": "sanat-1-M-4",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Sanat eserlerinin ve tarihî eserlerin sergilendiği yapı.",
+          "answers": [
+            "Müze"
+          ]
+        },
+        {
+          "id": "sanat-1-N-1",
+          "letter": "N",
+          "type": "starts",
+          "clue": "Eşeğine ters binmesiyle bilinen, fıkraları dilden dile dolaşan Akşehirli halk bilgesi.",
+          "answers": [
+            "Nasreddin Hoca",
+            "Nasrettin Hoca"
+          ]
+        },
+        {
+          "id": "sanat-1-N-2",
+          "letter": "N",
+          "type": "starts",
+          "clue": "Müzik seslerini kâğıt üzerinde gösteren işaret.",
+          "answers": [
+            "Nota"
+          ]
+        },
+        {
+          "id": "sanat-1-N-3",
+          "letter": "N",
+          "type": "starts",
+          "clue": "Mevlevi ayinlerinde çalınan, kamıştan yapılan üflemeli çalgı.",
+          "answers": [
+            "Ney"
+          ]
+        },
+        {
+          "id": "sanat-1-N-4",
+          "letter": "N",
+          "type": "starts",
+          "clue": "\"Gönül Dağı\" türküsüyle bilinen, \"bozkırın tezenesi\" denen halk ozanı.",
+          "answers": [
+            "Neşet Ertaş"
+          ]
+        },
+        {
+          "id": "sanat-1-O-1",
+          "letter": "O",
+          "type": "starts",
+          "clue": "2006'da Nobel Edebiyat Ödülü'nü kazanan Türk yazar.",
+          "answers": [
+            "Orhan Pamuk"
+          ]
+        },
+        {
+          "id": "sanat-1-O-2",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Sözlerin tamamen şarkıyla söylendiği, sahnede oynanan müzikli tiyatro türü.",
+          "answers": [
+            "Opera"
+          ]
+        },
+        {
+          "id": "sanat-1-O-3",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Bir şefin yönetiminde birlikte çalan büyük müzisyen topluluğu.",
+          "answers": [
+            "Orkestra"
+          ]
+        },
+        {
+          "id": "sanat-1-O-4",
+          "letter": "O",
+          "type": "starts",
+          "clue": "\"Batsın Bu Dünya\" şarkısıyla bilinen, arabesk müziğin öncüsü bağlama ustası.",
+          "answers": [
+            "Orhan Gencebay"
+          ]
+        },
+        {
+          "id": "sanat-1-Ö-1",
+          "letter": "Ö",
+          "type": "starts",
+          "clue": "Hikâye kelimesinin Türkçe karşılığı olan kısa anlatı türü.",
+          "answers": [
+            "Öykü"
+          ]
+        },
+        {
+          "id": "sanat-1-Ö-2",
+          "letter": "Ö",
+          "type": "starts",
+          "clue": "\"Kaşağı\" ve \"Forsa\" hikâyelerinin yazarı.",
+          "answers": [
+            "Ömer Seyfettin",
+            "Ömer Seyfeddin"
+          ]
+        },
+        {
+          "id": "sanat-1-Ö-3",
+          "letter": "Ö",
+          "type": "contains",
+          "clue": "Bolu Beyi'ne karşı Çamlıbel'de ayaklanan halk hikâyesi kahramanı.",
+          "answers": [
+            "Köroğlu"
+          ]
+        },
+        {
+          "id": "sanat-1-Ö-4",
+          "letter": "Ö",
+          "type": "contains",
+          "clue": "Deve derisinden tasvirlerin ışıklı bir perde arkasında oynatıldığı geleneksel gösteri.",
+          "answers": [
+            "Gölge oyunu"
+          ]
+        },
+        {
+          "id": "sanat-1-P-1",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Siyah ve beyaz tuşlu, çekiçlerin tellere vurmasıyla ses veren çalgı.",
+          "answers": [
+            "Piyano"
+          ]
+        },
+        {
+          "id": "sanat-1-P-2",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Kırmızı burnu ve renkli giysisiyle sirkte seyirciyi güldüren sanatçı.",
+          "answers": [
+            "Palyaço"
+          ]
+        },
+        {
+          "id": "sanat-1-P-3",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Yalan söyledikçe burnu uzayan tahta kukla.",
+          "answers": [
+            "Pinokyo"
+          ]
+        },
+        {
+          "id": "sanat-1-P-4",
+          "letter": "P",
+          "type": "starts",
+          "clue": "\"Guernica\" tablosunu yapan ünlü İspanyol ressam.",
+          "answers": [
+            "Picasso",
+            "Pablo Picasso"
+          ]
+        },
+        {
+          "id": "sanat-1-R-1",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Boya ve fırçayla bir yüzey üzerine yapılan sanat.",
+          "answers": [
+            "Resim"
+          ]
+        },
+        {
+          "id": "sanat-1-R-2",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Olayları ve kişileri ayrıntılı işleyen, sayfalarca süren uzun kurgusal anlatı türü.",
+          "answers": [
+            "Roman"
+          ]
+        },
+        {
+          "id": "sanat-1-R-3",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Davulcunun tuttuğu, müzikte vuruşların belli bir düzenle yinelenmesi.",
+          "answers": [
+            "Ritim",
+            "Ritm"
+          ]
+        },
+        {
+          "id": "sanat-1-R-4",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Shakespeare'in trajedisinde Juliet'e âşık olan genç.",
+          "answers": [
+            "Romeo"
+          ]
+        },
+        {
+          "id": "sanat-1-S-1",
+          "letter": "S",
+          "type": "starts",
+          "clue": "\"Minik Serçe\" lakaplı, Türk pop müziğinin en büyük isimlerinden şarkıcı.",
+          "answers": [
+            "Sezen Aksu"
+          ]
+        },
+        {
+          "id": "sanat-1-S-2",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Yedinci sanat olarak anılan, hareketli görüntülerin perdeye yansıtıldığı sanat.",
+          "answers": [
+            "Sinema"
+          ]
+        },
+        {
+          "id": "sanat-1-S-3",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Oyuncuların ve müzisyenlerin seyirci karşısında yer aldığı yükseltilmiş alan.",
+          "answers": [
+            "Sahne"
+          ]
+        },
+        {
+          "id": "sanat-1-S-4",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Gece yarısı balodan kaçarken cam ayakkabısını düşüren masal kahramanı.",
+          "answers": [
+            "Sindirella"
+          ]
+        },
+        {
+          "id": "sanat-1-Ş-1",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Dizelerden oluşan, ritimli ve duygulu edebî tür.",
+          "answers": [
+            "Şiir"
+          ]
+        },
+        {
+          "id": "sanat-1-Ş-2",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "\"Züğürt Ağa\" ve \"Muhsin Bey\" filmlerinin usta oyuncusu.",
+          "answers": [
+            "Şener Şen"
+          ]
+        },
+        {
+          "id": "sanat-1-Ş-3",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Ressamın tuvalini üzerine yerleştirdiği üç ayaklı sehpa.",
+          "answers": [
+            "Şövale"
+          ]
+        },
+        {
+          "id": "sanat-1-Ş-4",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Mavi tenli, beyaz şapkalı, mantar evlerde yaşayan küçük çizgi film karakterleri.",
+          "answers": [
+            "Şirinler"
+          ]
+        },
+        {
+          "id": "sanat-1-T-1",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Oyuncuların seyirci önünde canlı olarak oynadığı sahne sanatı.",
+          "answers": [
+            "Tiyatro"
+          ]
+        },
+        {
+          "id": "sanat-1-T-2",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Halk arasında doğup ağızdan ağıza yayılan, söyleyeni bilinmeyen halk şarkısı.",
+          "answers": [
+            "Türkü"
+          ]
+        },
+        {
+          "id": "sanat-1-T-3",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Çerçevelenip duvara asılan resim eseri.",
+          "answers": [
+            "Tablo"
+          ]
+        },
+        {
+          "id": "sanat-1-T-4",
+          "letter": "T",
+          "type": "starts",
+          "clue": "\"Şımarık\" şarkısıyla dünyaca tanınan, Megastar lakaplı şarkıcı.",
+          "answers": [
+            "Tarkan"
+          ]
+        },
+        {
+          "id": "sanat-1-U-1",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Şiirde dize sonlarındaki ses benzerliği; kafiye.",
+          "answers": [
+            "Uyak"
+          ]
+        },
+        {
+          "id": "sanat-1-U-2",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Armut biçimli gövdesi ve perdesiz kısa sapıyla bilinen telli çalgı.",
+          "answers": [
+            "Ud"
+          ]
+        },
+        {
+          "id": "sanat-1-U-3",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Bir iğne batmasıyla yüz yıllık uykuya dalan masal prensesi.",
+          "answers": [
+            "Uyuyan Güzel"
+          ]
+        },
+        {
+          "id": "sanat-1-U-4",
+          "letter": "U",
+          "type": "contains",
+          "clue": "Ressamın üzerine resim yaptığı, çerçeveye gerilmiş bez.",
+          "answers": [
+            "Tuval"
+          ]
+        },
+        {
+          "id": "sanat-1-Ü-1",
+          "letter": "Ü",
+          "type": "starts",
+          "clue": "Alexandre Dumas'nın d'Artagnan ile üç arkadaşını anlatan romanı.",
+          "answers": [
+            "Üç Silahşörler",
+            "Üç Silahşorlar",
+            "Üç Silahşör"
+          ]
+        },
+        {
+          "id": "sanat-1-Ü-2",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "Sesleri belli bir düzen ve uyum içinde birleştiren sanat.",
+          "answers": [
+            "Müzik"
+          ]
+        },
+        {
+          "id": "sanat-1-Ü-3",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "İki kişinin birlikte söylediği şarkı ya da çaldığı eser.",
+          "answers": [
+            "Düet"
+          ]
+        },
+        {
+          "id": "sanat-1-Ü-4",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "Kitapların okunmak ve ödünç verilmek üzere saklandığı yer.",
+          "answers": [
+            "Kütüphane"
+          ]
+        },
+        {
+          "id": "sanat-1-V-1",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Kulağını kesen, \"Yıldızlı Gece\" tablosunun Hollandalı ressamı.",
+          "answers": [
+            "Van Gogh",
+            "Vincent van Gogh"
+          ]
+        },
+        {
+          "id": "sanat-1-V-2",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Üç zamanlı müzikle çiftlerin dönerek yaptığı dans.",
+          "answers": [
+            "Vals"
+          ]
+        },
+        {
+          "id": "sanat-1-V-3",
+          "letter": "V",
+          "type": "starts",
+          "clue": "\"Notre Dame'ın Kamburu\" ve \"Sefiller\" romanlarının Fransız yazarı.",
+          "answers": [
+            "Victor Hugo",
+            "Viktor Hugo"
+          ]
+        },
+        {
+          "id": "sanat-1-V-4",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Hakkâri'nin bir köyüne ilk televizyonun gelişini anlatan 2001 filmi.",
+          "answers": [
+            "Vizontele"
+          ]
+        },
+        {
+          "id": "sanat-1-Y-1",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "\"Gelin tanış olalım, işi kolay kılalım\" diyen 13. yüzyıl halk şairi.",
+          "answers": [
+            "Yunus Emre"
+          ]
+        },
+        {
+          "id": "sanat-1-Y-2",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "\"Yer Demir Gök Bakır\" ve \"Teneke\" romanlarının yazarı.",
+          "answers": [
+            "Yaşar Kemal"
+          ]
+        },
+        {
+          "id": "sanat-1-Y-3",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "\"Organize İşler\" ve \"Ekşi Elmalar\" filmlerinin yazar ve yönetmeni.",
+          "answers": [
+            "Yılmaz Erdoğan"
+          ]
+        },
+        {
+          "id": "sanat-1-Y-4",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "Toz boyaların keten yağıyla karıştırılmasıyla yapılan resim tekniği.",
+          "answers": [
+            "Yağlı boya",
+            "Yağlıboya"
+          ]
+        },
+        {
+          "id": "sanat-1-Z-1",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "Davulun ayrılmaz eşi, tiz sesli üflemeli halk çalgısı.",
+          "answers": [
+            "Zurna"
+          ]
+        },
+        {
+          "id": "sanat-1-Z-2",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "\"Sanat Güneşi\" lakaplı, Türk sanat müziğinin büyük sesi.",
+          "answers": [
+            "Zeki Müren"
+          ]
+        },
+        {
+          "id": "sanat-1-Z-3",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "Ege'ye özgü, ağır ve gösterişli figürlerle oynanan halk oyunu.",
+          "answers": [
+            "Zeybek"
+          ]
+        },
+        {
+          "id": "sanat-1-Z-4",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "Siyah maskesi ve kılıcıyla bilinen Kaliforniyalı kahraman.",
+          "answers": [
+            "Zorro"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "questions": [
+        {
+          "id": "sanat-2-A-1",
+          "letter": "A",
+          "type": "starts",
+          "clue": "\"Saatleri Ayarlama Enstitüsü\" ve \"Beş Şehir\"in yazarı.",
+          "answers": [
+            "Ahmet Hamdi Tanpınar",
+            "Ahmet Hamdi"
+          ]
+        },
+        {
+          "id": "sanat-2-A-2",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Divan şiirinde hecelerin uzunluk ve kısalığına dayanan ölçü.",
+          "answers": [
+            "Aruz",
+            "Aruz ölçüsü"
+          ]
+        },
+        {
+          "id": "sanat-2-A-3",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Yazarın kendi yaşadıklarını ve tanık olduklarını sonradan anlattığı yazı türü.",
+          "answers": [
+            "Anı"
+          ]
+        },
+        {
+          "id": "sanat-2-A-4",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Halit Ziya'nın, Bihter ile Behlül'ün yasak aşkını anlatan romanı.",
+          "answers": [
+            "Aşk-ı Memnu",
+            "Aşkı Memnu"
+          ]
+        },
+        {
+          "id": "sanat-2-B-1",
+          "letter": "B",
+          "type": "starts",
+          "clue": "İşitme yetisini yitirdikten sonra da beste yapmayı sürdüren \"Ay Işığı Sonatı\"nın bestecisi.",
+          "answers": [
+            "Beethoven"
+          ]
+        },
+        {
+          "id": "sanat-2-B-2",
+          "letter": "B",
+          "type": "starts",
+          "clue": "Divan şiirinde anlamca bütün olan iki dizelik birim.",
+          "answers": [
+            "Beyit"
+          ]
+        },
+        {
+          "id": "sanat-2-B-3",
+          "letter": "B",
+          "type": "starts",
+          "clue": "\"Karadut\" şiiriyle de bilinen ressam ve şair.",
+          "answers": [
+            "Bedri Rahmi Eyüboğlu",
+            "Bedri Rahmi"
+          ]
+        },
+        {
+          "id": "sanat-2-B-4",
+          "letter": "B",
+          "type": "starts",
+          "clue": "\"Yesterday\" ve \"Let It Be\" şarkılarının Liverpool'lu dörtlüsü.",
+          "answers": [
+            "Beatles"
+          ]
+        },
+        {
+          "id": "sanat-2-C-1",
+          "letter": "C",
+          "type": "starts",
+          "clue": "\"Sevda Sözleri\" kitabıyla bilinen, \"Papirüs\" dergisini çıkaran şair.",
+          "answers": [
+            "Cemal Süreya"
+          ]
+        },
+        {
+          "id": "sanat-2-C-2",
+          "letter": "C",
+          "type": "starts",
+          "clue": "\"Otuz Beş Yaş\" şiirinin şairi.",
+          "answers": [
+            "Cahit Sıtkı Tarancı",
+            "Cahit Sıtkı"
+          ]
+        },
+        {
+          "id": "sanat-2-C-3",
+          "letter": "C",
+          "type": "starts",
+          "clue": "Molière'in, Harpagon adlı para düşkününü anlatan komedyası.",
+          "answers": [
+            "Cimri"
+          ]
+        },
+        {
+          "id": "sanat-2-C-4",
+          "letter": "C",
+          "type": "starts",
+          "clue": "\"Gün Olur Asra Bedel\" ve \"Toprak Ana\"nın Kırgız yazarı.",
+          "answers": [
+            "Cengiz Aytmatov"
+          ]
+        },
+        {
+          "id": "sanat-2-Ç-1",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "\"Vişne Bahçesi\" ve \"Martı\" oyunlarıyla tanınan Rus yazar.",
+          "answers": [
+            "Çehov"
+          ]
+        },
+        {
+          "id": "sanat-2-Ç-2",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "\"Fındıkkıran\" ve \"Uyuyan Güzel\" balelerinin Rus bestecisi.",
+          "answers": [
+            "Çaykovski",
+            "Çaykovsky"
+          ]
+        },
+        {
+          "id": "sanat-2-Ç-3",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Necip Fazıl'ın şiirlerini bir araya getirdiği, adı \"sıkıntı\" anlamına gelen kitap.",
+          "answers": [
+            "Çile"
+          ]
+        },
+        {
+          "id": "sanat-2-Ç-4",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "\"Babam ve Oğlum\" filminin yönetmeni.",
+          "answers": [
+            "Çağan Irmak"
+          ]
+        },
+        {
+          "id": "sanat-2-D-1",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Fuzuli ve Baki gibi şairlerin kaside ve gazellerini bir araya getirdikleri kitap.",
+          "answers": [
+            "Divan"
+          ]
+        },
+        {
+          "id": "sanat-2-D-2",
+          "letter": "D",
+          "type": "starts",
+          "clue": "\"Suç ve Ceza\" ve \"Karamazov Kardeşler\"in Rus yazarı.",
+          "answers": [
+            "Dostoyevski",
+            "Dostoyevsky"
+          ]
+        },
+        {
+          "id": "sanat-2-D-3",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Halk şiirinde dört dizeden oluşan temel birim.",
+          "answers": [
+            "Dörtlük"
+          ]
+        },
+        {
+          "id": "sanat-2-D-4",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Yazarın bir konudaki kişisel görüşlerini kanıtlama kaygısı olmadan anlattığı yazı türü.",
+          "answers": [
+            "Deneme"
+          ]
+        },
+        {
+          "id": "sanat-2-E-1",
+          "letter": "E",
+          "type": "starts",
+          "clue": "\"Aşk\" ve \"Baba ve Piç\" romanlarının yazarı.",
+          "answers": [
+            "Elif Şafak"
+          ]
+        },
+        {
+          "id": "sanat-2-E-2",
+          "letter": "E",
+          "type": "starts",
+          "clue": "La Fontaine'e ilham veren hayvan masallarıyla bilinen Antik Yunan masalcısı.",
+          "answers": [
+            "Ezop"
+          ]
+        },
+        {
+          "id": "sanat-2-E-3",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Hababam Sınıfı ve \"Bizim Aile\" filmlerinin yönetmeni.",
+          "answers": [
+            "Ertem Eğilmez"
+          ]
+        },
+        {
+          "id": "sanat-2-E-4",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Kahramanlık ve savaş konularını işleyen şiir türü.",
+          "answers": [
+            "Epik",
+            "Epik şiir"
+          ]
+        },
+        {
+          "id": "sanat-2-F-1",
+          "letter": "F",
+          "type": "starts",
+          "clue": "\"Leyla ile Mecnun\" mesnevisini yazan 16. yüzyıl divan şairi.",
+          "answers": [
+            "Fuzuli"
+          ]
+        },
+        {
+          "id": "sanat-2-F-2",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Şirin'e kavuşmak için dağı delen efsanevi âşık.",
+          "answers": [
+            "Ferhat",
+            "Ferhad"
+          ]
+        },
+        {
+          "id": "sanat-2-F-3",
+          "letter": "F",
+          "type": "starts",
+          "clue": "\"Yılanların Öcü\" romanının yazarı köy edebiyatçısı.",
+          "answers": [
+            "Fakir Baykurt"
+          ]
+        },
+        {
+          "id": "sanat-2-F-4",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Yaş sıva üzerine yapılan duvar resmi.",
+          "answers": [
+            "Fresk"
+          ]
+        },
+        {
+          "id": "sanat-2-G-1",
+          "letter": "G",
+          "type": "starts",
+          "clue": "Divan şiirinde aşkı ve güzeli işleyen, genellikle beş ile on beyitlik nazım biçimi.",
+          "answers": [
+            "Gazel"
+          ]
+        },
+        {
+          "id": "sanat-2-G-2",
+          "letter": "G",
+          "type": "starts",
+          "clue": "\"Faust\" ve \"Genç Werther'in Acıları\"nın Alman yazarı.",
+          "answers": [
+            "Goethe"
+          ]
+        },
+        {
+          "id": "sanat-2-G-3",
+          "letter": "G",
+          "type": "starts",
+          "clue": "\"Palto\" öyküsü ve \"Müfettiş\" oyununun Rus yazarı.",
+          "answers": [
+            "Gogol"
+          ]
+        },
+        {
+          "id": "sanat-2-G-4",
+          "letter": "G",
+          "type": "starts",
+          "clue": "1911'de Selanik'te çıkan, dilde sadeleşmeyi savunan dergi.",
+          "answers": [
+            "Genç Kalemler"
+          ]
+        },
+        {
+          "id": "sanat-2-H-1",
+          "letter": "H",
+          "type": "starts",
+          "clue": "\"Mai ve Siyah\" romanının yazarı.",
+          "answers": [
+            "Halit Ziya Uşaklıgil",
+            "Halit Ziya"
+          ]
+        },
+        {
+          "id": "sanat-2-H-2",
+          "letter": "H",
+          "type": "starts",
+          "clue": "Halk şiirinde dizelerdeki seslerin sayıca eşitliğine dayanan ölçü; parmak ölçüsü de denir.",
+          "answers": [
+            "Hece ölçüsü",
+            "Hece"
+          ]
+        },
+        {
+          "id": "sanat-2-H-3",
+          "letter": "H",
+          "type": "starts",
+          "clue": "\"Olmak ya da olmamak\" sözünü söyleyen Danimarka prensi.",
+          "answers": [
+            "Hamlet"
+          ]
+        },
+        {
+          "id": "sanat-2-H-4",
+          "letter": "H",
+          "type": "starts",
+          "clue": "\"Sinekli Bakkal\" ve \"Ateşten Gömlek\"in yazarı.",
+          "answers": [
+            "Halide Edib Adıvar",
+            "Halide Edip Adıvar",
+            "Halide Edib",
+            "Halide Edip"
+          ]
+        },
+        {
+          "id": "sanat-2-I-1",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Sabahattin Ali'nin Edremit'te geçen, Yusuf ile Muazzez'in romanı.",
+          "answers": [
+            "Kuyucaklı Yusuf"
+          ]
+        },
+        {
+          "id": "sanat-2-I-2",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Ömer Seyfettin'in, kardeşine haksızlık eden çocuğun vicdan azabını anlatan öyküsü.",
+          "answers": [
+            "Kaşağı"
+          ]
+        },
+        {
+          "id": "sanat-2-I-3",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Orhan Pamuk'un, kuyucu usta ile çırağını anlatan romanı.",
+          "answers": [
+            "Kırmızı Saçlı Kadın"
+          ]
+        },
+        {
+          "id": "sanat-2-I-4",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Yakup Kadri'nin, üç kuşak arasındaki çatışmayı anlatan romanı.",
+          "answers": [
+            "Kiralık Konak"
+          ]
+        },
+        {
+          "id": "sanat-2-İ-1",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Liszt'in uyarladığı dokuz Beethoven senfonisinin tamamını kaydeden Türk kadın piyanist.",
+          "answers": [
+            "İdil Biret"
+          ]
+        },
+        {
+          "id": "sanat-2-İ-2",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Akhilleus'un öfkesiyle açılan, Truva Savaşı'nı anlatan Homeros destanı.",
+          "answers": [
+            "İlyada",
+            "İliada",
+            "İlyas"
+          ]
+        },
+        {
+          "id": "sanat-2-İ-3",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Monet ve Renoir'ın öncüsü olduğu, ışığın anlık etkisini yakalamaya çalışan resim akımı.",
+          "answers": [
+            "İzlenimcilik",
+            "İzlenimci"
+          ]
+        },
+        {
+          "id": "sanat-2-İ-4",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Tasvir-i Efkâr gazetesini kuran ve ilk yerli tiyatro oyununu yazan aydın.",
+          "answers": [
+            "İbrahim Şinasi"
+          ]
+        },
+        {
+          "id": "sanat-2-J-1",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Sinemada ve tiyatroda yakışıklı genç başrol oyuncusuna verilen ad.",
+          "answers": [
+            "Jön",
+            "Jön prömiye"
+          ]
+        },
+        {
+          "id": "sanat-2-J-2",
+          "letter": "J",
+          "type": "starts",
+          "clue": "\"Beyaz Diş\" ve \"Vahşetin Çağrısı\" romanlarının Amerikalı yazarı.",
+          "answers": [
+            "Jack London"
+          ]
+        },
+        {
+          "id": "sanat-2-J-3",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Shakespeare'in trajedisinde Montague'lerin oğluna âşık olan Capulet kızı.",
+          "answers": [
+            "Juliet",
+            "Jülyet"
+          ]
+        },
+        {
+          "id": "sanat-2-J-4",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Ünlü Viyana valsi \"Mavi Tuna\"nın bestecisi.",
+          "answers": [
+            "Johann Strauss",
+            "Johann Strauss II"
+          ]
+        },
+        {
+          "id": "sanat-2-K-1",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Divan şiirinde din ve devlet büyüklerini övmek için yazılan uzun nazım biçimi.",
+          "answers": [
+            "Kaside"
+          ]
+        },
+        {
+          "id": "sanat-2-K-2",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Halk şiirinde aşk ve doğayı işleyen, hece ölçüsüyle yazılan nazım biçimi.",
+          "answers": [
+            "Koşma"
+          ]
+        },
+        {
+          "id": "sanat-2-K-3",
+          "letter": "K",
+          "type": "starts",
+          "clue": "\"Dava\" romanı ve \"Babaya Mektup\"un Prag doğumlu yazarı.",
+          "answers": [
+            "Kafka"
+          ]
+        },
+        {
+          "id": "sanat-2-K-4",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Aşk ve doğa şiirleriyle bilinen 17. yüzyıl halk ozanı.",
+          "answers": [
+            "Karacaoğlan"
+          ]
+        },
+        {
+          "id": "sanat-2-L-1",
+          "letter": "L",
+          "type": "starts",
+          "clue": "\"Ağustos Böceği ile Karınca\" fablının Fransız yazarı.",
+          "answers": [
+            "La Fontaine"
+          ]
+        },
+        {
+          "id": "sanat-2-L-2",
+          "letter": "L",
+          "type": "starts",
+          "clue": "Coşkulu duyguları, aşkı ve sevgiyi işleyen şiir türü.",
+          "answers": [
+            "Lirik",
+            "Lirik şiir"
+          ]
+        },
+        {
+          "id": "sanat-2-L-3",
+          "letter": "L",
+          "type": "starts",
+          "clue": "\"Savaş ve Barış\" ve \"Anna Karenina\"nın Rus yazarı.",
+          "answers": [
+            "Lev Tolstoy",
+            "Lev Tolstoi"
+          ]
+        },
+        {
+          "id": "sanat-2-L-4",
+          "letter": "L",
+          "type": "starts",
+          "clue": "Antik Yunan'ın U biçimli, telli çalgısı.",
+          "answers": [
+            "Lir"
+          ]
+        },
+        {
+          "id": "sanat-2-M-1",
+          "letter": "M",
+          "type": "starts",
+          "clue": "\"Sihirli Flüt\" operasını besteleyen, çocuk dahi olarak ünlenen Avusturyalı.",
+          "answers": [
+            "Mozart"
+          ]
+        },
+        {
+          "id": "sanat-2-M-2",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Her beyti kendi içinde uyaklı, uzun hikâyeler için kullanılan divan nazım biçimi.",
+          "answers": [
+            "Mesnevi"
+          ]
+        },
+        {
+          "id": "sanat-2-M-3",
+          "letter": "M",
+          "type": "starts",
+          "clue": "\"Safahat\"ın şairi.",
+          "answers": [
+            "Mehmet Akif Ersoy",
+            "Mehmet Akif"
+          ]
+        },
+        {
+          "id": "sanat-2-M-4",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Sistina Şapeli'nin tavan resimlerini yapan, \"Davut\" heykelinin sanatçısı.",
+          "answers": [
+            "Michelangelo",
+            "Mikelanj"
+          ]
+        },
+        {
+          "id": "sanat-2-N-1",
+          "letter": "N",
+          "type": "starts",
+          "clue": "\"Memleketimden İnsan Manzaraları\"nın şairi.",
+          "answers": [
+            "Nazım Hikmet",
+            "Nazım Hikmet Ran"
+          ]
+        },
+        {
+          "id": "sanat-2-N-2",
+          "letter": "N",
+          "type": "starts",
+          "clue": "\"Kaldırımlar\" şiiriyle tanınan şair.",
+          "answers": [
+            "Necip Fazıl Kısakürek",
+            "Necip Fazıl"
+          ]
+        },
+        {
+          "id": "sanat-2-N-3",
+          "letter": "N",
+          "type": "starts",
+          "clue": "\"Cezmi\" romanının yazarı, hürriyet ve vatan şairi.",
+          "answers": [
+            "Namık Kemal"
+          ]
+        },
+        {
+          "id": "sanat-2-N-4",
+          "letter": "N",
+          "type": "starts",
+          "clue": "Sert hicivleri yüzünden boğdurulan 17. yüzyıl divan şairi.",
+          "answers": [
+            "Nef'i",
+            "Nefi"
+          ]
+        },
+        {
+          "id": "sanat-2-O-1",
+          "letter": "O",
+          "type": "starts",
+          "clue": "\"Tutunamayanlar\" romanının yazarı.",
+          "answers": [
+            "Oğuz Atay"
+          ]
+        },
+        {
+          "id": "sanat-2-O-2",
+          "letter": "O",
+          "type": "starts",
+          "clue": "\"İstanbul'u Dinliyorum\" şiiriyle bilinen, şiirde ölçü ve uyağı reddeden şair.",
+          "answers": [
+            "Orhan Veli Kanık",
+            "Orhan Veli"
+          ]
+        },
+        {
+          "id": "sanat-2-O-3",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Shakespeare'in kıskançlıkla Desdemona'yı öldüren Venedikli komutanı.",
+          "answers": [
+            "Otello",
+            "Othello"
+          ]
+        },
+        {
+          "id": "sanat-2-O-4",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Truva'dan dönen kahramanın on yıllık deniz yolculuğunu anlatan Homeros destanı.",
+          "answers": [
+            "Odysseia",
+            "Odise",
+            "Odysseia Destanı"
+          ]
+        },
+        {
+          "id": "sanat-2-Ö-1",
+          "letter": "Ö",
+          "type": "starts",
+          "clue": "Şarap ve hayatın geçiciliği üzerine dörtlükleriyle ünlü İranlı şair ve gökbilimci.",
+          "answers": [
+            "Ömer Hayyam"
+          ]
+        },
+        {
+          "id": "sanat-2-Ö-2",
+          "letter": "Ö",
+          "type": "starts",
+          "clue": "\"Lavinia\" şiiriyle bilinen, \"Yalnızlık paylaşılmaz\" diyen şair.",
+          "answers": [
+            "Özdemir Asaf"
+          ]
+        },
+        {
+          "id": "sanat-2-Ö-3",
+          "letter": "Ö",
+          "type": "contains",
+          "clue": "Gregor Samsa'nın bir sabah dev bir böcek olarak uyandığı Kafka öyküsü.",
+          "answers": [
+            "Dönüşüm"
+          ]
+        },
+        {
+          "id": "sanat-2-Ö-4",
+          "letter": "Ö",
+          "type": "starts",
+          "clue": "Çiçikov'un ölü köylüleri satın aldığı Gogol romanı.",
+          "answers": [
+            "Ölü Canlar"
+          ]
+        },
+        {
+          "id": "sanat-2-P-1",
+          "letter": "P",
+          "type": "starts",
+          "clue": "\"Dokuzuncu Hariciye Koğuşu\" ve \"Fatih-Harbiye\"nin yazarı.",
+          "answers": [
+            "Peyami Safa"
+          ]
+        },
+        {
+          "id": "sanat-2-P-2",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Sivaslı, 16. yüzyılda yaşamış Alevi halk ozanı.",
+          "answers": [
+            "Pir Sultan Abdal",
+            "Pir Sultan"
+          ]
+        },
+        {
+          "id": "sanat-2-P-3",
+          "letter": "P",
+          "type": "starts",
+          "clue": "\"Yevgeni Onegin\"in Rus şairi.",
+          "answers": [
+            "Puşkin"
+          ]
+        },
+        {
+          "id": "sanat-2-P-4",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Toz boyanın sıkıştırılmasıyla yapılan çubuk boya ve bu boyayla yapılan resim.",
+          "answers": [
+            "Pastel"
+          ]
+        },
+        {
+          "id": "sanat-2-R-1",
+          "letter": "R",
+          "type": "starts",
+          "clue": "\"Çalıkuşu\"nun yazarı.",
+          "answers": [
+            "Reşat Nuri Güntekin",
+            "Reşat Nuri"
+          ]
+        },
+        {
+          "id": "sanat-2-R-2",
+          "letter": "R",
+          "type": "starts",
+          "clue": "İran edebiyatından geçen, aruzla yazılan dört dizelik nazım biçimi.",
+          "answers": [
+            "Rubai"
+          ]
+        },
+        {
+          "id": "sanat-2-R-3",
+          "letter": "R",
+          "type": "starts",
+          "clue": "\"Gece Devriyesi\" tablosunun Hollandalı ressamı.",
+          "answers": [
+            "Rembrandt"
+          ]
+        },
+        {
+          "id": "sanat-2-R-4",
+          "letter": "R",
+          "type": "starts",
+          "clue": "14. yüzyılda İtalya'da başlayan, sanatta antik çağa dönüşü simgeleyen yeniden doğuş dönemi.",
+          "answers": [
+            "Rönesans"
+          ]
+        },
+        {
+          "id": "sanat-2-S-1",
+          "letter": "S",
+          "type": "starts",
+          "clue": "\"Kürk Mantolu Madonna\"nın yazarı.",
+          "answers": [
+            "Sabahattin Ali"
+          ]
+        },
+        {
+          "id": "sanat-2-S-2",
+          "letter": "S",
+          "type": "starts",
+          "clue": "\"Semaver\" ve \"Sarnıç\" öykülerinin yazarı, Burgazada'nın öykücüsü.",
+          "answers": [
+            "Sait Faik Abasıyanık",
+            "Sait Faik"
+          ]
+        },
+        {
+          "id": "sanat-2-S-3",
+          "letter": "S",
+          "type": "starts",
+          "clue": "İki dörtlük ve iki üçlükten oluşan, İtalyan kökenli on dört dizelik şiir.",
+          "answers": [
+            "Sone"
+          ]
+        },
+        {
+          "id": "sanat-2-S-4",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Orkestra için yazılan, genellikle dört bölümlü büyük müzik eseri.",
+          "answers": [
+            "Senfoni"
+          ]
+        },
+        {
+          "id": "sanat-2-Ş-1",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Şinasi'nin, görücü usulü evliliği eleştiren tek perdelik komedisi.",
+          "answers": [
+            "Şair Evlenmesi"
+          ]
+        },
+        {
+          "id": "sanat-2-Ş-2",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Mevlevi şeyhi olan, divan şiirinin son büyük ustası sayılan 18. yüzyıl şairi.",
+          "answers": [
+            "Şeyh Galip",
+            "Şeyh Galib"
+          ]
+        },
+        {
+          "id": "sanat-2-Ş-3",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Mevlana'nın hayatını değiştiren gezgin derviş.",
+          "answers": [
+            "Şems",
+            "Şems-i Tebrizi"
+          ]
+        },
+        {
+          "id": "sanat-2-Ş-4",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Binbir Gece Masalları'nı her gece anlatarak ölümden kurtulan kadın.",
+          "answers": [
+            "Şehrazat",
+            "Şehrazad"
+          ]
+        },
+        {
+          "id": "sanat-2-T-1",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Şinasi ve Namık Kemal'in temsil ettiği, Batı etkisindeki ilk edebiyat dönemi.",
+          "answers": [
+            "Tanzimat",
+            "Tanzimat edebiyatı"
+          ]
+        },
+        {
+          "id": "sanat-2-T-2",
+          "letter": "T",
+          "type": "starts",
+          "clue": "\"Sis\" ve \"Haluk'un Defteri\"nin Servet-i Fünun şairi.",
+          "answers": [
+            "Tevfik Fikret"
+          ]
+        },
+        {
+          "id": "sanat-2-T-3",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Kahramanın kaderle çatışıp acıklı bir sona ulaştığı tiyatro türü.",
+          "answers": [
+            "Tragedya",
+            "Trajedi"
+          ]
+        },
+        {
+          "id": "sanat-2-T-4",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Çevresinde zilleri olan, elle vurularak çalınan çalgı.",
+          "answers": [
+            "Tef"
+          ]
+        },
+        {
+          "id": "sanat-2-U-1",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Belirli bir usulü olmayan, serbest ritimli halk türküsü türü; bozlak da bunun bir çeşididir.",
+          "answers": [
+            "Uzun hava"
+          ]
+        },
+        {
+          "id": "sanat-2-U-2",
+          "letter": "U",
+          "type": "starts",
+          "clue": "\"Gülün Adı\"nın İtalyan yazarı.",
+          "answers": [
+            "Umberto Eco"
+          ]
+        },
+        {
+          "id": "sanat-2-U-3",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Opera ya da balenin başında çalınan orkestra girişi.",
+          "answers": [
+            "Uvertür"
+          ]
+        },
+        {
+          "id": "sanat-2-U-4",
+          "letter": "U",
+          "type": "contains",
+          "clue": "Odette'in büyüyle kuşa dönüştüğü Çaykovski balesi.",
+          "answers": [
+            "Kuğu Gölü"
+          ]
+        },
+        {
+          "id": "sanat-2-Ü-1",
+          "letter": "Ü",
+          "type": "starts",
+          "clue": "Cemal Süreya'nın ilk kitabına da adını veren, anlamı tartışılan ünlü şiiri.",
+          "answers": [
+            "Üvercinka"
+          ]
+        },
+        {
+          "id": "sanat-2-Ü-2",
+          "letter": "Ü",
+          "type": "starts",
+          "clue": "Bir yazarın kendine özgü anlatım biçimi; stil.",
+          "answers": [
+            "Üslup"
+          ]
+        },
+        {
+          "id": "sanat-2-Ü-3",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "Divan şiirinde güle âşık olarak işlenen kuş.",
+          "answers": [
+            "Bülbül"
+          ]
+        },
+        {
+          "id": "sanat-2-Ü-4",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "Şeyh Galip'in, Güzellik ile Aşk'ın serüvenini anlatan mesnevisi.",
+          "answers": [
+            "Hüsn ü Aşk",
+            "Hüsnü Aşk"
+          ]
+        },
+        {
+          "id": "sanat-2-V-1",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Namık Kemal'in İslam Bey ile Zekiye'yi anlatan ünlü tiyatro oyunu.",
+          "answers": [
+            "Vatan yahut Silistre",
+            "Vatan Yahut Silistre"
+          ]
+        },
+        {
+          "id": "sanat-2-V-2",
+          "letter": "V",
+          "type": "starts",
+          "clue": "\"Dört Mevsim\" konçertolarının İtalyan bestecisi.",
+          "answers": [
+            "Vivaldi"
+          ]
+        },
+        {
+          "id": "sanat-2-V-3",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Oturarak, dizler arasında tutulup yayla çalınan büyük telli çalgı.",
+          "answers": [
+            "Viyolonsel"
+          ]
+        },
+        {
+          "id": "sanat-2-V-4",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Renkli cam parçalarının kurşun çubuklarla birleştirildiği pencere sanatı.",
+          "answers": [
+            "Vitray"
+          ]
+        },
+        {
+          "id": "sanat-2-Y-1",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "\"Sessiz Gemi\" şiirinin şairi.",
+          "answers": [
+            "Yahya Kemal Beyatlı",
+            "Yahya Kemal"
+          ]
+        },
+        {
+          "id": "sanat-2-Y-2",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "\"Yaban\" romanının yazarı.",
+          "answers": [
+            "Yakup Kadri Karaosmanoğlu",
+            "Yakup Kadri"
+          ]
+        },
+        {
+          "id": "sanat-2-Y-3",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "Reşat Nuri'nin, Ali Rıza Bey'in ailesinin dağılışını anlatan romanı.",
+          "answers": [
+            "Yaprak Dökümü"
+          ]
+        },
+        {
+          "id": "sanat-2-Y-4",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "Türk sinemasının altın çağına adını veren, Beyoğlu'ndaki sokak.",
+          "answers": [
+            "Yeşilçam"
+          ]
+        },
+        {
+          "id": "sanat-2-Z-1",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "\"Harabat\" adlı şiir seçkisini hazırlayan Tanzimat şairi.",
+          "answers": [
+            "Ziya Paşa"
+          ]
+        },
+        {
+          "id": "sanat-2-Z-2",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "\"Türkçülüğün Esasları\"nın yazarı.",
+          "answers": [
+            "Ziya Gökalp"
+          ]
+        },
+        {
+          "id": "sanat-2-Z-3",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "Dansözlerin parmaklarına takıp çaldığı küçük metal çalgı.",
+          "answers": [
+            "Zil",
+            "Ziller"
+          ]
+        },
+        {
+          "id": "sanat-2-Z-4",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "\"Germinal\"in Fransız yazarı.",
+          "answers": [
+            "Zola"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "questions": [
+        {
+          "id": "sanat-3-A-1",
+          "letter": "A",
+          "type": "starts",
+          "clue": "\"Makber\" mersiyesiyle tanınan, \"Şair-i Azam\" diye anılan şair.",
+          "answers": [
+            "Abdülhak Hâmit Tarhan",
+            "Abdülhak Hamit Tarhan",
+            "Abdülhak Hâmit",
+            "Abdülhak Hamit"
+          ]
+        },
+        {
+          "id": "sanat-3-A-2",
+          "letter": "A",
+          "type": "starts",
+          "clue": "\"O Belde\" şiiri ve \"Göl Saatleri\" kitabıyla bilinen sembolist şair.",
+          "answers": [
+            "Ahmet Haşim"
+          ]
+        },
+        {
+          "id": "sanat-3-A-3",
+          "letter": "A",
+          "type": "starts",
+          "clue": "\"Ben Sana Mecburum\" şiirinin şairi.",
+          "answers": [
+            "Attila İlhan"
+          ]
+        },
+        {
+          "id": "sanat-3-A-4",
+          "letter": "A",
+          "type": "starts",
+          "clue": "\"Felatun Bey ile Rakım Efendi\"nin yazarı.",
+          "answers": [
+            "Ahmet Mithat Efendi",
+            "Ahmet Mithat",
+            "Ahmet Midhat"
+          ]
+        },
+        {
+          "id": "sanat-3-B-1",
+          "letter": "B",
+          "type": "starts",
+          "clue": "Kanuni için yazdığı mersiyeyle bilinen, \"sultanüşşuara\" denen divan şairi.",
+          "answers": [
+            "Baki"
+          ]
+        },
+        {
+          "id": "sanat-3-B-2",
+          "letter": "B",
+          "type": "starts",
+          "clue": "\"Gece\" romanıyla Amerika'da Pegasus Ödülü kazanan yazar.",
+          "answers": [
+            "Bilge Karasu"
+          ]
+        },
+        {
+          "id": "sanat-3-B-3",
+          "letter": "B",
+          "type": "starts",
+          "clue": "\"Evler\" ve \"Kapalı Çarşı\" kitaplarının, adına şiir ödülü verilen şairi.",
+          "answers": [
+            "Behçet Necatigil"
+          ]
+        },
+        {
+          "id": "sanat-3-B-4",
+          "letter": "B",
+          "type": "starts",
+          "clue": "Bach ve Vivaldi'nin dönemi olan, 17. yüzyıl Avrupa'sının süslü sanat üslubu.",
+          "answers": [
+            "Barok"
+          ]
+        },
+        {
+          "id": "sanat-3-C-1",
+          "letter": "C",
+          "type": "starts",
+          "clue": "\"Elhan-ı Şita\" şiiriyle bilinen, sembolizme yakın Edebiyat-ı Cedide şairi.",
+          "answers": [
+            "Cenap Şahabettin",
+            "Cenab Şahabeddin",
+            "Cenap Şahabeddin"
+          ]
+        },
+        {
+          "id": "sanat-3-C-2",
+          "letter": "C",
+          "type": "starts",
+          "clue": "Lepanto Savaşı'nda sol elini kullanamaz hâle gelen İspanyol romancı.",
+          "answers": [
+            "Cervantes"
+          ]
+        },
+        {
+          "id": "sanat-3-C-3",
+          "letter": "C",
+          "type": "starts",
+          "clue": "\"Lüküs Hayat\" operetinin bestecisi.",
+          "answers": [
+            "Cemal Reşit Rey"
+          ]
+        },
+        {
+          "id": "sanat-3-C-4",
+          "letter": "C",
+          "type": "starts",
+          "clue": "\"Mavi Sürgün\" ve \"Aganta Burina Burinata\"nın, Bodrum'a sürgün edilen yazarı.",
+          "answers": [
+            "Cevat Şakir Kabaağaçlı",
+            "Cevat Şakir"
+          ]
+        },
+        {
+          "id": "sanat-3-Ç-1",
+          "letter": "Ç",
+          "type": "contains",
+          "clue": "Mithat Cemal Kuntay'ın, İstanbul'u üç dönemde anlatan romanı.",
+          "answers": [
+            "Üç İstanbul"
+          ]
+        },
+        {
+          "id": "sanat-3-Ç-2",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Osmanlı'da çalgı eşliğinde oyun oynayan kadın dansçı.",
+          "answers": [
+            "Çengi"
+          ]
+        },
+        {
+          "id": "sanat-3-Ç-3",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "\"Derinden derine ırmaklar ağlar\" dizesiyle açılan, Beş Hececiler'den birinin ünlü şiiri.",
+          "answers": [
+            "Çoban Çeşmesi"
+          ]
+        },
+        {
+          "id": "sanat-3-Ç-4",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Ana tanrıça heykelcikleri ve duvar resimleriyle ünlü Konya'daki Neolitik yerleşim.",
+          "answers": [
+            "Çatalhöyük"
+          ]
+        },
+        {
+          "id": "sanat-3-D-1",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Birinci Dünya Savaşı sırasında Zürih'te doğan, mantığı ve geleneği reddeden sanat akımı.",
+          "answers": [
+            "Dadaizm",
+            "Dada"
+          ]
+        },
+        {
+          "id": "sanat-3-D-2",
+          "letter": "D",
+          "type": "starts",
+          "clue": "\"İlahi Komedya\"nın İtalyan şairi.",
+          "answers": [
+            "Dante",
+            "Dante Alighieri"
+          ]
+        },
+        {
+          "id": "sanat-3-D-3",
+          "letter": "D",
+          "type": "starts",
+          "clue": "\"Yine bir gülnihal\" şarkısının bestecisi Mevlevi musikişinas.",
+          "answers": [
+            "Dede Efendi"
+          ]
+        },
+        {
+          "id": "sanat-3-D-4",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Oscar Wilde'ın, kendisi yerine portresi yaşlanan kahramanı.",
+          "answers": [
+            "Dorian Gray"
+          ]
+        },
+        {
+          "id": "sanat-3-E-1",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Seyahatname'nin yazarı olan 17. yüzyıl Osmanlı gezgini.",
+          "answers": [
+            "Evliya Çelebi"
+          ]
+        },
+        {
+          "id": "sanat-3-E-2",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Munch'un \"Çığlık\"ının da örneği olduğu, iç dünyayı abartılı biçimlerle anlatan akım.",
+          "answers": [
+            "Ekspresyonizm",
+            "Ekspresyonist"
+          ]
+        },
+        {
+          "id": "sanat-3-E-3",
+          "letter": "E",
+          "type": "starts",
+          "clue": "\"Masa da Masaymış Ha\" şiiriyle bilinen, Kapalıçarşı'da antikacılık yapan şair.",
+          "answers": [
+            "Edip Cansever"
+          ]
+        },
+        {
+          "id": "sanat-3-E-4",
+          "letter": "E",
+          "type": "starts",
+          "clue": "\"Kınar Hanımın Denizleri\" ve \"Bakışsız Bir Kedi Kara\"nın şairi.",
+          "answers": [
+            "Ece Ayhan"
+          ]
+        },
+        {
+          "id": "sanat-3-F-1",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Paris'te yoksulluk içinde yaşayan, kafe ve sokak sahneleriyle ünlü Türk ressam.",
+          "answers": [
+            "Fikret Mualla"
+          ]
+        },
+        {
+          "id": "sanat-3-F-2",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Rüstem'in kahramanlıklarını da anlatan büyük İran destanının şairi.",
+          "answers": [
+            "Firdevsi"
+          ]
+        },
+        {
+          "id": "sanat-3-F-3",
+          "letter": "F",
+          "type": "starts",
+          "clue": "\"Sanat şahsi ve muhteremdir\" ilkesini benimseyen 1909 edebî topluluğu.",
+          "answers": [
+            "Fecr-i Ati",
+            "Fecri Ati"
+          ]
+        },
+        {
+          "id": "sanat-3-F-4",
+          "letter": "F",
+          "type": "starts",
+          "clue": "\"Han Duvarları\" şiirinin şairi.",
+          "answers": [
+            "Faruk Nafiz Çamlıbel",
+            "Faruk Nafiz"
+          ]
+        },
+        {
+          "id": "sanat-3-G-1",
+          "letter": "G",
+          "type": "starts",
+          "clue": "Orhan Veli, Oktay Rifat ve Melih Cevdet'in 1941'de çıkardığı ortak kitap ve akım.",
+          "answers": [
+            "Garip"
+          ]
+        },
+        {
+          "id": "sanat-3-G-2",
+          "letter": "G",
+          "type": "starts",
+          "clue": "1960 tarihli \"Kestim Kara Saçlarımı\" kitabının şairi.",
+          "answers": [
+            "Gülten Akın"
+          ]
+        },
+        {
+          "id": "sanat-3-G-3",
+          "letter": "G",
+          "type": "starts",
+          "clue": "\"3 Mayıs 1808\" tablosunun İspanyol ressamı.",
+          "answers": [
+            "Goya"
+          ]
+        },
+        {
+          "id": "sanat-3-G-4",
+          "letter": "G",
+          "type": "starts",
+          "clue": "Uruk kralının ölümsüzlüğü aradığı Mezopotamya destanı.",
+          "answers": [
+            "Gılgamış",
+            "Gılgamış Destanı",
+            "Gilgameş"
+          ]
+        },
+        {
+          "id": "sanat-3-H-1",
+          "letter": "H",
+          "type": "starts",
+          "clue": "Üsküdar manzaralarıyla bilinen, asker kökenli Osmanlı ressamı.",
+          "answers": [
+            "Hoca Ali Rıza"
+          ]
+        },
+        {
+          "id": "sanat-3-H-2",
+          "letter": "H",
+          "type": "starts",
+          "clue": "\"Gözlerimi Kaparım Vazifemi Yaparım\" oyununun yazarı, epik tiyatronun ustası.",
+          "answers": [
+            "Haldun Taner"
+          ]
+        },
+        {
+          "id": "sanat-3-H-3",
+          "letter": "H",
+          "type": "starts",
+          "clue": "Bir şairin beş mesneviden oluşan eser dizisi.",
+          "answers": [
+            "Hamse"
+          ]
+        },
+        {
+          "id": "sanat-3-H-4",
+          "letter": "H",
+          "type": "starts",
+          "clue": "Ahmet Yesevi'nin öğüt veren dörtlüklerine verilen ad.",
+          "answers": [
+            "Hikmet"
+          ]
+        },
+        {
+          "id": "sanat-3-I-1",
+          "letter": "I",
+          "type": "contains",
+          "clue": "\"Aylak Adam\" ve \"Anayurt Oteli\"nin yazarı.",
+          "answers": [
+            "Yusuf Atılgan"
+          ]
+        },
+        {
+          "id": "sanat-3-I-2",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Peyami Safa'nın, Samim'in Simeranya hayaliyle bilinen romanı.",
+          "answers": [
+            "Yalnızız"
+          ]
+        },
+        {
+          "id": "sanat-3-I-3",
+          "letter": "I",
+          "type": "contains",
+          "clue": "\"Küçük Ağa\" ve \"Osmancık\" romanlarının yazarı.",
+          "answers": [
+            "Tarık Buğra"
+          ]
+        },
+        {
+          "id": "sanat-3-I-4",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Ahmet ile Gülbahar'ın aşkını anlatan, bir efsaneden yola çıkan Yaşar Kemal romanı.",
+          "answers": [
+            "Ağrıdağı Efsanesi",
+            "Ağrı Dağı Efsanesi"
+          ]
+        },
+        {
+          "id": "sanat-3-İ-1",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "\"Galile Denizi\" ve \"Âşıkane\"nin şairi.",
+          "answers": [
+            "İlhan Berk"
+          ]
+        },
+        {
+          "id": "sanat-3-İ-2",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Namık Kemal'in, Ali Bey ile Mahpeyker'i anlatan romanı.",
+          "answers": [
+            "İntibah"
+          ]
+        },
+        {
+          "id": "sanat-3-İ-3",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Kendi adıyla anılan 1914 kuşağının öncü ressamı.",
+          "answers": [
+            "İbrahim Çallı"
+          ]
+        },
+        {
+          "id": "sanat-3-İ-4",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Cemal Süreya, Edip Cansever ve Turgut Uyar'ın temsil ettiği 1950'ler şiir akımı.",
+          "answers": [
+            "İkinci Yeni"
+          ]
+        },
+        {
+          "id": "sanat-3-J-1",
+          "letter": "J",
+          "type": "starts",
+          "clue": "\"Bulantı\"nın yazarı, Nobel'i reddeden Fransız varoluşçu.",
+          "answers": [
+            "Jean-Paul Sartre",
+            "Jean Paul Sartre"
+          ]
+        },
+        {
+          "id": "sanat-3-J-2",
+          "letter": "J",
+          "type": "starts",
+          "clue": "\"Dublinliler\" ve \"Sanatçının Bir Genç Adam Olarak Portresi\"nin İrlandalı yazarı.",
+          "answers": [
+            "James Joyce"
+          ]
+        },
+        {
+          "id": "sanat-3-J-3",
+          "letter": "J",
+          "type": "starts",
+          "clue": "\"Körlük\" romanının Portekizli Nobelli yazarı.",
+          "answers": [
+            "José Saramago",
+            "Jose Saramago"
+          ]
+        },
+        {
+          "id": "sanat-3-J-4",
+          "letter": "J",
+          "type": "starts",
+          "clue": "\"Aşk ve Gurur\"un İngiliz yazarı.",
+          "answers": [
+            "Jane Austen"
+          ]
+        },
+        {
+          "id": "sanat-3-K-1",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Picasso ve Braque'ın nesneleri geometrik parçalara bölen resim akımı.",
+          "answers": [
+            "Kübizm"
+          ]
+        },
+        {
+          "id": "sanat-3-K-2",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Karahanlılar döneminde yazılan, \"mutluluk veren bilgi\" anlamına gelen eser.",
+          "answers": [
+            "Kutadgu Bilig"
+          ]
+        },
+        {
+          "id": "sanat-3-K-3",
+          "letter": "K",
+          "type": "starts",
+          "clue": "\"Devlet Ana\" ve \"Esir Şehrin İnsanları\"nın yazarı.",
+          "answers": [
+            "Kemal Tahir"
+          ]
+        },
+        {
+          "id": "sanat-3-K-4",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Sineklidağ gecekondu mahallesinin muhtarını anlatan Haldun Taner oyunu.",
+          "answers": [
+            "Keşanlı Ali Destanı",
+            "Keşanlı Ali"
+          ]
+        },
+        {
+          "id": "sanat-3-L-1",
+          "letter": "L",
+          "type": "starts",
+          "clue": "\"La Diva Turca\" diye anılan, La Scala'da yıllarca söyleyen soprano.",
+          "answers": [
+            "Leyla Gencer"
+          ]
+        },
+        {
+          "id": "sanat-3-L-2",
+          "letter": "L",
+          "type": "starts",
+          "clue": "\"Kanlı Düğün\" ve \"Bernarda Alba'nın Evi\"nin İspanyol şair ve oyun yazarı.",
+          "answers": [
+            "Lorca"
+          ]
+        },
+        {
+          "id": "sanat-3-L-3",
+          "letter": "L",
+          "type": "starts",
+          "clue": "\"Zamanımızın Bir Kahramanı\"nın Rus yazarı.",
+          "answers": [
+            "Lermontov"
+          ]
+        },
+        {
+          "id": "sanat-3-L-4",
+          "letter": "L",
+          "type": "starts",
+          "clue": "\"Sevgili Arsız Ölüm\" romanının yazarı.",
+          "answers": [
+            "Latife Tekin"
+          ]
+        },
+        {
+          "id": "sanat-3-M-1",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Selimiye'yi \"ustalık eserim\" diye niteleyen Osmanlı mimarı.",
+          "answers": [
+            "Mimar Sinan"
+          ]
+        },
+        {
+          "id": "sanat-3-M-2",
+          "letter": "M",
+          "type": "starts",
+          "clue": "\"Ayaşlı ile Kiracıları\" romanının yazarı.",
+          "answers": [
+            "Memduh Şevket Esendal"
+          ]
+        },
+        {
+          "id": "sanat-3-M-3",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Tanpınar'ın, Behçet Bey'in hayatı etrafında gelişen romanı.",
+          "answers": [
+            "Mahur Beste"
+          ]
+        },
+        {
+          "id": "sanat-3-M-4",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Kitap sayfalarını süsleyen, derinliği olmayan küçük resim sanatı.",
+          "answers": [
+            "Minyatür"
+          ]
+        },
+        {
+          "id": "sanat-3-N-1",
+          "letter": "N",
+          "type": "starts",
+          "clue": "Lale Devri'nin şairi, Sadabad şiirleriyle bilinen.",
+          "answers": [
+            "Nedim"
+          ]
+        },
+        {
+          "id": "sanat-3-N-2",
+          "letter": "N",
+          "type": "starts",
+          "clue": "\"Hayriyye\"yi oğlu için yazan, öğretici şiiriyle tanınan divan şairi.",
+          "answers": [
+            "Nabi"
+          ]
+        },
+        {
+          "id": "sanat-3-N-3",
+          "letter": "N",
+          "type": "starts",
+          "clue": "Dilde özleşmeyi savunan, deneme ve eleştiri ustası.",
+          "answers": [
+            "Nurullah Ataç"
+          ]
+        },
+        {
+          "id": "sanat-3-N-4",
+          "letter": "N",
+          "type": "starts",
+          "clue": "\"Kış Uykusu\" ile Altın Palmiye kazanan yönetmen.",
+          "answers": [
+            "Nuri Bilge Ceylan"
+          ]
+        },
+        {
+          "id": "sanat-3-O-1",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Orhan Veli ve Melih Cevdet'le birlikte yola çıkan, \"Perçemli Sokak\"ın şairi.",
+          "answers": [
+            "Oktay Rifat",
+            "Oktay Rifat Horozcu"
+          ]
+        },
+        {
+          "id": "sanat-3-O-2",
+          "letter": "O",
+          "type": "starts",
+          "clue": "\"Kaplumbağa Terbiyecisi\" tablosunun ressamı.",
+          "answers": [
+            "Osman Hamdi Bey",
+            "Osman Hamdi"
+          ]
+        },
+        {
+          "id": "sanat-3-O-3",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Dekor ve oyunculuk olmadan solist, koro ve orkestrayla seslendirilen uzun eser.",
+          "answers": [
+            "Oratoryo"
+          ]
+        },
+        {
+          "id": "sanat-3-O-4",
+          "letter": "O",
+          "type": "starts",
+          "clue": "\"Bereketli Topraklar Üzerinde\"nin yazarı.",
+          "answers": [
+            "Orhan Kemal"
+          ]
+        },
+        {
+          "id": "sanat-3-Ö-1",
+          "letter": "Ö",
+          "type": "starts",
+          "clue": "\"Anayurt Oteli\" filminin yönetmeni.",
+          "answers": [
+            "Ömer Kavur"
+          ]
+        },
+        {
+          "id": "sanat-3-Ö-2",
+          "letter": "Ö",
+          "type": "contains",
+          "clue": "Ahmet Haşim'in 1921'de yayımlanan ilk şiir kitabı.",
+          "answers": [
+            "Göl Saatleri"
+          ]
+        },
+        {
+          "id": "sanat-3-Ö-3",
+          "letter": "Ö",
+          "type": "contains",
+          "clue": "İranlı Sadık Hidayet'in karanlık ve gerçeküstü romanı.",
+          "answers": [
+            "Kör Baykuş"
+          ]
+        },
+        {
+          "id": "sanat-3-Ö-4",
+          "letter": "Ö",
+          "type": "contains",
+          "clue": "Hasan Ali Toptaş'ın, Yunus Nadi Ödülü alan ve 2007'de filme çekilen romanı.",
+          "answers": [
+            "Gölgesizler"
+          ]
+        },
+        {
+          "id": "sanat-3-P-1",
+          "letter": "P",
+          "type": "starts",
+          "clue": "\"Kayıp Zamanın İzinde\"nin Fransız yazarı.",
+          "answers": [
+            "Proust"
+          ]
+        },
+        {
+          "id": "sanat-3-P-2",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Nazım Hikmet'in hapisten şiirli mektuplar yazdığı eşi.",
+          "answers": [
+            "Piraye"
+          ]
+        },
+        {
+          "id": "sanat-3-P-3",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Türk halk edebiyatı ve masal araştırmalarının öncü halkbilimcisi.",
+          "answers": [
+            "Pertev Naili Boratav"
+          ]
+        },
+        {
+          "id": "sanat-3-P-4",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Seurat'nın renkleri küçük noktalarla yan yana koyduğu resim tekniği.",
+          "answers": [
+            "Puantilizm",
+            "Pointilizm"
+          ]
+        },
+        {
+          "id": "sanat-3-R-1",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Balzac ve Flaubert'in, hayatı olduğu gibi yansıtmayı amaçlayan akımı.",
+          "answers": [
+            "Realizm"
+          ]
+        },
+        {
+          "id": "sanat-3-R-2",
+          "letter": "R",
+          "type": "starts",
+          "clue": "\"Araba Sevdası\"nın yazarı.",
+          "answers": [
+            "Recaizade Mahmut Ekrem",
+            "Recaizade Ekrem",
+            "Recaizade"
+          ]
+        },
+        {
+          "id": "sanat-3-R-3",
+          "letter": "R",
+          "type": "starts",
+          "clue": "\"Genç Bir Şaire Mektuplar\"ın yazarı.",
+          "answers": [
+            "Rilke",
+            "Rainer Maria Rilke"
+          ]
+        },
+        {
+          "id": "sanat-3-R-4",
+          "letter": "R",
+          "type": "starts",
+          "clue": "\"Memleket Hikâyeleri\"nin yazarı.",
+          "answers": [
+            "Refik Halit Karay",
+            "Refik Halit"
+          ]
+        },
+        {
+          "id": "sanat-3-S-1",
+          "letter": "S",
+          "type": "starts",
+          "clue": "André Breton'un manifestosuyla doğan, bilinçaltını ve rüyayı esas alan akım.",
+          "answers": [
+            "Sürrealizm"
+          ]
+        },
+        {
+          "id": "sanat-3-S-2",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Tevfik Fikret'in yönettiği, Edebiyat-ı Cedide topluluğuna adını veren dergi.",
+          "answers": [
+            "Servet-i Fünun",
+            "Servetifünun"
+          ]
+        },
+        {
+          "id": "sanat-3-S-3",
+          "letter": "S",
+          "type": "starts",
+          "clue": "\"Monna Rosa\" şiiriyle bilinen şair.",
+          "answers": [
+            "Sezai Karakoç"
+          ]
+        },
+        {
+          "id": "sanat-3-S-4",
+          "letter": "S",
+          "type": "starts",
+          "clue": "\"Vesiletü'n-Necat\" adlı Mevlid'in şairi.",
+          "answers": [
+            "Süleyman Çelebi"
+          ]
+        },
+        {
+          "id": "sanat-3-Ş-1",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Rüstem ile Sührab öyküsünü de içeren büyük İran destanı.",
+          "answers": [
+            "Şahname",
+            "Şehname"
+          ]
+        },
+        {
+          "id": "sanat-3-Ş-2",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Nedim'in sevdiği, nakaratlı dörtlüklerden oluşan divan nazım biçimi.",
+          "answers": [
+            "Şarkı"
+          ]
+        },
+        {
+          "id": "sanat-3-Ş-3",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Nazım Hikmet'in, Simavne Kadısıoğlu'nun isyanını anlatan destanı.",
+          "answers": [
+            "Şeyh Bedreddin Destanı",
+            "Şeyh Bedrettin Destanı"
+          ]
+        },
+        {
+          "id": "sanat-3-Ş-4",
+          "letter": "Ş",
+          "type": "contains",
+          "clue": "\"Fahim Bey ve Biz\" ve \"Boğaziçi Mehtapları\"nın yazarı.",
+          "answers": [
+            "Abdülhak Şinasi Hisar"
+          ]
+        },
+        {
+          "id": "sanat-3-T-1",
+          "letter": "T",
+          "type": "starts",
+          "clue": "\"Göğe Bakma Durağı\" ve \"Tütünler Islak\"ın şairi.",
+          "answers": [
+            "Turgut Uyar"
+          ]
+        },
+        {
+          "id": "sanat-3-T-2",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Türklere özgü, aruzla yazılan dört dizelik divan nazım biçimi.",
+          "answers": [
+            "Tuyuğ"
+          ]
+        },
+        {
+          "id": "sanat-3-T-3",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Divan edebiyatında şairlerin hayatını ve şiirlerinden örnekleri veren eser.",
+          "answers": [
+            "Tezkire"
+          ]
+        },
+        {
+          "id": "sanat-3-T-4",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Saygun, Erkin, Akses, Alnar ve Rey'den oluşan besteci topluluğu.",
+          "answers": [
+            "Türk Beşleri"
+          ]
+        },
+        {
+          "id": "sanat-3-U-1",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Leopold Bloom'un Dublin'deki bir gününü anlatan Joyce romanı.",
+          "answers": [
+            "Ulysses",
+            "Ulises"
+          ]
+        },
+        {
+          "id": "sanat-3-U-2",
+          "letter": "U",
+          "type": "starts",
+          "clue": "\"Köçekçe\" rapsodisinin bestecisi.",
+          "answers": [
+            "Ulvi Cemal Erkin"
+          ]
+        },
+        {
+          "id": "sanat-3-U-3",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Adanalı arabacı Cabbar'ın hazine peşine düştüğü 1970 yapımı film.",
+          "answers": [
+            "Umut"
+          ]
+        },
+        {
+          "id": "sanat-3-U-4",
+          "letter": "U",
+          "type": "contains",
+          "clue": "Tanpınar'ın, Mümtaz ile Nuran'ın aşkını anlatan romanı.",
+          "answers": [
+            "Huzur"
+          ]
+        },
+        {
+          "id": "sanat-3-Ü-1",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "Turgut Uyar'ın, adında bir Arap ülkesi geçen 1959 tarihli şiir kitabı.",
+          "answers": [
+            "Dünyanın En Güzel Arabistanı"
+          ]
+        },
+        {
+          "id": "sanat-3-Ü-2",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "\"Cumhuriyetin divası\" olarak anılan Türk sanat müziği sesi.",
+          "answers": [
+            "Müzeyyen Senar"
+          ]
+        },
+        {
+          "id": "sanat-3-Ü-3",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "Yahya Kemal'in \"Aziz İstanbul\" şiirini besteleyen sanat müziği ustası.",
+          "answers": [
+            "Münir Nurettin Selçuk",
+            "Münir Nureddin Selçuk",
+            "Münir Nurettin"
+          ]
+        },
+        {
+          "id": "sanat-3-Ü-4",
+          "letter": "Ü",
+          "type": "starts",
+          "clue": "Brecht ile Weill'in dilenciler dünyasını anlatan müzikli oyunu.",
+          "answers": [
+            "Üç Kuruşluk Opera"
+          ]
+        },
+        {
+          "id": "sanat-3-V-1",
+          "letter": "V",
+          "type": "starts",
+          "clue": "\"Nedimeler\" tablosunun İspanyol saray ressamı.",
+          "answers": [
+            "Velázquez",
+            "Velazquez",
+            "Velaskez"
+          ]
+        },
+        {
+          "id": "sanat-3-V-2",
+          "letter": "V",
+          "type": "starts",
+          "clue": "\"Kendine Ait Bir Oda\"nın yazarı.",
+          "answers": [
+            "Virginia Woolf"
+          ]
+        },
+        {
+          "id": "sanat-3-V-3",
+          "letter": "V",
+          "type": "starts",
+          "clue": "\"İnci Küpeli Kız\" tablosunun Hollandalı ressamı.",
+          "answers": [
+            "Vermeer"
+          ]
+        },
+        {
+          "id": "sanat-3-V-4",
+          "letter": "V",
+          "type": "starts",
+          "clue": "\"Bir Gün Tek Başına\" romanının yazarı.",
+          "answers": [
+            "Vedat Türkali"
+          ]
+        },
+        {
+          "id": "sanat-3-Y-1",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "1928'de yayımladıkları ortak kitapla ortaya çıkan yedi kişilik şiir topluluğu.",
+          "answers": [
+            "Yedi Meşale",
+            "Yedi Meşaleciler"
+          ]
+        },
+        {
+          "id": "sanat-3-Y-2",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "\"Kutadgu Bilig\"in yazarı.",
+          "answers": [
+            "Yusuf Has Hacib",
+            "Yusuf Has Hacip"
+          ]
+        },
+        {
+          "id": "sanat-3-Y-3",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "\"Yol\" filmiyle Altın Palmiye kazanan yönetmen ve oyuncu.",
+          "answers": [
+            "Yılmaz Güney"
+          ]
+        },
+        {
+          "id": "sanat-3-Y-4",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "\"Muhsin Bey\" ve \"Eşkıya\" filmlerinin yönetmeni.",
+          "answers": [
+            "Yavuz Turgul"
+          ]
+        },
+        {
+          "id": "sanat-3-Z-1",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "\"Masumiyet\" ve \"Yazgı\" filmlerinin yönetmeni.",
+          "answers": [
+            "Zeki Demirkubuz"
+          ]
+        },
+        {
+          "id": "sanat-3-Z-2",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "\"Mutluluk\" romanının yazarı olan müzisyen.",
+          "answers": [
+            "Zülfü Livaneli"
+          ]
+        },
+        {
+          "id": "sanat-3-Z-3",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "\"İnkılap Yolunda\" tablosunun ressamı.",
+          "answers": [
+            "Zeki Faik İzer"
+          ]
+        },
+        {
+          "id": "sanat-3-Z-4",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "Aziz Nesin'in, kurnaz bir politikacıyı anlatan romanı.",
+          "answers": [
+            "Zübük"
+          ]
+        }
+      ]
+    }
+  ]
 }
