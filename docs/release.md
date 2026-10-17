@@ -37,7 +37,7 @@ prints how many `.mp3` files went in.
 uv run --with pillow python3 tools/gen-app-icon.py
 ```
 
-## TestFlight beta (one command, not used yet)
+## Later: TestFlight beta (prepared, not used)
 
 ```bash
 cd app && npm run beta
@@ -54,4 +54,5 @@ Already in place: bundle id `com.skolalabs.harfiyen` and the "Harfiyen App Store
 provisioning profile. Before the first run, create the App Store Connect app record
 (`asc-create-app --name "Harfiyen" --bundle com.skolalabs.harfiyen --sku harfiyen001`; it
 needs Yakup to approve the Apple sign-in on his phone) and add Yakup as an internal
-tester. Yakup asked for direct iPhone installs for now, so this lane has not been run yet.
+tester. Yakup wants direct iPhone installs for now (store and TestFlight come later), so
+this lane has never been run. Do not run it until he asks for TestFlight.
