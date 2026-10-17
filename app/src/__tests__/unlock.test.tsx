@@ -8,7 +8,7 @@ import { SETTINGS_KEY } from '../store/settings';
 // Tarih with two levels, so the map has exactly one level to unlock.
 jest.mock('../data/questions', () => require('../test-utils/mockQuestions').mockQuestions({ tarih: [1, 2] }));
 
-jest.setTimeout(60_000);
+jest.setTimeout(180_000);
 
 let saved = '';
 

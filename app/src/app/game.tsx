@@ -60,7 +60,7 @@ function GameRound({ voice }: { voice: boolean }) {
   const initial = useMemo(() => (picked ? createRound(picked) : null), [picked]);
   const locked = !!initial && ready && !quick && level > selectionUnlocked(progress, cats);
 
-  const v = useVoiceRound(voice);
+  const v = useVoiceRound(voice, !!initial && ready && !locked);
   const onOver = useCallback(async (r: Round) => {
     v.onOver(r);
     const played = Array.from(new Set(r.letters.map((l) => l.category)));

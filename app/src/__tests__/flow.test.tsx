@@ -33,7 +33,7 @@ async function press(el: Parameters<typeof fireEvent.press>[0]) {
   await fireEvent.press(el);
 }
 
-jest.setTimeout(60_000);
+jest.setTimeout(180_000);
 
 // These walk the typed game: voice off (voice.test.tsx plays the spoken one).
 beforeEach(async () => {

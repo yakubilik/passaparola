@@ -16,7 +16,7 @@ const CORRECT: HostKey[] = ['correct1', 'correct2', 'correct3'];
 // clock stopped until the reading ends, the mic opened once at the start and
 // kept open, spoken answers judged like typed ones, and a cue for every
 // answer and for the last ten seconds. With `voice` off only the cues remain.
-export function useVoiceRound(voice: boolean, rng: () => number = Math.random) {
+export function useVoiceRound(voice: boolean, open = true, rng: () => number = Math.random) {
   const [reading, setReading] = useState(false);
   const [heard, setHeard] = useState('');
   const [mic, setMic] = useState<MicState>('off');
@@ -38,10 +38,13 @@ export function useVoiceRound(voice: boolean, rng: () => number = Math.random) {
     game.current?.hold(false);
   }, []);
 
-  // The round screen opens with the theme; leaving it closes the mic and the bed.
+  // The round opens with the theme; leaving it closes the mic and the bed.
   useEffect(() => {
+    if (!open) return;
     prepareAudio();
     sounds.play('theme');
+  }, [open]);
+  useEffect(() => {
     return () => {
       if (answerTimer.current) clearTimeout(answerTimer.current);
       listener.stop();

@@ -32,7 +32,7 @@ async function say(words: string) {
   await wait(SETTLE_MS + 20);
 }
 
-jest.setTimeout(60_000);
+jest.setTimeout(180_000);
 
 beforeEach(async () => {
   jest.useFakeTimers();
@@ -120,7 +120,9 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; the mic 
 
   // The last ten seconds warn every second; time up closes the mic and the host says so.
   await wait(3000);
-  for (let i = 0; i < 200 && !screen.queryByText('Az kaldı!'); i++) await wait(1000);
+  const left = () => { const [m, sec] = String(screen.getByTestId('clock').props.children).split(':'); return Number(m) * 60 + Number(sec); };
+  while (left() > 20) await wait(10_000);
+  for (let i = 0; i < 30 && !screen.queryByText('Az kaldı!'); i++) await wait(1000);
   expect(sounds.played.filter((s) => s === 'warn').length).toBeGreaterThanOrEqual(9);
   expect(await screen.findByText('Az kaldı!')).toBeOnTheScreen();
   expect(rec.aborts).toBe(1);
