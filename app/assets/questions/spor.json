@@ -1,5 +1,3197 @@
 {
   "category": "spor",
   "title": "Spor",
-  "levels": []
+  "levels": [
+    {
+      "level": 1,
+      "questions": [
+        {
+          "id": "spor-1-A-1",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Bir takımı ya da sporcuyu çalıştırıp maça hazırlayan kişi.",
+          "answers": [
+            "Antrenör"
+          ]
+        },
+        {
+          "id": "spor-1-A-2",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Süperstar lakabıyla bilinen, 'Petrol' ve 'Bambaşka Biri' şarkılarının yorumcusu kadın sanatçı.",
+          "answers": [
+            "Ajda Pekkan",
+            "Ajda"
+          ]
+        },
+        {
+          "id": "spor-1-A-3",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Futbolda bir oyuncunun takım arkadaşına verdiği gol pası.",
+          "answers": [
+            "Asist"
+          ]
+        },
+        {
+          "id": "spor-1-A-4",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Koşu, atlama ve atma dallarından oluşan spor.",
+          "answers": [
+            "Atletizm"
+          ]
+        },
+        {
+          "id": "spor-1-B-1",
+          "letter": "B",
+          "type": "starts",
+          "clue": "Topu çembere atarak sayı kazanılan, beşer kişilik takımlarla oynanan spor.",
+          "answers": [
+            "Basketbol"
+          ]
+        },
+        {
+          "id": "spor-1-B-2",
+          "letter": "B",
+          "type": "starts",
+          "clue": "Kara Kartallar lakaplı, Dolmabahçe'deki stadında oynayan İstanbul kulübü.",
+          "answers": [
+            "Beşiktaş"
+          ]
+        },
+        {
+          "id": "spor-1-B-3",
+          "letter": "B",
+          "type": "starts",
+          "clue": "Cumhurbaşkanlığı Türkiye Turu'nda sporcuların yarıştığı, pedallı iki tekerlekli araç.",
+          "answers": [
+            "Bisiklet"
+          ]
+        },
+        {
+          "id": "spor-1-B-4",
+          "letter": "B",
+          "type": "starts",
+          "clue": "'Domates Biber Patlıcan' ve 'Gülpembe' şarkılarıyla bilinen, '7'den 77'ye' programının sunucusu.",
+          "answers": [
+            "Barış Manço"
+          ]
+        },
+        {
+          "id": "spor-1-B-5",
+          "letter": "B",
+          "type": "starts",
+          "clue": "İki sporcunun yalnızca yumruklarıyla dövüştüğü, sıkletlere ayrılan spor.",
+          "answers": [
+            "Boks"
+          ]
+        },
+        {
+          "id": "spor-1-C-1",
+          "letter": "C",
+          "type": "starts",
+          "clue": "'Arog' ve 'Hokkabaz' filmleriyle bilinen ünlü komedyen ve oyuncu.",
+          "answers": [
+            "Cem Yılmaz",
+            "Cem"
+          ]
+        },
+        {
+          "id": "spor-1-C-2",
+          "letter": "C",
+          "type": "starts",
+          "clue": "Paralel bar, halka ve atlama beygiri gibi aletlerde yapılan spor.",
+          "answers": [
+            "Cimnastik",
+            "Cimnastik sporu"
+          ]
+        },
+        {
+          "id": "spor-1-C-3",
+          "letter": "C",
+          "type": "starts",
+          "clue": "Malkoçoğlu ve Kara Murat rolleriyle tanınan Yeşilçam aktörü.",
+          "answers": [
+            "Cüneyt Arkın"
+          ]
+        },
+        {
+          "id": "spor-1-C-4",
+          "letter": "C",
+          "type": "starts",
+          "clue": "Bir maçın ya da programın kayda alınmadan, o anda ekrana verilmesi.",
+          "answers": [
+            "Canlı yayın"
+          ]
+        },
+        {
+          "id": "spor-1-Ç-1",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Keloğlan ve Pepee gibi karakterlerin hareketli çizimlerle anlatıldığı yapım.",
+          "answers": [
+            "Çizgi film"
+          ]
+        },
+        {
+          "id": "spor-1-Ç-2",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Futbol sahalarının üzerini kaplayan yeşil bitki örtüsü.",
+          "answers": [
+            "Çim"
+          ]
+        },
+        {
+          "id": "spor-1-Ç-3",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Futbolda topu kaptırmadan rakip oyuncuyu geçme hareketi.",
+          "answers": [
+            "Çalım"
+          ]
+        },
+        {
+          "id": "spor-1-Ç-4",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Basket maçının dört oyun diliminden her biri.",
+          "answers": [
+            "Çeyrek"
+          ]
+        },
+        {
+          "id": "spor-1-D-1",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Düğünlerde omuza asılıp tokmak ve çubukla vurulan büyük çalgı.",
+          "answers": [
+            "Davul"
+          ]
+        },
+        {
+          "id": "spor-1-D-2",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Aynı şehrin iki büyük takımı arasında oynanan çekişmeli maç.",
+          "answers": [
+            "Derbi"
+          ]
+        },
+        {
+          "id": "spor-1-D-3",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Futbolda kaleyi korumakla görevli savunma oyuncusu.",
+          "answers": [
+            "Defans"
+          ]
+        },
+        {
+          "id": "spor-1-D-4",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Televizyonda haftalık bölümler hâlinde yayımlanan kurgu yapım.",
+          "answers": [
+            "Dizi"
+          ]
+        },
+        {
+          "id": "spor-1-D-5",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Dört yılda bir FIFA'nın düzenlediği milli takımlar futbol turnuvası.",
+          "answers": [
+            "Dünya Kupası"
+          ]
+        },
+        {
+          "id": "spor-1-E-1",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Antrenmanda giyilen pamuklu, rahat spor kıyafeti.",
+          "answers": [
+            "Eşofman"
+          ]
+        },
+        {
+          "id": "spor-1-E-2",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Avrupa ülkelerinin her yıl birer parçayla katılıp oylandığı müzik organizasyonu.",
+          "answers": [
+            "Eurovision",
+            "Eurovizyon"
+          ]
+        },
+        {
+          "id": "spor-1-E-3",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Kışın ve bazı sporlarda ellere giyilen, parmaklı koruyucu.",
+          "answers": [
+            "Eldiven"
+          ]
+        },
+        {
+          "id": "spor-1-E-4",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Kenan İmirzalıoğlu'nun, ihanete uğrayıp yüzünü değiştiren bir adamı oynadığı intikam dizisi.",
+          "answers": [
+            "Ezel"
+          ]
+        },
+        {
+          "id": "spor-1-F-1",
+          "letter": "F",
+          "type": "starts",
+          "clue": "On birer kişilik iki takımın topu ayakla rakip kaleye sokmaya çalıştığı spor.",
+          "answers": [
+            "Futbol"
+          ]
+        },
+        {
+          "id": "spor-1-F-2",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Sarı-lacivertli formasıyla Kadıköy'de oynayan İstanbul kulübü.",
+          "answers": [
+            "Fenerbahçe"
+          ]
+        },
+        {
+          "id": "spor-1-F-3",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Rakibe çelme takmak gibi kurallara aykırı hareket.",
+          "answers": [
+            "Faul"
+          ]
+        },
+        {
+          "id": "spor-1-F-4",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Futbolda en önde oynayan, gol atmakla görevli oyuncu.",
+          "answers": [
+            "Forvet"
+          ]
+        },
+        {
+          "id": "spor-1-F-5",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Bir turnuvanın şampiyonunu belirleyen son maç.",
+          "answers": [
+            "Final"
+          ]
+        },
+        {
+          "id": "spor-1-G-1",
+          "letter": "G",
+          "type": "starts",
+          "clue": "2000'de UEFA Kupası'nı kazanan, sarı-kırmızılı İstanbul kulübü.",
+          "answers": [
+            "Galatasaray"
+          ]
+        },
+        {
+          "id": "spor-1-G-2",
+          "letter": "G",
+          "type": "starts",
+          "clue": "Topun kale çizgisini geçerek ağlara gitmesi.",
+          "answers": [
+            "Gol"
+          ]
+        },
+        {
+          "id": "spor-1-G-3",
+          "letter": "G",
+          "type": "starts",
+          "clue": "Altı telli, parmakla ya da penayla çalınan çalgı.",
+          "answers": [
+            "Gitar"
+          ]
+        },
+        {
+          "id": "spor-1-G-4",
+          "letter": "G",
+          "type": "starts",
+          "clue": "İki sporcunun birbirini sırtüstü yere getirmeye çalıştığı, ata sporu sayılan dövüş sporu.",
+          "answers": [
+            "Güreş"
+          ]
+        },
+        {
+          "id": "spor-1-H-1",
+          "letter": "H",
+          "type": "starts",
+          "clue": "Maçı kurallara göre yöneten, kart gösterme yetkisi olan görevli.",
+          "answers": [
+            "Hakem"
+          ]
+        },
+        {
+          "id": "spor-1-H-2",
+          "letter": "H",
+          "type": "starts",
+          "clue": "Topun elle atılarak kaleye sokulduğu, yedişer kişilik takımlarla oynanan spor.",
+          "answers": [
+            "Hentbol"
+          ]
+        },
+        {
+          "id": "spor-1-H-3",
+          "letter": "H",
+          "type": "starts",
+          "clue": "Mahmut Hoca'nın yaramaz öğrencileriyle yaşadıklarını anlatan komedi serisi.",
+          "answers": [
+            "Hababam Sınıfı",
+            "Hababam"
+          ]
+        },
+        {
+          "id": "spor-1-H-4",
+          "letter": "H",
+          "type": "starts",
+          "clue": "El ele, omuz omuza tutuşup sıra hâlinde oynanan halk oyunu.",
+          "answers": [
+            "Halay"
+          ]
+        },
+        {
+          "id": "spor-1-I-1",
+          "letter": "I",
+          "type": "starts",
+          "clue": "Antrenman ya da maç öncesinde kasları hazırlamak için yapılan hareketler.",
+          "answers": [
+            "Isınma"
+          ]
+        },
+        {
+          "id": "spor-1-I-2",
+          "letter": "I",
+          "type": "starts",
+          "clue": "Beğenilmeyen oyuncuyu protesto etmek için dudaklar büzülerek çıkarılan ince ses.",
+          "answers": [
+            "Islık"
+          ]
+        },
+        {
+          "id": "spor-1-I-3",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Futbolda oyuncuyu oyundan atan kart.",
+          "answers": [
+            "Kırmızı kart"
+          ]
+        },
+        {
+          "id": "spor-1-I-4",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Aynı formayı giyen oyuncuların oluşturduğu topluluk.",
+          "answers": [
+            "Takım"
+          ]
+        },
+        {
+          "id": "spor-1-İ-1",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Çocukların bahçede, sporcuların antrenmanda yaptığı, dönen ipin üzerinden zıplama.",
+          "answers": [
+            "İp atlama"
+          ]
+        },
+        {
+          "id": "spor-1-İ-2",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "'Mavi Mavi' ve 'Bebeğim' şarkılarıyla bilinen Urfalı sanatçı.",
+          "answers": [
+            "İbrahim Tatlıses"
+          ]
+        },
+        {
+          "id": "spor-1-İ-3",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Futbol maçında devre arasından sonra oynanan 45 dakika.",
+          "answers": [
+            "İkinci yarı"
+          ]
+        },
+        {
+          "id": "spor-1-İ-4",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Televizyon programını ya da filmi seyreden kişi.",
+          "answers": [
+            "İzleyici"
+          ]
+        },
+        {
+          "id": "spor-1-J-1",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Bir yarışta ya da festivalde puan verip kazananı seçen kurul.",
+          "answers": [
+            "Jüri"
+          ]
+        },
+        {
+          "id": "spor-1-J-2",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Japon kökenli, rakibi tutup yere atmaya dayanan dövüş sporu.",
+          "answers": [
+            "Judo"
+          ]
+        },
+        {
+          "id": "spor-1-J-3",
+          "letter": "J",
+          "type": "starts",
+          "clue": "At yarışlarında atı süren sporcu.",
+          "answers": [
+            "Jokey"
+          ]
+        },
+        {
+          "id": "spor-1-J-4",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Sporcunun veda ettiği, kariyerini kutlayan son maç.",
+          "answers": [
+            "Jübile"
+          ]
+        },
+        {
+          "id": "spor-1-K-1",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Futbolda kaleyi koruyan, topu elle tutabilen oyuncu.",
+          "answers": [
+            "Kaleci"
+          ]
+        },
+        {
+          "id": "spor-1-K-2",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Şaban karakteriyle özdeşleşen, Yeşilçam'ın en sevilen komedi oyuncusu.",
+          "answers": [
+            "Kemal Sunal"
+          ]
+        },
+        {
+          "id": "spor-1-K-3",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Top savunan takımın oyuncusundan çıkıp kale çizgisini geçince verilen köşe atışı.",
+          "answers": [
+            "Korner",
+            "Köşe vuruşu"
+          ]
+        },
+        {
+          "id": "spor-1-K-4",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Hacivat'la birlikte gölge oyununun iki baş kahramanından biri.",
+          "answers": [
+            "Karagöz"
+          ]
+        },
+        {
+          "id": "spor-1-L-1",
+          "letter": "L",
+          "type": "starts",
+          "clue": "Takımların bir sezon boyunca puan için karşılaştığı organizasyon.",
+          "answers": [
+            "Lig"
+          ]
+        },
+        {
+          "id": "spor-1-L-2",
+          "letter": "L",
+          "type": "starts",
+          "clue": "İsmail Abi ve Erdal Bakkal karakterleriyle bilinen absürt komedi dizisi.",
+          "answers": [
+            "Leyla ile Mecnun"
+          ]
+        },
+        {
+          "id": "spor-1-L-3",
+          "letter": "L",
+          "type": "starts",
+          "clue": "Çarpışan arabalar ve atlı karıncaların bulunduğu eğlence parkı.",
+          "answers": [
+            "Lunapark"
+          ]
+        },
+        {
+          "id": "spor-1-L-4",
+          "letter": "L",
+          "type": "starts",
+          "clue": "Lig sıralamasında en üstte bulunan takım.",
+          "answers": [
+            "Lider"
+          ]
+        },
+        {
+          "id": "spor-1-M-1",
+          "letter": "M",
+          "type": "starts",
+          "clue": "İki takım ya da sporcu arasında yapılan karşılaşma.",
+          "answers": [
+            "Maç"
+          ]
+        },
+        {
+          "id": "spor-1-M-2",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Arjantin'i 2022'de dünya şampiyonu yapan, sekiz kez Altın Top kazanan futbolcu.",
+          "answers": [
+            "Messi"
+          ]
+        },
+        {
+          "id": "spor-1-M-3",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Dereceye giren sporcuların boynuna kurdeleyle takılan yuvarlak nişan.",
+          "answers": [
+            "Madalya"
+          ]
+        },
+        {
+          "id": "spor-1-M-4",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Şarkıcının sesini hoparlöre ileten alet.",
+          "answers": [
+            "Mikrofon"
+          ]
+        },
+        {
+          "id": "spor-1-N-1",
+          "letter": "N",
+          "type": "starts",
+          "clue": "Müzikte sesleri yazıya dökmek için kullanılan işaret.",
+          "answers": [
+            "Nota"
+          ]
+        },
+        {
+          "id": "spor-1-N-2",
+          "letter": "N",
+          "type": "starts",
+          "clue": "'Cep Herkülü' lakaplı efsanevi halterci.",
+          "answers": [
+            "Naim Süleymanoğlu",
+            "Naim"
+          ]
+        },
+        {
+          "id": "spor-1-N-3",
+          "letter": "N",
+          "type": "starts",
+          "clue": "Yumruk yiyen sporcunun yere düşüp on saniyede kalkamamasıyla maçın bitmesi.",
+          "answers": [
+            "Nakavt",
+            "Nokavt"
+          ]
+        },
+        {
+          "id": "spor-1-N-4",
+          "letter": "N",
+          "type": "starts",
+          "clue": "Futbolcunun formasının sırtında yazan sayı.",
+          "answers": [
+            "Numara"
+          ]
+        },
+        {
+          "id": "spor-1-O-1",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Dört yılda bir yapılan, dünyanın en büyük spor organizasyonu.",
+          "answers": [
+            "Olimpiyat",
+            "Olimpiyatlar",
+            "Olimpiyat Oyunları"
+          ]
+        },
+        {
+          "id": "spor-1-O-2",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Futbolda hücum oyuncusunun pas anında son savunmacının gerisinde kalmasıyla verilen kural ihlali.",
+          "answers": [
+            "Ofsayt"
+          ]
+        },
+        {
+          "id": "spor-1-O-3",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Bir şef yönetiminde birlikte çalan müzisyenler topluluğu.",
+          "answers": [
+            "Orkestra"
+          ]
+        },
+        {
+          "id": "spor-1-O-4",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Filmde ya da dizide rol alan kişi.",
+          "answers": [
+            "Oyuncu"
+          ]
+        },
+        {
+          "id": "spor-1-Ö-1",
+          "letter": "Ö",
+          "type": "starts",
+          "clue": "Kazanana verilen para, kupa ya da benzeri armağan.",
+          "answers": [
+            "Ödül"
+          ]
+        },
+        {
+          "id": "spor-1-Ö-2",
+          "letter": "Ö",
+          "type": "starts",
+          "clue": "Maçın önemli anlarının ve gollerinin kısaca gösterildiği görüntüler.",
+          "answers": [
+            "Özet"
+          ]
+        },
+        {
+          "id": "spor-1-Ö-3",
+          "letter": "Ö",
+          "type": "contains",
+          "clue": "Bir dizinin her bir yayın parçası.",
+          "answers": [
+            "Bölüm"
+          ]
+        },
+        {
+          "id": "spor-1-Ö-4",
+          "letter": "Ö",
+          "type": "contains",
+          "clue": "Panayırda yükselip dönen, kabinli dev tekerlek.",
+          "answers": [
+            "Dönme dolap"
+          ]
+        },
+        {
+          "id": "spor-1-P-1",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Futbolda kendi ceza sahasında yapılan ihlale verilen, on bir metreden atış.",
+          "answers": [
+            "Penaltı"
+          ]
+        },
+        {
+          "id": "spor-1-P-2",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Siyah beyaz tuşlarıyla çalınan büyük çalgı.",
+          "answers": [
+            "Piyano"
+          ]
+        },
+        {
+          "id": "spor-1-P-3",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Futbolda topu takım arkadaşına atmak.",
+          "answers": [
+            "Pas"
+          ]
+        },
+        {
+          "id": "spor-1-P-4",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Kıspet giyip yağlanan, başpehlivanlık için er meydanına çıkan sporcu.",
+          "answers": [
+            "Pehlivan"
+          ]
+        },
+        {
+          "id": "spor-1-R-1",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Kort sporlarında topa vurulan, gergin telli saplı araç.",
+          "answers": [
+            "Raket"
+          ]
+        },
+        {
+          "id": "spor-1-R-2",
+          "letter": "R",
+          "type": "starts",
+          "clue": "En çok Şampiyonlar Ligi kazanan, beyaz formalı İspanyol kulübü.",
+          "answers": [
+            "Real Madrid",
+            "Real"
+          ]
+        },
+        {
+          "id": "spor-1-R-3",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Dört köşesi iplerle çevrili, yumruk dövüşlerinin yapıldığı yükseltilmiş alan.",
+          "answers": [
+            "Ring"
+          ]
+        },
+        {
+          "id": "spor-1-R-4",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Müziği ve haberleri ses dalgalarıyla yayan cihaz.",
+          "answers": [
+            "Radyo"
+          ]
+        },
+        {
+          "id": "spor-1-S-1",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Filmlerin büyük perdede gösterildiği salon.",
+          "answers": [
+            "Sinema"
+          ]
+        },
+        {
+          "id": "spor-1-S-2",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Maçı stattan izleyen kişi.",
+          "answers": [
+            "Seyirci"
+          ]
+        },
+        {
+          "id": "spor-1-S-3",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Bağlama da denen, halk müziğinin telli çalgısı.",
+          "answers": [
+            "Saz"
+          ]
+        },
+        {
+          "id": "spor-1-S-4",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Şah ve atlarla kareli tahtada oynanan zekâ oyunu.",
+          "answers": [
+            "Satranç"
+          ]
+        },
+        {
+          "id": "spor-1-S-5",
+          "letter": "S",
+          "type": "starts",
+          "clue": "'Minik Serçe' lakaplı şarkıcı ve söz yazarı.",
+          "answers": [
+            "Sezen Aksu"
+          ]
+        },
+        {
+          "id": "spor-1-S-6",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Türkiye'nin en üst profesyonel futbol ligi.",
+          "answers": [
+            "Süper Lig"
+          ]
+        },
+        {
+          "id": "spor-1-Ş-1",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Ligi ya da turnuvayı birinci bitiren takım veya sporcu.",
+          "answers": [
+            "Şampiyon"
+          ]
+        },
+        {
+          "id": "spor-1-Ş-2",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Sözleri bestelenerek söylenen müzik parçası.",
+          "answers": [
+            "Şarkı"
+          ]
+        },
+        {
+          "id": "spor-1-Ş-3",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Futbolda topa kaleye doğru sertçe vurma.",
+          "answers": [
+            "Şut"
+          ]
+        },
+        {
+          "id": "spor-1-Ş-4",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "'Eşkıya' ve 'Züğürt Ağa' filmleriyle bilinen usta oyuncu.",
+          "answers": [
+            "Şener Şen"
+          ]
+        },
+        {
+          "id": "spor-1-T-1",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Kortta oynanan, Wimbledon turnuvasıyla ünlü spor.",
+          "answers": [
+            "Tenis"
+          ]
+        },
+        {
+          "id": "spor-1-T-2",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Karadeniz'in bordo-mavili, 'Fırtına' lakaplı kulübü.",
+          "answers": [
+            "Trabzonspor"
+          ]
+        },
+        {
+          "id": "spor-1-T-3",
+          "letter": "T",
+          "type": "starts",
+          "clue": "'Şımarık' ve 'Kuzu Kuzu' şarkılarının megastarı.",
+          "answers": [
+            "Tarkan"
+          ]
+        },
+        {
+          "id": "spor-1-T-4",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Stadyumda maçı izleyenlerin oturduğu basamaklı bölüm.",
+          "answers": [
+            "Tribün"
+          ]
+        },
+        {
+          "id": "spor-1-U-1",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Normal süresi berabere biten maçta oynanan ek süre.",
+          "answers": [
+            "Uzatma",
+            "Uzatmalar"
+          ]
+        },
+        {
+          "id": "spor-1-U-2",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Televizyonun kanalını koltuktan değiştirmeye yarayan alet.",
+          "answers": [
+            "Uzaktan kumanda"
+          ]
+        },
+        {
+          "id": "spor-1-U-3",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Koşarak gelip kum havuzuna en uzağa sıçramaya çalışılan yarış.",
+          "answers": [
+            "Uzun atlama"
+          ]
+        },
+        {
+          "id": "spor-1-U-4",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Armut biçimli gövdeli, perdesiz saplı, mızrapla çalınan telli çalgı.",
+          "answers": [
+            "Ud"
+          ]
+        },
+        {
+          "id": "spor-1-Ü-1",
+          "letter": "Ü",
+          "type": "starts",
+          "clue": "Potaya uzak çizginin gerisinden atılıp üç sayı getiren basket.",
+          "answers": [
+            "Üçlük"
+          ]
+        },
+        {
+          "id": "spor-1-Ü-2",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "Halk müziğinde sözlü ezgi; bağlama eşliğinde söylenen halk şarkısı.",
+          "answers": [
+            "Türkü"
+          ]
+        },
+        {
+          "id": "spor-1-Ü-3",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "Maçı yöneten kişinin oyunu durdurmak için öttürdüğü alet.",
+          "answers": [
+            "Düdük"
+          ]
+        },
+        {
+          "id": "spor-1-Ü-4",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "Altından sonra gelen, ikincilerin boynuna takılan derecenin metali.",
+          "answers": [
+            "Gümüş"
+          ]
+        },
+        {
+          "id": "spor-1-V-1",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Topun elle file üzerinden karşıya vurulduğu, altışar kişilik takımlarla oynanan spor.",
+          "answers": [
+            "Voleybol"
+          ]
+        },
+        {
+          "id": "spor-1-V-2",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Tahtada her yöne istediği kadar gidebilen, şahtan sonraki en değerli taş.",
+          "answers": [
+            "Vezir"
+          ]
+        },
+        {
+          "id": "spor-1-V-3",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Bir şarkı için çekilen kısa tanıtım filmi.",
+          "answers": [
+            "Video klip",
+            "Videoklip"
+          ]
+        },
+        {
+          "id": "spor-1-V-4",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Üç zamanlı, çiftlerin dönerek yaptığı salon dansı.",
+          "answers": [
+            "Vals"
+          ]
+        },
+        {
+          "id": "spor-1-Y-1",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "Havuzda ya da denizde kulaç atarak yapılan spor.",
+          "answers": [
+            "Yüzme"
+          ]
+        },
+        {
+          "id": "spor-1-Y-2",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "'Kim Milyoner Olmak İster?' gibi, katılanların kazanmak için mücadele ettiği program.",
+          "answers": [
+            "Yarışma"
+          ]
+        },
+        {
+          "id": "spor-1-Y-3",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "Filmi çeken, oyuncuları ve çekimi yöneten kişi.",
+          "answers": [
+            "Yönetmen"
+          ]
+        },
+        {
+          "id": "spor-1-Y-4",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "Maça kulübede başlayan oyuncu.",
+          "answers": [
+            "Yedek",
+            "Yedek oyuncu"
+          ]
+        },
+        {
+          "id": "spor-1-Z-1",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "Düğünlerde çalınan, sesi tiz, ağaçtan yapılmış üflemeli halk çalgısı.",
+          "answers": [
+            "Zurna"
+          ]
+        },
+        {
+          "id": "spor-1-Z-2",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "Bir maçı ya da savaşı kazanmak, galibiyet.",
+          "answers": [
+            "Zafer"
+          ]
+        },
+        {
+          "id": "spor-1-Z-3",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "'Sanat Güneşi' lakaplı, klasik Türk müziğinin efsane yorumcusu.",
+          "answers": [
+            "Zeki Müren"
+          ]
+        },
+        {
+          "id": "spor-1-Z-4",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "Ege yöresine özgü, ağır ve görkemli halk oyunu.",
+          "answers": [
+            "Zeybek"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "questions": [
+        {
+          "id": "spor-2-A-1",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Bihter ile Behlül'ün yasak aşkını anlatan, Halit Ziya'nın romanından uyarlanan 2008 dizisi.",
+          "answers": [
+            "Aşk-ı Memnu",
+            "Aşkı Memnu"
+          ]
+        },
+        {
+          "id": "spor-2-A-2",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Atletico Madrid ve Barcelona formaları da giymiş, Galatasaray'ın eski kaptanı futbolcu.",
+          "answers": [
+            "Arda Turan",
+            "Arda"
+          ]
+        },
+        {
+          "id": "spor-2-A-3",
+          "letter": "A",
+          "type": "starts",
+          "clue": "1978, 1986 ve 2022'de Dünya Kupası'nı kazanan Güney Amerika ülkesi.",
+          "answers": [
+            "Arjantin"
+          ]
+        },
+        {
+          "id": "spor-2-A-4",
+          "letter": "A",
+          "type": "starts",
+          "clue": "'Kum Gibi' ve 'Acılara Tutunmak' şarkılarıyla bilinen, 2000'de Paris'te ölen sanatçı.",
+          "answers": [
+            "Ahmet Kaya"
+          ]
+        },
+        {
+          "id": "spor-2-A-5",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Antalya'da düzenlenen, Türkiye'nin en köklü film festivali ve ödülü.",
+          "answers": [
+            "Altın Portakal"
+          ]
+        },
+        {
+          "id": "spor-2-B-1",
+          "letter": "B",
+          "type": "starts",
+          "clue": "Raketle, tüylü bir topun ağ üzerinden karşıya atıldığı spor.",
+          "answers": [
+            "Badminton"
+          ]
+        },
+        {
+          "id": "spor-2-B-2",
+          "letter": "B",
+          "type": "starts",
+          "clue": "İstanbul'un üç büyüğü ve Trabzonspor'da oynamış, Lille ile Fransa şampiyonu olan golcü.",
+          "answers": [
+            "Burak Yılmaz"
+          ]
+        },
+        {
+          "id": "spor-2-B-3",
+          "letter": "B",
+          "type": "starts",
+          "clue": "'Acıların Kadını' olarak anılan, 1989'da öldürülen arabesk şarkıcı.",
+          "answers": [
+            "Bergen"
+          ]
+        },
+        {
+          "id": "spor-2-B-4",
+          "letter": "B",
+          "type": "starts",
+          "clue": "Allianz Arena'da oynayan, Almanya'nın en çok lig şampiyonluğu olan kulübü.",
+          "answers": [
+            "Bayern Münih",
+            "Bayern"
+          ]
+        },
+        {
+          "id": "spor-2-C-1",
+          "letter": "C",
+          "type": "starts",
+          "clue": "Beş kez Altın Top ödülü alan, Portekiz milli takımının efsane golcüsü.",
+          "answers": [
+            "Cristiano Ronaldo",
+            "Cristiano"
+          ]
+        },
+        {
+          "id": "spor-2-C-2",
+          "letter": "C",
+          "type": "starts",
+          "clue": "'Namus Belası' ve 'Tamirci Çırağı' şarkılarıyla bilinen Anadolu rock sanatçısı.",
+          "answers": [
+            "Cem Karaca"
+          ]
+        },
+        {
+          "id": "spor-2-C-3",
+          "letter": "C",
+          "type": "starts",
+          "clue": "New Orleans'ta doğan, doğaçlamaya dayanan müzik türü.",
+          "answers": [
+            "Caz"
+          ]
+        },
+        {
+          "id": "spor-2-C-4",
+          "letter": "C",
+          "type": "starts",
+          "clue": "Galatasaray'a taraftarlarının taktığı sevgi lakabı.",
+          "answers": [
+            "Cimbom"
+          ]
+        },
+        {
+          "id": "spor-2-Ç-1",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Koçovalı ailesinin İstanbul'daki bir mahalleyi koruma mücadelesini anlatan dizi.",
+          "answers": [
+            "Çukur"
+          ]
+        },
+        {
+          "id": "spor-2-Ç-2",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "'Her şeye karşı' sloganıyla bilinen Beşiktaş taraftar grubu.",
+          "answers": [
+            "Çarşı"
+          ]
+        },
+        {
+          "id": "spor-2-Ç-3",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Oturarak, dizlerin arasında tutulup yayla çalınan, kemandan büyük çalgı.",
+          "answers": [
+            "Çello"
+          ]
+        },
+        {
+          "id": "spor-2-Ç-4",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Düğünlerde karşılıklı oynanan, oyun havası olarak da çalınan hareketli dans.",
+          "answers": [
+            "Çiftetelli"
+          ]
+        },
+        {
+          "id": "spor-2-D-1",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Kucakta tutulup elle vurularak çalınan, kadeh biçimli vurmalı çalgı.",
+          "answers": [
+            "Darbuka",
+            "Dümbelek"
+          ]
+        },
+        {
+          "id": "spor-2-D-2",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Duvardaki yuvarlak hedef tahtasına küçük oklar atılan oyun.",
+          "answers": [
+            "Dart"
+          ]
+        },
+        {
+          "id": "spor-2-D-3",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Sporcunun performansını artırmak için yasaklı madde kullanması.",
+          "answers": [
+            "Doping"
+          ]
+        },
+        {
+          "id": "spor-2-D-4",
+          "letter": "D",
+          "type": "starts",
+          "clue": "1970'lerde yaygınlaşan, ışıklı pistlerde dans edilen müzik türü.",
+          "answers": [
+            "Disko"
+          ]
+        },
+        {
+          "id": "spor-2-E-1",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Flöre, epe ve kılıç dallarıyla yapılan dövüş sporu.",
+          "answers": [
+            "Eskrim"
+          ]
+        },
+        {
+          "id": "spor-2-E-2",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Galatasaray, Inter ve Fenerbahçe'de oynamış, sonra teknik direktör olan orta saha oyuncusu.",
+          "answers": [
+            "Emre Belözoğlu",
+            "Emre"
+          ]
+        },
+        {
+          "id": "spor-2-E-3",
+          "letter": "E",
+          "type": "starts",
+          "clue": "2021 ve 2022'de Avrupa Ligi'ni kazanan Anadolu basketbol takımı.",
+          "answers": [
+            "Efes"
+          ]
+        },
+        {
+          "id": "spor-2-E-4",
+          "letter": "E",
+          "type": "starts",
+          "clue": "'Kral' diye anılan, Memphis'teki Graceland malikânesiyle bilinen Amerikalı şarkıcı.",
+          "answers": [
+            "Elvis Presley",
+            "Elvis"
+          ]
+        },
+        {
+          "id": "spor-2-F-1",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Voleybol ve tenis sahasını ikiye bölen ağ.",
+          "answers": [
+            "File"
+          ]
+        },
+        {
+          "id": "spor-2-F-2",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Tek kişilik, açık tekerlekli araçların dünyanın dört yanındaki pistlerde yarıştığı seri.",
+          "answers": [
+            "Formula 1",
+            "Formula Bir",
+            "F1"
+          ]
+        },
+        {
+          "id": "spor-2-F-3",
+          "letter": "F",
+          "type": "starts",
+          "clue": "'Huzurum Kalmadı' şarkısıyla bilinen, 2025'te ölen Adanalı arabesk sanatçısı.",
+          "answers": [
+            "Ferdi Tayfur"
+          ]
+        },
+        {
+          "id": "spor-2-F-4",
+          "letter": "F",
+          "type": "starts",
+          "clue": "'İmparator' lakaplı, Galatasaray'a 2000'de UEFA Kupası'nı kazandıran teknik direktör.",
+          "answers": [
+            "Fatih Terim"
+          ]
+        },
+        {
+          "id": "spor-2-G-1",
+          "letter": "G",
+          "type": "starts",
+          "clue": "Sopayla vurulan küçük topun en az vuruşla deliklere sokulmaya çalışıldığı spor.",
+          "answers": [
+            "Golf"
+          ]
+        },
+        {
+          "id": "spor-2-G-2",
+          "letter": "G",
+          "type": "starts",
+          "clue": "ABD'de müzik dünyasının en prestijli ödülü.",
+          "answers": [
+            "Grammy"
+          ]
+        },
+        {
+          "id": "spor-2-G-3",
+          "letter": "G",
+          "type": "starts",
+          "clue": "Russell Crowe'un Romalı general Maximus'u canlandırdığı 2000 yapımı film.",
+          "answers": [
+            "Gladyatör",
+            "Gladiator"
+          ]
+        },
+        {
+          "id": "spor-2-G-4",
+          "letter": "G",
+          "type": "starts",
+          "clue": "1923'te kurulan, kırmızı-siyah renkli Ankara kulübü.",
+          "answers": [
+            "Gençlerbirliği"
+          ]
+        },
+        {
+          "id": "spor-2-H-1",
+          "letter": "H",
+          "type": "starts",
+          "clue": "Galatasaray'a 2000'de UEFA Kupası kazandıran kadronun Romen yıldızı.",
+          "answers": [
+            "Hagi"
+          ]
+        },
+        {
+          "id": "spor-2-H-2",
+          "letter": "H",
+          "type": "starts",
+          "clue": "NBA'de Orlando Magic formasıyla 2008'de en çok gelişen oyuncu seçilen Türk basketbolcu.",
+          "answers": [
+            "Hidayet Türkoğlu",
+            "Hidayet",
+            "Hedo Türkoğlu",
+            "Hedo"
+          ]
+        },
+        {
+          "id": "spor-2-H-3",
+          "letter": "H",
+          "type": "starts",
+          "clue": "2019'da Uluslararası Emmy'de en iyi erkek oyuncu seçilen Türk aktör.",
+          "answers": [
+            "Haluk Bilginer"
+          ]
+        },
+        {
+          "id": "spor-2-H-4",
+          "letter": "H",
+          "type": "starts",
+          "clue": "Ağırlık kaldırma sporu.",
+          "answers": [
+            "Halter"
+          ]
+        },
+        {
+          "id": "spor-2-I-1",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Futbolda uyarı için gösterilen kart.",
+          "answers": [
+            "Sarı kart"
+          ]
+        },
+        {
+          "id": "spor-2-I-2",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Türkiye kadın voleybol milli takımının lakabı.",
+          "answers": [
+            "Filenin Sultanları"
+          ]
+        },
+        {
+          "id": "spor-2-I-3",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Finalden bir önceki tur.",
+          "answers": [
+            "Yarı final"
+          ]
+        },
+        {
+          "id": "spor-2-I-4",
+          "letter": "I",
+          "type": "starts",
+          "clue": "Futbolda pankartlarla karşı çıkılan, insanları ten rengine göre ayıran ayrımcılık.",
+          "answers": [
+            "Irkçılık"
+          ]
+        },
+        {
+          "id": "spor-2-İ-1",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "2002 Dünya Kupası çeyrek finalinde Senegal'e altın golü atan forvet.",
+          "answers": [
+            "İlhan Mansız"
+          ]
+        },
+        {
+          "id": "spor-2-İ-2",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Tuzla'da bulunan, Türkiye Grand Prix'sinin yapıldığı otomobil yarış pisti.",
+          "answers": [
+            "İstanbul Park"
+          ]
+        },
+        {
+          "id": "spor-2-İ-3",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Teknik direktörün maça başlattığı oyuncular.",
+          "answers": [
+            "İlk on bir",
+            "İlk 11",
+            "İlk onbir"
+          ]
+        },
+        {
+          "id": "spor-2-İ-4",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Bir takımın kendi stadında oynadığı maç.",
+          "answers": [
+            "İç saha"
+          ]
+        },
+        {
+          "id": "spor-2-J-1",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Eski Türk filmlerinde yakışıklı genç erkek başrol oyuncusu için kullanılan ad.",
+          "answers": [
+            "Jön"
+          ]
+        },
+        {
+          "id": "spor-2-J-2",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Bir filmin ya da dizinin başında veya sonunda emeği geçenlerin yazıldığı bölüm.",
+          "answers": [
+            "Jenerik"
+          ]
+        },
+        {
+          "id": "spor-2-J-3",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Batman'in baş düşmanı, 2019'da Joaquin Phoenix'in canlandırdığı karakter.",
+          "answers": [
+            "Joker"
+          ]
+        },
+        {
+          "id": "spor-2-J-4",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Reggae müziğinin doğduğu, Bob Marley'in ada ülkesi.",
+          "answers": [
+            "Jamaika"
+          ]
+        },
+        {
+          "id": "spor-2-K-1",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Edirne'de her yaz yapılan, dünyanın en eski güreş festivali.",
+          "answers": [
+            "Kırkpınar"
+          ]
+        },
+        {
+          "id": "spor-2-K-2",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Karadeniz'de horon eşliğinde yayla çalınan küçük çalgı.",
+          "answers": [
+            "Kemençe"
+          ]
+        },
+        {
+          "id": "spor-2-K-3",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Necati Şaşmaz'ın başrolünü oynadığı, mafya dünyasına sızan bir ajanı anlatan dizi.",
+          "answers": [
+            "Kurtlar Vadisi"
+          ]
+        },
+        {
+          "id": "spor-2-K-4",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Okinawa kökenli, el ve ayakla vurulan, kuşak renkleriyle derece gösterilen dövüş sanatı.",
+          "answers": [
+            "Karate"
+          ]
+        },
+        {
+          "id": "spor-2-L-1",
+          "letter": "L",
+          "type": "starts",
+          "clue": "Voleybolda farklı renk forma giyen, yalnızca savunma yapan oyuncu.",
+          "answers": [
+            "Libero"
+          ]
+        },
+        {
+          "id": "spor-2-L-2",
+          "letter": "L",
+          "type": "starts",
+          "clue": "Fenerbahçe'nin 1950'lerin efsanesi, Büyükada doğumlu Rum asıllı golcüsü.",
+          "answers": [
+            "Lefter",
+            "Lefter Küçükandonyadis"
+          ]
+        },
+        {
+          "id": "spor-2-L-3",
+          "letter": "L",
+          "type": "starts",
+          "clue": "Yedi kez dünya şampiyonu olan İngiliz otomobil yarışçısı.",
+          "answers": [
+            "Lewis Hamilton",
+            "Lewis"
+          ]
+        },
+        {
+          "id": "spor-2-L-4",
+          "letter": "L",
+          "type": "starts",
+          "clue": "'Diriliş' filmiyle 2016'da Akademi Ödülü alan, 'Başlangıç'ın yıldızı Amerikalı aktör.",
+          "answers": [
+            "Leonardo DiCaprio",
+            "Leonardo"
+          ]
+        },
+        {
+          "id": "spor-2-M-1",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Osmanlı ordusunun davul, zurna ve kösle çalan askeri bandosu.",
+          "answers": [
+            "Mehter",
+            "Mehter takımı"
+          ]
+        },
+        {
+          "id": "spor-2-M-2",
+          "letter": "M",
+          "type": "starts",
+          "clue": "1986'da İngiltere'ye elle attığı golle 'Tanrı'nın Eli' sözünü doğuran Güney Amerikalı efsane.",
+          "answers": [
+            "Maradona"
+          ]
+        },
+        {
+          "id": "spor-2-M-3",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Hayranlarının 'baba' dediği, 2013'te ölen arabesk sanatçısı.",
+          "answers": [
+            "Müslüm Gürses"
+          ]
+        },
+        {
+          "id": "spor-2-M-4",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Kanuni Sultan Süleyman ile Hürrem'in hikâyesini anlatan dizi.",
+          "answers": [
+            "Muhteşem Yüzyıl"
+          ]
+        },
+        {
+          "id": "spor-2-M-5",
+          "letter": "M",
+          "type": "starts",
+          "clue": "42 kilometre 195 metrelik uzun mesafe koşusu.",
+          "answers": [
+            "Maraton"
+          ]
+        },
+        {
+          "id": "spor-2-M-6",
+          "letter": "M",
+          "type": "starts",
+          "clue": "'Kelebek gibi uçar, arı gibi sokarım' sözüyle ünlü ağır siklet boksör.",
+          "answers": [
+            "Muhammed Ali"
+          ]
+        },
+        {
+          "id": "spor-2-M-7",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Chicago Bulls ile altı NBA şampiyonluğu kazanan, 23 numaralı efsane basketbolcu.",
+          "answers": [
+            "Michael Jordan"
+          ]
+        },
+        {
+          "id": "spor-2-N-1",
+          "letter": "N",
+          "type": "starts",
+          "clue": "Kamıştan yapılan, Mevlevi müziğinin üflemeli çalgısı.",
+          "answers": [
+            "Ney"
+          ]
+        },
+        {
+          "id": "spor-2-N-2",
+          "letter": "N",
+          "type": "starts",
+          "clue": "'Bozkırın Tezenesi' lakaplı, Kırşehirli bağlama ustası.",
+          "answers": [
+            "Neşet Ertaş"
+          ]
+        },
+        {
+          "id": "spor-2-N-3",
+          "letter": "N",
+          "type": "starts",
+          "clue": "2008 Avrupa Şampiyonası'nda Çek Cumhuriyeti'ne son dakikalarda iki gol atan golcü.",
+          "answers": [
+            "Nihat Kahveci",
+            "Nihat"
+          ]
+        },
+        {
+          "id": "spor-2-N-4",
+          "letter": "N",
+          "type": "starts",
+          "clue": "'Kış Uykusu' ile 2014'te Altın Palmiye kazanan yönetmen.",
+          "answers": [
+            "Nuri Bilge Ceylan"
+          ]
+        },
+        {
+          "id": "spor-2-O-1",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Amerikan Sinema Akademisi'nin verdiği, heykelcik biçimindeki ödül.",
+          "answers": [
+            "Oscar",
+            "Oskar"
+          ]
+        },
+        {
+          "id": "spor-2-O-2",
+          "letter": "O",
+          "type": "starts",
+          "clue": "'Batsın Bu Dünya' şarkısıyla bilinen, arabeskin öncüsü bağlama virtüözü.",
+          "answers": [
+            "Orhan Gencebay"
+          ]
+        },
+        {
+          "id": "spor-2-O-3",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Galatasaray'ı 2023'te teknik direktör olarak lig şampiyonu yapan eski futbolcu.",
+          "answers": [
+            "Okan Buruk"
+          ]
+        },
+        {
+          "id": "spor-2-O-4",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Saz çalarak kendi şiirlerini söyleyen halk şairi.",
+          "answers": [
+            "Ozan"
+          ]
+        },
+        {
+          "id": "spor-2-Ö-1",
+          "letter": "Ö",
+          "type": "contains",
+          "clue": "İzmir'in sarı-kırmızılı köklü futbol kulübü.",
+          "answers": [
+            "Göztepe"
+          ]
+        },
+        {
+          "id": "spor-2-Ö-2",
+          "letter": "Ö",
+          "type": "starts",
+          "clue": "Futbolda savunmanın hemen önünde oynayan, defansif orta saha oyuncusu.",
+          "answers": [
+            "Ön libero",
+            "Önlibero"
+          ]
+        },
+        {
+          "id": "spor-2-Ö-3",
+          "letter": "Ö",
+          "type": "contains",
+          "clue": "Bir şarkının sözlerini yazan kişi.",
+          "answers": [
+            "Söz yazarı"
+          ]
+        },
+        {
+          "id": "spor-2-Ö-4",
+          "letter": "Ö",
+          "type": "contains",
+          "clue": "Kaybedilen karşılaşmadan sonra yeniden yapılan, intikam maçı.",
+          "answers": [
+            "Rövanş"
+          ]
+        },
+        {
+          "id": "spor-2-P-1",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Brezilya ile üç Dünya Kupası kazanan tek futbolcu.",
+          "answers": [
+            "Pele",
+            "Pelé"
+          ]
+        },
+        {
+          "id": "spor-2-P-2",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Engelli sporcuların yarıştığı olimpiyat oyunları.",
+          "answers": [
+            "Paralimpik Oyunlar",
+            "Paralimpik",
+            "Paralimpikler"
+          ]
+        },
+        {
+          "id": "spor-2-P-3",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Masa tenisinin halk arasındaki adı.",
+          "answers": [
+            "Pinpon",
+            "Ping pong"
+          ]
+        },
+        {
+          "id": "spor-2-P-4",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Sinemada film izlerken yenen, ısıtılınca patlayan atıştırmalık.",
+          "answers": [
+            "Patlamış mısır"
+          ]
+        },
+        {
+          "id": "spor-2-R-1",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Şahan Gökbakar'ın canlandırdığı kaba saba film karakteri.",
+          "answers": [
+            "Recep İvedik"
+          ]
+        },
+        {
+          "id": "spor-2-R-2",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Wimbledon'ı sekiz kez kazanan İsviçreli tenisçi.",
+          "answers": [
+            "Roger Federer"
+          ]
+        },
+        {
+          "id": "spor-2-R-3",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Barcelona'da çalımları ve gülüşüyle ünlenip 2005'te Altın Top kazanan Brezilyalı.",
+          "answers": [
+            "Ronaldinho"
+          ]
+        },
+        {
+          "id": "spor-2-R-4",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Ritim üzerine konuşur gibi hızlı söylenen sözlerden oluşan müzik türü.",
+          "answers": [
+            "Rap"
+          ]
+        },
+        {
+          "id": "spor-2-S-1",
+          "letter": "S",
+          "type": "starts",
+          "clue": "2003'te 'Everyway That I Can' şarkısıyla Eurovision'u kazanan şarkıcı.",
+          "answers": [
+            "Sertab Erener"
+          ]
+        },
+        {
+          "id": "spor-2-S-2",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Voleybolda topu ağın üzerinden yukarıdan sertçe karşıya vurma.",
+          "answers": [
+            "Smaç"
+          ]
+        },
+        {
+          "id": "spor-2-S-3",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Dalgaların üzerinde tahta üstünde ayakta kayma sporu.",
+          "answers": [
+            "Sörf"
+          ]
+        },
+        {
+          "id": "spor-2-S-4",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Kadir İnanır'ın oynadığı, 'Sevgi neydi?' repliğiyle ünlü 1977 filmi.",
+          "answers": [
+            "Selvi Boylum Al Yazmalım"
+          ]
+        },
+        {
+          "id": "spor-2-Ş-1",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Avrupa'nın en iyi kulüp takımlarının katıldığı UEFA turnuvası.",
+          "answers": [
+            "Şampiyonlar Ligi"
+          ]
+        },
+        {
+          "id": "spor-2-Ş-2",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "'Sigara' ve 'Mayın Tarlası' şarkılarıyla bilinen rock şarkıcısı.",
+          "answers": [
+            "Şebnem Ferah"
+          ]
+        },
+        {
+          "id": "spor-2-Ş-3",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Alzheimer'a yakalanan emekli adliye memuru Agâh Beyoğlu'nun hikâyesini anlatan dizi.",
+          "answers": [
+            "Şahsiyet"
+          ]
+        },
+        {
+          "id": "spor-2-Ş-4",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "2002 Dünya Kupası'nda Türkiye'yi üçüncü yapan teknik direktör.",
+          "answers": [
+            "Şenol Güneş"
+          ]
+        },
+        {
+          "id": "spor-2-T-1",
+          "letter": "T",
+          "type": "starts",
+          "clue": "'Sultan' lakabıyla anılan, 'Vesikalı Yarim' filminin yıldızı kadın oyuncu.",
+          "answers": [
+            "Türkan Şoray"
+          ]
+        },
+        {
+          "id": "spor-2-T-2",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Buzdağına çarpan geminin hikâyesini anlatan, 11 Akademi Ödülü kazanan 1997 filmi.",
+          "answers": [
+            "Titanik",
+            "Titanic"
+          ]
+        },
+        {
+          "id": "spor-2-T-3",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Kore kökenli, ayak tekmeleriyle öne çıkan olimpik dövüş sporu.",
+          "answers": [
+            "Taekwondo",
+            "Tekvando"
+          ]
+        },
+        {
+          "id": "spor-2-T-4",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Zarla oynanan, pulların 24 hane üzerinde ilerletildiği oyun.",
+          "answers": [
+            "Tavla"
+          ]
+        },
+        {
+          "id": "spor-2-U-1",
+          "letter": "U",
+          "type": "starts",
+          "clue": "2009'da 100 metrede 9,58 saniyeyle dünya rekoru kıran Karayipli koşucu.",
+          "answers": [
+            "Usain Bolt"
+          ]
+        },
+        {
+          "id": "spor-2-U-2",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Takımını tribünde coşkuyla, örgütlü biçimde destekleyen fanatik taraftar grubu.",
+          "answers": [
+            "Ultras",
+            "Ultra"
+          ]
+        },
+        {
+          "id": "spor-2-U-3",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Hawaii'ye özgü, dört telli küçük gitar.",
+          "answers": [
+            "Ukulele"
+          ]
+        },
+        {
+          "id": "spor-2-U-4",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Bono'nun solisti olduğu İrlandalı rock grubu.",
+          "answers": [
+            "U2",
+            "U iki"
+          ]
+        },
+        {
+          "id": "spor-2-Ü-1",
+          "letter": "Ü",
+          "type": "starts",
+          "clue": "2000 UEFA Kupası'nı Galatasaray'la, 2002 Dünya Kupası üçüncülüğünü milli takımla yaşayan sağ bek.",
+          "answers": [
+            "Ümit Davala"
+          ]
+        },
+        {
+          "id": "spor-2-Ü-2",
+          "letter": "Ü",
+          "type": "starts",
+          "clue": "'Nikah Masası' şarkısıyla bilinen sanatçı.",
+          "answers": [
+            "Ümit Besen"
+          ]
+        },
+        {
+          "id": "spor-2-Ü-3",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "'Diva' lakaplı, 'Maazallah' şarkısıyla bilinen sanatçı.",
+          "answers": [
+            "Bülent Ersoy"
+          ]
+        },
+        {
+          "id": "spor-2-Ü-4",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "Şarkı ve dansların hikâyenin parçası olduğu film ya da sahne eseri.",
+          "answers": [
+            "Müzikal"
+          ]
+        },
+        {
+          "id": "spor-2-V-1",
+          "letter": "V",
+          "type": "starts",
+          "clue": "2010'da Güney Afrika'daki futbol şampiyonasında vızıltısıyla tribünleri dolduran boru.",
+          "answers": [
+            "Vuvuzela"
+          ]
+        },
+        {
+          "id": "spor-2-V-2",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Topa yere düşmeden havada vurma.",
+          "answers": [
+            "Vole"
+          ]
+        },
+        {
+          "id": "spor-2-V-3",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Kartalspor'dan gelip futbolculuğunu Fenerbahçe kalesinde tamamlayan milli kaleci.",
+          "answers": [
+            "Volkan Demirel"
+          ]
+        },
+        {
+          "id": "spor-2-V-4",
+          "letter": "V",
+          "type": "starts",
+          "clue": "'Dört Mevsim' konçertolarının İtalyan bestecisi.",
+          "answers": [
+            "Vivaldi"
+          ]
+        },
+        {
+          "id": "spor-2-Y-1",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "'Yol' filmiyle 1982'de Cannes'da Altın Palmiye'yi paylaşan yönetmen.",
+          "answers": [
+            "Yılmaz Güney"
+          ]
+        },
+        {
+          "id": "spor-2-Y-2",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "Türk sinemasına adını İstanbul'daki bir sokaktan veren, sinemanın altın çağı.",
+          "answers": [
+            "Yeşilçam"
+          ]
+        },
+        {
+          "id": "spor-2-Y-3",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "Rüzgârı kullanarak teknelerle yapılan su sporu.",
+          "answers": [
+            "Yelken"
+          ]
+        },
+        {
+          "id": "spor-2-Y-4",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "Güreşçilerin vücutlarına zeytinyağı sürerek yaptığı geleneksel güreş.",
+          "answers": [
+            "Yağlı güreş"
+          ]
+        },
+        {
+          "id": "spor-2-Z-1",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "Bateride iki metal diskin çarpışmasıyla ses veren parça.",
+          "answers": [
+            "Zil"
+          ]
+        },
+        {
+          "id": "spor-2-Z-2",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "2006 Dünya Kupası finalinde Materazzi'ye kafa atan Fransız futbolcu.",
+          "answers": [
+            "Zidane",
+            "Zinedine Zidane"
+          ]
+        },
+        {
+          "id": "spor-2-Z-3",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "Kemal Sunal'ın canlandırdığı, Aziz Nesin'in yarattığı fırsatçı politikacı.",
+          "answers": [
+            "Zübük"
+          ]
+        },
+        {
+          "id": "spor-2-Z-4",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "Kızılderililerin 'Za-Gor-Te-Nay' dediği, baltalı çizgi roman kahramanı.",
+          "answers": [
+            "Zagor"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "questions": [
+        {
+          "id": "spor-3-A-1",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Yeşilçam'da 'Taçsız Kral' diye anılan, 1979'da ölen jön oyuncu.",
+          "answers": [
+            "Ayhan Işık"
+          ]
+        },
+        {
+          "id": "spor-3-A-2",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Atlantic Records'u kuran, Ray Charles ve Aretha Franklin'le çalışmış Türk asıllı müzik yapımcısı.",
+          "answers": [
+            "Ahmet Ertegün"
+          ]
+        },
+        {
+          "id": "spor-3-A-3",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Üç kez Formula 1 şampiyonu olan, 1994'te İmola'daki kazada ölen Brezilyalı pilot.",
+          "answers": [
+            "Ayrton Senna",
+            "Ayrton"
+          ]
+        },
+        {
+          "id": "spor-3-A-4",
+          "letter": "A",
+          "type": "starts",
+          "clue": "Adana'da düzenlenen, adını pamuktan alan film festivali ve ödülü.",
+          "answers": [
+            "Altın Koza"
+          ]
+        },
+        {
+          "id": "spor-3-B-1",
+          "letter": "B",
+          "type": "starts",
+          "clue": "2016'da Nobel Edebiyat Ödülü'nü alan Amerikalı şarkıcı ve söz yazarı.",
+          "answers": [
+            "Bob Dylan"
+          ]
+        },
+        {
+          "id": "spor-3-B-2",
+          "letter": "B",
+          "type": "starts",
+          "clue": "Buz kanalında iki ya da dört kişilik kızakla yapılan kış olimpiyatları sporu.",
+          "answers": [
+            "Bobsled",
+            "Bobsleyh",
+            "Bobsleigh"
+          ]
+        },
+        {
+          "id": "spor-3-B-3",
+          "letter": "B",
+          "type": "starts",
+          "clue": "Nuri Bilge Ceylan'ın 2011'de Büyük Ödül'ü kazanan, bir ceset arayışını anlatan filmi.",
+          "answers": [
+            "Bir Zamanlar Anadolu'da"
+          ]
+        },
+        {
+          "id": "spor-3-B-4",
+          "letter": "B",
+          "type": "starts",
+          "clue": "İşitme yetisini kaybettikten sonra Dokuzuncu Senfoni'yi besteleyen Alman besteci.",
+          "answers": [
+            "Beethoven"
+          ]
+        },
+        {
+          "id": "spor-3-C-1",
+          "letter": "C",
+          "type": "starts",
+          "clue": "Atlı iki takımın birbirine değnek fırlattığı, Erzurum'da yaşatılan geleneksel Türk sporu.",
+          "answers": [
+            "Cirit"
+          ]
+        },
+        {
+          "id": "spor-3-C-2",
+          "letter": "C",
+          "type": "starts",
+          "clue": "Altın Palmiye ödülünü veren, Fransa'nın güneyinde yapılan film festivali.",
+          "answers": [
+            "Cannes"
+          ]
+        },
+        {
+          "id": "spor-3-C-3",
+          "letter": "C",
+          "type": "starts",
+          "clue": "'Modern Zamanlar' ve 'Büyük Diktatör' filmlerinin yönetmeni ve yıldızı.",
+          "answers": [
+            "Charlie Chaplin",
+            "Chaplin"
+          ]
+        },
+        {
+          "id": "spor-3-C-4",
+          "letter": "C",
+          "type": "starts",
+          "clue": "2015 Şampiyonlar Ligi finalini yöneten ilk Türk hakem.",
+          "answers": [
+            "Cüneyt Çakır"
+          ]
+        },
+        {
+          "id": "spor-3-Ç-1",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "2016'da İstanbul'da kazandığı turnuvayla WTA şampiyonu olan ilk Türk kadın tenisçi.",
+          "answers": [
+            "Çağla Büyükakçay"
+          ]
+        },
+        {
+          "id": "spor-3-Ç-2",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "'Babam ve Oğlum' ile 'Issız Adam' filmlerinin yönetmeni.",
+          "answers": [
+            "Çağan Irmak"
+          ]
+        },
+        {
+          "id": "spor-3-Ç-3",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Adını bir çay kurumundan alan Karadeniz kulübü.",
+          "answers": [
+            "Çaykur Rizespor"
+          ]
+        },
+        {
+          "id": "spor-3-Ç-4",
+          "letter": "Ç",
+          "type": "starts",
+          "clue": "Osmanlı saray müziğinde kullanılmış, bugün unutulmuş bir tür arp.",
+          "answers": [
+            "Çeng"
+          ]
+        },
+        {
+          "id": "spor-3-D-1",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Cüneyt Arkın'ın başrolde olduğu, uzay savaşı sahneleri başka filmlerden alınan 1982 yapımı.",
+          "answers": [
+            "Dünyayı Kurtaran Adam"
+          ]
+        },
+        {
+          "id": "spor-3-D-2",
+          "letter": "D",
+          "type": "starts",
+          "clue": "'Yine bir gülnihal' bestesiyle bilinen, 19. yüzyıl klasik Türk müziği bestecisi.",
+          "answers": [
+            "Dede Efendi"
+          ]
+        },
+        {
+          "id": "spor-3-D-3",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Erkek atletlerin iki günde on farklı yarışta mücadele ettiği karma atletizm dalı.",
+          "answers": [
+            "Dekatlon"
+          ]
+        },
+        {
+          "id": "spor-3-D-4",
+          "letter": "D",
+          "type": "starts",
+          "clue": "Yüksek platformdan ya da tramplenden suya atlayarak yapılan olimpik spor.",
+          "answers": [
+            "Dalış"
+          ]
+        },
+        {
+          "id": "spor-3-E-1",
+          "letter": "E",
+          "type": "starts",
+          "clue": "Türkiye'de elektro gitarın öncüsü sayılan, 'Cemalim' şarkısının sahibi rock müzisyeni.",
+          "answers": [
+            "Erkin Koray"
+          ]
+        },
+        {
+          "id": "spor-3-E-2",
+          "letter": "E",
+          "type": "starts",
+          "clue": "İki kez Altın Palmiye kazanan, 'Çingeneler Zamanı' filminin Sırp yönetmeni.",
+          "answers": [
+            "Emir Kusturica",
+            "Emir"
+          ]
+        },
+        {
+          "id": "spor-3-E-3",
+          "letter": "E",
+          "type": "starts",
+          "clue": "'Kara Panter' lakaplı, Benfica'nın Mozambik doğumlu Portekizli golcüsü.",
+          "answers": [
+            "Eusebio",
+            "Eusébio"
+          ]
+        },
+        {
+          "id": "spor-3-E-4",
+          "letter": "E",
+          "type": "starts",
+          "clue": "'İyi, Kötü ve Çirkin' filminin müziklerini yapan İtalyan besteci.",
+          "answers": [
+            "Ennio Morricone",
+            "Ennio"
+          ]
+        },
+        {
+          "id": "spor-3-F-1",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Endülüs'e özgü, gitar ve topuk vuruşlarıyla yapılan dans ve müzik.",
+          "answers": [
+            "Flamenko",
+            "Flamenco"
+          ]
+        },
+        {
+          "id": "spor-3-F-2",
+          "letter": "F",
+          "type": "starts",
+          "clue": "'İstanbul Senfonisi'nin bestecisi, dünyaca ünlü Türk piyanist.",
+          "answers": [
+            "Fazıl Say"
+          ]
+        },
+        {
+          "id": "spor-3-F-3",
+          "letter": "F",
+          "type": "starts",
+          "clue": "Bir ligde hangi takımın hangi hafta kiminle oynayacağını gösteren program.",
+          "answers": [
+            "Fikstür"
+          ]
+        },
+        {
+          "id": "spor-3-F-4",
+          "letter": "F",
+          "type": "starts",
+          "clue": "'Tatlı Hayat' ve 'Sekiz Buçuk' filmlerinin İtalyan yönetmeni.",
+          "answers": [
+            "Federico Fellini",
+            "Fellini"
+          ]
+        },
+        {
+          "id": "spor-3-G-1",
+          "letter": "G",
+          "type": "starts",
+          "clue": "Tenisin Avustralya, Fransa, Wimbledon ve Amerika'daki dört büyük turnuvasının ortak adı.",
+          "answers": [
+            "Grand Slam"
+          ]
+        },
+        {
+          "id": "spor-3-G-2",
+          "letter": "G",
+          "type": "starts",
+          "clue": "Yeşilçam döneminde ünlü şarkıcıların sahne aldığı, yemekli ve içkili eğlence mekânı.",
+          "answers": [
+            "Gazino"
+          ]
+        },
+        {
+          "id": "spor-3-G-3",
+          "letter": "G",
+          "type": "starts",
+          "clue": "Boks maçında raundun başlangıcını ve bitişini bildiren metal ses.",
+          "answers": [
+            "Gong"
+          ]
+        },
+        {
+          "id": "spor-3-G-4",
+          "letter": "G",
+          "type": "starts",
+          "clue": "1958 ve 1962 Dünya Kupalarını kazanan, çarpık bacaklarıyla ünlü Brezilyalı sağ açık.",
+          "answers": [
+            "Garrincha"
+          ]
+        },
+        {
+          "id": "spor-3-H-1",
+          "letter": "H",
+          "type": "starts",
+          "clue": "'Sapık' ve 'Kuşlar' filmlerinin gerilim ustası İngiliz yönetmen.",
+          "answers": [
+            "Hitchcock"
+          ]
+        },
+        {
+          "id": "spor-3-H-2",
+          "letter": "H",
+          "type": "starts",
+          "clue": "Bir oyuncunun aynı maçta üç gol atması.",
+          "answers": [
+            "Hat-trick",
+            "Hattrick"
+          ]
+        },
+        {
+          "id": "spor-3-H-3",
+          "letter": "H",
+          "type": "starts",
+          "clue": "Berlin'de Altın Ayı kazanan 'Susuz Yaz' filmiyle sinemaya başlayan kadın oyuncu.",
+          "answers": [
+            "Hülya Koçyiğit"
+          ]
+        },
+        {
+          "id": "spor-3-H-4",
+          "letter": "H",
+          "type": "starts",
+          "clue": "1956 Melbourne Olimpiyatları'nda serbest güreşte altın madalya kazanan ağır sıklet güreşçi.",
+          "answers": [
+            "Hamit Kaplan"
+          ]
+        },
+        {
+          "id": "spor-3-I-1",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Atletizmde uzun bir çubuk yardımıyla çıtanın üzerinden geçilen dal.",
+          "answers": [
+            "Sırıkla atlama",
+            "Sırık atlama"
+          ]
+        },
+        {
+          "id": "spor-3-I-2",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Bağlama ve ud gibi telli çalgıları çalmak için kullanılan küçük çubuk.",
+          "answers": [
+            "Mızrap"
+          ]
+        },
+        {
+          "id": "spor-3-I-3",
+          "letter": "I",
+          "type": "contains",
+          "clue": "Yüzmede sırt suya gelecek biçimde yapılan stil.",
+          "answers": [
+            "Sırtüstü"
+          ]
+        },
+        {
+          "id": "spor-3-I-4",
+          "letter": "I",
+          "type": "contains",
+          "clue": "'Selvi Boylum Al Yazmalım' ve 'Mine' filmlerinin yönetmeni.",
+          "answers": [
+            "Atıf Yılmaz"
+          ]
+        },
+        {
+          "id": "spor-3-İ-1",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Nuri Bilge Ceylan'ın kendisinin ve eşi Ebru Ceylan'ın başrolde oynadığı 2006 filmi.",
+          "answers": [
+            "İklimler"
+          ]
+        },
+        {
+          "id": "spor-3-İ-2",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "Futbolun anavatanı sayılan, 1966 Dünya Kupası'nı kendi evinde kazanan ülke.",
+          "answers": [
+            "İngiltere"
+          ]
+        },
+        {
+          "id": "spor-3-İ-3",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "2010'da ilk kez Dünya Kupası'nı kazanan, Pireneler'in ülkesi.",
+          "answers": [
+            "İspanya"
+          ]
+        },
+        {
+          "id": "spor-3-İ-4",
+          "letter": "İ",
+          "type": "starts",
+          "clue": "2019'da halkada dünya şampiyonu olan, Türk cimnastiğinin ilk büyükler dünya şampiyonu.",
+          "answers": [
+            "İbrahim Çolak"
+          ]
+        },
+        {
+          "id": "spor-3-J-1",
+          "letter": "J",
+          "type": "starts",
+          "clue": "1969 Woodstock'ta Amerikan marşını elektro gitarla çalan efsanevi gitarist.",
+          "answers": [
+            "Jimi Hendrix",
+            "Jimi"
+          ]
+        },
+        {
+          "id": "spor-3-J-2",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Ian Fleming'in yarattığı, 007 kod adlı İngiliz ajan.",
+          "answers": [
+            "James Bond"
+          ]
+        },
+        {
+          "id": "spor-3-J-3",
+          "letter": "J",
+          "type": "starts",
+          "clue": "Torino'nun siyah-beyazlı, 'Yaşlı Kadın' lakaplı kulübü.",
+          "answers": [
+            "Juventus"
+          ]
+        },
+        {
+          "id": "spor-3-J-4",
+          "letter": "J",
+          "type": "starts",
+          "clue": "İlk Dünya Kupası'nı düzenleyen, ilk kupaya adı verilen FIFA başkanı.",
+          "answers": [
+            "Jules Rimet"
+          ]
+        },
+        {
+          "id": "spor-3-K-1",
+          "letter": "K",
+          "type": "starts",
+          "clue": "'Yedi Samuray' ve 'Raşomon' filmlerinin Japon yönetmeni.",
+          "answers": [
+            "Kurosawa"
+          ]
+        },
+        {
+          "id": "spor-3-K-2",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Dizlerin üzerinde yatay tutulan, yüksüklerle çalınan yamuk gövdeli telli çalgı.",
+          "answers": [
+            "Kanun"
+          ]
+        },
+        {
+          "id": "spor-3-K-3",
+          "letter": "K",
+          "type": "starts",
+          "clue": "1991'de 'Yemin Ettim' albümüyle çıkış yapan, 2015'te ölen pop sanatçısı.",
+          "answers": [
+            "Kayahan"
+          ]
+        },
+        {
+          "id": "spor-3-K-4",
+          "letter": "K",
+          "type": "starts",
+          "clue": "Uzun mesafe koşucularıyla ünlü, Eliud Kipchoge'nin ülkesi.",
+          "answers": [
+            "Kenya"
+          ]
+        },
+        {
+          "id": "spor-3-L-1",
+          "letter": "L",
+          "type": "starts",
+          "clue": "Antik Yunan'da ozanların çaldığı, U biçimli telli çalgı.",
+          "answers": [
+            "Lir"
+          ]
+        },
+        {
+          "id": "spor-3-L-2",
+          "letter": "L",
+          "type": "starts",
+          "clue": "'Stairway to Heaven' şarkısıyla bilinen İngiliz rock grubu.",
+          "answers": [
+            "Led Zeppelin"
+          ]
+        },
+        {
+          "id": "spor-3-L-3",
+          "letter": "L",
+          "type": "starts",
+          "clue": "'La Diva Turca' lakaplı, La Scala'da yıllarca sahne alan Türk soprano.",
+          "answers": [
+            "Leyla Gencer"
+          ]
+        },
+        {
+          "id": "spor-3-L-4",
+          "letter": "L",
+          "type": "starts",
+          "clue": "Fransa'da yapılan 24 saatlik dayanıklılık otomobil yarışı.",
+          "answers": [
+            "Le Mans"
+          ]
+        },
+        {
+          "id": "spor-3-M-1",
+          "letter": "M",
+          "type": "starts",
+          "clue": "'Taçsız Kral' lakaplı, Galatasaray'ın efsane golcüsü.",
+          "answers": [
+            "Metin Oktay"
+          ]
+        },
+        {
+          "id": "spor-3-M-2",
+          "letter": "M",
+          "type": "starts",
+          "clue": "'Figaro'nun Düğünü' operasının Avusturyalı bestecisi.",
+          "answers": [
+            "Mozart"
+          ]
+        },
+        {
+          "id": "spor-3-M-3",
+          "letter": "M",
+          "type": "starts",
+          "clue": "İstanbul'un üç büyük kulübünü de lig şampiyonu yapan tek teknik direktör.",
+          "answers": [
+            "Mustafa Denizli"
+          ]
+        },
+        {
+          "id": "spor-3-M-4",
+          "letter": "M",
+          "type": "starts",
+          "clue": "Olimpiyat tarihinin en çok altın madalya kazanan sporcusu, Amerikalı yüzücü.",
+          "answers": [
+            "Michael Phelps"
+          ]
+        },
+        {
+          "id": "spor-3-N-1",
+          "letter": "N",
+          "type": "starts",
+          "clue": "Fransa Açık'ı rekor 14 kez kazanan, Mayorkalı solak tenisçi.",
+          "answers": [
+            "Nadal"
+          ]
+        },
+        {
+          "id": "spor-3-N-2",
+          "letter": "N",
+          "type": "starts",
+          "clue": "Kurt Cobain'in kurduğu, grunge akımının öncü Amerikalı rock grubu.",
+          "answers": [
+            "Nirvana"
+          ]
+        },
+        {
+          "id": "spor-3-N-3",
+          "letter": "N",
+          "type": "starts",
+          "clue": "Almanya'da 'Yeşil Cehennem' lakaplı ünlü yarış pisti.",
+          "answers": [
+            "Nürburgring"
+          ]
+        },
+        {
+          "id": "spor-3-N-4",
+          "letter": "N",
+          "type": "starts",
+          "clue": "Geceyi çağrıştıran, Chopin'in ünlendirdiği duygulu piyano parçası türü.",
+          "answers": [
+            "Noktürn",
+            "Nokturn"
+          ]
+        },
+        {
+          "id": "spor-3-O-1",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Çift kamışlı, orkestrada akordu veren nefesli çalgı.",
+          "answers": [
+            "Obua"
+          ]
+        },
+        {
+          "id": "spor-3-O-2",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Fenerbahçe'nin efsane golcüsü Lefter Küçükandonyadis'in lakabı.",
+          "answers": [
+            "Ordinaryüs"
+          ]
+        },
+        {
+          "id": "spor-3-O-3",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Halk müziğinde dans için çalınan sözsüz ezgi.",
+          "answers": [
+            "Oyun havası"
+          ]
+        },
+        {
+          "id": "spor-3-O-4",
+          "letter": "O",
+          "type": "starts",
+          "clue": "Manchester United'ın 'Rüyalar Tiyatrosu' denen stadı.",
+          "answers": [
+            "Old Trafford"
+          ]
+        },
+        {
+          "id": "spor-3-Ö-1",
+          "letter": "Ö",
+          "type": "starts",
+          "clue": "'Anayurt Oteli' filminin yönetmeni.",
+          "answers": [
+            "Ömer Kavur"
+          ]
+        },
+        {
+          "id": "spor-3-Ö-2",
+          "letter": "Ö",
+          "type": "starts",
+          "clue": "Kemal Sunal'ın 'Çöpçüler Kralı' filminde de çalan 'Gurbet' şarkısının sahibi.",
+          "answers": [
+            "Özdemir Erdoğan"
+          ]
+        },
+        {
+          "id": "spor-3-Ö-3",
+          "letter": "Ö",
+          "type": "contains",
+          "clue": "Oyuncunun havada ters dönüp topu başının üzerinden geriye vurması.",
+          "answers": [
+            "Röveşata",
+            "Rövaşata"
+          ]
+        },
+        {
+          "id": "spor-3-Ö-4",
+          "letter": "Ö",
+          "type": "contains",
+          "clue": "Perdeye yansıtılan deriden tasvirlerle oynatılan geleneksel seyirlik oyun.",
+          "answers": [
+            "Gölge oyunu"
+          ]
+        },
+        {
+          "id": "spor-3-P-1",
+          "letter": "P",
+          "type": "starts",
+          "clue": "'Nessun Dorma' yorumuyla ünlü, 2007'de ölen İtalyan tenor.",
+          "answers": [
+            "Pavarotti"
+          ]
+        },
+        {
+          "id": "spor-3-P-2",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Adı Yunancada 'beş yarışma' anlamına gelen, beş daldan oluşan karma spor.",
+          "answers": [
+            "Pentatlon"
+          ]
+        },
+        {
+          "id": "spor-3-P-3",
+          "letter": "P",
+          "type": "starts",
+          "clue": "'The Wall' albümüyle bilinen İngiliz rock grubu.",
+          "answers": [
+            "Pink Floyd"
+          ]
+        },
+        {
+          "id": "spor-3-P-4",
+          "letter": "P",
+          "type": "starts",
+          "clue": "Real Madrid'in Macar efsanesi, adı FIFA'nın yılın golü ödülüne verilen futbolcu.",
+          "answers": [
+            "Puskas",
+            "Puşkaş"
+          ]
+        },
+        {
+          "id": "spor-3-R-1",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Televizyon yayınının kameralar arasından seçilerek yönetildiği oda.",
+          "answers": [
+            "Reji"
+          ]
+        },
+        {
+          "id": "spor-3-R-2",
+          "letter": "R",
+          "type": "starts",
+          "clue": "2002 Dünya Kupası'nın en iyi on bir oyuncusu arasına seçilen, Barcelona'da da oynamış kaleci.",
+          "answers": [
+            "Rüştü Reçber",
+            "Rüştü"
+          ]
+        },
+        {
+          "id": "spor-3-R-3",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Sylvester Stallone'un Philadelphia'lı bir boksörü canlandırdığı film serisi.",
+          "answers": [
+            "Rocky"
+          ]
+        },
+        {
+          "id": "spor-3-R-4",
+          "letter": "R",
+          "type": "starts",
+          "clue": "Ölülerin ruhu için yazılan, Verdi'nin ve Fauré'nin de bestelediği Katolik ayin müziği.",
+          "answers": [
+            "Requiem",
+            "Rekviyem"
+          ]
+        },
+        {
+          "id": "spor-3-S-1",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Japonya'da iri yarı güreşçilerin rakibi dairesel alandan çıkarmaya çalıştığı güreş.",
+          "answers": [
+            "Sumo"
+          ]
+        },
+        {
+          "id": "spor-3-S-2",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Cremona'da yaptığı kemanları bugün milyonlarca dolara satılan İtalyan çalgı ustası.",
+          "answers": [
+            "Stradivarius",
+            "Stradivari"
+          ]
+        },
+        {
+          "id": "spor-3-S-3",
+          "letter": "S",
+          "type": "starts",
+          "clue": "Havada vücudun tam tur döndürüldüğü takla hareketi.",
+          "answers": [
+            "Salto"
+          ]
+        },
+        {
+          "id": "spor-3-S-4",
+          "letter": "S",
+          "type": "starts",
+          "clue": "'Yaz Gazeteci Yaz' şarkısıyla bilinen, protest halk müziğinin kadın sesi.",
+          "answers": [
+            "Selda Bağcan",
+            "Selda"
+          ]
+        },
+        {
+          "id": "spor-3-Ş-1",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Sessiz sinemanın melon şapkalı, bastonlu ve paytak yürüyüşlü serseri karakteri.",
+          "answers": [
+            "Şarlo"
+          ]
+        },
+        {
+          "id": "spor-3-Ş-2",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Opera ve şarkı söylemek için verilen ses eğitimi.",
+          "answers": [
+            "Şan"
+          ]
+        },
+        {
+          "id": "spor-3-Ş-3",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Fenerbahçe'nin Kadıköy'deki stadına adını veren eski başbakan.",
+          "answers": [
+            "Şükrü Saracoğlu"
+          ]
+        },
+        {
+          "id": "spor-3-Ş-4",
+          "letter": "Ş",
+          "type": "starts",
+          "clue": "Orkestrayı bagetle yöneten kişi.",
+          "answers": [
+            "Şef"
+          ]
+        },
+        {
+          "id": "spor-3-T-1",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Taş plaklara kaydettiği taksimleriyle ünlü, 1916'da ölen klasik Türk müziği bestecisi ve icracısı.",
+          "answers": [
+            "Tanburi Cemil Bey",
+            "Tanburi Cemil"
+          ]
+        },
+        {
+          "id": "spor-3-T-2",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Barcelona'nın kısa ve hızlı paslara dayanan oyun stili.",
+          "answers": [
+            "Tiki-taka",
+            "Tikitaka"
+          ]
+        },
+        {
+          "id": "spor-3-T-3",
+          "letter": "T",
+          "type": "starts",
+          "clue": "Her temmuz düzenlenen, liderin sarı mayo giydiği Fransa bisiklet turu.",
+          "answers": [
+            "Tour de France"
+          ]
+        },
+        {
+          "id": "spor-3-T-4",
+          "letter": "T",
+          "type": "starts",
+          "clue": "'Canım Kardeşim' ve 'Sürü' filmlerinin, 2016'da ölen jön oyuncusu.",
+          "answers": [
+            "Tarık Akan"
+          ]
+        },
+        {
+          "id": "spor-3-U-1",
+          "letter": "U",
+          "type": "starts",
+          "clue": "1930'da ilk Dünya Kupası'na ev sahipliği yapıp kupayı kazanan ülke.",
+          "answers": [
+            "Uruguay"
+          ]
+        },
+        {
+          "id": "spor-3-U-2",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Nuri Bilge Ceylan'ın 2003'te Fransa'da Büyük Ödül'ü kazanan filmi.",
+          "answers": [
+            "Uzak"
+          ]
+        },
+        {
+          "id": "spor-3-U-3",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Bir operanın ya da müzikli eserin başında çalınan orkestra giriş müziği.",
+          "answers": [
+            "Uvertür"
+          ]
+        },
+        {
+          "id": "spor-3-U-4",
+          "letter": "U",
+          "type": "starts",
+          "clue": "Galatasaray'ın 2000'de Arsenal'i penaltılarla yenerek kazandığı Avrupa kupası.",
+          "answers": [
+            "UEFA Kupası",
+            "Uefa"
+          ]
+        },
+        {
+          "id": "spor-3-Ü-1",
+          "letter": "Ü",
+          "type": "starts",
+          "clue": "'Doğu'nun Yıldızı' diye anılan efsanevi Mısırlı kadın şarkıcı.",
+          "answers": [
+            "Ümmü Gülsüm"
+          ]
+        },
+        {
+          "id": "spor-3-Ü-2",
+          "letter": "Ü",
+          "type": "starts",
+          "clue": "'Kâtibim' diye de bilinen, Balkan halklarınca da sahiplenilen türkü.",
+          "answers": [
+            "Üsküdar'a Gider İken"
+          ]
+        },
+        {
+          "id": "spor-3-Ü-3",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "Yahya Kemal'in 'Aziz İstanbul' şiirini besteleyen klasik Türk müziği sanatçısı.",
+          "answers": [
+            "Münir Nurettin Selçuk",
+            "Münir Nurettin"
+          ]
+        },
+        {
+          "id": "spor-3-Ü-4",
+          "letter": "Ü",
+          "type": "contains",
+          "clue": "1984'ten 2000'e kesintisiz Beşiktaş'ın başkanlığını yapan isim.",
+          "answers": [
+            "Süleyman Seba"
+          ]
+        },
+        {
+          "id": "spor-3-V-1",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Bisiklet yarışları için yapılmış eğimli, çoğunlukla kapalı pist.",
+          "answers": [
+            "Velodrom"
+          ]
+        },
+        {
+          "id": "spor-3-V-2",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Bir çalgıyı olağanüstü ustalıkla çalan müzisyen.",
+          "answers": [
+            "Virtüöz"
+          ]
+        },
+        {
+          "id": "spor-3-V-3",
+          "letter": "V",
+          "type": "starts",
+          "clue": "James Stewart'ın yükseklik korkusu olan bir dedektifi oynadığı 1958 gerilim filmi.",
+          "answers": [
+            "Vertigo"
+          ]
+        },
+        {
+          "id": "spor-3-V-4",
+          "letter": "V",
+          "type": "starts",
+          "clue": "Altın Aslan ödülünü veren, dünyanın en eski film festivalinin yapıldığı İtalyan şehri.",
+          "answers": [
+            "Venedik",
+            "Venedik Film Festivali"
+          ]
+        },
+        {
+          "id": "spor-3-Y-1",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "2024 Paris Olimpiyatları'nda eli cebinde atış yaparak gümüş madalya kazanan nişancı.",
+          "answers": [
+            "Yusuf Dikeç"
+          ]
+        },
+        {
+          "id": "spor-3-Y-2",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "1948 Londra Olimpiyatları'nda altın madalya kazanan, 'güreşin babası' denen güreşçi.",
+          "answers": [
+            "Yaşar Doğu"
+          ]
+        },
+        {
+          "id": "spor-3-Y-3",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "Truffaut ve Godard'ın öncülük ettiği 1960'lar Fransız sinema akımı.",
+          "answers": [
+            "Yeni Dalga"
+          ]
+        },
+        {
+          "id": "spor-3-Y-4",
+          "letter": "Y",
+          "type": "starts",
+          "clue": "'Eşkıya' ve 'Muhsin Bey' filmlerinin yönetmeni.",
+          "answers": [
+            "Yavuz Turgul"
+          ]
+        },
+        {
+          "id": "spor-3-Z-1",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "'Masumiyet' ve 'Kader' filmlerinin yönetmeni.",
+          "answers": [
+            "Zeki Demirkubuz"
+          ]
+        },
+        {
+          "id": "spor-3-Z-2",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "Kendisinden üçüncü şahıs olarak söz etmesiyle ünlü İsveçli golcü.",
+          "answers": [
+            "Zlatan İbrahimović",
+            "Zlatan",
+            "Zlatan Ibrahimovic"
+          ]
+        },
+        {
+          "id": "spor-3-Z-3",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "Fenerbahçe'yi 2007'de şampiyon yapan, Flamengo efsanesi Brezilyalı.",
+          "answers": [
+            "Zico"
+          ]
+        },
+        {
+          "id": "spor-3-Z-4",
+          "letter": "Z",
+          "type": "starts",
+          "clue": "Metin Akpınar'la yıllarca ikili olarak anılan, 2015'te ölen komedyen.",
+          "answers": [
+            "Zeki Alasya"
+          ]
+        }
+      ]
+    }
+  ]
 }
