@@ -27,8 +27,19 @@
       "expo-router",
       "expo-font",
       "expo-asset",
-      "expo-audio",
-      "expo-speech-recognition"
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Harfiyen sesli cevaplarını duymak için mikrofonu kullanır."
+        }
+      ],
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Harfiyen sesli cevaplarını duymak için mikrofonu kullanır.",
+          "speechRecognitionPermission": "Harfiyen söylediğin cevabı yazıya çevirmek için konuşma tanımayı kullanır."
+        }
+      ]
     ],
     "scheme": "harfiyen",
     "backgroundColor": "#0a0d1f"
