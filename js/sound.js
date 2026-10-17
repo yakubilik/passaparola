@@ -2,9 +2,9 @@
 // assets/sounds/original/<cue>.mp3 (gitignored, for the show's own clips) or
 // assets/sounds/<cue>.mp3, that file is played instead.
 (function (root) {
-  var CUES = ['theme', 'correct', 'wrong', 'pas', 'tick', 'warn', 'turn', 'end', 'win'];
+  var CUES = ['theme', 'correct', 'wrong', 'pas', 'tick', 'warn', 'turn', 'end', 'win', 'bg'];
   var ctx = null, master = null, muted = false;
-  var clips = {};
+  var clips = {}, bg = null, bgGain = null, bgWanted = false;
 
   function init() {
     if (ctx) { if (ctx.state === 'suspended') ctx.resume(); return; }
@@ -14,19 +14,52 @@
     master = ctx.createGain();
     master.gain.value = 0.8;
     master.connect(ctx.destination);
+    bgGain = ctx.createGain();
+    bgGain.gain.value = 0.35;
+    bgGain.connect(master);
     CUES.forEach(loadClip);
   }
 
+  // Clips are decoded into buffers: low latency, and volume works on iOS too.
   function loadClip(cue) {
     var sources = ['assets/sounds/original/' + cue + '.mp3', 'assets/sounds/' + cue + '.mp3'];
     (function attempt(n) {
       if (n >= sources.length) return;
-      var a = new Audio();
-      a.preload = 'auto';
-      a.addEventListener('canplaythrough', function () { clips[cue] = a; }, { once: true });
-      a.addEventListener('error', function () { attempt(n + 1); }, { once: true });
-      a.src = sources[n];
+      fetch(sources[n]).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.arrayBuffer();
+      }).then(function (data) {
+        return new Promise(function (ok, fail) { ctx.decodeAudioData(data, ok, fail); });
+      }).then(function (buf) {
+        clips[cue] = buf;
+        if (cue === 'bg' && bgWanted) startBg();
+      }).catch(function () { attempt(n + 1); });
     })(0);
+  }
+
+  function playBuffer(buf, gainNode, loop) {
+    var src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.loop = !!loop;
+    src.connect(gainNode || master);
+    src.start(ctx.currentTime + 0.005);
+    return src;
+  }
+
+  // Background bed under the ring round; only when the show's clip exists.
+  function startBg() {
+    bgWanted = true;
+    if (!ctx || bg || !clips.bg || muted) return;
+    bg = playBuffer(clips.bg, bgGain, true);
+  }
+  function stopBg() {
+    bgWanted = false;
+    if (bg) { try { bg.stop(); } catch (e) { /* already stopped */ } bg = null; }
+  }
+  // Lower the bed while a question is being read.
+  function duck(on) {
+    if (!bgGain) return;
+    bgGain.gain.setTargetAtTime(on ? 0.12 : 0.35, ctx.currentTime, 0.08);
   }
 
   function tone(freq, t, dur, type, vol, attack, endFreq) {
@@ -118,16 +151,20 @@
   function play(cue) {
     played.push(cue);
     if (muted || !ctx) return;
-    var clip = clips[cue];
-    if (clip) {
-      try { clip.currentTime = 0; clip.play(); return; } catch (e) { /* fall back to synth */ }
-    }
+    if (cue === 'bg') return startBg();
+    if (clips[cue]) { playBuffer(clips[cue]); return; }
     if (SYNTH[cue]) SYNTH[cue](ctx.currentTime + 0.01);
   }
 
-  function setMuted(m) { muted = !!m; }
+  function hasClip(cue) { return !!clips[cue]; }
+
+  function setMuted(m) {
+    muted = !!m;
+    if (muted && bg) { var w = bgWanted; stopBg(); bgWanted = w; }
+    else if (!muted && bgWanted) startBg();
+  }
 
   root.PP = Object.assign(root.PP || {}, {
-    Sound: { init: init, play: play, setMuted: setMuted, isMuted: function () { return muted; }, played: played, CUES: CUES }
+    Sound: { init: init, play: play, setMuted: setMuted, startBg: startBg, stopBg: stopBg, duck: duck, hasClip: hasClip, isMuted: function () { return muted; }, played: played, CUES: CUES }
   });
 })(this);

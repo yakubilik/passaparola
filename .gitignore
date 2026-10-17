@@ -2,3 +2,5 @@ node_modules/
 assets/sounds/original/
 test-results/
 playwright-report/
+.work/
+docs/reference/

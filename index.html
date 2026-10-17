@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#04103a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>Passaparola</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=1792250013">
 </head>
 <body>
   <div class="bg"><div class="spot"></div><div class="rays"></div></div>
@@ -46,14 +46,22 @@
         </div>
       </div>
       <div class="row">
+        <label title="Sorular sesli okunur, cevabını söylersin">Sesli oyun</label>
+        <div class="seg" data-name="voice">
+          <button type="button" data-v="0">Kapalı</button>
+          <button type="button" data-v="1">Açık</button>
+        </div>
+      </div>
+      <div class="row">
         <label>Kamera</label>
         <div class="seg" data-name="camera">
           <button type="button" data-v="0">Kapalı</button>
           <button type="button" data-v="1">Açık</button>
         </div>
       </div>
+      <button id="mictest" type="button" class="mictest">🎤 Mikrofon testi</button>
       <button id="start" class="big" type="submit">BAŞLA</button>
-      <p class="help">Her harf için bir soru. Bilemiyorsan <b>Pas</b> de, tur dönünce yeniden gelir.
+      <p class="help">Her harf için bir soru. Sorular sesli okunur, cevabı söylemen yeter. Bilemiyorsan <b>Pas</b> de, tur dönünce yeniden gelir.
         Süre bitmeden bütün harfleri yeşile çevirmeye çalış.</p>
     </form>
   </section>
@@ -69,11 +77,12 @@
     <div id="stages" class="stages"></div>
 
     <div id="panel" class="panel">
-      <div class="qhead"><span id="qletter" class="qletter">A</span><span id="qtype">ile başlar</span></div>
+      <div class="qhead"><span id="qletter" class="qletter">A</span><span id="qtype">ile başlar</span><button type="button" id="voicestate" class="voicestate" hidden></button></div>
       <p id="qtext" class="qtext"></p>
       <div id="reveal" class="reveal" hidden></div>
       <form id="answer" class="answer" autocomplete="off">
         <input id="guess" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="send" placeholder="Cevabın">
+        <button id="mic" type="button" class="mic" aria-label="Konuş" hidden>🎤</button>
         <button id="send" type="submit">Cevapla</button>
         <button id="pass" type="button" class="pas">Pas</button>
       </form>
@@ -93,6 +102,19 @@
     </div>
   </section>
 
+  <div id="micbox" class="overlay" hidden>
+    <div class="card mic-card">
+      <p class="mic-title">Mikrofon testi</p>
+      <p id="micprompt">"Merhaba Passaparola" de.</p>
+      <div id="micheard" class="mic-heard"></div>
+      <p id="micmsg" class="mic-msg"></p>
+      <div class="mic-actions">
+        <button id="micagain" type="button">Tekrar dene</button>
+        <button id="micclose" type="button" class="big">Tamam</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Result -->
   <section id="result" class="screen" hidden>
     <h2 id="winner" class="winner"></h2>
@@ -103,11 +125,13 @@
     </div>
   </section>
 
-  <video id="cam" playsinline muted autoplay hidden></video>
+  <video id="cam" class="offscreen" playsinline muted autoplay></video>
 
-  <script src="js/normalize.js"></script>
-  <script src="js/questions.js"></script>
-  <script src="js/sound.js"></script>
-  <script src="js/game.js"></script>
+  <script src="js/normalize.js?v=1792250013"></script>
+  <script src="js/questions.js?v=1792250013"></script>
+  <script src="js/sound.js?v=1792250013"></script>
+  <script src="js/voice.js?v=1792250013"></script>
+  <script src="js/game.js?v=1792250013"></script>
+  <script type="module" src="js/face.js?v=1792250013"></script>
 </body>
 </html>

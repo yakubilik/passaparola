@@ -1,11 +1,11 @@
 (function () {
   'use strict';
-  var PP = window.PP, S = PP.Sound;
+  var PP = window.PP, S = PP.Sound, V = PP.Voice;
   var $ = function (s) { return document.querySelector(s); };
-  var KEY = 'passaparola.settings';
+  var KEY = 'passaparola.settings.v2';
   var REVEAL_MS = 1700;
 
-  var settings = { players: '1', time: '150', host: '0', camera: '0', muted: false, names: ['', ''] };
+  var settings = { players: '1', time: '150', host: '0', camera: '1', voice: '1', muted: false, names: ['', ''] };
   try { Object.assign(settings, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { /* fresh start */ }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(settings)); } catch (e) { /* private mode */ } }
 
@@ -41,10 +41,13 @@
     settings.names = [$('#name1').value.trim(), $('#name2').value.trim()];
     save();
     S.init();
+    V.unlock();
     S.play('theme');
     newGame();
     location.hash = '#/oyun';
   });
+
+  function voiceOn() { return settings.voice === '1' && game && !game.host; }
 
   // ---------- game state ----------
   var game = null, lastResult = null;
@@ -71,10 +74,13 @@
     };
     buildStages();
     $('#answer').hidden = game.host;
+    $('#mic').hidden = !(settings.voice === '1' && V.canListen);
     $('#hostbar').hidden = !game.host;
     startCamera();
     render();
     showQuestion();
+    if (voiceOn() && V.canListen) V.listen(onHeard);
+    else if (voiceOn()) toast('Bu tarayıcı sesli cevabı desteklemiyor', 'bad');
     overlay(n === 2 ? 'Sıra: <b>' + esc(cur().name) + '</b>' : 'Hazır mısın?', begin);
   }
 
@@ -83,9 +89,54 @@
 
   function begin() {
     game.busy = false;
-    startClock();
+    S.play('bg');
+    ask();
+  }
+
+  // Shows the current question; in voice mode reads it out first and starts
+  // the clock when the reading ends.
+  function ask() {
     showQuestion();
-    focusInput();
+    clearInput();
+    if (!voiceOn() || !V.canSpeak) {
+      if (!game.running) startClock();
+      focusInput();
+      return;
+    }
+    stopClock();
+    game.reading = true;
+    render();
+    var q = currentQ(), g = game;
+    var text = (q.t === 'b' ? q.l + ' ile başlar.' : 'İçinde ' + q.l + ' var.') + ' ' + q.q;
+    S.duck(true);
+    setTimeout(function () {
+      if (game !== g || g.ended || !g.reading) return;
+      V.speak(text, function () {
+        if (game !== g || g.ended || !g.reading) return;
+        g.reading = false;
+        S.duck(false);
+        if (!g.busy && !cur().done) startClock();
+      });
+    }, 300);
+  }
+
+  function interrupt() {
+    if (!game.reading) return;
+    V.cancel();
+    game.reading = false;
+    S.duck(false);
+  }
+
+  function onHeard(alts) {
+    if (!game || game.ended) return;
+    if (!$('#overlay').hidden) {
+      if (alts.some(function (a) { return /hazır|hazir|başla|basla|tamam|evet|hadi/.test(PP.norm(a)); })) $('#overlaygo').click();
+      return;
+    }
+    if (!canAct()) return;
+    $('#guess').value = alts[0];
+    var v = PP.judgeSpoken(alts, currentQ().a);
+    if (v === 'correct') doCorrect(); else if (v === 'pass') doPass(); else doWrong(alts[0]);
   }
 
   // ---------- clock ----------
@@ -111,7 +162,8 @@
     p.time = Math.max(0, p.time - (now - game.last) / 1000);
     game.last = now;
     var after = Math.ceil(p.time);
-    if (after < before && after > 0) S.play(after <= 10 ? 'warn' : 'tick');
+    // The every-second tick is left out in voice mode: it talks over the player.
+    if (after < before && after > 0 && (after <= 10 || !voiceOn())) S.play(after <= 10 ? 'warn' : 'tick');
     if (p.time <= 0) timeUp();
     renderHud();
   }
@@ -122,7 +174,9 @@
     p.done = true;
     game.busy = true;
     S.play('end');
+    S.stopBg();
     game.gong = true;
+    if (voiceOn()) V.speak('Süre doldu!');
     toast('Süre doldu!', 'bad');
     render();
     setTimeout(nextTurnOrEnd, 1600);
@@ -140,16 +194,17 @@
     return false;
   }
 
-  function canAct() { return game && game.running && !game.busy && !game.ended; }
+  function canAct() { return game && (game.running || game.reading) && !game.busy && !game.ended; }
 
   function submit(text) {
     if (!canAct()) return;
     if (PP.isPass(text)) return doPass();
     if (PP.isCorrect(text, currentQ().a)) return doCorrect();
-    doWrong();
+    doWrong(text);
   }
 
   function doCorrect() {
+    interrupt();
     var p = cur(), q = currentQ();
     q.status = 'correct';
     p.correct++;
@@ -158,7 +213,8 @@
     afterAnswer(false);
   }
 
-  function doWrong() {
+  function doWrong(said) {
+    interrupt();
     var p = cur(), q = currentQ();
     q.status = 'wrong';
     p.wrong++;
@@ -167,18 +223,22 @@
     stopClock();
     game.busy = true;
     var r = $('#reveal');
-    r.innerHTML = 'Doğru cevap: <b>' + esc(q.a[0]) + '</b>';
+    r.innerHTML = (said ? 'Senin cevabın: ' + esc(said) + '<br>' : '') + 'Doğru cevap: <b>' + esc(q.a[0]) + '</b>';
     r.hidden = false;
     render();
-    setTimeout(function () {
-      if (!game || game.ended) return;
+    var g = game, waits = 1;
+    function go() {
+      if (--waits > 0 || game !== g || g.ended) return;
       r.hidden = true;
-      game.busy = false;
+      g.busy = false;
       afterAnswer(true);
-    }, REVEAL_MS);
+    }
+    if (voiceOn()) { waits++; setTimeout(function () { V.speak('Yanlış. Doğru cevap: ' + q.a[0], go); }, 500); }
+    setTimeout(go, REVEAL_MS);
   }
 
   function doPass() {
+    interrupt();
     var q = currentQ();
     q.passed = true;
     S.play('pas');
@@ -200,20 +260,19 @@
       return;
     }
     if (turnEnds && other()) return switchTurn();
-    if (!game.running) startClock();
-    showQuestion();
-    clearInput();
+    ask();
   }
 
   function nextTurnOrEnd() {
     if (!game || game.ended) return;
     if (other()) return switchTurn();
-    if (!cur().done) { game.busy = false; startClock(); showQuestion(); return; }
+    if (!cur().done) { game.busy = false; S.play('bg'); ask(); return; }
     endGame();
   }
 
   function switchTurn() {
     stopClock();
+    S.stopBg();
     game.busy = true;
     game.cur = game.players.indexOf(other());
     S.play('turn');
@@ -229,9 +288,12 @@
     game.ended = true;
     lastResult = game.players;
     renderResult();
+    S.stopBg();
+    V.stopListening();
     var full = game.players.some(function (p) { return p.correct === p.letters.length; });
     if (game.players.length === 2 || full) S.play('win');
     else if (!game.gong) S.play('end');
+    if (voiceOn()) setTimeout(function () { V.speak($('#winner').textContent); }, 1200);
     stopCamera();
     location.replace('#/sonuc');
   }
@@ -242,6 +304,9 @@
     game.ended = true;
     game = null;
     $('#overlay').hidden = true;
+    S.stopBg();
+    V.cancel();
+    V.stopListening();
     stopCamera();
   }
 
@@ -354,6 +419,10 @@
       onGo();
     };
     setTimeout(function () { go.focus(); }, 50);
+    if (voiceOn()) {
+      var said = $('#overlaytext').textContent.replace('Sıra:', 'Sıra');
+      setTimeout(function () { V.speak(said + (said.indexOf('?') < 0 ? '. Hazır mısın?' : '') + ' Hazırsan, hazırım de.'); }, 600);
+    }
   }
 
   function clearInput() { $('#guess').value = ''; }
@@ -396,31 +465,82 @@
   // ---------- camera: the contestant's own face inside the ring ----------
   var stream = null;
   function startCamera() {
-    if (settings.camera !== '1' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+    if (settings.camera !== '1') return;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      toast(location.protocol === 'https:' ? 'Bu tarayıcı kamerayı açamıyor, Safari\'de aç' : 'Kamera için https linkini kullan', 'bad');
+      return;
+    }
     if (stream) return moveCamera();
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false }).then(function (s) {
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 640 } }, audio: false }).then(function (s) {
       if (!game) { s.getTracks().forEach(function (t) { t.stop(); }); return; }
       stream = s;
-      $('#cam').srcObject = s;
+      var v = $('#cam');
+      v.srcObject = s;
+      v.play && v.play().catch(function () {});
+      if (PP.Face) PP.Face.start(v);
       moveCamera();
-    }).catch(function () { toast('Kamera açılamadı', 'bad'); });
+    }).catch(function (err) {
+      toast(err && err.name === 'NotAllowedError' ? 'Kamera izni verilmedi' : 'Kamera açılamadı', 'bad');
+    });
   }
+  // The picture is drawn by PP.Face into a canvas; the <video> itself plays
+  // off screen. Without PP.Face the plain video goes into the circle.
   function moveCamera() {
     if (!stream || !game) return;
-    var v = $('#cam');
-    v.hidden = false;
-    cur().stage.querySelector('.figure').appendChild(v);
-    v.play && v.play().catch(function () {});
+    var fig = cur().stage.querySelector('.figure'), v = $('#cam');
+    if (PP.Face) { v.className = 'offscreen'; PP.Face.attach(fig); }
+    else { v.className = ''; fig.appendChild(v); }
   }
   function stopCamera() {
     if (!stream) return;
+    if (PP.Face) PP.Face.stop();
     stream.getTracks().forEach(function (t) { t.stop(); });
     stream = null;
     var v = $('#cam');
-    v.hidden = true;
+    v.className = 'offscreen';
     v.srcObject = null;
     document.body.appendChild(v);
   }
+
+  // ---------- voice state ----------
+  V.onState(function (st, detail) {
+    var el = $('#voicestate');
+    var txt = { listening: '🎤 Dinliyorum', speaking: '🔈 Okuyor', denied: '🎤 Mikrofon izni yok',
+      tap: '🎤 Konuşmak için dokun', error: '🎤 ' + (detail ? V.explain(detail) : 'Duyamadım') + ' Dokun.' }[st];
+    el.textContent = txt || '';
+    el.hidden = !txt;
+    el.dataset.s = st;
+  });
+  V.onInterim(function (text) { if (game && canAct()) $('#guess').value = text; });
+  function kickMic() { if (game && voiceOn()) V.kick(); }
+  $('#voicestate').addEventListener('click', kickMic);
+  $('#mic').addEventListener('click', kickMic);
+
+  // ---------- microphone check ----------
+  var stopTest = null;
+  function runMicTest() {
+    if (stopTest) stopTest();
+    V.unlock();
+    $('#micbox').hidden = false;
+    $('#micheard').textContent = '';
+    $('#micmsg').textContent = '';
+    $('#micmsg').className = 'mic-msg';
+    $('#micbox').dataset.s = 'listening';
+    stopTest = V.test(function (u) {
+      $('#micbox').dataset.s = u.state;
+      if (u.state === 'listening') $('#micmsg').textContent = '🎤 Dinliyorum…';
+      if (u.state === 'hearing') { $('#micheard').textContent = '“' + u.text + '”'; $('#micmsg').textContent = '🎤 Duyuyorum…'; }
+      if (u.state === 'ok') {
+        $('#micheard').textContent = '“' + u.text + '”';
+        $('#micmsg').textContent = '✓ Mikrofon çalışıyor, sesli oynayabilirsin.';
+        $('#micmsg').className = 'mic-msg ok';
+      }
+      if (u.state === 'error') { $('#micmsg').textContent = '✗ ' + u.text; $('#micmsg').className = 'mic-msg bad'; }
+    });
+  }
+  $('#mictest').addEventListener('click', runMicTest);
+  $('#micagain').addEventListener('click', runMicTest);
+  $('#micclose').addEventListener('click', function () { if (stopTest) stopTest(); stopTest = null; $('#micbox').hidden = true; });
 
   // ---------- input ----------
   $('#answer').addEventListener('submit', function (e) {
@@ -446,6 +566,7 @@
   });
   $('#mute').addEventListener('click', function () {
     settings.muted = !settings.muted;
+    if (settings.muted) V.cancel();
     save();
     syncSetup();
   });
@@ -482,4 +603,5 @@
 
   // test hook
   PP.state = function () { return game; };
+  PP.hear = function (alts) { onHeard(alts); };
 })();

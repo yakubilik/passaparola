@@ -96,7 +96,9 @@ body:not(.two) .p2only { display: none; }
   box-shadow: inset 0 0 40px rgba(0, 0, 0, .6), 0 0 50px rgba(80, 150, 255, .35); overflow: hidden; }
 .figure { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; }
 .figure svg { width: 78%; height: 78%; }
-.figure video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+.figure video, .figure canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.figure video { transform: scaleX(-1); }
+video.offscreen { position: fixed; left: 0; top: 0; width: 4px; height: 4px; opacity: 0; pointer-events: none; z-index: -1; }
 
 .l { position: absolute; left: 50%; top: 50%; width: var(--d); height: var(--d); margin: calc(var(--d) / -2) 0 0 calc(var(--d) / -2);
   transform: rotate(var(--a)) translate(var(--r)) rotate(calc(-1 * var(--a)));
@@ -128,6 +130,12 @@ body:not(.two) .p2only { display: none; }
   background: linear-gradient(180deg, rgba(10, 30, 100, .95), rgba(3, 12, 45, .98));
   border-top: 3px solid var(--gold); border-radius: 18px 18px 0 0; box-shadow: 0 -8px 30px rgba(0, 0, 0, .5); }
 .qhead { display: flex; align-items: center; gap: 10px; font-family: var(--font); font-size: 17px; color: var(--gold); text-transform: uppercase; }
+.voicestate { margin-left: auto; font-family: var(--text); font-size: 13px; font-weight: 700; text-transform: none; color: #fff; opacity: .9;
+  background: rgba(0, 0, 0, .3); border: 1px solid rgba(255, 255, 255, .25); border-radius: 20px; padding: 5px 10px; }
+.answer button.mic { padding: 0 12px; font-size: 20px; background: linear-gradient(180deg, #3a3a3a, #111); box-shadow: 0 3px 0 #000; }
+.voicestate[data-s="listening"] { color: var(--green1); animation: breathe 1.4s ease-in-out infinite; }
+.voicestate[data-s="denied"] { color: var(--red1); }
+@keyframes breathe { 50% { opacity: .45; } }
 .qletter { width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: #3a2400;
   background: radial-gradient(circle at 35% 30%, #fff6c9 0, #ffd84d 25%, #f0a500 90%); border: 3px solid #fff; font-size: 21px; }
 .qletter.inside { background: radial-gradient(circle at 35% 30%, #fff 0, #ffb3e0 25%, #d0389a 90%); color: #fff; }
@@ -155,6 +163,17 @@ button.pas { background: linear-gradient(180deg, #ffe680, #f5b400); color: #3a24
 .toast.pas { color: var(--gold); }
 .toast.bad { color: var(--red1); }
 .toast.ok { color: var(--green1); }
+
+button.mictest { border: 2px solid rgba(255, 255, 255, .35); background: rgba(0, 0, 0, .25); border-radius: 30px; padding: 10px 16px; font-weight: 700; }
+.mic-card { width: min(380px, 92vw); text-align: center; }
+.mic-title { font-family: var(--font); color: var(--gold); font-size: 20px; margin: 0 0 6px; }
+.mic-heard { min-height: 1.6em; font-size: 22px; font-weight: 800; margin: 10px 0; }
+.mic-msg { min-height: 1.4em; margin: 0 0 14px; line-height: 1.4; }
+.mic-msg.ok { color: var(--green1); }
+.mic-msg.bad { color: var(--red1); }
+#micbox[data-s="listening"] .mic-heard::after, #micbox[data-s="hearing"] .mic-heard::after { content: " ●"; color: var(--red1); animation: breathe 1s infinite; }
+.mic-actions { display: flex; gap: 10px; justify-content: center; align-items: center; }
+.mic-actions button:not(.big) { border: 2px solid rgba(255, 255, 255, .4); background: rgba(0, 0, 0, .25); border-radius: 30px; padding: 12px 18px; font-weight: 700; }
 
 /* ---------- result ---------- */
 .winner { font-family: var(--font); color: var(--gold); text-align: center; font-size: clamp(26px, 6vw, 42px); margin: 4vh 0 2vh;
