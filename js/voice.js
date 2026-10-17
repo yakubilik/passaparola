@@ -1,16 +1,21 @@
 // Voice: the questions are read aloud in Turkish and the player answers by
-// speaking. The microphone is closed while the game itself is talking, so it
-// never hears its own questions.
+// speaking. The microphone stays open the whole game (iOS chimes every time it
+// is switched on, and a late start misses the answer), so the player can answer
+// while a question is still being read. Words the game itself is saying are
+// filtered out of what the microphone hears.
 //
-// iOS Safari rarely marks a result final, so interim results are used and an
-// answer counts as said once the words stop changing for a moment.
+// iOS Safari rarely marks a result final and keeps growing one result for
+// everything said, so interim results are used, words already handled are cut
+// off the front, and an answer counts as said once the words stop changing.
 (function (root) {
   var synth = root.speechSynthesis;
   var SR = root.SpeechRecognition || root.webkitSpeechRecognition;
   var SETTLE_MS = 900;
   var voice = null, rec = null, wanted = false, handler = null, speaking = 0;
   var onState = function () {}, onInterim = function () {};
-  var token = 0, settleTimer = null, lastAlts = null, session = 0;
+  var token = 0, settleTimer = null, lastAlts = null, lastKey = '', session = 0;
+  var used = {};          // result index -> words already handled
+  var echo = [], echoUntil = 0;  // what the game is saying, folded words
 
   function pickVoice() {
     if (!synth) return;
@@ -32,69 +37,117 @@
     synth.speak(u);
   }
 
-  function speak(text, done) {
+  // input: a sentence, or a list of {key, text}. A part with a recorded clip
+  // (assets/voice/<key>.mp3, listed in PP.VOICE_LINES) plays the recording;
+  // anything else is read by the browser's own voice.
+  function speak(input, done) {
+    var parts = typeof input === 'string' ? [{ text: input }] : input;
     var my = ++token;
-    var finished = false;
+    var finished = false, i = 0;
+    var S = root.PP.Sound, lines = root.PP.VOICE_LINES || {};
     function finish() {
       if (finished) return;
       finished = true;
       speaking = Math.max(0, speaking - 1);
-      if (my === token) { resume(); if (done) done(); }
+      echoUntil = Date.now() + 1500;  // the room still rings for a moment
+      if (my === token) { if (!speaking) onState(rec ? 'listening' : 'off'); resume(); if (done) done(); }
     }
-    if (!synth) { if (done) setTimeout(done, 0); return; }
-    synth.cancel();
-    pauseMic();
+    function synthPart(text, next) {
+      if (!synth || !text) return next();
+      var called = false;
+      function once() { if (!called) { called = true; next(); } }
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = 'tr-TR';
+      if (voice) u.voice = voice;
+      u.rate = 1.05;
+      u.onend = once;
+      u.onerror = once;
+      synth.speak(u);
+      // Safari sometimes never fires onend; don't let the game hang on it.
+      setTimeout(once, 1500 + text.length * 110);
+    }
+    function next() {
+      if (my !== token || i >= parts.length) return finish();
+      var p = parts[i++];
+      if (S && S.isMuted()) return next();
+      if (p.key && lines[p.key] && S && S.voiceReady()) S.playVoice(p.key, next, function () { synthPart(p.text, next); });
+      else synthPart(p.text, next);
+    }
+    if (synth) synth.cancel();
+    if (S) S.stopVoice();
+    setEcho(parts);
     speaking++;
-    var u = new SpeechSynthesisUtterance(text);
-    u.lang = 'tr-TR';
-    if (voice) u.voice = voice;
-    u.rate = 1.05;
-    u.onend = finish;
-    u.onerror = finish;
     onState('speaking');
-    synth.speak(u);
-    // Safari sometimes never fires onend; don't let the game hang on it.
-    setTimeout(finish, 1500 + text.length * 110);
+    next();
   }
 
   function cancel() {
     token++;
-    speaking = 0;
+    if (speaking) { speaking = 0; echoUntil = Date.now() + 1500; onState(rec ? 'listening' : 'off'); }
     if (synth) synth.cancel();
+    if (root.PP.Sound) root.PP.Sound.stopVoice();
   }
 
-  function deliver(my) {
+  function words(s) { return root.PP.norm(s).split(' ').filter(Boolean); }
+  function setEcho(parts) {
+    var lines = root.PP.VOICE_LINES || {};
+    echo = [];
+    parts.forEach(function (p) { echo = echo.concat(words((p.key && lines[p.key]) || p.text || '').map(root.PP.fold)); });
+    echoUntil = Infinity;
+  }
+  // A heard word is the game's own voice if it matches, or nearly matches, a word being said.
+  function isEcho(w) {
+    if (Date.now() > echoUntil) return false;
+    var f = root.PP.fold(w);
+    // "Hazır mısınız?" must not swallow the player's "hazırım", so only a one-letter slip counts as near.
+    return echo.some(function (e) { return e === f || (f.length >= 5 && Math.abs(e.length - f.length) <= 1 && e.slice(0, 4) === f.slice(0, 4)); });
+  }
+
+  function deliver(my, idx, count) {
     clearTimeout(settleTimer);
     if (my !== session || !lastAlts) return;
     var alts = lastAlts;
     lastAlts = null;
-    session++;            // ignore whatever this recognition says from now on
-    pauseMic();
-    if (handler && !speaking) handler(alts);
-    if (!speaking) setTimeout(resume, 200);
+    lastKey = '';
+    used[idx] = Math.max(used[idx] || 0, count);  // the next answer starts after these words
+    if (handler) handler(alts);
   }
 
   function startRec() {
-    if (!SR || !wanted || rec || speaking) return;
+    if (!SR || !wanted || rec) return;
     var my = ++session;
     var r = new SR();
     rec = r;
+    used = {};
+    lastAlts = null;
+    lastKey = '';
     r.lang = 'tr-TR';
     r.continuous = true;
     r.interimResults = true;
     r.maxAlternatives = 5;
     r.onresult = function (e) {
       if (my !== session) return;
-      var res = e.results[e.results.length - 1];
+      var idx = e.results.length - 1, res = e.results[idx];
       if (!res) return;
-      var alts = [];
-      for (var i = 0; i < res.length; i++) if (res[i].transcript.trim()) alts.push(res[i].transcript.trim());
-      if (!alts.length) return;
+      var skip = used[idx] || 0, count = 0, alts = [];
+      for (var i = 0; i < res.length; i++) {
+        var w = words(res[i].transcript);
+        if (i === 0) count = w.length;
+        w = w.slice(skip).filter(function (x) { return !isEcho(x); });
+        if (w.length) alts.push(w.join(' '));
+      }
+      if (!alts.length) {
+        // Only the game's own voice so far: mark it handled so it never prefixes an answer.
+        if (!lastAlts && speaking) used[idx] = Math.max(skip, count);
+        return;
+      }
+      if (alts[0] === lastKey && !res.isFinal) return;  // nothing new, keep the settle timer running
+      lastKey = alts[0];
       lastAlts = alts;
       onInterim(alts[0]);
       clearTimeout(settleTimer);
-      if (res.isFinal) deliver(my);
-      else settleTimer = setTimeout(function () { deliver(my); }, SETTLE_MS);
+      if (res.isFinal) deliver(my, idx, count);
+      else settleTimer = setTimeout(function () { deliver(my, idx, count); }, SETTLE_MS);
     };
     r.onerror = function (e) {
       if (e.error === 'not-allowed' || e.error === 'service-not-allowed') { wanted = false; onState('denied'); }
@@ -102,11 +155,11 @@
     };
     r.onend = function () {
       if (rec === r) rec = null;
-      if (my === session && lastAlts) return deliver(my);
-      if (wanted && !speaking) setTimeout(startRec, 250);
+      if (my === session && lastAlts) deliver(my, -1, 0);
+      if (wanted) setTimeout(startRec, 250);
       else if (!wanted) onState('off');
     };
-    try { r.start(); onState('listening'); } catch (e) { rec = null; onState('tap'); }
+    try { r.start(); if (!speaking) onState('listening'); } catch (e) { rec = null; onState('tap'); }
   }
 
   function pauseMic() {
@@ -114,7 +167,7 @@
     if (rec) { var r = rec; rec = null; try { r.abort(); } catch (e) { /* already stopped */ } }
   }
 
-  function resume() { if (wanted && !speaking) startRec(); }
+  function resume() { if (wanted) startRec(); }
 
   function listen(fn) { handler = fn; wanted = true; resume(); }
 
@@ -122,7 +175,6 @@
   function kick() {
     if (!SR) return;
     wanted = true;
-    if (speaking) return;
     pauseMic();
     startRec();
   }

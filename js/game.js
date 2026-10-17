@@ -57,9 +57,9 @@
     return a;
   }
 
-  function makePlayer(name, set) {
+  function makePlayer(name, set, si) {
     return {
-      name: name, time: Number(settings.time), correct: 0, wrong: 0, idx: 0, done: false,
+      name: name, set: si, time: Number(settings.time), correct: 0, wrong: 0, idx: 0, done: false, fresh: true,
       letters: set.map(function (q) { return { l: q.l, t: q.t, q: q.q, a: q.a, status: 'pending' }; })
     };
   }
@@ -69,7 +69,7 @@
     var sets = shuffle(PP.SETS.map(function (_, i) { return i; })).slice(0, n);
     var defaults = n === 2 ? ['1. Yarışmacı', '2. Yarışmacı'] : ['Yarışmacı'];
     game = {
-      players: sets.map(function (si, i) { return makePlayer(settings.names[i] || defaults[i], PP.SETS[si]); }),
+      players: sets.map(function (si, i) { return makePlayer(settings.names[i] || defaults[i], PP.SETS[si], si); }),
       cur: 0, running: false, busy: true, ended: false, timer: null, last: 0, host: settings.host === '1'
     };
     buildStages();
@@ -88,7 +88,10 @@
   function other() { return game.players.filter(function (p, i) { return i !== game.cur && !p.done; })[0] || null; }
 
   function begin() {
+    if (game.firstTurn === undefined) game.firstTurn = true;
     game.busy = false;
+    game.turnStart = true;
+    cur().fresh = false;
     S.play('bg');
     ask();
   }
@@ -106,18 +109,43 @@
     stopClock();
     game.reading = true;
     render();
-    var q = currentQ(), g = game;
-    var text = (q.t === 'b' ? q.l + ' ile başlar.' : 'İçinde ' + q.l + ' var.') + ' ' + q.q;
+    var q = currentQ(), g = game, p = cur();
+    var parts = [{ key: qKey('q'), text: q.q + ' ' + (q.t === 'b' ? q.l + '.' : 'İçinde ' + q.l + '.') }];
+    if (g.turnStart && g.firstTurn) parts.unshift(line('go'));
+    g.turnStart = g.firstTurn = false;
+    if (g.prefix) { parts.unshift(g.prefix); g.prefix = null; }
+    preloadNext();
     S.duck(true);
     setTimeout(function () {
       if (game !== g || g.ended || !g.reading) return;
-      V.speak(text, function () {
+      V.speak(parts, function () {
         if (game !== g || g.ended || !g.reading) return;
         g.reading = false;
         S.duck(false);
         if (!g.busy && !cur().done) startClock();
       });
     }, 300);
+  }
+
+  function qKey(kind, p) { p = p || cur(); return kind + '-' + p.set + '-' + p.idx; }
+  function line(key) { return { key: key, text: (PP.VOICE_LINES && PP.VOICE_LINES[key]) || HOST_TEXT[key] || '' }; }
+  // Fallback wording when a recording is missing (tools/host-lines.json has the recorded ones).
+  var HOST_TEXT = { welcome: 'Başarılar diliyorum.', welcome2: 'Her ikinize de başarılar diliyorum.', ready: 'Hazır mısınız?',
+    go: 'İşte sağ cepten sorular çıkıyor efendim.', correct1: 'Doğru.', correct2: 'Doğru efendim.', correct3: 'Doğru yanıt.',
+    wrong: 'Değil, olmadı.', listen: 'Ne olur dikkatli dinleyin.', turn: 'Sizdeyim efendim.', turn2: 'Sizinle devam ediyorum.',
+    timeup: 'Süre doldu.', allcorrect: 'Bravo! Bütün harfleri bildiniz. Passaparola!', end: 'Çok güzel bir yarış. Tebrik ediyorum.',
+    end2: 'Tebrik ediyorum her ikinizi de. Gerçekten çok güzel yarıştınız.', draw: 'Berabere bitti! Çok güzel bir final.', win: 'Bravo!' };
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+
+  // Fetch the next few questions' recordings ahead so there is no gap.
+  function preloadNext() {
+    if (!voiceOn()) return;
+    var keys = [], p = cur(), n = p.letters.length;
+    for (var k = 0, found = 0; k < n && found < 3; k++) {
+      var j = (p.idx + k) % n;
+      if (p.letters[j].status === 'pending') { keys.push('q-' + p.set + '-' + j, 'a-' + p.set + '-' + j); found++; }
+    }
+    S.preloadVoice(keys.filter(function (key) { return PP.VOICE_LINES && PP.VOICE_LINES[key]; }));
   }
 
   function interrupt() {
@@ -134,8 +162,10 @@
       return;
     }
     if (!canAct()) return;
-    $('#guess').value = alts[0];
     var v = PP.judgeSpoken(alts, currentQ().a);
+    // While the question is still being read, longer talk is more likely the room than an answer.
+    if (v === 'wrong' && game.reading && PP.norm(alts[0]).split(' ').length > 2) return;
+    $('#guess').value = alts[0];
     if (v === 'correct') doCorrect(); else if (v === 'pass') doPass(); else doWrong(alts[0]);
   }
 
@@ -176,7 +206,7 @@
     S.play('end');
     S.stopBg();
     game.gong = true;
-    if (voiceOn()) V.speak('Süre doldu!');
+    if (voiceOn()) V.speak([line('timeup')]);
     toast('Süre doldu!', 'bad');
     render();
     setTimeout(nextTurnOrEnd, 1600);
@@ -206,9 +236,12 @@
   function doCorrect() {
     interrupt();
     var p = cur(), q = currentQ();
+    p.wrongRun = 0;
     q.status = 'correct';
     p.correct++;
     S.play('correct');
+    // The host now and then confirms out loud, as on the show.
+    if (voiceOn() && Math.random() < 0.6) game.prefix = line(pick(['correct1', 'correct2', 'correct3']));
     pop(q);
     afterAnswer(false);
   }
@@ -233,7 +266,13 @@
       g.busy = false;
       afterAnswer(true);
     }
-    if (voiceOn()) { waits++; setTimeout(function () { V.speak('Yanlış. Doğru cevap: ' + q.a[0], go); }, 500); }
+    if (voiceOn()) {
+      waits++;
+      var parts = [line('wrong'), { key: qKey('a'), text: q.a[0] + ' olacaktı.' }];
+      p.wrongRun = (p.wrongRun || 0) + 1;
+      if (p.wrongRun === 2) parts.push(line('listen'));
+      setTimeout(function () { V.speak(parts, go); }, 500);
+    }
     setTimeout(go, REVEAL_MS);
   }
 
@@ -293,7 +332,12 @@
     var full = game.players.some(function (p) { return p.correct === p.letters.length; });
     if (game.players.length === 2 || full) S.play('win');
     else if (!game.gong) S.play('end');
-    if (voiceOn()) setTimeout(function () { V.speak($('#winner').textContent); }, 1200);
+    if (voiceOn()) {
+      var two = game.players.length === 2, ps = game.players;
+      var draw = two && ps[0].correct === ps[1].correct && ps[0].wrong === ps[1].wrong;
+      var parts = [line(full ? 'allcorrect' : draw ? 'draw' : two ? 'end2' : 'end')];
+      setTimeout(function () { V.speak(parts); }, 1200);
+    }
     stopCamera();
     location.replace('#/sonuc');
   }
@@ -420,8 +464,9 @@
     };
     setTimeout(function () { go.focus(); }, 50);
     if (voiceOn()) {
-      var said = $('#overlaytext').textContent.replace('Sıra:', 'Sıra');
-      setTimeout(function () { V.speak(said + (said.indexOf('?') < 0 ? '. Hazır mısın?' : '') + ' Hazırsan, hazırım de.'); }, 600);
+      var first = game.players.every(function (p) { return p.fresh; }) && game.cur === 0;
+      var parts = first ? [line(game.players.length === 2 ? 'welcome2' : 'welcome'), line('ready')] : [line(pick(['turn', 'turn2']))];
+      setTimeout(function () { V.speak(parts); }, first ? 1800 : 600);
     }
   }
 

@@ -1,0 +1,21 @@
+{
+  "_note": "Host lines, taken from Metin Uca's own wording in the Passaparola final (Star TV, 30 May 2010). Keys are used by js/game.js.",
+  "welcome": "Başarılar diliyorum.",
+  "welcome2": "Her ikinize de başarılar diliyorum.",
+  "ready": "Hazır mısınız?",
+  "go": "İşte sağ cepten sorular çıkıyor efendim.",
+  "correct1": "Doğru.",
+  "correct2": "Doğru efendim.",
+  "correct3": "Doğru yanıt.",
+  "wrong": "Değil, olmadı.",
+  "listen": "Ne olur dikkatli dinleyin.",
+  "turn": "Sizdeyim efendim.",
+  "turn2": "Sizinle devam ediyorum.",
+  "time": "Daha zamanımız var.",
+  "timeup": "Süre doldu.",
+  "allcorrect": "Bravo! Bütün harfleri bildiniz. Passaparola!",
+  "end": "Çok güzel bir yarış. Tebrik ediyorum.",
+  "end2": "Tebrik ediyorum her ikinizi de. Gerçekten çok güzel yarıştınız.",
+  "draw": "Berabere bitti! Çok güzel bir final.",
+  "win": "Bravo!"
+}

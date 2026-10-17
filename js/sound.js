@@ -158,6 +158,44 @@
 
   function hasClip(cue) { return !!clips[cue]; }
 
+  // ---------- recorded host voice (assets/voice/<key>.mp3) ----------
+  var voiceBufs = {}, voiceLoads = {}, voiceSrc = null, voiceGain = null;
+  function voiceUrl(key) { return 'assets/voice/' + key + '.mp3'; }
+  function loadVoice(key) {
+    if (!ctx) return Promise.reject(new Error('no audio'));
+    if (voiceBufs[key]) return Promise.resolve(voiceBufs[key]);
+    if (!voiceLoads[key]) {
+      voiceLoads[key] = fetch(voiceUrl(key)).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.arrayBuffer();
+      }).then(function (d) {
+        return new Promise(function (ok, fail) { ctx.decodeAudioData(d, ok, fail); });
+      }).then(function (b) { voiceBufs[key] = b; return b; })
+        .catch(function (e) { delete voiceLoads[key]; throw e; });
+    }
+    return voiceLoads[key];
+  }
+  function preloadVoice(keys) { if (ctx) keys.forEach(function (k) { loadVoice(k).catch(function () {}); }); }
+  function playVoice(key, onend, onfail) {
+    if (!ctx) return onfail();
+    if (!voiceGain) { voiceGain = ctx.createGain(); voiceGain.gain.value = 1; voiceGain.connect(ctx.destination); }
+    loadVoice(key).then(function (buf) {
+      stopVoice();
+      var src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(voiceGain);
+      src.onended = function () { if (voiceSrc === src) voiceSrc = null; onend(); };
+      voiceSrc = src;
+      src.start();
+    }, onfail);
+  }
+  function stopVoice() {
+    if (!voiceSrc) return;
+    var s = voiceSrc;
+    voiceSrc = null;
+    try { s.stop(); } catch (e) { /* already ended */ }
+  }
+
   function setMuted(m) {
     muted = !!m;
     if (muted && bg) { var w = bgWanted; stopBg(); bgWanted = w; }
@@ -165,6 +203,7 @@
   }
 
   root.PP = Object.assign(root.PP || {}, {
-    Sound: { init: init, play: play, setMuted: setMuted, startBg: startBg, stopBg: stopBg, duck: duck, hasClip: hasClip, isMuted: function () { return muted; }, played: played, CUES: CUES }
+    Sound: { init: init, play: play, setMuted: setMuted, startBg: startBg, stopBg: stopBg, duck: duck, hasClip: hasClip,
+      playVoice: playVoice, stopVoice: stopVoice, preloadVoice: preloadVoice, voiceReady: function () { return !!ctx && !muted; }, isMuted: function () { return muted; }, played: played, CUES: CUES }
   });
 })(this);
