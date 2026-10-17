@@ -37,9 +37,21 @@ prints how many `.mp3` files went in.
 uv run --with pillow python3 tools/gen-app-icon.py
 ```
 
-## Later: TestFlight / App Store
+## TestFlight beta (one command, not used yet)
 
-Not set up yet. Already done in Apple's developer portal: bundle id
-`com.skolalabs.harfiyen` is registered and an App Store provisioning profile
-"Harfiyen App Store" exists. Still to do: the App Store Connect app record (needs a web
-login with 2FA approval on Yakup's device), a fastlane `beta` lane, internal testers.
+```bash
+cd app && npm run beta
+```
+
+`app/scripts/beta.sh` runs the fastlane `beta` lane (`app/fastlane/Fastfile`) under the
+build lock: it runs `expo prebuild`, sets the build number to the latest TestFlight build + 1
+(`latest_testflight_build_number`), builds a signed App Store IPA (Apple Distribution, team
+`23N6H4HW39`, profile "Harfiyen App Store") and uploads it to TestFlight Internal Testing
+only. It never adds external testers and never submits for App Store review. Then it deletes
+`app/ios/` and `app/build/`.
+
+Already in place: bundle id `com.skolalabs.harfiyen` and the "Harfiyen App Store"
+provisioning profile. Before the first run, create the App Store Connect app record
+(`asc-create-app --name "Harfiyen" --bundle com.skolalabs.harfiyen --sku harfiyen001`; it
+needs Yakup to approve the Apple sign-in on his phone) and add Yakup as an internal
+tester. Yakup asked for direct iPhone installs for now, so this lane has not been run yet.

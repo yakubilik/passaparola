@@ -36,7 +36,8 @@
     "ios": "expo run:ios",
     "test": "jest",
     "typecheck": "tsc --noEmit",
-    "iphone": "scripts/install-iphone.sh"
+    "iphone": "scripts/install-iphone.sh",
+    "beta": "scripts/beta.sh"
   },
   "private": true,
   "jest": {
