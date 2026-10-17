@@ -1,4 +1,4 @@
-import { setAudioModeAsync } from 'expo-audio';
+import { setAudioModeAsync, setIsAudioActiveAsync } from 'expo-audio';
 
 import { Host } from './host';
 import { AnswerListener } from './listener';
@@ -18,12 +18,14 @@ host.onSpeaking = (texts) => {
   sounds.duck(!!texts);
 };
 
-let modeSet = false;
-// Play through the loudspeaker in silent mode, with the mic open.
-export function prepareAudio() {
-  if (modeSet) return;
-  modeSet = true;
-  setAudioModeAsync({ playsInSilentMode: true, allowsRecording: true, interruptionMode: 'mixWithOthers' }).catch(() => {
-    modeSet = false;
-  });
+let ready: Promise<void> | null = null;
+// The iOS audio session for the whole app: play and record at once, on the
+// loudspeaker (not the earpiece), and not muted by the ring/silent switch.
+// Until this is set iOS uses its default category, which the switch silences,
+// so nothing is played before it resolves.
+export function prepareAudio(): Promise<void> {
+  ready ??= setIsAudioActiveAsync(true)
+    .then(() => setAudioModeAsync({ playsInSilentMode: true, allowsRecording: true, shouldRouteThroughEarpiece: false, interruptionMode: 'mixWithOthers' }))
+    .catch(() => { ready = null; });
+  return ready;
 }

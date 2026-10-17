@@ -117,7 +117,8 @@ export class Host {
       next();
     };
     this.said.push(`tts:${text}`);
-    Speech.speak(text, { language: 'tr-TR', rate: 1.0, onDone: end, onError: end });
+    // On the app's audio session, so the silent switch does not mute it either.
+    Speech.speak(text, { language: 'tr-TR', rate: 1.0, useApplicationAudioSession: true, onDone: end, onError: end });
     // iOS sometimes never reports the end; don't let the game hang on it.
     this.safety = setTimeout(end, 1500 + text.length * 110);
   }

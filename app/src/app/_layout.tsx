@@ -3,13 +3,16 @@ import { BarlowCondensed_700Bold, BarlowCondensed_800ExtraBold } from '@expo-goo
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 import { View } from 'react-native';
 
 import { ProgressProvider } from '../store/ProgressContext';
 import { SettingsProvider } from '../store/SettingsContext';
 import { C } from '../ui/theme';
+import { prepareAudio } from '../voice/engine';
 
 export default function RootLayout() {
+  useEffect(() => { prepareAudio(); }, []);
   const [loaded, error] = useFonts({
     Barlow_500Medium,
     Barlow_600SemiBold,

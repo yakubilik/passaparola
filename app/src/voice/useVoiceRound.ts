@@ -41,8 +41,9 @@ export function useVoiceRound(voice: boolean, open = true, rng: () => number = M
   // The round opens with the theme; leaving it closes the mic and the bed.
   useEffect(() => {
     if (!open) return;
-    prepareAudio();
-    sounds.play('theme');
+    let live = true;
+    prepareAudio().then(() => { if (live) sounds.play('theme'); });
+    return () => { live = false; };
   }, [open]);
   useEffect(() => {
     return () => {
@@ -66,6 +67,7 @@ export function useVoiceRound(voice: boolean, open = true, rng: () => number = M
 
   // From the Başla button: the bed starts and the mic opens for the whole round.
   const begin = useCallback(() => {
+    prepareAudio();
     sounds.startBg();
     if (!voice) return;
     listener.onState = setMic;

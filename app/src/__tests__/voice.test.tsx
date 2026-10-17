@@ -4,6 +4,7 @@ import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-librar
 import { CATEGORIES } from '../data/questions';
 import { REVEAL_MS } from '../game/useRound';
 import { SETTINGS_KEY } from '../store/settings';
+import { audio } from '../test-utils/fakeAudio';
 import { fakeRecognizer as rec } from '../test-utils/fakeRecognizer';
 import { C } from '../ui/theme';
 import { host, sounds } from '../voice/engine';
@@ -57,6 +58,11 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; the mic 
   expect(await screen.findByText('Hazır mısın?')).toBeOnTheScreen();
   expect(sounds.played).toEqual(['theme']);
   expect(screen.getByTestId('voice-toggle').props.value).toBe(true);
+  // The iOS session: loudspeaker, mic open, not muted by the silent switch.
+  expect(audio.active).toBe(true);
+  expect(audio.mode).toEqual({ playsInSilentMode: true, allowsRecording: true, shouldRouteThroughEarpiece: false, interruptionMode: 'mixWithOthers' });
+  // Answered by voice: the keyboard does not open on its own.
+  expect(screen.getByTestId('answer').props.autoFocus).toBe(false);
 
   await fireEvent.press(screen.getByText('Başla'));
   expect(rec.starts).toBe(1);
@@ -138,6 +144,7 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; the mic 
 test('voice off: no host, no mic, the cues still play', async () => {
   await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ voice: false, micChecked: false }));
   await renderRouter('./src/app', { initialUrl: '/game?cats=tarih&level=1&seed=7' });
+  expect(screen.getByTestId('answer').props.autoFocus).toBe(true);
   await fireEvent.press(await screen.findByText('Başla'));
   expect(rec.starts).toBe(0);
   expect(host.said).toEqual([]);

@@ -44,6 +44,7 @@ export class FakePlayer {
 export const audio = {
   players: [] as FakePlayer[],
   mode: null as unknown,
+  active: false,
 };
 
 export const mockAudio = {
@@ -53,6 +54,7 @@ export const mockAudio = {
     return p;
   },
   setAudioModeAsync: async (m: unknown) => { audio.mode = m; },
+  setIsAudioActiveAsync: async (on: boolean) => { audio.active = on; },
 };
 
 type SpeechOpts = { onDone?: () => void; onStopped?: () => void; onError?: (e: unknown) => void; language?: string };
