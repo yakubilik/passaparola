@@ -1,0 +1,243 @@
+import { router, useLocalSearchParams } from 'expo-router';
+import { useCallback, useMemo, useRef, useState, type ComponentRef } from 'react';
+import {
+  Alert, KeyboardAvoidingView, Platform, Pressable, Text, TextInput, View, useWindowDimensions, type LayoutChangeEvent,
+} from 'react-native';
+
+import { CATEGORIES } from '../data/questions';
+import { counts, createRound, seededRng, current, formatClock, pickQuestions, PASS_MARK, promptLine, type Round, type RoundLetter } from '../game/round';
+import { parseCats } from '../game/selection';
+import { setLastResult } from '../game/session';
+import { useRound } from '../game/useRound';
+import { selectionUnlocked } from '../store/progress';
+import { useProgress } from '../store/ProgressContext';
+import { BackLink } from '../ui/BackLink';
+import { Button } from '../ui/Button';
+import { Face } from '../ui/Face';
+import { Ring, type RingItem } from '../ui/Ring';
+import { Screen } from '../ui/Screen';
+import { C, F, type BubbleKind } from '../ui/theme';
+
+const STATUS_TEXT = { correct: 'doğru', wrong: 'yanlış', passed: 'pas', pending: 'bekliyor', active: 'sırada' };
+
+function kindOf(l: RoundLetter, active: boolean): BubbleKind {
+  if (l.status !== 'pending') return l.status;
+  if (active) return 'active';
+  return l.passed ? 'passed' : 'pending';
+}
+
+// The game, variant 1a "Klasik": the face inside the letter ring, the
+// question below, the answer typed in.
+export default function Game() {
+  const params = useLocalSearchParams<{ cats?: string; level?: string; quick?: string; seed?: string }>();
+  const level = Number(params.level) || 1;
+  const quick = params.quick === '1';
+  const cats = parseCats(params.cats);
+  const { progress, ready, record } = useProgress();
+
+  // The round is drawn once per visit.
+  const [picked] = useState(() => pickQuestions(CATEGORIES, cats, level, params.seed ? seededRng(Number(params.seed)) : Math.random));
+  const initial = useMemo(() => (picked ? createRound(picked) : null), [picked]);
+  const locked = !!initial && ready && !quick && level > selectionUnlocked(progress, cats);
+
+  const onOver = useCallback(async (r: Round) => {
+    const played = Array.from(new Set(r.letters.map((l) => l.category)));
+    const before = selectionUnlocked(progress, played);
+    let unlockedNext = false;
+    if (!quick) {
+      const after = await record(played, level, r.correct);
+      unlockedNext = selectionUnlocked(after, played) > before;
+    }
+    setLastResult({ round: r, cats: played, catsParam: params.cats ?? '', level, quick, passed: r.correct >= PASS_MARK, unlockedNext });
+    router.replace('/result');
+  }, [progress, record, quick, level, params.cats]);
+
+  const game = useRound(initial, onOver);
+
+  if (!initial || locked) {
+    return (
+      <Screen light="game">
+        <View style={{ padding: 22, gap: 20 }}>
+          <BackLink />
+          <Text style={{ fontFamily: F.display, fontSize: 32, color: C.text }}>
+            {locked ? 'Bu bölüm henüz kilitli' : 'Bu bölüm yakında'}
+          </Text>
+          <Text style={{ fontFamily: F.body, fontSize: 16, color: C.dim }}>
+            {locked ? `Önceki bölümü en az ${PASS_MARK} doğruyla bitir.` : 'Soruları hazırlanıyor. Başka bir bölüm ya da kategori seç.'}
+          </Text>
+        </View>
+      </Screen>
+    );
+  }
+
+  return <GameView game={game} />;
+}
+
+function GameView({ game }: { game: ReturnType<typeof useRound> }) {
+  const { round, phase, reveal } = game;
+  const r = round!;
+  const { width } = useWindowDimensions();
+  const [area, setArea] = useState({ w: width, h: 380 });
+  const [text, setText] = useState('');
+  const input = useRef<ComponentRef<typeof TextInput>>(null);
+  const c = counts(r);
+  const now = current(r);
+  const shown = reveal?.letter ?? now;
+  const live = phase === 'playing';
+
+  const items: RingItem[] = r.letters.map((l, i) => {
+    const kind = kindOf(l, live && i === r.idx);
+    const label = kind === 'active' ? 'sırada' : STATUS_TEXT[kind as keyof typeof STATUS_TEXT];
+    return { label: l.letter, kind, testID: `letter-${l.letter}`, accessibilityLabel: `${l.letter} harfi, ${label}` };
+  });
+
+  const size = Math.max(160, Math.min(area.w - 6, area.h - 6, 400));
+  const onArea = (e: LayoutChangeEvent) => setArea({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height });
+  const compact = size < 300;
+
+  const send = () => {
+    if (!live || !text.trim()) return;
+    game.submit(text);
+    setText('');
+  };
+  const quit = () => {
+    if (phase === 'over') return;
+    Alert.alert('Oyundan çıkılsın mı?', 'Bu tur sayılmaz.', [
+      { text: 'Vazgeç', style: 'cancel' },
+      { text: 'Çık', style: 'destructive', onPress: () => (router.canGoBack() ? router.back() : router.replace('/menu')) },
+    ]);
+  };
+
+  return (
+    <Screen light="game" bottomInset={false}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: 6 }}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Oyundan çık"
+            onPress={quit}
+            style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.08)', alignItems: 'center', justifyContent: 'center' }}
+          >
+            <Text style={{ color: C.text, fontSize: 16 }}>✕</Text>
+          </Pressable>
+          <View style={{ alignItems: 'center' }}>
+            <Text style={{ fontFamily: F.bodySemi, fontSize: 11, letterSpacing: 1.5, color: C.dim }}>KALAN SÜRE</Text>
+            <Text testID="clock" style={{ fontFamily: F.display, fontSize: 32, lineHeight: 34, color: r.timeLeft <= 10 ? C.redSoft : C.text }}>
+              {formatClock(r.timeLeft)}
+            </Text>
+          </View>
+          <View style={{ flexDirection: 'row', gap: 5 }}>
+            <Count n={c.correct} bg={C.green} fg="#fff" label="doğru" />
+            <Count n={c.passed} bg={C.yellow} fg={C.yellowInk} label="pas" />
+            <Count n={c.wrong} bg={C.red} fg="#fff" label="yanlış" />
+          </View>
+        </View>
+
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} onLayout={onArea}>
+          <View
+            pointerEvents="none"
+            style={{
+              position: 'absolute',
+              width: size * 1.1,
+              height: size * 1.1,
+              borderRadius: size,
+              backgroundImage: 'radial-gradient(circle, rgba(110,160,255,0.55) 30%, rgba(61,107,255,0.28) 46%, rgba(61,107,255,0) 70%)',
+            }}
+          />
+          <Ring items={items} size={size} bubble={Math.round(size * 0.079)}>
+            <Face size={Math.round(size * 0.63)} />
+          </Ring>
+        </View>
+
+        <View style={{ paddingHorizontal: 24, gap: compact ? 4 : 8, minHeight: compact ? 70 : 120 }}>
+          {reveal ? (
+            <Pressable accessibilityRole="button" accessibilityLabel="Devam" onPress={game.skipReveal} testID="reveal" style={{ gap: 4 }}>
+              <Text style={{ fontFamily: F.bodyBold, fontSize: 12, letterSpacing: 1.9, color: C.redSoft }}>YANLIŞ · {shown.letter}</Text>
+              {!!reveal.said && <Text style={{ fontFamily: F.body, fontSize: 15, color: C.dim }}>Senin cevabın: {reveal.said}</Text>}
+              <Text style={{ fontFamily: F.bodySemi, fontSize: compact ? 19 : 23, color: C.text }}>
+                Doğru cevap: <Text style={{ fontFamily: F.bodyBold, color: C.greenSoft }}>{shown.question.answers[0]}</Text>
+              </Text>
+            </Pressable>
+          ) : (
+            <>
+              <Text testID="prompt" style={{ fontFamily: F.bodyBold, fontSize: 12, letterSpacing: 1.9, color: C.accentSoft }}>{promptLine(now)}</Text>
+              <Text testID="clue" numberOfLines={compact ? 3 : 4} style={{ fontFamily: F.bodySemi, fontSize: compact ? 19 : 23, lineHeight: compact ? 24 : 29, color: C.text }}>
+                {now.question.clue}
+              </Text>
+            </>
+          )}
+        </View>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 20, paddingTop: 10, paddingBottom: 12 }}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Pas"
+            testID="pass"
+            disabled={!live}
+            onPress={() => { game.pass(); setText(''); }}
+            style={({ pressed }) => ({
+              width: 76, height: 48, borderRadius: 24, borderWidth: 2, borderColor: C.yellow,
+              alignItems: 'center', justifyContent: 'center', opacity: !live ? 0.4 : pressed ? 0.7 : 1,
+            })}
+          >
+            <Text style={{ fontFamily: F.display, fontSize: 20, letterSpacing: 1.2, color: C.yellow }}>PAS</Text>
+          </Pressable>
+          <TextInput
+            ref={input}
+            testID="answer"
+            accessibilityLabel="Cevabın"
+            value={text}
+            onChangeText={setText}
+            onSubmitEditing={send}
+            editable={phase !== 'over'}
+            autoFocus
+            autoCorrect={false}
+            autoCapitalize="words"
+            returnKeyType="send"
+            submitBehavior="submit"
+            placeholder="Cevabını yaz"
+            placeholderTextColor="#6f7899"
+            keyboardAppearance="dark"
+            style={{
+              flex: 1, height: 48, borderRadius: 24, paddingHorizontal: 18,
+              backgroundColor: 'rgba(255,255,255,0.08)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.14)',
+              color: C.text, fontFamily: F.bodySemi, fontSize: 18,
+            }}
+          />
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Gönder"
+            testID="send"
+            disabled={!live}
+            onPress={send}
+            style={({ pressed }) => ({
+              width: 48, height: 48, borderRadius: 24, backgroundColor: C.accent,
+              boxShadow: '0 0 0 6px rgba(61,107,255,0.22)', alignItems: 'center', justifyContent: 'center',
+              opacity: !live ? 0.4 : pressed ? 0.75 : 1,
+            })}
+          >
+            <Text style={{ color: '#fff', fontSize: 22, fontFamily: F.bodyBold }}>→</Text>
+          </Pressable>
+        </View>
+      </KeyboardAvoidingView>
+
+      {phase === 'ready' && (
+        <View style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(5,7,18,0.82)', alignItems: 'center', justifyContent: 'center', padding: 32, gap: 18 }}>
+          <Text style={{ fontFamily: F.display, fontSize: 44, color: C.text }}>Hazır mısın?</Text>
+          <Text style={{ fontFamily: F.body, fontSize: 16, color: C.soft, textAlign: 'center', lineHeight: 22 }}>
+            28 harf, {formatClock(r.timeLeft)} süre. Bilmediğin harfe pas de, tur sonunda geri gelir.
+          </Text>
+          <Button label="Başla" style={{ alignSelf: 'stretch' }} onPress={() => { game.start(); input.current?.focus(); }} />
+        </View>
+      )}
+    </Screen>
+  );
+}
+
+function Count({ n, bg, fg, label }: { n: number; bg: string; fg: string; label: string }) {
+  return (
+    <View accessibilityLabel={`${n} ${label}`} style={{ minWidth: 26, height: 26, paddingHorizontal: 4, borderRadius: 8, backgroundColor: bg, alignItems: 'center', justifyContent: 'center' }}>
+      <Text style={{ color: fg, fontFamily: F.bodyBold, fontSize: 13 }}>{n}</Text>
+    </View>
+  );
+}
