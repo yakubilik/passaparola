@@ -3,6 +3,7 @@ import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-librar
 
 import { CATEGORIES } from '../data/questions';
 import { REVEAL_MS } from '../game/useRound';
+import { SETTINGS_KEY } from '../store/settings';
 import { C } from '../ui/theme';
 
 // Drives the app the way a player does, from the intro to the round end,
@@ -34,9 +35,11 @@ async function press(el: Parameters<typeof fireEvent.press>[0]) {
 
 jest.setTimeout(60_000);
 
+// These walk the typed game: voice off (voice.test.tsx plays the spoken one).
 beforeEach(async () => {
   jest.useFakeTimers();
   await AsyncStorage.clear();
+  await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ voice: false, micChecked: true }));
 });
 afterEach(() => {
   jest.useRealTimers();

@@ -1,7 +1,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useMemo, useRef, useState, type ComponentRef } from 'react';
 import {
-  Alert, KeyboardAvoidingView, Platform, Pressable, Text, TextInput, View, useWindowDimensions, type LayoutChangeEvent,
+  Alert, KeyboardAvoidingView, Platform, Pressable, Switch, Text, TextInput, View, useWindowDimensions, type LayoutChangeEvent,
 } from 'react-native';
 
 import { CATEGORIES } from '../data/questions';
@@ -11,12 +11,15 @@ import { setLastResult } from '../game/session';
 import { useRound } from '../game/useRound';
 import { selectionUnlocked } from '../store/progress';
 import { useProgress } from '../store/ProgressContext';
+import { useSettings } from '../store/SettingsContext';
 import { BackLink } from '../ui/BackLink';
 import { Button } from '../ui/Button';
 import { Face } from '../ui/Face';
+import { MicCheck } from '../ui/MicCheck';
 import { Ring, type RingItem } from '../ui/Ring';
 import { Screen } from '../ui/Screen';
 import { C, F, type BubbleKind } from '../ui/theme';
+import { useVoiceEffects, useVoiceRound } from '../voice/useVoiceRound';
 
 const STATUS_TEXT = { correct: 'doğru', wrong: 'yanlış', passed: 'pas', pending: 'bekliyor', active: 'sırada' };
 
@@ -27,8 +30,25 @@ function kindOf(l: RoundLetter, active: boolean): BubbleKind {
 }
 
 // The game, variant 1a "Klasik": the face inside the letter ring, the
-// question below, the answer typed in.
+// question below, the answer spoken (or typed in). Before the first voice
+// game the mic check comes first.
 export default function Game() {
+  const { settings, ready: settingsReady, update } = useSettings();
+  if (!settingsReady) return <Screen light="game"><View /></Screen>;
+  if (settings.voice && !settings.micChecked) {
+    return (
+      <Screen light="game">
+        <View style={{ paddingHorizontal: 22, paddingTop: 10 }}>
+          <BackLink />
+        </View>
+        <MicCheck onDone={() => update({ micChecked: true })} onTypeInstead={() => update({ voice: false, micChecked: true })} />
+      </Screen>
+    );
+  }
+  return <GameRound voice={settings.voice} />;
+}
+
+function GameRound({ voice }: { voice: boolean }) {
   const params = useLocalSearchParams<{ cats?: string; level?: string; quick?: string; seed?: string }>();
   const level = Number(params.level) || 1;
   const quick = params.quick === '1';
@@ -40,7 +60,9 @@ export default function Game() {
   const initial = useMemo(() => (picked ? createRound(picked) : null), [picked]);
   const locked = !!initial && ready && !quick && level > selectionUnlocked(progress, cats);
 
+  const v = useVoiceRound(voice);
   const onOver = useCallback(async (r: Round) => {
+    v.onOver(r);
     const played = Array.from(new Set(r.letters.map((l) => l.category)));
     const before = selectionUnlocked(progress, played);
     let unlockedNext = false;
@@ -50,9 +72,10 @@ export default function Game() {
     }
     setLastResult({ round: r, cats: played, catsParam: params.cats ?? '', level, quick, passed: r.correct >= PASS_MARK, unlockedNext });
     router.replace('/result');
-  }, [progress, record, quick, level, params.cats]);
+  }, [progress, record, quick, level, params.cats, v.onOver]);
 
-  const game = useRound(initial, onOver);
+  const game = useRound(initial, onOver, v.onAnswer);
+  useVoiceEffects(v, game);
 
   if (!initial || locked) {
     return (
@@ -70,10 +93,11 @@ export default function Game() {
     );
   }
 
-  return <GameView game={game} />;
+  return <GameView game={game} voice={v} />;
 }
 
-function GameView({ game }: { game: ReturnType<typeof useRound> }) {
+function GameView({ game, voice }: { game: ReturnType<typeof useRound>; voice: ReturnType<typeof useVoiceRound> }) {
+  const { update } = useSettings();
   const { round, phase, reveal } = game;
   const r = round!;
   const { width } = useWindowDimensions();
@@ -168,6 +192,15 @@ function GameView({ game }: { game: ReturnType<typeof useRound> }) {
           )}
         </View>
 
+        {voice.voice && live && (
+          <View testID="voice-status" style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 24, paddingTop: 8 }}>
+            <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: voice.reading ? C.accentSoft : voice.mic === 'listening' ? C.greenSoft : C.redSoft }} />
+            <Text numberOfLines={1} style={{ flex: 1, fontFamily: F.bodySemi, fontSize: 14, color: C.dim }}>
+              {voiceStatus(voice)}
+            </Text>
+          </View>
+        )}
+
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 20, paddingTop: 10, paddingBottom: 12 }}>
           <Pressable
             accessibilityRole="button"
@@ -190,12 +223,12 @@ function GameView({ game }: { game: ReturnType<typeof useRound> }) {
             onChangeText={setText}
             onSubmitEditing={send}
             editable={phase !== 'over'}
-            autoFocus
+            autoFocus={!voice.voice}
             autoCorrect={false}
             autoCapitalize="words"
             returnKeyType="send"
             submitBehavior="submit"
-            placeholder="Cevabını yaz"
+            placeholder={voice.voice ? 'Söyle ya da yaz' : 'Cevabını yaz'}
             placeholderTextColor="#6f7899"
             keyboardAppearance="dark"
             style={{
@@ -227,11 +260,32 @@ function GameView({ game }: { game: ReturnType<typeof useRound> }) {
           <Text style={{ fontFamily: F.body, fontSize: 16, color: C.soft, textAlign: 'center', lineHeight: 22 }}>
             28 harf, {formatClock(r.timeLeft)} süre. Bilmediğin harfe pas de, tur sonunda geri gelir.
           </Text>
-          <Button label="Başla" style={{ alignSelf: 'stretch' }} onPress={() => { game.start(); input.current?.focus(); }} />
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, alignSelf: 'stretch', justifyContent: 'space-between' }}>
+            <View style={{ flex: 1 }}>
+              <Text style={{ fontFamily: F.bodyBold, fontSize: 16, color: C.text }}>Sesli oyun</Text>
+              <Text style={{ fontFamily: F.body, fontSize: 13, color: C.dim }}>
+                {voice.voice ? 'Sunucu okur, sen söylersin. Yazmak da olur.' : 'Sorular ekranda, cevabı yazarsın.'}
+              </Text>
+            </View>
+            <Switch accessibilityLabel="Sesli oyun" testID="voice-toggle" value={voice.voice} onValueChange={(on) => update({ voice: on })} />
+          </View>
+          <Button
+            label="Başla"
+            style={{ alignSelf: 'stretch' }}
+            onPress={() => { game.start(); voice.begin(); if (!voice.voice) input.current?.focus(); }}
+          />
         </View>
       )}
     </Screen>
   );
+}
+
+function voiceStatus(v: ReturnType<typeof useVoiceRound>): string {
+  if (v.reading) return v.heard ? `“${v.heard}”` : 'Sunucu okuyor… bildiysen hemen söyle';
+  if (v.mic === 'denied') return 'Mikrofon kapalı. Cevabı yazabilirsin.';
+  if (v.mic === 'error') return 'Mikrofon duymuyor. Cevabı yazabilirsin.';
+  if (v.mic === 'listening') return v.heard ? `“${v.heard}”` : 'Dinliyorum…';
+  return 'Mikrofon açılıyor…';
 }
 
 function Count({ n, bg, fg, label }: { n: number; bg: string; fg: string; label: string }) {
