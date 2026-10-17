@@ -20,7 +20,7 @@ export const HOST_LINES = {
   turn: 'Sizdeyim efendim.',
   time: 'Daha zamanımız var.',
   timeup: 'Süre doldu.',
-  allcorrect: 'Bravo! Bütün harfleri bildiniz. Passaparola!',
+  allcorrect: 'Bravo! Bütün harfleri bildiniz. Harfiyen!',
   end: 'Çok güzel bir yarış. Tebrik ediyorum.',
   win: 'Bravo!',
 } as const;
