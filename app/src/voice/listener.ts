@@ -32,7 +32,7 @@ export type RecOptions = {
   contextualStrings?: string[];
 };
 
-// Apple's limit for contextual strings is about 100 phrases.
+// The iOS limit for contextual strings is about 100 phrases.
 const MAX_CONTEXT = 100;
 const CONTEXT_PASS = ['pas', 'geç', 'pas geçiyorum'];
 

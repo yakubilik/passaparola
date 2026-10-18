@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { useState, type ReactNode } from 'react';
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { Keyboard, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 
 import { CATEGORIES, hasQuestions } from '../data/questions';
 import { matchLevels, MAX_PLAYERS, MIN_PLAYERS, playerNames } from '../game/match';
@@ -32,7 +32,9 @@ export default function MultiSetup() {
 
   return (
     <Screen light="none">
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 14, paddingBottom: 16, gap: 16 }}>
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 14, paddingBottom: 16 }}>
+        {/* A tap off the name fields and the choices puts the keyboard away. */}
+        <Pressable testID="multi-body" accessible={false} onPress={() => Keyboard.dismiss()} style={{ gap: 16 }}>
         <BackLink />
         <View style={{ gap: 4 }}>
           <Text style={{ fontFamily: F.display, fontSize: 36, color: C.text, lineHeight: 40 }}>Çok oyunculu</Text>
@@ -103,6 +105,7 @@ export default function MultiSetup() {
             )}
           </Section>
         )}
+        </Pressable>
       </ScrollView>
 
       <View style={{ paddingHorizontal: 22, paddingBottom: 12, gap: 8 }}>

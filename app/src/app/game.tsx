@@ -1,7 +1,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { memo, useCallback, useMemo, useRef, useState, type ComponentRef } from 'react';
 import {
-  Alert, KeyboardAvoidingView, Platform, Pressable, Switch, Text, TextInput, View, useWindowDimensions, type LayoutChangeEvent,
+  Alert, Keyboard, KeyboardAvoidingView, Platform, Pressable, Switch, Text, TextInput, View, useWindowDimensions, type LayoutChangeEvent,
 } from 'react-native';
 
 import { CATEGORIES } from '../data/questions';
@@ -163,6 +163,8 @@ export function GameView({ game, voice, player }: { game: ReturnType<typeof useR
   return (
     <Screen light="game" bottomInset={false}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        {/* A tap anywhere off the answer field and the buttons puts the keyboard away. */}
+        <Pressable testID="game-body" accessible={false} onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: 6 }}>
           <Pressable
             accessibilityRole="button"
@@ -272,6 +274,7 @@ export function GameView({ game, voice, player }: { game: ReturnType<typeof useR
             <Text style={{ color: '#fff', fontSize: 22, fontFamily: F.bodyBold }}>→</Text>
           </Pressable>
         </View>
+        </Pressable>
       </KeyboardAvoidingView>
 
       {phase === 'ready' && (

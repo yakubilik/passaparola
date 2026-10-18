@@ -19,10 +19,12 @@ console.log(`appId: com.skolalabs.harfiyen
 ---
 - launchApp
 - extendedWaitUntil:
-    visible: "Misafir olarak oyna"
+    visible:
+      id: "intro-start"
     timeout: 180000
 - takeScreenshot: intro
-- tapOn: "Misafir olarak oyna"
+- tapOn:
+    id: "intro-start"
 - extendedWaitUntil:
     visible: "Hızlı oyun"
     timeout: 10000

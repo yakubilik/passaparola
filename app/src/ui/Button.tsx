@@ -40,23 +40,3 @@ export function Button({ label, onPress, kind = 'primary', disabled, style, test
     </Pressable>
   );
 }
-
-export function SoonTag() {
-  return (
-    <Text
-      style={{
-        fontFamily: F.bodyBold,
-        fontSize: 11,
-        letterSpacing: 1.2,
-        color: C.accentSoft,
-        backgroundColor: 'rgba(61,107,255,0.14)',
-        paddingHorizontal: 8,
-        paddingVertical: 3,
-        borderRadius: 8,
-        overflow: 'hidden',
-      }}
-    >
-      YAKINDA
-    </Text>
-  );
-}
