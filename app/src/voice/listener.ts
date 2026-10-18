@@ -1,4 +1,4 @@
-import { fold, norm } from '../game/normalize';
+import { fold, isPassWord, norm } from '../game/normalize';
 
 // Spoken answers, ported from js/voice.js (the web game). The microphone is
 // opened once per round and kept open: on iOS every start plays the system
@@ -7,12 +7,19 @@ import { fold, norm } from '../game/normalize';
 //
 // iOS keeps growing one result for everything said and never marks it final,
 // so interim results are used: words already handled are cut off the front,
-// and an answer counts once the words stop changing for SETTLE_MS. Words the
-// host is saying (and for ECHO_TAIL_MS after) are the game's own voice heard
-// by the mic and are dropped.
+// and an answer counts once the words stop changing for SETTLE_MS. A right
+// answer or a Pas does not wait at all (the round tells, see `Pace`), and the
+// start of a longer answer ("Reşat" of Reşat Nuri Güntekin) waits PARTIAL_MS.
+// Words the host is saying (and for ECHO_TAIL_MS after) are the game's own
+// voice heard by the mic and are dropped, except a pass word the host is not
+// saying: "pas" always gets through.
 
-export const SETTLE_MS = 900;
-export const ECHO_TAIL_MS = 1500;
+export const SETTLE_MS = 700;
+export const PARTIAL_MS = 1500;
+export const ECHO_TAIL_MS = 800;
+
+/** How soon heard words can be judged: at once, after a long pause, or once they settle. */
+export type Pace = (alts: string[]) => 'now' | 'partial' | 'settle';
 
 export type RecResult = { isFinal: boolean; results: { transcript: string }[] };
 export type RecError = { error: string; message?: string };
@@ -65,6 +72,8 @@ export class AnswerListener {
   private restartTimer: ReturnType<typeof setTimeout> | null = null;
   private echo: string[] = [];
   private echoUntil = 0;
+  private pace: Pace | null = null;
+  private swallowUntil = 0;   // the rest of an utterance already judged at once
   /** How many times the recognizer was started (once per round when all is well). */
   starts = 0;
   onState: (s: MicState, detail?: string) => void = () => {};
@@ -73,8 +82,9 @@ export class AnswerListener {
   constructor(private rec: Recognizer, private now: () => number = () => Date.now()) {}
 
   // Opens the mic for a round; while it is open a new handler just replaces the old one.
-  listen(handler: (alts: string[], heard: Heard) => void) {
+  listen(handler: (alts: string[], heard: Heard) => void, pace?: Pace) {
     this.handler = handler;
+    this.pace = pace ?? null;
     this.wanted = true;
     this.startRec();
   }
@@ -82,6 +92,8 @@ export class AnswerListener {
   stop() {
     this.wanted = false;
     this.handler = null;
+    this.pace = null;
+    this.swallowUntil = 0;
     this.clearTimers();
     this.lastAlts = null;
     if (this.unsub) { this.unsub(); this.unsub = null; }
@@ -115,6 +127,7 @@ export class AnswerListener {
   isEcho(w: string): boolean {
     if (this.now() > this.echoUntil) return false;
     const f = fold(w);
+    if (isPassWord(f) && !this.echo.includes(f)) return false;
     // "Hazır mısınız?" must not swallow the player's "hazırım", so only a slip counts as near:
     // one letter in a word of four or more, two in a long word.
     return this.echo.some((e) => e === f
@@ -174,6 +187,12 @@ export class AnswerListener {
       if (e.isFinal) this.used = 0;
       return;
     }
+    // More words of an utterance that was judged at once ("pas" ... "geçiyorum"): already handled.
+    if (!this.lastAlts && this.now() < this.swallowUntil) {
+      this.used = e.isFinal ? 0 : Math.max(skip, count);
+      this.swallowUntil = this.now() + SETTLE_MS;
+      return;
+    }
     if (this.echoActive) this.lastDuringHost = true;
     if (alts[0] === this.lastKey && !e.isFinal) return;  // nothing new, keep the settle timer running
     this.lastKey = alts[0];
@@ -181,8 +200,12 @@ export class AnswerListener {
     this.lastCount = count;
     this.onInterim(alts[0]);
     if (this.settleTimer) clearTimeout(this.settleTimer);
+    const pace = this.pace?.(alts) ?? 'settle';
     if (e.isFinal) this.deliver(true);
-    else this.settleTimer = setTimeout(() => this.deliver(false), SETTLE_MS);
+    else if (pace === 'now') {
+      this.swallowUntil = this.now() + SETTLE_MS;
+      this.deliver(false);
+    } else this.settleTimer = setTimeout(() => this.deliver(false), pace === 'partial' ? PARTIAL_MS : SETTLE_MS);
   }
 
   private deliver(final: boolean) {

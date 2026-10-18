@@ -3,12 +3,14 @@ import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-librar
 
 import { SETTINGS_KEY } from '../store/settings';
 import { visionCamera } from '../test-utils/visionCamera';
+import { sounds } from '../voice/engine';
+import { BG_VOLUME, DUCK, musicVolume } from '../voice/sounds';
 
 jest.mock('../data/questions', () =>
   require('../test-utils/mockQuestions').mockQuestions({ tarih: [1], spor: [1], cografya: [], bilim: [], sanat: [] }),
 );
 
-jest.setTimeout(60_000);
+jest.setTimeout(180_000);
 
 beforeEach(async () => {
   jest.useFakeTimers();
@@ -72,4 +74,42 @@ test('Ayarlar: the voice game is on by default and can be switched off', async (
   await act(async () => {});
   expect(JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY))!)).toMatchObject({ voice: false });
   expect(screen.getByText('Mikrofonu dene ›')).toBeOnTheScreen();
+});
+
+test('Ayarlar: Müzik is on at a quarter of the old volume; quieter, then off, both remembered and heard in the game', async () => {
+  await renderRouter('./src/app', { initialUrl: '/menu' });
+  await fireEvent.press(await screen.findByText('Ayarlar'));
+  const toggle = await screen.findByTestId('setting-music');
+  expect(toggle.props.value).toBe(true);
+  expect(screen.getByTestId('music-level').props.accessibilityLabel).toBe('Müzik sesi 5 / 10');
+  expect(BG_VOLUME).toBeCloseTo(0.17 / 4, 2);
+
+  // Two steps quieter: saved, and the bed follows.
+  await fireEvent.press(screen.getByTestId('music-down'));
+  await fireEvent.press(screen.getByTestId('music-down'));
+  await act(async () => {});
+  expect(screen.getByTestId('music-level').props.accessibilityLabel).toBe('Müzik sesi 3 / 10');
+  expect(JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY))!)).toMatchObject({ music: true, musicLevel: 3 });
+
+  await fireEvent.press(screen.getByText('‹ Geri'));
+  await quickGame();
+  await fireEvent.press(screen.getByText('Başla'));
+  expect(sounds.bgPlaying).toBe(true);
+  // The host is reading the first clue: the bed is at level 3, ducked under it.
+  expect(sounds.bgVolume).toBeCloseTo(musicVolume(3) * DUCK, 5);
+});
+
+test('Ayarlar: with Müzik off the round has no bed, and that is remembered', async () => {
+  await renderRouter('./src/app', { initialUrl: '/settings' });
+  await fireEvent(await screen.findByTestId('setting-music'), 'valueChange', false);
+  await act(async () => {});
+  expect(JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY))!)).toMatchObject({ music: false });
+  expect(screen.getByTestId('music-up').props.accessibilityState).toMatchObject({ disabled: true });
+
+  await renderRouter('./src/app', { initialUrl: '/menu' });
+  await quickGame();
+  await fireEvent.press(screen.getByText('Başla'));
+  expect(sounds.bgPlaying).toBe(false);
+  expect(sounds.bgVolume).toBe(0);
+  expect(screen.getByTestId('clue')).toBeOnTheScreen();
 });

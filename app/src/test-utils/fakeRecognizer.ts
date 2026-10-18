@@ -8,6 +8,9 @@ export class FakeRecognizer {
   aborts = 0;
   running = false;
   lastOptions: any = null;
+  /** Categories set on the iOS session with setCategoryIOS, and every 'category' and 'start' in order; kept across reset(), like the session. */
+  categories: any[] = [];
+  events: string[] = [];
   transcript = '';
   granted = true;
   available = true;
@@ -40,6 +43,7 @@ export class FakeRecognizer {
   readonly module = {
     start: (options: any) => {
       this.starts++;
+      this.events.push('start');
       this.running = true;
       this.transcript = '';
       this.lastOptions = options;
@@ -52,6 +56,7 @@ export class FakeRecognizer {
     },
     requestPermissionsAsync: async () => ({ granted: this.granted, status: this.granted ? 'granted' : 'denied', canAskAgain: true, expires: 'never' }),
     isRecognitionAvailable: () => this.available,
+    setCategoryIOS: (options: any) => { this.categories.push(options); this.events.push('category'); },
   };
 }
 

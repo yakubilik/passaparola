@@ -14,7 +14,7 @@ export class FakePlayer {
   currentTime = 0;
   private timer: ReturnType<typeof setTimeout> | null = null;
   private subs = new Set<(s: Status) => void>();
-  constructor(public source: unknown) {}
+  constructor(public source: unknown, public options: Record<string, unknown> = {}) {}
   play() {
     this.playing = true;
     if (this.timer) clearTimeout(this.timer);
@@ -45,16 +45,18 @@ export const audio = {
   players: [] as FakePlayer[],
   mode: null as unknown,
   active: false,
+  /** Every change made to the iOS audio session, in order. */
+  sessionCalls: [] as string[],
 };
 
 export const mockAudio = {
-  createAudioPlayer: (source: unknown) => {
-    const p = new FakePlayer(source);
+  createAudioPlayer: (source: unknown, options?: Record<string, unknown>) => {
+    const p = new FakePlayer(source, options);
     audio.players.push(p);
     return p;
   },
-  setAudioModeAsync: async (m: unknown) => { audio.mode = m; },
-  setIsAudioActiveAsync: async (on: boolean) => { audio.active = on; },
+  setAudioModeAsync: async (m: unknown) => { audio.mode = m; audio.sessionCalls.push('mode'); },
+  setIsAudioActiveAsync: async (on: boolean) => { audio.active = on; audio.sessionCalls.push(on ? 'active' : 'inactive'); },
 };
 
 type SpeechOpts = { onDone?: () => void; onStopped?: () => void; onError?: (e: unknown) => void; language?: string };

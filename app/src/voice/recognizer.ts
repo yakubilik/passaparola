@@ -1,12 +1,18 @@
 import { ExpoSpeechRecognitionModule as SR } from 'expo-speech-recognition';
 
-import type { RecOptions, Recognizer } from './listener';
+import { SETTLE_MS, type RecOptions, type Recognizer } from './listener';
 
 // expo-speech-recognition behind the listener's small interface. The audio
 // session is set to play and record at once, on the loudspeaker, so the host
 // and the sound cues keep playing while the mic is open; voice processing
 // (iOS echo cancellation, voiceChat mode) takes the phone's own sound out of
 // what the mic hears, so the host does not answer for the player.
+//
+// The session must not change while the mic is open: on an iOS route change
+// (a new category or mode is one) expo-speech-recognition rebuilds its audio
+// engine without voice processing, and an interruption ends recognition. So
+// the very same category is set once before the first round (setVoiceSession,
+// from prepareAudio) and by the mic check, and every start finds it in place.
 export const RECOGNITION_OPTIONS = {
   addsPunctuation: false,
   iosVoiceProcessingEnabled: true,
@@ -17,9 +23,20 @@ export const RECOGNITION_OPTIONS = {
   },
 } as const;
 
+const sessionCategory = () => ({ ...RECOGNITION_OPTIONS.iosCategory, categoryOptions: [...RECOGNITION_OPTIONS.iosCategory.categoryOptions] });
+
+/** Puts the iOS audio session in the recognizer's category and mode ahead of the first round. */
+export function setVoiceSession() {
+  try {
+    SR.setCategoryIOS?.(sessionCategory());
+  } catch {
+    // Not iOS, or the session is busy: the recognizer sets it when it starts.
+  }
+}
+
 export const nativeRecognizer: Recognizer = {
   start(options: RecOptions) {
-    SR.start({ ...options, ...RECOGNITION_OPTIONS, iosCategory: { ...RECOGNITION_OPTIONS.iosCategory, categoryOptions: [...RECOGNITION_OPTIONS.iosCategory.categoryOptions] } });
+    SR.start({ ...options, ...RECOGNITION_OPTIONS, iosCategory: sessionCategory() });
   },
   abort() {
     SR.abort();
@@ -70,7 +87,7 @@ export type MicTest = { state: 'listening' | 'hearing' | 'ok' | 'error'; text: s
 
 // The mic check before the first game: listens once and reports what it
 // heard, or why it heard nothing. Returns a cancel function.
-export function testMic(update: (t: MicTest) => void, settleMs = 900, maxMs = 8000): () => void {
+export function testMic(update: (t: MicTest) => void, settleMs = SETTLE_MS, maxMs = 8000): () => void {
   let heard = '';
   let done = false;
   let settle: ReturnType<typeof setTimeout> | null = null;
@@ -104,7 +121,8 @@ export function testMic(update: (t: MicTest) => void, settleMs = 900, maxMs = 80
       SR.addListener('end', () => finish(heard ? { state: 'ok', text: heard } : { state: 'error', text: explainMicError('no-speech') })),
     );
     try {
-      SR.start({ lang: 'tr-TR', interimResults: true, continuous: false, maxAlternatives: 1 });
+      // The game's own session, so the round that follows does not have to switch it.
+      SR.start({ lang: 'tr-TR', interimResults: true, continuous: false, maxAlternatives: 1, ...RECOGNITION_OPTIONS, iosCategory: sessionCategory() });
       update({ state: 'listening', text: '' });
     } catch (e) {
       finish({ state: 'error', text: `Mikrofon başlatılamadı: ${String((e as Error)?.message ?? e)}` });

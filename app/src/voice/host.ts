@@ -3,6 +3,7 @@ import * as Speech from 'expo-speech';
 
 import { CLIPS } from './clips.generated';
 import type { Line } from './lines';
+import { PLAYER_OPTIONS } from './sounds';
 
 // The host's voice. A line with a recording (assets/voice/<key>.mp3) plays
 // it; any other line, and any recording that fails to play, is read by the
@@ -79,7 +80,7 @@ export class Host {
       else next();
     };
     try {
-      if (!this.player) this.player = createAudioPlayer(clip);
+      if (!this.player) this.player = createAudioPlayer(clip, PLAYER_OPTIONS);
       else this.player.replace(clip);
       const p = this.player;
       this.sub = p.addListener('playbackStatusUpdate', (s) => { if (s.didJustFinish) end(false); });
