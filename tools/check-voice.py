@@ -7,6 +7,7 @@ line in the recording list. Prints a similarity per clip and lists the mismatche
 """
 import argparse, difflib, importlib.util, json, os, random, re, shutil, subprocess, sys, tempfile
 
+sys.dont_write_bytecode = True  # no __pycache__ in tools/
 HERE = os.path.dirname(os.path.abspath(__file__))
 spec = importlib.util.spec_from_file_location('import_voice', os.path.join(HERE, 'import-voice.py'))
 iv = importlib.util.module_from_spec(spec)
