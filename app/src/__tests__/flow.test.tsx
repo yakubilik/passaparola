@@ -92,11 +92,14 @@ test('intro → menu → category → level map → game: right, wrong and Pas; 
   expect(screen.getByText(bAnswer)).toBeOnTheScreen();
   await act(() => jest.advanceTimersByTime(REVEAL_MS + 50));
   expect(screen.getByLabelText('C harfi, sırada')).toBeOnTheScreen();
+  // Alone there is nobody to hand over to: no result card, the round goes on.
+  expect(screen.queryByTestId('turn-result')).toBeNull();
 
   // Pas: C turns yellow, Ç is next
   await press(screen.getByLabelText('Pas'));
   expect(screen.getByLabelText('C harfi, pas')).toHaveStyle({ backgroundColor: C.yellow });
   expect(screen.getByLabelText('Ç harfi, sırada')).toBeOnTheScreen();
+  expect(screen.queryByTestId('turn-result')).toBeNull();
   expect(screen.getByLabelText('1 doğru')).toBeOnTheScreen();
   expect(screen.getByLabelText('1 pas')).toBeOnTheScreen();
   expect(screen.getByLabelText('1 yanlış')).toBeOnTheScreen();

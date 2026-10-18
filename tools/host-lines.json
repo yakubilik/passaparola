@@ -17,5 +17,7 @@
   "end": "Çok güzel bir yarış. Tebrik ediyorum.",
   "end2": "Tebrik ediyorum her ikinizi de. Gerçekten çok güzel yarıştınız.",
   "draw": "Berabere bitti! Çok güzel bir final.",
-  "win": "Bravo!"
+  "win": "Bravo!",
+  "pass_next": "Pas geçildi. Sıradaki yarışmacıya geçiyoruz.",
+  "wrong_next": "Hayır, olmadı. Sıradaki yarışmacıya geçiyoruz."
 }
