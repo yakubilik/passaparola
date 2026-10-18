@@ -10,12 +10,13 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.skolalabs.harfiyen",
       "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
         "NSCameraUsageDescription": "Harfiyen shows your face inside the letter ring while you play. The picture never leaves your phone."
       }
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#0a0d1f",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
@@ -32,7 +33,23 @@
     "plugins": [
       "expo-router",
       "expo-font",
-      "expo-asset"
+      [
+        "expo-asset",
+        {
+          "assets": [
+            "./assets/voice"
+          ]
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 240,
+          "resizeMode": "contain",
+          "backgroundColor": "#0a0d1f"
+        }
+      ]
     ],
     "scheme": "harfiyen",
     "backgroundColor": "#0a0d1f"
