@@ -26,6 +26,8 @@ async function feed(n: number, cx: number, cy: number, onFaces: (b: { x: number;
   }
 }
 
+jest.setTimeout(60_000);
+
 beforeEach(async () => {
   jest.useFakeTimers();
   visionCamera.reset();

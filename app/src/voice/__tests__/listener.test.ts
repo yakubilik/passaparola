@@ -15,14 +15,16 @@ const rec: Recognizer = {
 };
 
 let heard: string[][];
+let flags: boolean[];
 let l: AnswerListener;
 
 beforeEach(() => {
   jest.useFakeTimers();
   fake.reset();
   heard = [];
+  flags = [];
   l = new AnswerListener(rec);
-  l.listen((alts) => heard.push(alts));
+  l.listen((alts, h) => { heard.push(alts); flags.push(h.duringHost); });
 });
 afterEach(() => {
   l.stop();
@@ -141,4 +143,27 @@ test('stop closes the mic and nothing more is delivered', () => {
   wait(SETTLE_MS + 10);
   expect(heard).toEqual([]);
   expect(fake.aborts).toBe(1);
+});
+
+test('a word a slip away from what the host says is the host too', () => {
+  l.hostSpeaking(['Kırmızı zemin üzerinde beyaz ay ve yıldız']);
+  fake.hear('kırmızi zemın üzerınde beyas');
+  wait(SETTLE_MS + 10);
+  expect(heard).toEqual([]);
+});
+
+test('an answer says whether it was heard while the host talked or just after', () => {
+  l.hostSpeaking(['Başkenti olan şehir.']);
+  fake.hear('izmir');
+  wait(SETTLE_MS + 10);
+  l.hostDone();
+  wait(ECHO_TAIL_MS - 500);
+  fake.hear('bursa');
+  wait(SETTLE_MS + 10);
+  wait(ECHO_TAIL_MS);
+  fake.hear('ankara');
+  wait(SETTLE_MS + 10);
+  expect(heard).toEqual([['izmir'], ['bursa'], ['ankara']]);
+  expect(flags).toEqual([true, true, false]);
+  expect(l.hostRecent).toBe(false);
 });
