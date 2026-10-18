@@ -94,7 +94,7 @@ test('menu → setup → 3 players: right then Pas, wrong, time up; turn order a
   // Ayşe: A right, then Pas on B.
   await startTurn('Ayşe');
   expect(screen.getByTestId('clock')).toHaveTextContent('03:00');
-  expect(screen.getByTestId('prompt')).toHaveTextContent('A HARFİYLE BAŞLIYOR');
+  expect(screen.getByTestId('prompt')).toHaveTextContent('A İLE BAŞLIYOR');
   await type(answerFor(clueText()));
   expect(screen.getByLabelText('A harfi, doğru')).toBeOnTheScreen();
   await act(() => jest.advanceTimersByTime(10_000));
@@ -121,7 +121,7 @@ test('menu → setup → 3 players: right then Pas, wrong, time up; turn order a
   expect(screen.getByTestId('clock')).toHaveTextContent(/^02:5[01]$/);
   expect(screen.getByLabelText('A harfi, doğru')).toBeOnTheScreen();
   expect(screen.getByLabelText('B harfi, pas')).toBeOnTheScreen();
-  expect(screen.getByTestId('prompt')).toHaveTextContent('C HARFİYLE BAŞLIYOR');
+  expect(screen.getByTestId('prompt')).toHaveTextContent('C İLE BAŞLIYOR');
   await type(answerFor(clueText()));
   const ayseD = answerFor(clueText());
   await type('bambaşka bir şey');
@@ -132,7 +132,7 @@ test('menu → setup → 3 players: right then Pas, wrong, time up; turn order a
   // Cem is out of time, so Bora is next: B, with A wrong.
   await startTurn('Bora', 'Ayşe: yanlış cevap');
   expect(screen.getByLabelText('A harfi, yanlış')).toBeOnTheScreen();
-  expect(screen.getByTestId('prompt')).toHaveTextContent('B HARFİYLE BAŞLIYOR');
+  expect(screen.getByTestId('prompt')).toHaveTextContent('B İLE BAŞLIYOR');
   await fireEvent.press(screen.getByLabelText('Pas'));
   await resultCard('Pas', 'Ayşe');
 
@@ -140,10 +140,10 @@ test('menu → setup → 3 players: right then Pas, wrong, time up; turn order a
   await startTurn('Ayşe', 'Bora: pas');
   await timeUp();
   await startTurn('Bora', 'Ayşe: süre doldu');
-  expect(screen.getByTestId('prompt')).toHaveTextContent('C HARFİYLE BAŞLIYOR');
+  expect(screen.getByTestId('prompt')).toHaveTextContent('C İLE BAŞLIYOR');
   await fireEvent.press(screen.getByLabelText('Pas'));
   expect(screen.queryByTestId('handover')).toBeNull();
-  expect(screen.getByTestId('prompt')).toHaveTextContent('Ç HARFİYLE BAŞLIYOR');
+  expect(screen.getByTestId('prompt')).toHaveTextContent('Ç İLE BAŞLIYOR');
   await timeUp();
 
   expect(turns).toEqual(['Ayşe', 'Bora', 'Cem', 'Ayşe', 'Bora', 'Ayşe', 'Bora']);

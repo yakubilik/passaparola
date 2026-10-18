@@ -10,7 +10,7 @@ const { existsSync } = jest.requireActual<{ existsSync(p: string): boolean }>('f
 const { join } = jest.requireActual<{ join(...p: string[]): string }>('path');
 
 const q = { id: 'tarih-1-B-1', letter: 'B', type: 'starts' as const, clue: 'Bir şehir.', answers: ['Bursa'] };
-const qc = { id: 'tarih-1-Ö-1', letter: 'Ö', type: 'contains' as const, clue: 'Bir meyve', answers: ['Kayısı'] };
+const qo = { id: 'tarih-1-Ö-1', letter: 'Ö', type: 'starts' as const, clue: 'Bir kuş', answers: ['Ördek'] };
 
 beforeEach(() => {
   jest.useFakeTimers();
@@ -21,7 +21,7 @@ afterEach(() => jest.useRealTimers());
 
 test('lines read the way the recordings do', () => {
   expect(clueLine(q)).toEqual({ key: 'tarih-1-B-1', text: 'Bir şehir... Be ile başlıyor.' });
-  expect(clueLine(qc)).toEqual({ key: 'tarih-1-Ö-1', text: 'Bir meyve... İçinde ö var.' });
+  expect(clueLine(qo)).toEqual({ key: 'tarih-1-Ö-1', text: 'Bir kuş... Ö ile başlıyor.' });
   expect(clueLine({ ...q, letter: 'İ' }).text).toBe('Bir şehir... İ ile başlıyor.');
   expect(answerLine(q)).toEqual({ key: 'tarih-1-B-1-cevap', text: 'Bursa olacaktı.' });
   expect(hostLine('wrong')).toEqual({ key: 'wrong', text: 'Değil, olmadı.' });
@@ -92,5 +92,15 @@ test('the clip index points at files that exist, under the contract names', () =
   const ids = new Set(CATEGORIES.flatMap((c) => c.levels.flatMap((l) => l.questions.map((x) => x.id))));
   for (const key of Object.keys(CLIPS)) {
     expect(ids.has(key.replace(/-cevap$/, '')) || key in HOST_LINES || ['welcome2', 'turn2', 'end2', 'draw'].includes(key)).toBe(true);
+  }
+});
+
+test('every question in the bank starts with its letter and its clue says so', () => {
+  const qs = CATEGORIES.flatMap((c) => c.levels.flatMap((l) => l.questions));
+  expect(qs.length).toBeGreaterThan(1000);
+  for (const x of qs) {
+    expect(x.type).toBe('starts');
+    expect(clueLine(x).text).toMatch(/\.\.\. \S+ ile başlıyor\.$/);
+    expect(clueLine(x).text).not.toMatch(/\.\.\. İçinde \S+ var\.$/);
   }
 });

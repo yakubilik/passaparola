@@ -130,7 +130,7 @@ export function formatClock(seconds: number): string {
   return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
 }
 
-// "A HARFİYLE BAŞLIYOR" / "İÇİNDE Ö VAR"
+// "A İLE BAŞLIYOR": every answer starts with its letter.
 export function promptLine(l: RoundLetter): string {
-  return l.question.type === 'contains' ? `İÇİNDE ${l.letter} VAR` : `${l.letter} HARFİYLE BAŞLIYOR`;
+  return `${l.letter} İLE BAŞLIYOR`;
 }

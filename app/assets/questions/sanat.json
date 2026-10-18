@@ -359,20 +359,20 @@
         {
           "id": "sanat-1-I-3",
           "letter": "I",
-          "type": "contains",
-          "clue": "İlmek ilmek düğümlenerek dokunan, yere serilen geleneksel el sanatı ürünü.",
+          "type": "starts",
+          "clue": "Dudakları büzüp üfleyerek çıkarılan, şarkı da çalınabilen ince ses.",
           "answers": [
-            "Halı"
+            "Islık"
           ]
         },
         {
           "id": "sanat-1-I-4",
           "letter": "I",
-          "type": "contains",
-          "clue": "Büyükannesine giderken ormanda kurtla karşılaşan masal kahramanı.",
+          "type": "starts",
+          "clue": "Resimde nesnelere derinlik vermek için aydınlık ve karanlık tonların birlikte kullanılması.",
           "answers": [
-            "Kırmızı Başlıklı Kız",
-            "Kırmızı Başlıklı"
+            "Işık gölge",
+            "Işık-gölge"
           ]
         },
         {
@@ -656,19 +656,19 @@
         {
           "id": "sanat-1-Ö-3",
           "letter": "Ö",
-          "type": "contains",
-          "clue": "Bolu Beyi'ne karşı Çamlıbel'de ayaklanan halk hikâyesi kahramanı.",
+          "type": "starts",
+          "clue": "Gerçek adı Peter Parker olan çizgi roman kahramanı.",
           "answers": [
-            "Köroğlu"
+            "Örümcek Adam"
           ]
         },
         {
           "id": "sanat-1-Ö-4",
           "letter": "Ö",
-          "type": "contains",
-          "clue": "Deve derisinden tasvirlerin ışıklı bir perde arkasında oynatıldığı geleneksel gösteri.",
+          "type": "starts",
+          "clue": "İki şiş ve yün iple yapılan el işi.",
           "answers": [
-            "Gölge oyunu"
+            "Örgü"
           ]
         },
         {
@@ -883,10 +883,10 @@
         {
           "id": "sanat-1-U-4",
           "letter": "U",
-          "type": "contains",
-          "clue": "Ressamın üzerine resim yaptığı, çerçeveye gerilmiş bez.",
+          "type": "starts",
+          "clue": "Masallarda sahibini havada taşıyan sihirli eşya.",
           "answers": [
-            "Tuval"
+            "Uçan halı"
           ]
         },
         {
@@ -903,28 +903,31 @@
         {
           "id": "sanat-1-Ü-2",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "Sesleri belli bir düzen ve uyum içinde birleştiren sanat.",
+          "type": "starts",
+          "clue": "Flüt ve zurna gibi nefesle çalınan çalgıların genel adı.",
           "answers": [
-            "Müzik"
+            "Üflemeli çalgılar",
+            "Üflemeli"
           ]
         },
         {
           "id": "sanat-1-Ü-3",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "İki kişinin birlikte söylediği şarkı ya da çaldığı eser.",
+          "type": "starts",
+          "clue": "Kurdun üfleyerek samandan ve çubuktan evleri yıktığı masal.",
           "answers": [
-            "Düet"
+            "Üç Küçük Domuz",
+            "Üç Küçük Domuzcuk"
           ]
         },
         {
           "id": "sanat-1-Ü-4",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "Kitapların okunmak ve ödünç verilmek üzere saklandığı yer.",
+          "type": "starts",
+          "clue": "Şaşkınlık ya da heyecan bildiren cümlenin sonuna konan noktalama işareti.",
           "answers": [
-            "Kütüphane"
+            "Ünlem",
+            "Ünlem işareti"
           ]
         },
         {
@@ -1384,37 +1387,38 @@
         {
           "id": "sanat-2-I-1",
           "letter": "I",
-          "type": "contains",
-          "clue": "Sabahattin Ali'nin Edremit'te geçen, Yusuf ile Muazzez'in romanı.",
+          "type": "starts",
+          "clue": "Çağan Irmak'ın, Alper ile Ada'nın aşkını anlatan 2008 filmi.",
           "answers": [
-            "Kuyucaklı Yusuf"
+            "Issız Adam"
           ]
         },
         {
           "id": "sanat-2-I-2",
           "letter": "I",
-          "type": "contains",
-          "clue": "Ömer Seyfettin'in, kardeşine haksızlık eden çocuğun vicdan azabını anlatan öyküsü.",
+          "type": "starts",
+          "clue": "Monet gibi izlenimci ressamların günün farklı saatlerinde yakalamaya çalıştığı şey.",
           "answers": [
-            "Kaşağı"
+            "Işık"
           ]
         },
         {
           "id": "sanat-2-I-3",
           "letter": "I",
-          "type": "contains",
-          "clue": "Orhan Pamuk'un, kuyucu usta ile çırağını anlatan romanı.",
+          "type": "starts",
+          "clue": "Tiyatroda sahnedeki oyuncuyu izleyen güçlü ışık kaynağı.",
           "answers": [
-            "Kırmızı Saçlı Kadın"
+            "Işıldak"
           ]
         },
         {
           "id": "sanat-2-I-4",
           "letter": "I",
-          "type": "contains",
-          "clue": "Yakup Kadri'nin, üç kuşak arasındaki çatışmayı anlatan romanı.",
+          "type": "starts",
+          "clue": "Bayram tekbirinin bestecisi olarak bilinen 17. yüzyıl Osmanlı bestecisi.",
           "answers": [
-            "Kiralık Konak"
+            "Itri",
+            "Itrî"
           ]
         },
         {
@@ -1707,10 +1711,10 @@
         {
           "id": "sanat-2-Ö-3",
           "letter": "Ö",
-          "type": "contains",
-          "clue": "Gregor Samsa'nın bir sabah dev bir böcek olarak uyandığı Kafka öyküsü.",
+          "type": "starts",
+          "clue": "Robin Williams'ın edebiyat öğretmeni Keating'i oynadığı 1989 filmi.",
           "answers": [
-            "Dönüşüm"
+            "Ölü Ozanlar Derneği"
           ]
         },
         {
@@ -1940,10 +1944,10 @@
         {
           "id": "sanat-2-U-4",
           "letter": "U",
-          "type": "contains",
-          "clue": "Odette'in büyüyle kuşa dönüştüğü Çaykovski balesi.",
+          "type": "starts",
+          "clue": "Emily Brontë'nin Heathcliff ile Catherine'i anlatan 1847 tarihli romanı.",
           "answers": [
-            "Kuğu Gölü"
+            "Uğultu Tepeleri"
           ]
         },
         {
@@ -1967,20 +1971,19 @@
         {
           "id": "sanat-2-Ü-3",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "Divan şiirinde güle âşık olarak işlenen kuş.",
+          "type": "starts",
+          "clue": "Thomas More'un 1516'da yazdığı, ideal bir ada toplumunu anlatan eser.",
           "answers": [
-            "Bülbül"
+            "Ütopya"
           ]
         },
         {
           "id": "sanat-2-Ü-4",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "Şeyh Galip'in, Güzellik ile Aşk'ın serüvenini anlatan mesnevisi.",
+          "type": "starts",
+          "clue": "Çehov'un, Moskova'ya dönmeyi düşleyen Olga, Maşa ve İrina'yı anlatan oyunu.",
           "answers": [
-            "Hüsn ü Aşk",
-            "Hüsnü Aşk"
+            "Üç Kız Kardeş"
           ]
         },
         {
@@ -2219,10 +2222,11 @@
         {
           "id": "sanat-3-Ç-1",
           "letter": "Ç",
-          "type": "contains",
-          "clue": "Mithat Cemal Kuntay'ın, İstanbul'u üç dönemde anlatan romanı.",
+          "type": "starts",
+          "clue": "Beykoz'da üretilen, beyaz ve renkli şeritlerle süslü Osmanlı cam işi.",
           "answers": [
-            "Üç İstanbul"
+            "Çeşm-i Bülbül",
+            "Çeşmibülbül"
           ]
         },
         {
@@ -2442,38 +2446,39 @@
         {
           "id": "sanat-3-I-1",
           "letter": "I",
-          "type": "contains",
-          "clue": "\"Aylak Adam\" ve \"Anayurt Oteli\"nin yazarı.",
+          "type": "starts",
+          "clue": "Adı bir ülkeyle aynı olan, klasik Türk müziğinin eski makamlarından biri.",
           "answers": [
-            "Yusuf Atılgan"
+            "Irak",
+            "Irak makamı"
           ]
         },
         {
           "id": "sanat-3-I-2",
           "letter": "I",
-          "type": "contains",
-          "clue": "Peyami Safa'nın, Samim'in Simeranya hayaliyle bilinen romanı.",
+          "type": "starts",
+          "clue": "Fransız yazar Alphonse Karr'ın Türkçeye bir ağaç adıyla çevrilen 1832 tarihli romanı.",
           "answers": [
-            "Yalnızız"
+            "Ihlamurlar Altında"
           ]
         },
         {
           "id": "sanat-3-I-3",
           "letter": "I",
-          "type": "contains",
-          "clue": "\"Küçük Ağa\" ve \"Osmancık\" romanlarının yazarı.",
+          "type": "starts",
+          "clue": "Adını İran'ın bir şehrinden alan, klasik Türk müziğinin en eski makamlarından biri.",
           "answers": [
-            "Tarık Buğra"
+            "Isfahan",
+            "Isfahan makamı"
           ]
         },
         {
           "id": "sanat-3-I-4",
           "letter": "I",
-          "type": "contains",
-          "clue": "Ahmet ile Gülbahar'ın aşkını anlatan, bir efsaneden yola çıkan Yaşar Kemal romanı.",
+          "type": "starts",
+          "clue": "Yönetmen Reis Çelik'in 1996'da çektiği ilk uzun metrajlı filmi.",
           "answers": [
-            "Ağrıdağı Efsanesi",
-            "Ağrı Dağı Efsanesi"
+            "Işıklar Sönmesin"
           ]
         },
         {
@@ -2745,28 +2750,28 @@
         {
           "id": "sanat-3-Ö-2",
           "letter": "Ö",
-          "type": "contains",
-          "clue": "Ahmet Haşim'in 1921'de yayımlanan ilk şiir kitabı.",
+          "type": "starts",
+          "clue": "Adalet Ağaoğlu'nun, Aysel'in bir otel odasında hayatını sorguladığı 1973 tarihli romanı.",
           "answers": [
-            "Göl Saatleri"
+            "Ölmeye Yatmak"
           ]
         },
         {
           "id": "sanat-3-Ö-3",
           "letter": "Ö",
-          "type": "contains",
-          "clue": "İranlı Sadık Hidayet'in karanlık ve gerçeküstü romanı.",
+          "type": "starts",
+          "clue": "Gelin, Düğün ve Diyet filmlerinden oluşan göç üçlemesinin yönetmeni.",
           "answers": [
-            "Kör Baykuş"
+            "Ömer Lütfi Akad"
           ]
         },
         {
           "id": "sanat-3-Ö-4",
           "letter": "Ö",
-          "type": "contains",
-          "clue": "Hasan Ali Toptaş'ın, Yunus Nadi Ödülü alan ve 2007'de filme çekilen romanı.",
+          "type": "starts",
+          "clue": "Kutadgu Bilig'de aklı temsil eden, vezirin oğlu olan kişi.",
           "answers": [
-            "Gölgesizler"
+            "Ögdülmiş"
           ]
         },
         {
@@ -2915,10 +2920,11 @@
         {
           "id": "sanat-3-Ş-4",
           "letter": "Ş",
-          "type": "contains",
-          "clue": "\"Fahim Bey ve Biz\" ve \"Boğaziçi Mehtapları\"nın yazarı.",
+          "type": "starts",
+          "clue": "İlk Türk romanı sayılan Taaşşuk-ı Talat ve Fitnat'ın ve Kamus-ı Türki sözlüğünün yazarı.",
           "answers": [
-            "Abdülhak Şinasi Hisar"
+            "Şemsettin Sami",
+            "Şemseddin Sami"
           ]
         },
         {
@@ -2988,39 +2994,40 @@
         {
           "id": "sanat-3-U-4",
           "letter": "U",
-          "type": "contains",
-          "clue": "Tanpınar'ın, Mümtaz ile Nuran'ın aşkını anlatan romanı.",
+          "type": "starts",
+          "clue": "Adı âşıklar anlamına gelen, klasik Türk müziğinin temel makamlarından biri.",
           "answers": [
-            "Huzur"
+            "Uşşak",
+            "Uşşak makamı"
           ]
         },
         {
           "id": "sanat-3-Ü-1",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "Turgut Uyar'ın, adında bir Arap ülkesi geçen 1959 tarihli şiir kitabı.",
+          "type": "starts",
+          "clue": "Mithat Cemal Kuntay'ın, İstanbul'u üç dönemde anlatan romanı.",
           "answers": [
-            "Dünyanın En Güzel Arabistanı"
+            "Üç İstanbul"
           ]
         },
         {
           "id": "sanat-3-Ü-2",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "\"Cumhuriyetin divası\" olarak anılan Türk sanat müziği sesi.",
+          "type": "starts",
+          "clue": "Nuri Bilge Ceylan'a 2008'de Cannes'da en iyi yönetmen ödülünü kazandıran film.",
           "answers": [
-            "Müzeyyen Senar"
+            "Üç Maymun"
           ]
         },
         {
           "id": "sanat-3-Ü-3",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "Yahya Kemal'in \"Aziz İstanbul\" şiirini besteleyen sanat müziği ustası.",
+          "type": "starts",
+          "clue": "Leyla ile Mecnun operasının ve Azerbaycan milli marşının bestecisi.",
           "answers": [
-            "Münir Nurettin Selçuk",
-            "Münir Nureddin Selçuk",
-            "Münir Nurettin"
+            "Üzeyir Hacıbeyli",
+            "Üzeyir Hacıbeyov",
+            "Üzeyir Hacıbəyli"
           ]
         },
         {

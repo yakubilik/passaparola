@@ -43,7 +43,7 @@ export function host(key: HostKey): Line {
 
 export function clueLine(q: Question): Line {
   const name = NAMES[q.letter] ?? q.letter;
-  const tail = q.type === 'contains' ? `İçinde ${name} var.` : `${trUpper(name[0])}${name.slice(1)} ile başlıyor.`;
+  const tail = `${trUpper(name[0])}${name.slice(1)} ile başlıyor.`;
   return { key: q.id, text: `${q.clue.replace(/\.$/, '')}... ${tail}` };
 }
 

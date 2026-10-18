@@ -77,13 +77,13 @@ test('intro → menu → category → level map → game: right, wrong and Pas; 
   await press(screen.getByText('Başla'));
   expect(screen.getByTestId('clock')).toHaveTextContent('03:00');
   expect(screen.getByLabelText('A harfi, sırada')).toHaveStyle({ backgroundColor: '#ffffff' });
-  expect(screen.getByTestId('prompt')).toHaveTextContent('A HARFİYLE BAŞLIYOR');
+  expect(screen.getByTestId('prompt')).toHaveTextContent('A İLE BAŞLIYOR');
 
   // right: A turns green, B is next
   await type(answerFor(clueText()).toLocaleLowerCase('tr-TR'));
   expect(screen.getByLabelText('A harfi, doğru')).toHaveStyle({ backgroundColor: C.green });
   expect(screen.getByLabelText('B harfi, sırada')).toBeOnTheScreen();
-  expect(screen.getByTestId('prompt')).toHaveTextContent('B HARFİYLE BAŞLIYOR');
+  expect(screen.getByTestId('prompt')).toHaveTextContent('B İLE BAŞLIYOR');
 
   // wrong: B turns red, the right answer is shown, then C is next
   const bAnswer = answerFor(clueText());
@@ -150,7 +150,7 @@ test('karışık: every category with questions, each letter from one of them', 
   expect(await screen.findByText('Karışık')).toBeOnTheScreen();
   await press(screen.getByLabelText('Bölüm 1, açık'));
   await press(await screen.findByText('Başla'));
-  expect(screen.getByTestId('prompt')).toHaveTextContent('A HARFİYLE BAŞLIYOR');
+  expect(screen.getByTestId('prompt')).toHaveTextContent('A İLE BAŞLIYOR');
   await type(answerFor(clueText()));
   expect(screen.getByLabelText('A harfi, doğru')).toBeOnTheScreen();
 });

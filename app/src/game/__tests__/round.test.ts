@@ -84,8 +84,8 @@ test('the clock counts the whole round down and ends it at zero', () => {
 
 test('prompt line', () => {
   const r = round();
-  expect(promptLine(r.letters[0])).toBe('A HARFİYLE BAŞLIYOR');
-  expect(promptLine({ ...r.letters[0], letter: 'Ö', question: { ...r.letters[0].question, type: 'contains' } })).toBe('İÇİNDE Ö VAR');
+  expect(promptLine(r.letters[0])).toBe('A İLE BAŞLIYOR');
+  expect(promptLine({ ...r.letters[0], letter: 'Ö' })).toBe('Ö İLE BAŞLIYOR');
 });
 
 test('a seed gives the same round every time', () => {

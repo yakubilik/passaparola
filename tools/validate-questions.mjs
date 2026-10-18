@@ -17,7 +17,9 @@ export const QUESTIONS_DIR = path.join(ROOT, 'app', 'assets', 'questions');
 export const LETTERS = ['A', 'B', 'C', 'Ç', 'D', 'E', 'F', 'G', 'H', 'I', 'İ', 'J', 'K', 'L',
   'M', 'N', 'O', 'Ö', 'P', 'R', 'S', 'Ş', 'T', 'U', 'Ü', 'V', 'Y', 'Z'];
 export const CATEGORIES = ['tarih', 'cografya', 'bilim', 'sanat', 'spor'];
-export const TYPES = ['starts', 'contains'];
+// Every answer starts with its letter. "contains" (the letter somewhere in the
+// answer) is not allowed any more.
+export const TYPES = ['starts'];
 export const MIN_PER_LETTER = 4;
 export const MAX_CLUE = 140;
 
@@ -37,10 +39,8 @@ function fold(s) {
   return lower(s).replace(/[çğıöşü]/g, c => FOLD[c]);
 }
 
-export function fitsLetter(answer, letter, type) {
-  const a = lower(answer);
-  const l = lower(letter);
-  return type === 'contains' ? a.includes(l) : a.startsWith(l);
+export function fitsLetter(answer, letter) {
+  return lower(answer).startsWith(lower(letter));
 }
 
 // True when the clue gives the answer away: the answer's words appear in the
@@ -106,7 +106,8 @@ export function validateData(data, file, seenIds = new Map()) {
       if (!letterOk) say(where, `"letter" ${JSON.stringify(q.letter)} is not one of the 28 ring letters`);
       else perLetter.set(q.letter, perLetter.get(q.letter) + 1);
 
-      if (!TYPES.includes(q.type)) say(where, `"type" must be "starts" or "contains", got ${JSON.stringify(q.type)}`);
+      if (q.type === 'contains') say(where, '"type" "contains" is not allowed: every answer must start with its letter');
+      else if (!TYPES.includes(q.type)) say(where, `"type" must be "starts", got ${JSON.stringify(q.type)}`);
 
       if (!isText(q.id)) say(where, '"id" is missing');
       else {
@@ -135,10 +136,7 @@ export function validateData(data, file, seenIds = new Map()) {
 
       const mine = new Set();
       for (const a of q.answers) {
-        if (letterOk && TYPES.includes(q.type) && !fitsLetter(a, q.letter, q.type)) {
-          const how = q.type === 'contains' ? 'does not contain' : 'does not start with';
-          say(where, `answer "${a}" ${how} ${q.letter}`);
-        }
+        if (letterOk && !fitsLetter(a, q.letter)) say(where, `answer "${a}" does not start with ${q.letter}`);
         if (isText(q.clue) && clueGivesAway(q.clue, a)) say(where, `clue contains its own answer "${a}"`);
 
         const key = fold(a).replace(/ /g, '');

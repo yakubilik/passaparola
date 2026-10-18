@@ -63,15 +63,29 @@ const broken = run(BROKEN).out;
 const has = (re) => assert.match(broken, re);
 const lacks = (re) => assert.doesNotMatch(broken, re);
 
-test('rule: answer must start with / contain its letter, Turkish casing', () => {
+test('rule: every answer starts with its letter, Turkish casing', () => {
   has(/tarih-1-A-1: answer "Bursa" does not start with A/);
   has(/tarih-1-I-2: answer "İzmir" does not start with I/);
   has(/tarih-1-İ-1: answer "Istanbul" does not start with İ/);
-  has(/tarih-1-I-4: answer "Misir" does not contain I/);
-  has(/tarih-1-Ö-1: answer "Sogut" does not contain Ö/);
+  has(/tarih-1-I-3: answer "Mısır" does not start with I/);
+  has(/tarih-1-Ö-1: answer "Sogut" does not start with Ö/);
   lacks(/tarih-1-I-1: answer/);
-  lacks(/tarih-1-I-3: answer/);
   lacks(/tarih-1-İ-2: answer/);
+});
+
+test('rule: type "contains" is rejected, only "starts" is allowed', () => {
+  has(/tarih-1-I-3: "type" "contains" is not allowed: every answer must start with its letter/);
+  has(/tarih-1-I-4: "type" "contains" is not allowed/);
+  has(/tarih-1-Ö-1: "type" "contains" is not allowed/);
+  lacks(/tarih-1-I-1: "type"/);
+});
+
+test('no question in the five category files has type "contains"', async () => {
+  const { CATEGORIES } = await lib;
+  for (const c of CATEGORIES) {
+    const data = require(path.join(QDIR, `${c}.json`));
+    for (const lv of data.levels) for (const q of lv.questions) assert.strictEqual(q.type, 'starts', q.id);
+  }
 });
 
 test('rule: at least 4 questions per letter in a level', () => {
@@ -111,12 +125,11 @@ test('ids follow <category>-<level>-<letter>-<n>', async () => {
 
 test('helpers: Turkish letters and give-away clues', async () => {
   const { fitsLetter, clueGivesAway } = await lib;
-  assert.ok(fitsLetter('Irmak', 'I', 'starts'));
-  assert.ok(fitsLetter('ırmak', 'I', 'starts'));
-  assert.ok(!fitsLetter('İnönü', 'I', 'starts'));
-  assert.ok(fitsLetter('Âşık Veysel', 'A', 'starts'));
-  assert.ok(fitsLetter('Kızılay', 'I', 'contains'));
-  assert.ok(!fitsLetter('Kilis', 'I', 'contains'));
+  assert.ok(fitsLetter('Irmak', 'I'));
+  assert.ok(fitsLetter('ırmak', 'I'));
+  assert.ok(!fitsLetter('İnönü', 'I'));
+  assert.ok(fitsLetter('Âşık Veysel', 'A'));
+  assert.ok(!fitsLetter('Kızılay', 'I'));
   assert.ok(clueGivesAway("Ankara'nın ilçesi.", 'Ankara'));
   assert.ok(clueGivesAway('Osmanlıların kurduğu.', 'Osmanlı'));
   assert.ok(clueGivesAway('Çin Seddi uzundur.', 'Çin Seddi'));
