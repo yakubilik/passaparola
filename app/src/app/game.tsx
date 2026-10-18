@@ -47,7 +47,7 @@ function kindOf(l: RoundLetter, active: boolean): BubbleKind {
   return l.passed ? 'passed' : 'pending';
 }
 
-// The game, variant 1a "Klasik": the face inside the letter ring, the
+// The game, variant 1a "Klasik": the letter ring over the camera picture, the
 // question below, the answer spoken (or typed in). Before the first voice
 // game the mic check comes first.
 export default function Game() {
@@ -308,25 +308,15 @@ function voiceStatus(v: ReturnType<typeof useVoiceRound>): string {
   return 'Mikrofon açılıyor…';
 }
 
-// The ring with its halo and the face. Memoised: a clock tick re-renders the
-// screen but leaves this alone unless a letter or the size changed.
+// The camera square with the letter ring drawn over it, as on the show: the
+// picture is as wide as the ring and the letters overlap it around the
+// player's head. Memoised: a clock tick re-renders the screen but leaves this
+// alone unless a letter or the size changed.
 const Board = memo(function Board({ items, size }: { items: RingItem[]; size: number }) {
   return (
-    <>
-      <View
-        pointerEvents="none"
-        style={{
-          position: 'absolute',
-          width: size * 1.1,
-          height: size * 1.1,
-          borderRadius: size,
-          backgroundImage: 'radial-gradient(circle, rgba(110,160,255,0.55) 30%, rgba(61,107,255,0.28) 46%, rgba(61,107,255,0) 70%)',
-        }}
-      />
-      <Ring testID="ring" items={items} size={size} bubble={Math.round(size * 0.079)}>
-        <Face size={Math.round(size * 0.63)} />
-      </Ring>
-    </>
+    <Ring testID="ring" items={items} size={size} bubble={Math.round(size * 0.079)} halo>
+      <Face size={size} />
+    </Ring>
   );
 });
 

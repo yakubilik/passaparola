@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
+import { act, fireEvent, renderRouter, screen, within } from 'expo-router/testing-library';
 import { StyleSheet, type Animated } from 'react-native';
 
 import { CATEGORIES } from '../data/questions';
@@ -65,8 +65,13 @@ function sizes() {
   const question = StyleSheet.flatten(screen.getByTestId('question').props.style);
   const active = screen.getByLabelText(/harfi, sırada$/);
   const a = StyleSheet.flatten(active.props.style);
+  const face = StyleSheet.flatten(screen.getByTestId('face').props.style);
+  const area = StyleSheet.flatten(screen.getByTestId('ring-area').props.style);
   return {
     ring: [ring.width, ring.height],
+    // The camera square under the ring and the area that centres both.
+    square: [face.width, face.height],
+    area: area.height,
     question: question.height,
     questionMin: question.minHeight,
     active: [a.width, a.height, a.boxShadow],
@@ -123,6 +128,8 @@ test('the question block has a fixed height and the ring always fits beside it, 
     expect(s.questionMin).toBeUndefined();
     expect(typeof s.question).toBe('number');
     expect(s.ring[0]).toBe(s.ring[1]);
+    // The picture is a square as wide as the ring, under its letters.
+    expect(s.square).toEqual(s.ring);
     expect(s.ring[0] + s.question).toBeLessThanOrEqual(h);
   }
 });
@@ -178,5 +185,47 @@ test('keyboard up and down, camera on: the ring, the question block, the camera 
     expect(Math.abs(now.crop.x - cam.crop.x)).toBeLessThan(0.5);
     expect(Math.abs(now.crop.y - cam.crop.y)).toBeLessThan(0.5);
     expect(Math.abs(now.crop.scale - cam.crop.scale)).toBeLessThan(0.01);
+  }
+});
+
+test('the letters are drawn over the camera square, each with a dark halo', async () => {
+  await startGame();
+  await layoutStage(KEYBOARD_UP);
+  const ring = screen.getByTestId('ring');
+  // The square comes first in the ring, so every letter is painted over it.
+  const [under, ...over] = ring.children;
+  expect(typeof under).not.toBe('string');
+  expect(within(under as Exclude<typeof under, string>).getByTestId('face')).toBeOnTheScreen();
+  expect(over.map((c) => (typeof c === 'string' ? c : c.props.testID))).toContain('letter-A');
+  expect(over).toHaveLength(screen.getAllByLabelText(/ harfi, /).length);
+  for (const l of ['A', 'B', 'Z']) {
+    const shadow = StyleSheet.flatten(screen.getByTestId(`letter-${l}`).props.style).boxShadow as string;
+    expect(shadow).toContain('rgba(0,0,0,0.6)');
+  }
+  // Letters along the bottom sit over the lower part of the square (the shoulders).
+  const size = sizes().ring[0] as number;
+  const tops = ['K', 'L', 'M', 'N'].map((l) => StyleSheet.flatten(screen.getByTestId(`letter-${l}`).props.style).top as number);
+  for (const t of tops) expect(t / size).toBeGreaterThan(0.75);
+});
+
+test('multiplayer: every turn shows the same square and ring, keyboard up or down', async () => {
+  await renderRouter('./src/app', { initialUrl: `/match?names=${encodeURIComponent(JSON.stringify(['Ayşe', 'Bora']))}&cats=tarih&level=1&seed=7` });
+  let first: ReturnType<typeof sizes> | null = null;
+  for (const name of ['Ayşe', 'Bora', 'Ayşe']) {
+    expect(await screen.findByTestId('handover')).toHaveTextContent(`Sıra: ${name}`);
+    await fireEvent.press(screen.getByText('Başla'));
+    await layoutStage(KEYBOARD_DOWN);
+    await layoutStage(KEYBOARD_UP);
+    const now = sizes();
+    expect(now.square).toEqual(now.ring);
+    if (first) expect({ ...now, active: null }).toEqual({ ...first, active: null });
+    else first = now;
+    for (let i = 0; i < 3; i++) {
+      await layoutStage(i % 2 ? KEYBOARD_UP : KEYBOARD_DOWN);
+      await act(() => jest.advanceTimersByTime(200));
+      expect({ ...sizes(), active: null }).toEqual({ ...first, active: null });
+    }
+    await fireEvent.press(screen.getByLabelText('Pas'));
+    await fireEvent.press(await screen.findByTestId('next-player'));
   }
 });
