@@ -110,8 +110,11 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     return spokenPace(alts, current(r).question.answers);
   }, []);
 
-  // The round's answers, for the recognizer to expect.
-  const context = useCallback(() => contextFor(game.current?.round?.letters.flatMap((l) => l.question.answers) ?? []), []);
+  // The current question's answers (and the pass words), for the recognizer to expect.
+  const context = useCallback(() => {
+    const r = game.current?.round;
+    return contextFor(r && !r.done ? current(r).question.answers : []);
+  }, []);
 
   // From the Başla button: the bed starts and the mic opens for the whole round
   // (in a match it is already open and only gets this round's handler).
@@ -176,6 +179,8 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     first.current = false;
     prefix.current = null;
     lines.push(clueLine(current(r).question));
+    // A new question: a fresh recognition request expecting its answers (see listener.ts).
+    listener.expectWords(contextFor(current(r).question.answers));
     readingRef.current = true;
     setReading(true);
     g.hold(true);
@@ -258,19 +263,20 @@ export function useVoiceEffects(v: ReturnType<typeof useVoiceRound>, g: Game) {
 }
 
 const READY = /hazır|hazir|başla|basla|tamam|evet|hadi/;
+const READY_WORDS = ['hazırım', 'hazır', 'tamam', 'başla'];
 
 // The "Sıra: <name>" screen of a match (and the result card before it): the
 // host says `lines` and the player moves on by saying "hazırım" (or tap).
-// Opens the mic the first time; later turns keep the session that is already
-// open, so `answers` should be every player's answers (the recognizer is told
-// to expect them when it starts).
-export function useReadyByVoice(voice: boolean, onReady: () => void, answers: readonly string[] = [], lines: Line[] = [hostLine('turn')]) {
+// Opens the mic the first time; later turns keep it open. The recognizer is
+// told to expect the ready words here, and each question's answers once the
+// turn starts (a fresh request per question, see listener.ts).
+export function useReadyByVoice(voice: boolean, onReady: () => void, lines: Line[] = [hostLine('turn')]) {
   const ready = useRef(onReady);
   ready.current = onReady;
   useEffect(() => {
     if (!voice) return;
     let live = true;
-    const context = contextFor(['hazırım', ...answers]);
+    const context = contextFor(READY_WORDS);
     const open = () => listener.listen((alts) => { if (alts.some((a) => READY.test(a))) ready.current(); }, undefined, context);
     prepareAudio().then(() => {
       if (!live) return;

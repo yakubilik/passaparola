@@ -54,9 +54,10 @@ test('"ay", "su" and "un" said alone count at once, while the host reads and aft
   expect(rec.categoryAfterPlays).toEqual([0]);
 
   await fireEvent.press(screen.getByText('Başla'));
-  // The recognizer was told to expect this round's answers, short ones first.
-  const context: string[] = rec.lastOptions.contextualStrings;
-  expect(context.slice(0, 6)).toEqual(['pas', 'geç', 'pas geçiyorum', 'Ay', 'Su', 'Un']);
+  // The recognizer was told to expect this question's answer and the pass words,
+  // as a short-phrase ('search') request.
+  expect(rec.lastOptions.contextualStrings).toEqual(['pas', 'geç', 'pas geçiyorum', 'Ay']);
+  expect(rec.lastOptions).toMatchObject({ iosTaskHint: 'search', addsPunctuation: false, requiresOnDeviceRecognition: true });
 
   // A, while the host is still reading it: "ay" alone.
   expect(host.speaking).toBe(true);
@@ -64,16 +65,19 @@ test('"ay", "su" and "un" said alone count at once, while the host reads and aft
   await act(() => rec.hear('ay'));
   expect(screen.getByLabelText('A harfi, doğru')).toBeOnTheScreen();
 
-  // B, after the reading: "su" alone.
+  // B, after the reading: "su" alone, in a fresh request that expects it.
+  expect(rec.lastOptions.contextualStrings).toEqual(['pas', 'geç', 'pas geçiyorum', 'Su']);
   await untilHostQuiet();
   await wait(ECHO_TAIL_MS + 100);
   await act(() => rec.hear('su'));
   expect(screen.getByLabelText('B harfi, doğru')).toBeOnTheScreen();
 
-  // C: iOS glues "un" onto the last word instead of adding a new one.
+  // C: "un" alone. (A short word glued onto an earlier one of the same
+  // request is covered in listener.test.ts; a new question's request starts empty.)
+  expect(rec.lastOptions.contextualStrings).toEqual(['pas', 'geç', 'pas geçiyorum', 'Un']);
   await untilHostQuiet();
   await wait(ECHO_TAIL_MS + 100);
-  await act(() => rec.rewrite('ay suun'));
+  await act(() => rec.hear('un'));
   expect(screen.getByLabelText('C harfi, doğru')).toBeOnTheScreen();
   expect(screen.getByLabelText('3 doğru')).toBeOnTheScreen();
   expect(screen.getByLabelText('0 yanlış')).toBeOnTheScreen();
@@ -82,6 +86,7 @@ test('"ay", "su" and "un" said alone count at once, while the host reads and aft
   await act(() => jest.advanceTimersByTime(CUE_LEAD_MS + 10));
   expect(host.speaking).toBe(true);
   expect(host.volume).toBe(1);
-  expect(rec.starts).toBe(1);
+  expect(rec.starts).toBe(4);  // A, B, C, Ç
+  expect(rec.aborts).toBe(3);
   expect(audio.sessionCalls.filter((c) => c === 'mode')).toEqual(['mode']);
 });

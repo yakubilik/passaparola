@@ -168,12 +168,7 @@ type TurnResult = { why: 'pass' | 'wrong'; name: string; round: Round; answer?: 
 // to the next player. Nothing moves on until the button or "hazırım".
 function ResultCard({ result, match, voice, onNext }: { result: TurnResult; match: Match; voice: boolean; onNext: () => void }) {
   const { why, name, round, answer, next } = result;
-  useReadyByVoice(
-    voice,
-    onNext,
-    match.players.flatMap((q) => q.round.letters.flatMap((l) => l.question.answers)),
-    why === 'pass' ? [hostLine('pass_next')] : [],
-  );
+  useReadyByVoice(voice, onNext, why === 'pass' ? [hostLine('pass_next')] : []);
   const passed = round.letters.filter((l) => l.passed && l.status === 'pending').length;
   return (
     <Screen light="intro">
@@ -203,7 +198,7 @@ function ResultCard({ result, match, voice, onNext }: { result: TurnResult; matc
 
 function Handover({ match, note, voice, onStart }: { match: Match; note?: string; voice: boolean; onStart: () => void }) {
   const p = match.players[match.cur];
-  useReadyByVoice(voice, onStart, match.players.flatMap((q) => q.round.letters.flatMap((l) => l.question.answers)));
+  useReadyByVoice(voice, onStart);
   return (
     <Screen light="intro">
       <View style={{ flex: 1, padding: 32, gap: 22, justifyContent: 'center' }}>
