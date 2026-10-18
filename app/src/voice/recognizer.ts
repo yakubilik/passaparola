@@ -5,21 +5,27 @@ import { SETTLE_MS, type RecOptions, type Recognizer } from './listener';
 // expo-speech-recognition behind the listener's small interface. The audio
 // session is set to play and record at once, on the loudspeaker, so the host
 // and the sound cues keep playing while the mic is open; voice processing
-// (iOS echo cancellation, voiceChat mode) takes the phone's own sound out of
-// what the mic hears, so the host does not answer for the player.
+// (iOS echo cancellation, iosVoiceProcessingEnabled) takes the phone's own
+// sound out of what the mic hears, so the host does not answer for the player.
+//
+// The session mode is 'default', not 'voiceChat': voiceChat puts the whole
+// session on the phone-call output path, which drives the loudspeaker to call
+// loudness the moment it is set. Echo cancellation does not need that mode:
+// the recognizer turns voice processing on in its own audio engine (the input
+// node, and the output node with it; the library does both) whatever the mode.
 //
 // The session must not change while the mic is open: on an iOS route change
 // (a new category or mode is one) expo-speech-recognition rebuilds its audio
 // engine without voice processing, and an interruption ends recognition. So
-// the very same category is set once before the first round (setVoiceSession,
-// from prepareAudio) and by the mic check, and every start finds it in place.
+// the very same category is set once before the round (setVoiceSession, from
+// prepareAudio) and by the mic check, and every start finds it in place.
 export const RECOGNITION_OPTIONS = {
   addsPunctuation: false,
   iosVoiceProcessingEnabled: true,
   iosCategory: {
     category: 'playAndRecord',
     categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'],
-    mode: 'voiceChat',
+    mode: 'default',
   },
 } as const;
 

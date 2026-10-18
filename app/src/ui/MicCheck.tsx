@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Text, View } from 'react-native';
 
+import { prepareAudio } from '../voice/engine';
 import { testMic, type MicTest } from '../voice/recognizer';
 import { Button } from './Button';
 import { C, F } from './theme';
@@ -16,7 +17,11 @@ export function MicCheck({ onDone, onTypeInstead }: { onDone: () => void; onType
   const run = () => {
     cancel.current?.();
     setTest({ state: 'listening', text: '' });
-    cancel.current = testMic(setTest);
+    // The round's audio session is set up only now, on the player's tap.
+    let stop: (() => void) | null = null;
+    let gone = false;
+    cancel.current = () => { gone = true; stop?.(); };
+    prepareAudio().then(() => { if (!gone) stop = testMic(setTest); });
   };
   const busy = test?.state === 'listening' || test?.state === 'hearing';
 

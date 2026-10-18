@@ -27,6 +27,40 @@ export const BG_MAX = musicVolume(MUSIC_LEVELS);
 /** While the host speaks the bed drops to this share of its level (the cues never do). */
 export const DUCK = 0.3;
 export const BG_DUCKED = BG_VOLUME * DUCK;
+/**
+ * Player volumes. The files carry the balance (tools/normalize-loudness.py,
+ * measured in assets/loudness.json): the host at -18 LUFS, every cue and the
+ * theme 6 dB under it, the bed far below at a few percent of its file. At these
+ * volumes no cue is ever louder than the host.
+ */
+export const HOST_VOLUME = 1;
+export const CUE_VOLUME = 1;
+/** The first sound after the round's audio session is set up rises from silence over this long, so the switch never jumps or clicks. */
+export const FADE_IN_MS = 150;
+const FADE_STEPS = 6;
+
+let fadeNext = false;
+/** The next sound to start (a cue or a host clip) fades in; prepareAudio calls it once the session is in place. */
+export function fadeInNext() {
+  fadeNext = true;
+}
+
+// Starts a player at `volume`, or from silence up to it when a fade is due.
+const fades = new WeakMap<AudioPlayer, ReturnType<typeof setTimeout>[]>();
+export function startAt(p: AudioPlayer, volume: number) {
+  fades.get(p)?.forEach(clearTimeout);  // a fade still running on this player gives way
+  fades.delete(p);
+  if (!fadeNext) {
+    p.volume = volume;
+    return;
+  }
+  fadeNext = false;
+  p.volume = 0;
+  const timers = Array.from({ length: FADE_STEPS }, (_, i) =>
+    setTimeout(() => { p.volume = (volume * (i + 1)) / FADE_STEPS; }, (FADE_IN_MS * (i + 1)) / FADE_STEPS));
+  fades.set(p, timers);
+}
+
 /** The host starts a line this long after an answer's cue, so the two never overlap. */
 export const CUE_LEAD_MS = 250;
 const SEEK_MAX_MS = 150;
@@ -57,18 +91,18 @@ export class Sounds {
     }
   }
 
-  // Always at full volume, whoever is speaking (the host waits for the cue
+  // Always at CUE_VOLUME, whoever is speaking (the host waits for the cue
   // instead, see CUE_LEAD_MS). A replayed cue is rewound first and only then
   // started: on iOS a play() racing the seek can be skipped.
   play(cue: Cue) {
     const p = this.get(cue);
     this.played.push(cue);
     if (!p) return;
-    p.volume = 1;
     const gen = this.gen;
     const start = () => {
       if (gen !== this.gen) return;
-      this.started.push({ cue, volume: p.volume, fromStart: !p.currentTime });
+      this.started.push({ cue, volume: CUE_VOLUME, fromStart: !p.currentTime });
+      startAt(p, CUE_VOLUME);
       p.play();
     };
     if (!p.currentTime) { start(); return; }
@@ -134,7 +168,7 @@ export class Sounds {
     return musicVolume(this.level) * (this.ducked ? DUCK : 1);
   }
 
-  // While the host speaks the bed is lowered; the cues stay at full volume.
+  // While the host speaks the bed is lowered; the cues stay at CUE_VOLUME.
   duck(on: boolean) {
     this.ducked = on;
     const p = this.players.bg;

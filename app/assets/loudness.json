@@ -1,0 +1,12533 @@
+{
+"sounds": {
+"bg": {
+"lufs": -24.5,
+"truePeak": -5.8
+},
+"correct": {
+"lufs": -24.5,
+"truePeak": -10.9
+},
+"pas": {
+"lufs": -24.5,
+"truePeak": -10.0
+},
+"theme": {
+"lufs": -24.2,
+"truePeak": -5.7
+},
+"warn": {
+"lufs": -24.4,
+"truePeak": -12.5
+},
+"wrong": {
+"lufs": -24.4,
+"truePeak": -16.3
+}
+},
+"targets": {
+"bed": -24.0,
+"cue": -24.0,
+"maxTruePeak": -1.0,
+"theme": -24.0,
+"voice": -18.0
+},
+"voice": {
+"allcorrect": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"bilim-1-A-1": {
+"lufs": -18.4,
+"truePeak": -6.5
+},
+"bilim-1-A-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"bilim-1-A-2": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"bilim-1-A-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"bilim-1-A-3": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"bilim-1-A-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-1-A-4": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-1-A-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"bilim-1-B-1": {
+"lufs": -18.5,
+"truePeak": -2.8
+},
+"bilim-1-B-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"bilim-1-B-2": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"bilim-1-B-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"bilim-1-B-3": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"bilim-1-B-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"bilim-1-B-4": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"bilim-1-B-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-1-C-1": {
+"lufs": -18.6,
+"truePeak": -5.7
+},
+"bilim-1-C-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"bilim-1-C-2": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"bilim-1-C-2-cevap": {
+"lufs": -18.0,
+"truePeak": -2.4
+},
+"bilim-1-C-3": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-1-C-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.0
+},
+"bilim-1-C-4": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"bilim-1-C-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"bilim-1-D-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-1-D-1-cevap": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"bilim-1-D-2": {
+"lufs": -17.6,
+"truePeak": -2.0
+},
+"bilim-1-D-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"bilim-1-D-3": {
+"lufs": -18.4,
+"truePeak": -6.3
+},
+"bilim-1-D-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-1-D-4": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"bilim-1-D-4-cevap": {
+"lufs": -17.7,
+"truePeak": -2.1
+},
+"bilim-1-E-1": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"bilim-1-E-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"bilim-1-E-2": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"bilim-1-E-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"bilim-1-E-3": {
+"lufs": -17.6,
+"truePeak": -5.6
+},
+"bilim-1-E-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-1-E-4": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"bilim-1-E-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"bilim-1-F-1": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"bilim-1-F-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"bilim-1-F-2": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"bilim-1-F-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"bilim-1-F-3": {
+"lufs": -18.3,
+"truePeak": -4.4
+},
+"bilim-1-F-3-cevap": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"bilim-1-F-4": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-1-F-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"bilim-1-G-1": {
+"lufs": -18.6,
+"truePeak": -4.7
+},
+"bilim-1-G-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.0
+},
+"bilim-1-G-2": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"bilim-1-G-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"bilim-1-G-3": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"bilim-1-G-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"bilim-1-G-4": {
+"lufs": -17.7,
+"truePeak": -4.3
+},
+"bilim-1-G-4-cevap": {
+"lufs": -18.0,
+"truePeak": -2.5
+},
+"bilim-1-H-1": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"bilim-1-H-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"bilim-1-H-2": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"bilim-1-H-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"bilim-1-H-3": {
+"lufs": -17.6,
+"truePeak": -2.8
+},
+"bilim-1-H-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"bilim-1-H-4": {
+"lufs": -18.4,
+"truePeak": -2.9
+},
+"bilim-1-H-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"bilim-1-I-1": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"bilim-1-I-1-cevap": {
+"lufs": -18.3,
+"truePeak": -4.0
+},
+"bilim-1-I-2": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"bilim-1-I-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"bilim-1-I-3": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"bilim-1-I-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.3
+},
+"bilim-1-J-1": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"bilim-1-J-1-cevap": {
+"lufs": -18.5,
+"truePeak": -2.0
+},
+"bilim-1-J-2": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"bilim-1-J-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"bilim-1-K-1": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"bilim-1-K-1-cevap": {
+"lufs": -18.3,
+"truePeak": -4.9
+},
+"bilim-1-K-2": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-1-K-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"bilim-1-K-3": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-1-K-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-1-K-4": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"bilim-1-K-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"bilim-1-L-1": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"bilim-1-L-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"bilim-1-L-2": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"bilim-1-L-2-cevap": {
+"lufs": -18.3,
+"truePeak": -2.3
+},
+"bilim-1-L-3": {
+"lufs": -18.5,
+"truePeak": -6.2
+},
+"bilim-1-L-3-cevap": {
+"lufs": -18.1,
+"truePeak": -2.1
+},
+"bilim-1-L-4": {
+"lufs": -18.5,
+"truePeak": -3.3
+},
+"bilim-1-L-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"bilim-1-M-1": {
+"lufs": -18.4,
+"truePeak": -7.5
+},
+"bilim-1-M-1-cevap": {
+"lufs": -18.1,
+"truePeak": -2.2
+},
+"bilim-1-M-2": {
+"lufs": -18.4,
+"truePeak": -6.7
+},
+"bilim-1-M-2-cevap": {
+"lufs": -18.6,
+"truePeak": -3.1
+},
+"bilim-1-M-3": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"bilim-1-M-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"bilim-1-M-4": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"bilim-1-M-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"bilim-1-N-1": {
+"lufs": -18.5,
+"truePeak": -6.1
+},
+"bilim-1-N-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"bilim-1-N-2": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"bilim-1-N-2-cevap": {
+"lufs": -17.7,
+"truePeak": -2.2
+},
+"bilim-1-N-3": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"bilim-1-N-3-cevap": {
+"lufs": -18.6,
+"truePeak": -4.0
+},
+"bilim-1-N-4": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"bilim-1-N-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"bilim-1-O-1": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"bilim-1-O-1-cevap": {
+"lufs": -17.8,
+"truePeak": -2.1
+},
+"bilim-1-O-2": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"bilim-1-O-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-1-O-3": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-1-O-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"bilim-1-O-4": {
+"lufs": -17.7,
+"truePeak": -3.6
+},
+"bilim-1-O-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"bilim-1-P-1": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"bilim-1-P-1-cevap": {
+"lufs": -18.4,
+"truePeak": -2.2
+},
+"bilim-1-P-2": {
+"lufs": -18.5,
+"truePeak": -6.2
+},
+"bilim-1-P-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"bilim-1-P-3": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"bilim-1-P-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"bilim-1-P-4": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-1-P-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"bilim-1-R-1": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"bilim-1-R-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"bilim-1-R-2": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"bilim-1-R-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"bilim-1-R-3": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"bilim-1-R-3-cevap": {
+"lufs": -17.8,
+"truePeak": -1.9
+},
+"bilim-1-R-4": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"bilim-1-R-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"bilim-1-S-1": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"bilim-1-S-1-cevap": {
+"lufs": -18.6,
+"truePeak": -4.1
+},
+"bilim-1-S-2": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-1-S-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"bilim-1-S-3": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"bilim-1-S-3-cevap": {
+"lufs": -17.9,
+"truePeak": -2.4
+},
+"bilim-1-S-4": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"bilim-1-S-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"bilim-1-T-1": {
+"lufs": -17.5,
+"truePeak": -2.2
+},
+"bilim-1-T-1-cevap": {
+"lufs": -18.3,
+"truePeak": -4.2
+},
+"bilim-1-T-2": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-1-T-2-cevap": {
+"lufs": -17.7,
+"truePeak": -2.3
+},
+"bilim-1-T-3": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-1-T-3-cevap": {
+"lufs": -18.2,
+"truePeak": -4.8
+},
+"bilim-1-T-4": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"bilim-1-T-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"bilim-1-U-1": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"bilim-1-U-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"bilim-1-U-2": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-1-U-2-cevap": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"bilim-1-U-3": {
+"lufs": -17.8,
+"truePeak": -3.4
+},
+"bilim-1-U-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"bilim-1-U-4": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-1-U-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"bilim-1-V-1": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"bilim-1-V-1-cevap": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"bilim-1-V-2": {
+"lufs": -17.6,
+"truePeak": -5.1
+},
+"bilim-1-V-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.0
+},
+"bilim-1-V-3": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-1-V-3-cevap": {
+"lufs": -18.0,
+"truePeak": -2.1
+},
+"bilim-1-V-4": {
+"lufs": -18.4,
+"truePeak": -6.4
+},
+"bilim-1-V-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"bilim-1-Y-1": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"bilim-1-Y-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-1-Y-2": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"bilim-1-Y-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"bilim-1-Y-3": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"bilim-1-Y-3-cevap": {
+"lufs": -17.9,
+"truePeak": -2.1
+},
+"bilim-1-Y-4": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"bilim-1-Y-4-cevap": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"bilim-1-Z-1": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"bilim-1-Z-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-1-Z-2": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"bilim-1-Z-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-1-Z-3": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"bilim-1-Z-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.1
+},
+"bilim-1-Z-4": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"bilim-1-Z-4-cevap": {
+"lufs": -17.6,
+"truePeak": -2.1
+},
+"bilim-1-Ç-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-1-Ç-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"bilim-1-Ç-2": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"bilim-1-Ç-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"bilim-1-Ç-3": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-1-Ç-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"bilim-1-Ç-4": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"bilim-1-Ç-4-cevap": {
+"lufs": -18.4,
+"truePeak": -2.8
+},
+"bilim-1-Ö-1": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"bilim-1-Ö-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-1-Ö-2": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"bilim-1-Ö-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"bilim-1-Ö-3": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"bilim-1-Ö-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"bilim-1-Ü-1": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"bilim-1-Ü-1-cevap": {
+"lufs": -17.7,
+"truePeak": -2.2
+},
+"bilim-1-İ-1": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"bilim-1-İ-1-cevap": {
+"lufs": -18.1,
+"truePeak": -2.3
+},
+"bilim-1-İ-2": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"bilim-1-İ-2-cevap": {
+"lufs": -17.6,
+"truePeak": -2.1
+},
+"bilim-1-İ-3": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"bilim-1-İ-3-cevap": {
+"lufs": -17.8,
+"truePeak": -2.1
+},
+"bilim-1-İ-4": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"bilim-1-İ-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-1-Ş-1": {
+"lufs": -17.9,
+"truePeak": -3.9
+},
+"bilim-1-Ş-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"bilim-1-Ş-2": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"bilim-1-Ş-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-1-Ş-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"bilim-1-Ş-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"bilim-1-Ş-4": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"bilim-1-Ş-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"bilim-2-A-1": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"bilim-2-A-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"bilim-2-A-2": {
+"lufs": -18.4,
+"truePeak": -6.6
+},
+"bilim-2-A-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"bilim-2-A-3": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-2-A-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-2-A-4": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"bilim-2-A-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"bilim-2-B-1": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"bilim-2-B-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-2-B-2": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-2-B-2-cevap": {
+"lufs": -17.9,
+"truePeak": -2.1
+},
+"bilim-2-B-3": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"bilim-2-B-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.0
+},
+"bilim-2-B-4": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"bilim-2-B-4-cevap": {
+"lufs": -17.5,
+"truePeak": -2.1
+},
+"bilim-2-C-1": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"bilim-2-C-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-2-C-2": {
+"lufs": -18.6,
+"truePeak": -3.8
+},
+"bilim-2-C-2-cevap": {
+"lufs": -18.5,
+"truePeak": -1.9
+},
+"bilim-2-C-3": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"bilim-2-C-3-cevap": {
+"lufs": -17.6,
+"truePeak": -2.2
+},
+"bilim-2-C-4": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-2-C-4-cevap": {
+"lufs": -18.3,
+"truePeak": -2.0
+},
+"bilim-2-D-1": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-2-D-1-cevap": {
+"lufs": -17.5,
+"truePeak": -2.9
+},
+"bilim-2-D-2": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"bilim-2-D-2-cevap": {
+"lufs": -17.5,
+"truePeak": -2.4
+},
+"bilim-2-D-3": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-2-D-3-cevap": {
+"lufs": -17.6,
+"truePeak": -2.2
+},
+"bilim-2-D-4": {
+"lufs": -18.4,
+"truePeak": -6.1
+},
+"bilim-2-D-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"bilim-2-E-1": {
+"lufs": -18.5,
+"truePeak": -5.9
+},
+"bilim-2-E-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"bilim-2-E-2": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"bilim-2-E-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-2-E-3": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-2-E-3-cevap": {
+"lufs": -18.5,
+"truePeak": -2.4
+},
+"bilim-2-E-4": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"bilim-2-E-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"bilim-2-F-1": {
+"lufs": -18.6,
+"truePeak": -4.4
+},
+"bilim-2-F-1-cevap": {
+"lufs": -18.4,
+"truePeak": -1.9
+},
+"bilim-2-F-2": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"bilim-2-F-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"bilim-2-F-3": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"bilim-2-F-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"bilim-2-F-4": {
+"lufs": -17.6,
+"truePeak": -4.0
+},
+"bilim-2-F-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"bilim-2-G-1": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"bilim-2-G-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"bilim-2-G-2": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"bilim-2-G-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"bilim-2-G-3": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"bilim-2-G-3-cevap": {
+"lufs": -18.1,
+"truePeak": -4.2
+},
+"bilim-2-G-4": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"bilim-2-G-4-cevap": {
+"lufs": -18.3,
+"truePeak": -2.0
+},
+"bilim-2-H-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-2-H-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"bilim-2-H-2": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"bilim-2-H-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"bilim-2-H-3": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"bilim-2-H-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"bilim-2-H-4": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"bilim-2-H-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"bilim-2-I-1": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"bilim-2-I-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"bilim-2-I-2": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-2-I-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"bilim-2-I-3": {
+"lufs": -17.6,
+"truePeak": -3.2
+},
+"bilim-2-I-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"bilim-2-J-1": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"bilim-2-J-1-cevap": {
+"lufs": -17.8,
+"truePeak": -2.1
+},
+"bilim-2-J-2": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"bilim-2-J-2-cevap": {
+"lufs": -18.1,
+"truePeak": -2.2
+},
+"bilim-2-J-4": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"bilim-2-J-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"bilim-2-K-1": {
+"lufs": -17.9,
+"truePeak": -4.4
+},
+"bilim-2-K-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.5
+},
+"bilim-2-K-2": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"bilim-2-K-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"bilim-2-K-3": {
+"lufs": -18.6,
+"truePeak": -5.8
+},
+"bilim-2-K-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.0
+},
+"bilim-2-K-4": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"bilim-2-K-4-cevap": {
+"lufs": -18.2,
+"truePeak": -2.2
+},
+"bilim-2-L-1": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"bilim-2-L-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.2
+},
+"bilim-2-L-2": {
+"lufs": -18.4,
+"truePeak": -7.0
+},
+"bilim-2-L-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"bilim-2-L-3": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-2-L-3-cevap": {
+"lufs": -17.6,
+"truePeak": -2.6
+},
+"bilim-2-L-4": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"bilim-2-L-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-2-M-1": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"bilim-2-M-1-cevap": {
+"lufs": -18.4,
+"truePeak": -2.4
+},
+"bilim-2-M-2": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"bilim-2-M-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"bilim-2-M-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"bilim-2-M-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"bilim-2-M-4": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"bilim-2-M-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-2-N-1": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-2-N-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-2-N-2": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"bilim-2-N-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-2-N-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"bilim-2-N-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-2-N-4": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-2-N-4-cevap": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"bilim-2-O-1": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-2-O-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"bilim-2-O-2": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"bilim-2-O-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"bilim-2-O-3": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"bilim-2-O-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"bilim-2-O-4": {
+"lufs": -18.5,
+"truePeak": -6.8
+},
+"bilim-2-O-4-cevap": {
+"lufs": -18.2,
+"truePeak": -2.4
+},
+"bilim-2-P-1": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"bilim-2-P-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"bilim-2-P-2": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"bilim-2-P-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-2-P-3": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"bilim-2-P-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"bilim-2-P-4": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"bilim-2-P-4-cevap": {
+"lufs": -18.4,
+"truePeak": -2.4
+},
+"bilim-2-R-1": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"bilim-2-R-1-cevap": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"bilim-2-R-2": {
+"lufs": -17.7,
+"truePeak": -3.2
+},
+"bilim-2-R-2-cevap": {
+"lufs": -18.3,
+"truePeak": -2.8
+},
+"bilim-2-R-3": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"bilim-2-R-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"bilim-2-R-4": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"bilim-2-R-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-2-S-1": {
+"lufs": -18.6,
+"truePeak": -3.9
+},
+"bilim-2-S-1-cevap": {
+"lufs": -18.0,
+"truePeak": -2.0
+},
+"bilim-2-S-2": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"bilim-2-S-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"bilim-2-S-3": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-2-S-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"bilim-2-S-4": {
+"lufs": -17.8,
+"truePeak": -2.7
+},
+"bilim-2-S-4-cevap": {
+"lufs": -18.7,
+"truePeak": -4.4
+},
+"bilim-2-T-1": {
+"lufs": -18.5,
+"truePeak": -6.1
+},
+"bilim-2-T-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"bilim-2-T-2": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"bilim-2-T-2-cevap": {
+"lufs": -18.2,
+"truePeak": -5.2
+},
+"bilim-2-T-3": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"bilim-2-T-3-cevap": {
+"lufs": -18.6,
+"truePeak": -3.8
+},
+"bilim-2-T-4": {
+"lufs": -17.6,
+"truePeak": -4.3
+},
+"bilim-2-T-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-2-U-1": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"bilim-2-U-1-cevap": {
+"lufs": -17.8,
+"truePeak": -2.1
+},
+"bilim-2-U-2": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"bilim-2-U-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"bilim-2-U-3": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"bilim-2-U-3-cevap": {
+"lufs": -18.2,
+"truePeak": -2.1
+},
+"bilim-2-U-4": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"bilim-2-U-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"bilim-2-V-1": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"bilim-2-V-1-cevap": {
+"lufs": -18.4,
+"truePeak": -1.8
+},
+"bilim-2-V-2": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"bilim-2-V-2-cevap": {
+"lufs": -18.5,
+"truePeak": -2.0
+},
+"bilim-2-V-3": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"bilim-2-V-3-cevap": {
+"lufs": -18.1,
+"truePeak": -3.5
+},
+"bilim-2-V-4": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"bilim-2-V-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.1
+},
+"bilim-2-Y-1": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"bilim-2-Y-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"bilim-2-Y-2": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"bilim-2-Y-2-cevap": {
+"lufs": -17.6,
+"truePeak": -1.9
+},
+"bilim-2-Y-3": {
+"lufs": -17.6,
+"truePeak": -4.3
+},
+"bilim-2-Y-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"bilim-2-Y-4": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"bilim-2-Y-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"bilim-2-Z-1": {
+"lufs": -17.5,
+"truePeak": -3.4
+},
+"bilim-2-Z-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"bilim-2-Z-2": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"bilim-2-Z-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"bilim-2-Z-3": {
+"lufs": -17.5,
+"truePeak": -3.5
+},
+"bilim-2-Z-3-cevap": {
+"lufs": -18.4,
+"truePeak": -2.0
+},
+"bilim-2-Z-4": {
+"lufs": -17.6,
+"truePeak": -3.6
+},
+"bilim-2-Z-4-cevap": {
+"lufs": -17.6,
+"truePeak": -2.1
+},
+"bilim-2-Ç-1": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"bilim-2-Ç-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"bilim-2-Ç-2": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"bilim-2-Ç-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"bilim-2-Ç-3": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"bilim-2-Ç-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"bilim-2-Ç-4": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-2-Ç-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"bilim-2-Ü-1": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"bilim-2-Ü-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"bilim-2-Ü-2": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"bilim-2-Ü-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"bilim-2-İ-1": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"bilim-2-İ-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.0
+},
+"bilim-2-İ-2": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"bilim-2-İ-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.0
+},
+"bilim-2-İ-3": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"bilim-2-İ-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"bilim-2-İ-4": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"bilim-2-İ-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"bilim-2-Ş-4": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-2-Ş-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"bilim-3-A-1": {
+"lufs": -17.6,
+"truePeak": -2.9
+},
+"bilim-3-A-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.3
+},
+"bilim-3-A-2": {
+"lufs": -18.5,
+"truePeak": -6.1
+},
+"bilim-3-A-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-3-A-3": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-3-A-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"bilim-3-A-4": {
+"lufs": -18.4,
+"truePeak": -6.5
+},
+"bilim-3-A-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"bilim-3-B-1": {
+"lufs": -17.8,
+"truePeak": -5.0
+},
+"bilim-3-B-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"bilim-3-B-2": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"bilim-3-B-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"bilim-3-B-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"bilim-3-B-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"bilim-3-B-4": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"bilim-3-B-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"bilim-3-C-1": {
+"lufs": -17.8,
+"truePeak": -2.8
+},
+"bilim-3-C-1-cevap": {
+"lufs": -18.4,
+"truePeak": -6.2
+},
+"bilim-3-C-2": {
+"lufs": -18.4,
+"truePeak": -6.0
+},
+"bilim-3-C-2-cevap": {
+"lufs": -17.6,
+"truePeak": -4.2
+},
+"bilim-3-C-3": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"bilim-3-C-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-3-C-4": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"bilim-3-C-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"bilim-3-D-1": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"bilim-3-D-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"bilim-3-D-2": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-3-D-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"bilim-3-D-3": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-3-D-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"bilim-3-D-4": {
+"lufs": -17.6,
+"truePeak": -4.9
+},
+"bilim-3-D-4-cevap": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"bilim-3-E-1": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"bilim-3-E-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.0
+},
+"bilim-3-E-2": {
+"lufs": -18.4,
+"truePeak": -6.2
+},
+"bilim-3-E-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"bilim-3-E-3": {
+"lufs": -17.9,
+"truePeak": -3.6
+},
+"bilim-3-E-3-cevap": {
+"lufs": -17.6,
+"truePeak": -2.2
+},
+"bilim-3-E-4": {
+"lufs": -18.5,
+"truePeak": -6.2
+},
+"bilim-3-E-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"bilim-3-F-1": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"bilim-3-F-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"bilim-3-F-2": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"bilim-3-F-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"bilim-3-F-3": {
+"lufs": -17.9,
+"truePeak": -3.5
+},
+"bilim-3-F-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"bilim-3-F-4": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"bilim-3-F-4-cevap": {
+"lufs": -17.6,
+"truePeak": -3.2
+},
+"bilim-3-G-1": {
+"lufs": -18.1,
+"truePeak": -4.1
+},
+"bilim-3-G-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"bilim-3-G-2": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-3-G-2-cevap": {
+"lufs": -18.1,
+"truePeak": -2.3
+},
+"bilim-3-G-3": {
+"lufs": -18.4,
+"truePeak": -6.1
+},
+"bilim-3-G-3-cevap": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"bilim-3-G-4": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"bilim-3-G-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"bilim-3-H-1": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-3-H-1-cevap": {
+"lufs": -18.5,
+"truePeak": -1.9
+},
+"bilim-3-H-2": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-3-H-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"bilim-3-H-3": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"bilim-3-H-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-3-H-4": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"bilim-3-H-4-cevap": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"bilim-3-I-1": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"bilim-3-I-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"bilim-3-J-1": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"bilim-3-J-1-cevap": {
+"lufs": -17.8,
+"truePeak": -2.3
+},
+"bilim-3-J-2": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"bilim-3-J-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"bilim-3-J-3": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"bilim-3-J-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"bilim-3-K-1": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"bilim-3-K-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"bilim-3-K-2": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"bilim-3-K-2-cevap": {
+"lufs": -17.7,
+"truePeak": -2.2
+},
+"bilim-3-K-3": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"bilim-3-K-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.4
+},
+"bilim-3-K-4": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"bilim-3-K-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"bilim-3-L-1": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"bilim-3-L-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.1
+},
+"bilim-3-L-2": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"bilim-3-L-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"bilim-3-L-3": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"bilim-3-L-3-cevap": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"bilim-3-L-4": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"bilim-3-L-4-cevap": {
+"lufs": -18.5,
+"truePeak": -1.5
+},
+"bilim-3-M-1": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-3-M-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"bilim-3-M-2": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-3-M-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-3-M-3": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"bilim-3-M-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-3-M-4": {
+"lufs": -18.0,
+"truePeak": -3.2
+},
+"bilim-3-M-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"bilim-3-N-1": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"bilim-3-N-1-cevap": {
+"lufs": -17.5,
+"truePeak": -2.2
+},
+"bilim-3-N-2": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"bilim-3-N-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"bilim-3-N-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"bilim-3-N-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"bilim-3-N-4": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"bilim-3-N-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"bilim-3-O-1": {
+"lufs": -18.5,
+"truePeak": -6.2
+},
+"bilim-3-O-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.4
+},
+"bilim-3-O-2": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-3-O-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.0
+},
+"bilim-3-O-3": {
+"lufs": -17.9,
+"truePeak": -3.8
+},
+"bilim-3-O-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"bilim-3-O-4": {
+"lufs": -18.5,
+"truePeak": -6.3
+},
+"bilim-3-O-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-3-P-1": {
+"lufs": -17.7,
+"truePeak": -2.9
+},
+"bilim-3-P-1-cevap": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"bilim-3-P-2": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"bilim-3-P-2-cevap": {
+"lufs": -17.8,
+"truePeak": -2.2
+},
+"bilim-3-P-3": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"bilim-3-P-3-cevap": {
+"lufs": -18.4,
+"truePeak": -2.2
+},
+"bilim-3-P-4": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"bilim-3-P-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-3-R-1": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-3-R-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"bilim-3-R-2": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"bilim-3-R-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"bilim-3-R-3": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"bilim-3-R-3-cevap": {
+"lufs": -18.1,
+"truePeak": -4.3
+},
+"bilim-3-R-4": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"bilim-3-R-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"bilim-3-S-1": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"bilim-3-S-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-3-S-2": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"bilim-3-S-2-cevap": {
+"lufs": -18.6,
+"truePeak": -5.3
+},
+"bilim-3-S-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"bilim-3-S-3-cevap": {
+"lufs": -17.9,
+"truePeak": -2.2
+},
+"bilim-3-S-4": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"bilim-3-S-4-cevap": {
+"lufs": -18.9,
+"truePeak": -1.5
+},
+"bilim-3-T-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-3-T-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"bilim-3-T-2": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-3-T-2-cevap": {
+"lufs": -17.5,
+"truePeak": -2.0
+},
+"bilim-3-T-3": {
+"lufs": -18.4,
+"truePeak": -6.4
+},
+"bilim-3-T-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-3-T-4": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"bilim-3-T-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"bilim-3-U-1": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"bilim-3-U-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"bilim-3-U-2": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-3-U-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"bilim-3-U-3": {
+"lufs": -18.5,
+"truePeak": -3.1
+},
+"bilim-3-U-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"bilim-3-U-4": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"bilim-3-U-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"bilim-3-V-1": {
+"lufs": -18.6,
+"truePeak": -4.4
+},
+"bilim-3-V-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"bilim-3-V-2": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"bilim-3-V-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"bilim-3-V-3": {
+"lufs": -17.8,
+"truePeak": -3.8
+},
+"bilim-3-V-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"bilim-3-V-4": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"bilim-3-V-4-cevap": {
+"lufs": -17.8,
+"truePeak": -2.1
+},
+"bilim-3-Y-1": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"bilim-3-Y-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"bilim-3-Y-2": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-3-Y-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"bilim-3-Y-3": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"bilim-3-Y-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"bilim-3-Y-4": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"bilim-3-Y-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"bilim-3-Z-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-3-Z-1-cevap": {
+"lufs": -18.1,
+"truePeak": -3.5
+},
+"bilim-3-Z-2": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"bilim-3-Z-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"bilim-3-Z-3": {
+"lufs": -17.6,
+"truePeak": -3.2
+},
+"bilim-3-Z-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"bilim-3-Z-4": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"bilim-3-Z-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.2
+},
+"bilim-3-Ç-1": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"bilim-3-Ç-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"bilim-3-Ç-2": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-3-Ç-2-cevap": {
+"lufs": -18.5,
+"truePeak": -2.2
+},
+"bilim-3-Ç-3": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"bilim-3-Ç-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"bilim-3-Ç-4": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"bilim-3-Ç-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"bilim-3-Ö-1": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"bilim-3-Ö-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"bilim-3-Ö-2": {
+"lufs": -18.4,
+"truePeak": -6.0
+},
+"bilim-3-Ö-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"bilim-3-Ö-3": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"bilim-3-Ö-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"bilim-3-Ö-4": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"bilim-3-Ö-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"bilim-3-Ü-1": {
+"lufs": -18.5,
+"truePeak": -3.1
+},
+"bilim-3-Ü-1-cevap": {
+"lufs": -17.7,
+"truePeak": -2.1
+},
+"bilim-3-İ-1": {
+"lufs": -17.5,
+"truePeak": -3.9
+},
+"bilim-3-İ-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"bilim-3-İ-2": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"bilim-3-İ-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"bilim-3-İ-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"bilim-3-İ-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.3
+},
+"bilim-3-İ-4": {
+"lufs": -18.5,
+"truePeak": -3.1
+},
+"bilim-3-İ-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.0
+},
+"bilim-3-Ş-1": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"bilim-3-Ş-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"bilim-3-Ş-4": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"bilim-3-Ş-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"cografya-1-A-1": {
+"lufs": -18.4,
+"truePeak": -6.1
+},
+"cografya-1-A-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"cografya-1-A-2": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"cografya-1-A-2-cevap": {
+"lufs": -18.2,
+"truePeak": -2.2
+},
+"cografya-1-A-3": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"cografya-1-A-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"cografya-1-A-4": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"cografya-1-A-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.0
+},
+"cografya-1-B-1": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"cografya-1-B-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"cografya-1-B-2": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"cografya-1-B-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"cografya-1-B-3": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"cografya-1-B-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-1-B-4": {
+"lufs": -17.8,
+"truePeak": -4.1
+},
+"cografya-1-B-4-cevap": {
+"lufs": -17.7,
+"truePeak": -2.2
+},
+"cografya-1-C-1": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"cografya-1-C-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"cografya-1-D-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-1-D-1-cevap": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"cografya-1-D-2": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"cografya-1-D-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-1-D-3": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"cografya-1-D-3-cevap": {
+"lufs": -17.6,
+"truePeak": -2.2
+},
+"cografya-1-D-4": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"cografya-1-D-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"cografya-1-E-1": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"cografya-1-E-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"cografya-1-E-2": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"cografya-1-E-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"cografya-1-E-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-1-E-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"cografya-1-E-4": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"cografya-1-E-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"cografya-1-F-1": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"cografya-1-F-1-cevap": {
+"lufs": -18.0,
+"truePeak": -1.9
+},
+"cografya-1-F-2": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"cografya-1-F-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"cografya-1-F-3": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-1-F-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"cografya-1-F-4": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"cografya-1-F-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"cografya-1-G-1": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"cografya-1-G-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"cografya-1-G-2": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"cografya-1-G-2-cevap": {
+"lufs": -18.5,
+"truePeak": -1.4
+},
+"cografya-1-G-3": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"cografya-1-G-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"cografya-1-G-4": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"cografya-1-G-4-cevap": {
+"lufs": -17.6,
+"truePeak": -2.0
+},
+"cografya-1-H-1": {
+"lufs": -17.8,
+"truePeak": -3.6
+},
+"cografya-1-H-1-cevap": {
+"lufs": -18.1,
+"truePeak": -2.0
+},
+"cografya-1-H-2": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"cografya-1-H-2-cevap": {
+"lufs": -17.8,
+"truePeak": -2.0
+},
+"cografya-1-H-3": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"cografya-1-H-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-1-H-4": {
+"lufs": -18.0,
+"truePeak": -2.4
+},
+"cografya-1-H-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"cografya-1-I-1": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"cografya-1-I-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"cografya-1-I-2": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"cografya-1-I-2-cevap": {
+"lufs": -18.0,
+"truePeak": -2.3
+},
+"cografya-1-I-3": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"cografya-1-I-3-cevap": {
+"lufs": -18.4,
+"truePeak": -2.2
+},
+"cografya-1-I-4": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"cografya-1-I-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"cografya-1-J-1": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"cografya-1-J-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.3
+},
+"cografya-1-J-2": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"cografya-1-J-2-cevap": {
+"lufs": -17.8,
+"truePeak": -2.1
+},
+"cografya-1-K-1": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"cografya-1-K-1-cevap": {
+"lufs": -18.5,
+"truePeak": -6.1
+},
+"cografya-1-K-2": {
+"lufs": -17.5,
+"truePeak": -4.3
+},
+"cografya-1-K-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"cografya-1-K-3": {
+"lufs": -17.6,
+"truePeak": -3.8
+},
+"cografya-1-K-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"cografya-1-K-4": {
+"lufs": -18.5,
+"truePeak": -6.3
+},
+"cografya-1-K-4-cevap": {
+"lufs": -18.4,
+"truePeak": -2.9
+},
+"cografya-1-L-1": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"cografya-1-L-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-1-L-2": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"cografya-1-L-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"cografya-1-L-3": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"cografya-1-L-3-cevap": {
+"lufs": -18.3,
+"truePeak": -2.3
+},
+"cografya-1-L-4": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"cografya-1-L-4-cevap": {
+"lufs": -17.6,
+"truePeak": -2.3
+},
+"cografya-1-M-1": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"cografya-1-M-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"cografya-1-M-2": {
+"lufs": -17.6,
+"truePeak": -3.9
+},
+"cografya-1-M-2-cevap": {
+"lufs": -17.8,
+"truePeak": -2.1
+},
+"cografya-1-M-3": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"cografya-1-M-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-1-M-4": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"cografya-1-M-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"cografya-1-N-1": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"cografya-1-N-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"cografya-1-N-2": {
+"lufs": -18.6,
+"truePeak": -4.9
+},
+"cografya-1-N-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"cografya-1-N-3": {
+"lufs": -17.6,
+"truePeak": -3.8
+},
+"cografya-1-N-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"cografya-1-N-4": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"cografya-1-N-4-cevap": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"cografya-1-O-1": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"cografya-1-O-1-cevap": {
+"lufs": -17.8,
+"truePeak": -2.1
+},
+"cografya-1-O-2": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"cografya-1-O-2-cevap": {
+"lufs": -17.8,
+"truePeak": -2.0
+},
+"cografya-1-O-3": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-1-O-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"cografya-1-O-4": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-1-O-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"cografya-1-P-1": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-1-P-1-cevap": {
+"lufs": -18.3,
+"truePeak": -3.5
+},
+"cografya-1-P-2": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"cografya-1-P-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"cografya-1-P-3": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"cografya-1-P-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"cografya-1-P-4": {
+"lufs": -18.4,
+"truePeak": -6.0
+},
+"cografya-1-P-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"cografya-1-R-1": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-1-R-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"cografya-1-R-2": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-1-R-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"cografya-1-R-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-1-R-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"cografya-1-R-4": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"cografya-1-R-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"cografya-1-S-1": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"cografya-1-S-1-cevap": {
+"lufs": -18.4,
+"truePeak": -2.2
+},
+"cografya-1-S-2": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-1-S-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"cografya-1-S-3": {
+"lufs": -17.9,
+"truePeak": -3.4
+},
+"cografya-1-S-3-cevap": {
+"lufs": -17.9,
+"truePeak": -4.0
+},
+"cografya-1-S-4": {
+"lufs": -18.5,
+"truePeak": -5.9
+},
+"cografya-1-S-4-cevap": {
+"lufs": -18.6,
+"truePeak": -4.2
+},
+"cografya-1-T-1": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"cografya-1-T-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"cografya-1-T-2": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"cografya-1-T-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"cografya-1-T-3": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"cografya-1-T-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"cografya-1-T-4": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"cografya-1-T-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-1-U-1": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"cografya-1-U-1-cevap": {
+"lufs": -18.2,
+"truePeak": -5.0
+},
+"cografya-1-U-2": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"cografya-1-U-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"cografya-1-U-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-1-U-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"cografya-1-U-4": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"cografya-1-U-4-cevap": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"cografya-1-V-1": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"cografya-1-V-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"cografya-1-V-2": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-1-V-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"cografya-1-V-3": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"cografya-1-V-3-cevap": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"cografya-1-V-4": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"cografya-1-V-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"cografya-1-Y-1": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"cografya-1-Y-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-1-Y-2": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"cografya-1-Y-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"cografya-1-Y-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"cografya-1-Y-3-cevap": {
+"lufs": -17.9,
+"truePeak": -2.2
+},
+"cografya-1-Y-4": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"cografya-1-Y-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-1-Z-1": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"cografya-1-Z-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"cografya-1-Z-2": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"cografya-1-Z-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"cografya-1-Z-3": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"cografya-1-Z-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.1
+},
+"cografya-1-Z-4": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"cografya-1-Z-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-1-Ç-1": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"cografya-1-Ç-1-cevap": {
+"lufs": -17.6,
+"truePeak": -4.1
+},
+"cografya-1-Ç-2": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"cografya-1-Ç-2-cevap": {
+"lufs": -18.5,
+"truePeak": -2.0
+},
+"cografya-1-Ç-3": {
+"lufs": -18.4,
+"truePeak": -6.3
+},
+"cografya-1-Ç-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"cografya-1-Ç-4": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"cografya-1-Ç-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"cografya-1-Ö-1": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"cografya-1-Ö-1-cevap": {
+"lufs": -17.8,
+"truePeak": -2.4
+},
+"cografya-1-Ö-2": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"cografya-1-Ö-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.3
+},
+"cografya-1-Ü-1": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"cografya-1-Ü-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"cografya-1-Ü-2": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"cografya-1-Ü-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.4
+},
+"cografya-1-İ-1": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"cografya-1-İ-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-1-İ-2": {
+"lufs": -18.5,
+"truePeak": -6.2
+},
+"cografya-1-İ-2-cevap": {
+"lufs": -17.7,
+"truePeak": -2.4
+},
+"cografya-1-İ-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-1-İ-3-cevap": {
+"lufs": -18.4,
+"truePeak": -6.2
+},
+"cografya-1-İ-4": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"cografya-1-İ-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"cografya-1-Ş-1": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"cografya-1-Ş-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"cografya-1-Ş-2": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"cografya-1-Ş-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-1-Ş-3": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"cografya-1-Ş-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"cografya-1-Ş-4": {
+"lufs": -18.4,
+"truePeak": -6.3
+},
+"cografya-1-Ş-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"cografya-2-A-1": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"cografya-2-A-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-2-A-2": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"cografya-2-A-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"cografya-2-A-3": {
+"lufs": -18.5,
+"truePeak": -6.2
+},
+"cografya-2-A-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"cografya-2-A-4": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"cografya-2-A-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"cografya-2-B-1": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"cografya-2-B-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"cografya-2-B-2": {
+"lufs": -18.5,
+"truePeak": -5.9
+},
+"cografya-2-B-2-cevap": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"cografya-2-B-3": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"cografya-2-B-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"cografya-2-B-4": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"cografya-2-B-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.2
+},
+"cografya-2-C-1": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"cografya-2-C-1-cevap": {
+"lufs": -18.0,
+"truePeak": -2.1
+},
+"cografya-2-C-2": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"cografya-2-C-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"cografya-2-C-3": {
+"lufs": -17.7,
+"truePeak": -3.5
+},
+"cografya-2-C-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-2-D-1": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"cografya-2-D-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"cografya-2-D-2": {
+"lufs": -18.6,
+"truePeak": -4.8
+},
+"cografya-2-D-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"cografya-2-D-3": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"cografya-2-D-3-cevap": {
+"lufs": -17.7,
+"truePeak": -1.9
+},
+"cografya-2-D-4": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"cografya-2-D-4-cevap": {
+"lufs": -17.7,
+"truePeak": -2.3
+},
+"cografya-2-E-1": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"cografya-2-E-1-cevap": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"cografya-2-E-2": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"cografya-2-E-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"cografya-2-E-3": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"cografya-2-E-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-2-E-4": {
+"lufs": -18.1,
+"truePeak": -3.7
+},
+"cografya-2-E-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"cografya-2-F-1": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"cografya-2-F-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"cografya-2-F-2": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"cografya-2-F-2-cevap": {
+"lufs": -18.6,
+"truePeak": -4.9
+},
+"cografya-2-F-3": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"cografya-2-F-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-2-F-4": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"cografya-2-F-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"cografya-2-G-1": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"cografya-2-G-1-cevap": {
+"lufs": -18.0,
+"truePeak": -1.7
+},
+"cografya-2-G-2": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"cografya-2-G-2-cevap": {
+"lufs": -17.7,
+"truePeak": -2.1
+},
+"cografya-2-G-3": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"cografya-2-G-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"cografya-2-G-4": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-2-G-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"cografya-2-H-1": {
+"lufs": -18.3,
+"truePeak": -5.3
+},
+"cografya-2-H-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"cografya-2-H-2": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"cografya-2-H-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"cografya-2-H-3": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"cografya-2-H-3-cevap": {
+"lufs": -17.7,
+"truePeak": -2.4
+},
+"cografya-2-H-4": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-2-H-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"cografya-2-I-1": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"cografya-2-I-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"cografya-2-I-2": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"cografya-2-I-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"cografya-2-J-1": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"cografya-2-J-1-cevap": {
+"lufs": -18.1,
+"truePeak": -2.2
+},
+"cografya-2-J-2": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"cografya-2-J-2-cevap": {
+"lufs": -17.8,
+"truePeak": -2.3
+},
+"cografya-2-J-3": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"cografya-2-J-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"cografya-2-K-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-2-K-1-cevap": {
+"lufs": -18.0,
+"truePeak": -2.3
+},
+"cografya-2-K-2": {
+"lufs": -18.6,
+"truePeak": -4.1
+},
+"cografya-2-K-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.1
+},
+"cografya-2-K-3": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-2-K-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"cografya-2-K-4": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"cografya-2-K-4-cevap": {
+"lufs": -18.1,
+"truePeak": -3.5
+},
+"cografya-2-L-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-2-L-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-2-L-2": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"cografya-2-L-2-cevap": {
+"lufs": -18.2,
+"truePeak": -2.4
+},
+"cografya-2-L-3": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"cografya-2-L-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"cografya-2-L-4": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"cografya-2-L-4-cevap": {
+"lufs": -17.7,
+"truePeak": -2.2
+},
+"cografya-2-M-1": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"cografya-2-M-1-cevap": {
+"lufs": -18.3,
+"truePeak": -5.3
+},
+"cografya-2-M-2": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"cografya-2-M-2-cevap": {
+"lufs": -18.7,
+"truePeak": -4.0
+},
+"cografya-2-M-3": {
+"lufs": -18.4,
+"truePeak": -6.0
+},
+"cografya-2-M-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"cografya-2-M-4": {
+"lufs": -17.7,
+"truePeak": -2.5
+},
+"cografya-2-M-4-cevap": {
+"lufs": -18.2,
+"truePeak": -2.3
+},
+"cografya-2-N-1": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"cografya-2-N-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-2-N-2": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"cografya-2-N-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-2-N-3": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"cografya-2-N-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"cografya-2-N-4": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"cografya-2-N-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"cografya-2-O-1": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"cografya-2-O-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"cografya-2-O-2": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-2-O-2-cevap": {
+"lufs": -18.6,
+"truePeak": -5.1
+},
+"cografya-2-O-3": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"cografya-2-O-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"cografya-2-O-4": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"cografya-2-O-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-2-P-1": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-2-P-1-cevap": {
+"lufs": -18.7,
+"truePeak": -1.5
+},
+"cografya-2-P-2": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"cografya-2-P-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"cografya-2-P-3": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"cografya-2-P-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"cografya-2-P-4": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"cografya-2-P-4-cevap": {
+"lufs": -18.4,
+"truePeak": -2.2
+},
+"cografya-2-R-1": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"cografya-2-R-1-cevap": {
+"lufs": -18.4,
+"truePeak": -6.2
+},
+"cografya-2-R-2": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"cografya-2-R-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"cografya-2-R-3": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"cografya-2-R-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.2
+},
+"cografya-2-R-4": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"cografya-2-R-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"cografya-2-S-1": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"cografya-2-S-1-cevap": {
+"lufs": -17.8,
+"truePeak": -2.0
+},
+"cografya-2-S-2": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-2-S-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"cografya-2-S-3": {
+"lufs": -17.6,
+"truePeak": -3.1
+},
+"cografya-2-S-3-cevap": {
+"lufs": -17.6,
+"truePeak": -2.4
+},
+"cografya-2-S-4": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-2-S-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"cografya-2-T-1": {
+"lufs": -18.6,
+"truePeak": -4.6
+},
+"cografya-2-T-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"cografya-2-T-2": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"cografya-2-T-2-cevap": {
+"lufs": -18.6,
+"truePeak": -3.2
+},
+"cografya-2-T-3": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"cografya-2-T-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"cografya-2-T-4": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"cografya-2-T-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"cografya-2-U-1": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-2-U-1-cevap": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"cografya-2-U-2": {
+"lufs": -18.6,
+"truePeak": -3.2
+},
+"cografya-2-U-2-cevap": {
+"lufs": -18.1,
+"truePeak": -1.8
+},
+"cografya-2-U-3": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"cografya-2-U-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-2-U-4": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"cografya-2-U-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"cografya-2-V-1": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-2-V-1-cevap": {
+"lufs": -18.2,
+"truePeak": -2.0
+},
+"cografya-2-V-2": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"cografya-2-V-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"cografya-2-V-3": {
+"lufs": -18.4,
+"truePeak": -6.5
+},
+"cografya-2-V-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"cografya-2-V-4": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"cografya-2-V-4-cevap": {
+"lufs": -18.4,
+"truePeak": -1.6
+},
+"cografya-2-Y-1": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"cografya-2-Y-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"cografya-2-Y-2": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"cografya-2-Y-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"cografya-2-Y-3": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"cografya-2-Y-3-cevap": {
+"lufs": -17.7,
+"truePeak": -2.6
+},
+"cografya-2-Y-4": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"cografya-2-Y-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"cografya-2-Z-1": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"cografya-2-Z-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"cografya-2-Z-2": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"cografya-2-Z-2-cevap": {
+"lufs": -17.8,
+"truePeak": -3.0
+},
+"cografya-2-Z-3": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-2-Z-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"cografya-2-Z-4": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-2-Z-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"cografya-2-Ç-1": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"cografya-2-Ç-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"cografya-2-Ç-2": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"cografya-2-Ç-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-2-Ç-3": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-2-Ç-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"cografya-2-Ç-4": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"cografya-2-Ç-4-cevap": {
+"lufs": -18.4,
+"truePeak": -2.8
+},
+"cografya-2-Ö-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-2-Ö-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"cografya-2-Ü-1": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"cografya-2-Ü-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.4
+},
+"cografya-2-Ü-2": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"cografya-2-Ü-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"cografya-2-İ-1": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"cografya-2-İ-1-cevap": {
+"lufs": -17.6,
+"truePeak": -1.9
+},
+"cografya-2-İ-2": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"cografya-2-İ-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"cografya-2-İ-3": {
+"lufs": -18.3,
+"truePeak": -4.4
+},
+"cografya-2-İ-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.3
+},
+"cografya-2-İ-4": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-2-İ-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"cografya-2-Ş-1": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"cografya-2-Ş-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-2-Ş-2": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"cografya-2-Ş-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"cografya-2-Ş-3": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"cografya-2-Ş-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-2-Ş-4": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"cografya-2-Ş-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"cografya-3-A-1": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"cografya-3-A-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"cografya-3-A-2": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"cografya-3-A-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"cografya-3-A-3": {
+"lufs": -18.4,
+"truePeak": -6.2
+},
+"cografya-3-A-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"cografya-3-A-4": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"cografya-3-A-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"cografya-3-B-1": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"cografya-3-B-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"cografya-3-B-2": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"cografya-3-B-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"cografya-3-B-3": {
+"lufs": -18.4,
+"truePeak": -6.0
+},
+"cografya-3-B-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"cografya-3-B-4": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"cografya-3-B-4-cevap": {
+"lufs": -17.7,
+"truePeak": -2.2
+},
+"cografya-3-C-1": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"cografya-3-C-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"cografya-3-C-2": {
+"lufs": -17.9,
+"truePeak": -3.3
+},
+"cografya-3-C-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"cografya-3-C-3": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"cografya-3-C-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"cografya-3-C-4": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"cografya-3-C-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"cografya-3-D-1": {
+"lufs": -17.7,
+"truePeak": -4.0
+},
+"cografya-3-D-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"cografya-3-D-2": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"cografya-3-D-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"cografya-3-D-3": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"cografya-3-D-3-cevap": {
+"lufs": -18.3,
+"truePeak": -3.8
+},
+"cografya-3-D-4": {
+"lufs": -17.9,
+"truePeak": -4.2
+},
+"cografya-3-D-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"cografya-3-E-1": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"cografya-3-E-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-3-E-2": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-3-E-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"cografya-3-E-3": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"cografya-3-E-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"cografya-3-E-4": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"cografya-3-E-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"cografya-3-F-1": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"cografya-3-F-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"cografya-3-F-2": {
+"lufs": -17.9,
+"truePeak": -3.2
+},
+"cografya-3-F-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"cografya-3-F-3": {
+"lufs": -18.6,
+"truePeak": -4.6
+},
+"cografya-3-F-3-cevap": {
+"lufs": -18.3,
+"truePeak": -4.5
+},
+"cografya-3-F-4": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-3-F-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"cografya-3-G-1": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"cografya-3-G-1-cevap": {
+"lufs": -18.1,
+"truePeak": -2.0
+},
+"cografya-3-G-2": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"cografya-3-G-2-cevap": {
+"lufs": -17.7,
+"truePeak": -1.9
+},
+"cografya-3-G-3": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"cografya-3-G-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"cografya-3-G-4": {
+"lufs": -18.6,
+"truePeak": -5.1
+},
+"cografya-3-G-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"cografya-3-H-1": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-3-H-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"cografya-3-H-2": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"cografya-3-H-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"cografya-3-H-3": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"cografya-3-H-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-3-H-4": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"cografya-3-H-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"cografya-3-I-1": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"cografya-3-I-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"cografya-3-I-2": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"cografya-3-I-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"cografya-3-I-3": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"cografya-3-I-3-cevap": {
+"lufs": -17.5,
+"truePeak": -2.2
+},
+"cografya-3-J-1": {
+"lufs": -18.5,
+"truePeak": -6.8
+},
+"cografya-3-J-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"cografya-3-J-2": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"cografya-3-J-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"cografya-3-K-1": {
+"lufs": -17.7,
+"truePeak": -2.7
+},
+"cografya-3-K-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"cografya-3-K-2": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"cografya-3-K-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"cografya-3-K-3": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"cografya-3-K-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"cografya-3-K-4": {
+"lufs": -18.5,
+"truePeak": -6.2
+},
+"cografya-3-K-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"cografya-3-L-1": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"cografya-3-L-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"cografya-3-L-2": {
+"lufs": -18.4,
+"truePeak": -6.5
+},
+"cografya-3-L-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.1
+},
+"cografya-3-L-3": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"cografya-3-L-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"cografya-3-L-4": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"cografya-3-L-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"cografya-3-M-1": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"cografya-3-M-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.3
+},
+"cografya-3-M-2": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"cografya-3-M-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"cografya-3-M-3": {
+"lufs": -18.0,
+"truePeak": -5.5
+},
+"cografya-3-M-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"cografya-3-M-4": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"cografya-3-M-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"cografya-3-N-1": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"cografya-3-N-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"cografya-3-N-2": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"cografya-3-N-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"cografya-3-N-3": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"cografya-3-N-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"cografya-3-N-4": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"cografya-3-N-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"cografya-3-O-1": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"cografya-3-O-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-3-O-2": {
+"lufs": -18.5,
+"truePeak": -6.4
+},
+"cografya-3-O-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"cografya-3-O-3": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"cografya-3-O-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"cografya-3-O-4": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-3-O-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"cografya-3-P-1": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"cografya-3-P-1-cevap": {
+"lufs": -18.0,
+"truePeak": -2.1
+},
+"cografya-3-P-2": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"cografya-3-P-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"cografya-3-P-3": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"cografya-3-P-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"cografya-3-P-4": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"cografya-3-P-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"cografya-3-R-1": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"cografya-3-R-1-cevap": {
+"lufs": -18.3,
+"truePeak": -3.5
+},
+"cografya-3-R-2": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"cografya-3-R-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"cografya-3-R-3": {
+"lufs": -17.7,
+"truePeak": -2.6
+},
+"cografya-3-R-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"cografya-3-R-4": {
+"lufs": -18.5,
+"truePeak": -5.9
+},
+"cografya-3-R-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"cografya-3-S-1": {
+"lufs": -18.6,
+"truePeak": -4.2
+},
+"cografya-3-S-1-cevap": {
+"lufs": -18.4,
+"truePeak": -2.2
+},
+"cografya-3-S-2": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"cografya-3-S-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"cografya-3-S-3": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"cografya-3-S-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"cografya-3-S-4": {
+"lufs": -18.6,
+"truePeak": -5.0
+},
+"cografya-3-S-4-cevap": {
+"lufs": -17.9,
+"truePeak": -2.3
+},
+"cografya-3-T-1": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"cografya-3-T-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-3-T-2": {
+"lufs": -17.5,
+"truePeak": -4.5
+},
+"cografya-3-T-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"cografya-3-T-3": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"cografya-3-T-3-cevap": {
+"lufs": -17.9,
+"truePeak": -2.1
+},
+"cografya-3-T-4": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"cografya-3-T-4-cevap": {
+"lufs": -18.5,
+"truePeak": -1.9
+},
+"cografya-3-U-1": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"cografya-3-U-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"cografya-3-U-2": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"cografya-3-U-2-cevap": {
+"lufs": -18.1,
+"truePeak": -5.0
+},
+"cografya-3-U-3": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"cografya-3-U-3-cevap": {
+"lufs": -17.7,
+"truePeak": -2.1
+},
+"cografya-3-U-4": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"cografya-3-U-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-3-V-1": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"cografya-3-V-1-cevap": {
+"lufs": -17.9,
+"truePeak": -3.3
+},
+"cografya-3-V-2": {
+"lufs": -18.4,
+"truePeak": -6.0
+},
+"cografya-3-V-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"cografya-3-V-3": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"cografya-3-V-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"cografya-3-V-4": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"cografya-3-V-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"cografya-3-Y-1": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"cografya-3-Y-1-cevap": {
+"lufs": -18.7,
+"truePeak": -1.4
+},
+"cografya-3-Y-2": {
+"lufs": -17.6,
+"truePeak": -3.0
+},
+"cografya-3-Y-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"cografya-3-Y-3": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-3-Y-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"cografya-3-Y-4": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"cografya-3-Y-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"cografya-3-Z-1": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"cografya-3-Z-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"cografya-3-Z-2": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-3-Z-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"cografya-3-Z-3": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"cografya-3-Z-3-cevap": {
+"lufs": -18.5,
+"truePeak": -2.3
+},
+"cografya-3-Z-4": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"cografya-3-Z-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-3-Ç-1": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"cografya-3-Ç-1-cevap": {
+"lufs": -17.6,
+"truePeak": -3.5
+},
+"cografya-3-Ç-2": {
+"lufs": -18.5,
+"truePeak": -6.8
+},
+"cografya-3-Ç-2-cevap": {
+"lufs": -18.4,
+"truePeak": -2.0
+},
+"cografya-3-Ç-3": {
+"lufs": -18.5,
+"truePeak": -6.4
+},
+"cografya-3-Ç-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"cografya-3-Ç-4": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"cografya-3-Ç-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"cografya-3-Ö-1": {
+"lufs": -18.5,
+"truePeak": -6.1
+},
+"cografya-3-Ö-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"cografya-3-Ö-2": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"cografya-3-Ö-2-cevap": {
+"lufs": -17.8,
+"truePeak": -2.4
+},
+"cografya-3-Ü-1": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-3-Ü-1-cevap": {
+"lufs": -18.0,
+"truePeak": -2.0
+},
+"cografya-3-Ü-2": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"cografya-3-Ü-2-cevap": {
+"lufs": -17.8,
+"truePeak": -2.2
+},
+"cografya-3-İ-1": {
+"lufs": -17.9,
+"truePeak": -3.9
+},
+"cografya-3-İ-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"cografya-3-İ-2": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"cografya-3-İ-2-cevap": {
+"lufs": -18.6,
+"truePeak": -1.4
+},
+"cografya-3-İ-3": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"cografya-3-İ-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"cografya-3-İ-4": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"cografya-3-İ-4-cevap": {
+"lufs": -17.9,
+"truePeak": -2.2
+},
+"cografya-3-Ş-1": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"cografya-3-Ş-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"cografya-3-Ş-2": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"cografya-3-Ş-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"cografya-3-Ş-3": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"cografya-3-Ş-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"cografya-3-Ş-4": {
+"lufs": -17.6,
+"truePeak": -5.2
+},
+"cografya-3-Ş-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"correct1": {
+"lufs": -18.4,
+"truePeak": -7.1
+},
+"correct2": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"correct3": {
+"lufs": -18.4,
+"truePeak": -6.6
+},
+"draw": {
+"lufs": -17.6,
+"truePeak": -2.3
+},
+"end": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"end2": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"go": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"listen": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"ready": {
+"lufs": -17.5,
+"truePeak": -2.4
+},
+"sanat-1-A-1": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"sanat-1-A-1-cevap": {
+"lufs": -18.6,
+"truePeak": -4.2
+},
+"sanat-1-A-2": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"sanat-1-A-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.1
+},
+"sanat-1-A-3": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"sanat-1-A-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.4
+},
+"sanat-1-A-4": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"sanat-1-A-4-cevap": {
+"lufs": -17.9,
+"truePeak": -2.3
+},
+"sanat-1-B-1": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"sanat-1-B-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"sanat-1-B-2": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"sanat-1-B-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"sanat-1-B-3": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"sanat-1-B-3-cevap": {
+"lufs": -18.2,
+"truePeak": -2.3
+},
+"sanat-1-B-4": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"sanat-1-B-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"sanat-1-C-1": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-1-C-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"sanat-1-C-2": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"sanat-1-C-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"sanat-1-C-3": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"sanat-1-C-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"sanat-1-C-4": {
+"lufs": -17.7,
+"truePeak": -4.3
+},
+"sanat-1-C-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-1-D-1": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"sanat-1-D-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"sanat-1-D-2": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-1-D-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-1-D-3": {
+"lufs": -17.6,
+"truePeak": -5.1
+},
+"sanat-1-D-3-cevap": {
+"lufs": -17.6,
+"truePeak": -2.4
+},
+"sanat-1-D-4": {
+"lufs": -18.4,
+"truePeak": -6.3
+},
+"sanat-1-D-4-cevap": {
+"lufs": -17.7,
+"truePeak": -1.8
+},
+"sanat-1-E-1": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"sanat-1-E-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-1-E-2": {
+"lufs": -18.6,
+"truePeak": -6.6
+},
+"sanat-1-E-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"sanat-1-E-3": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"sanat-1-E-3-cevap": {
+"lufs": -18.6,
+"truePeak": -3.7
+},
+"sanat-1-E-4": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"sanat-1-E-4-cevap": {
+"lufs": -17.9,
+"truePeak": -2.4
+},
+"sanat-1-F-1": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"sanat-1-F-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-1-F-2": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"sanat-1-F-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"sanat-1-F-3": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"sanat-1-F-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"sanat-1-F-4": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"sanat-1-F-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"sanat-1-G-1": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"sanat-1-G-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"sanat-1-G-2": {
+"lufs": -17.6,
+"truePeak": -3.2
+},
+"sanat-1-G-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"sanat-1-G-3": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"sanat-1-G-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"sanat-1-G-4": {
+"lufs": -18.5,
+"truePeak": -6.9
+},
+"sanat-1-G-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-1-H-1": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"sanat-1-H-1-cevap": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"sanat-1-H-2": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"sanat-1-H-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"sanat-1-H-3": {
+"lufs": -17.5,
+"truePeak": -2.5
+},
+"sanat-1-H-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"sanat-1-H-4": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"sanat-1-H-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"sanat-1-I-1": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"sanat-1-I-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"sanat-1-I-2": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"sanat-1-I-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.2
+},
+"sanat-1-J-1": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"sanat-1-J-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"sanat-1-J-2": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"sanat-1-J-2-cevap": {
+"lufs": -18.2,
+"truePeak": -2.4
+},
+"sanat-1-J-3": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"sanat-1-J-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.1
+},
+"sanat-1-J-4": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"sanat-1-J-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"sanat-1-K-1": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"sanat-1-K-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-1-K-2": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"sanat-1-K-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"sanat-1-K-3": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"sanat-1-K-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"sanat-1-K-4": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"sanat-1-K-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"sanat-1-L-1": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-1-L-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-1-L-2": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-1-L-2-cevap": {
+"lufs": -17.7,
+"truePeak": -3.5
+},
+"sanat-1-L-3": {
+"lufs": -18.6,
+"truePeak": -3.3
+},
+"sanat-1-L-3-cevap": {
+"lufs": -18.1,
+"truePeak": -2.1
+},
+"sanat-1-L-4": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"sanat-1-L-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"sanat-1-M-1": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"sanat-1-M-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"sanat-1-M-2": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"sanat-1-M-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"sanat-1-M-3": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"sanat-1-M-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"sanat-1-M-4": {
+"lufs": -18.7,
+"truePeak": -4.6
+},
+"sanat-1-M-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"sanat-1-N-1": {
+"lufs": -17.6,
+"truePeak": -4.4
+},
+"sanat-1-N-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"sanat-1-N-2": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"sanat-1-N-2-cevap": {
+"lufs": -18.3,
+"truePeak": -2.2
+},
+"sanat-1-N-3": {
+"lufs": -17.6,
+"truePeak": -2.9
+},
+"sanat-1-N-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"sanat-1-N-4": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"sanat-1-N-4-cevap": {
+"lufs": -18.1,
+"truePeak": -2.2
+},
+"sanat-1-O-1": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"sanat-1-O-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"sanat-1-O-2": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"sanat-1-O-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"sanat-1-O-3": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"sanat-1-O-3-cevap": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"sanat-1-O-4": {
+"lufs": -17.6,
+"truePeak": -2.9
+},
+"sanat-1-O-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"sanat-1-P-1": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"sanat-1-P-1-cevap": {
+"lufs": -17.7,
+"truePeak": -2.1
+},
+"sanat-1-P-2": {
+"lufs": -18.6,
+"truePeak": -6.0
+},
+"sanat-1-P-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-1-P-3": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"sanat-1-P-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"sanat-1-P-4": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"sanat-1-P-4-cevap": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"sanat-1-R-1": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"sanat-1-R-1-cevap": {
+"lufs": -18.6,
+"truePeak": -5.0
+},
+"sanat-1-R-2": {
+"lufs": -17.7,
+"truePeak": -4.7
+},
+"sanat-1-R-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"sanat-1-R-3": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"sanat-1-R-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"sanat-1-R-4": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"sanat-1-R-4-cevap": {
+"lufs": -17.6,
+"truePeak": -2.1
+},
+"sanat-1-S-1": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"sanat-1-S-1-cevap": {
+"lufs": -18.6,
+"truePeak": -3.4
+},
+"sanat-1-S-2": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"sanat-1-S-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"sanat-1-S-3": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"sanat-1-S-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"sanat-1-S-4": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"sanat-1-S-4-cevap": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"sanat-1-T-1": {
+"lufs": -18.4,
+"truePeak": -7.2
+},
+"sanat-1-T-1-cevap": {
+"lufs": -17.7,
+"truePeak": -2.1
+},
+"sanat-1-T-2": {
+"lufs": -18.3,
+"truePeak": -4.3
+},
+"sanat-1-T-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-1-T-3": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"sanat-1-T-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"sanat-1-T-4": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"sanat-1-T-4-cevap": {
+"lufs": -18.0,
+"truePeak": -2.2
+},
+"sanat-1-U-1": {
+"lufs": -17.8,
+"truePeak": -3.3
+},
+"sanat-1-U-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"sanat-1-U-2": {
+"lufs": -18.6,
+"truePeak": -4.0
+},
+"sanat-1-U-2-cevap": {
+"lufs": -18.1,
+"truePeak": -2.1
+},
+"sanat-1-U-3": {
+"lufs": -17.6,
+"truePeak": -3.7
+},
+"sanat-1-U-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"sanat-1-V-1": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-1-V-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-1-V-2": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"sanat-1-V-2-cevap": {
+"lufs": -18.5,
+"truePeak": -2.0
+},
+"sanat-1-V-3": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"sanat-1-V-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-1-V-4": {
+"lufs": -17.6,
+"truePeak": -3.0
+},
+"sanat-1-V-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"sanat-1-Y-1": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"sanat-1-Y-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"sanat-1-Y-2": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"sanat-1-Y-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.3
+},
+"sanat-1-Y-3": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"sanat-1-Y-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"sanat-1-Y-4": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"sanat-1-Y-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"sanat-1-Z-1": {
+"lufs": -17.7,
+"truePeak": -3.1
+},
+"sanat-1-Z-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-1-Z-2": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"sanat-1-Z-2-cevap": {
+"lufs": -17.7,
+"truePeak": -2.0
+},
+"sanat-1-Z-3": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"sanat-1-Z-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"sanat-1-Z-4": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"sanat-1-Z-4-cevap": {
+"lufs": -17.9,
+"truePeak": -2.7
+},
+"sanat-1-Ç-1": {
+"lufs": -18.1,
+"truePeak": -4.6
+},
+"sanat-1-Ç-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"sanat-1-Ç-2": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"sanat-1-Ç-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"sanat-1-Ç-3": {
+"lufs": -17.9,
+"truePeak": -3.2
+},
+"sanat-1-Ç-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"sanat-1-Ç-4": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"sanat-1-Ç-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-1-Ö-1": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"sanat-1-Ö-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"sanat-1-Ö-2": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"sanat-1-Ö-2-cevap": {
+"lufs": -18.3,
+"truePeak": -2.2
+},
+"sanat-1-Ü-1": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"sanat-1-Ü-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"sanat-1-İ-1": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"sanat-1-İ-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"sanat-1-İ-2": {
+"lufs": -17.6,
+"truePeak": -2.5
+},
+"sanat-1-İ-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"sanat-1-İ-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"sanat-1-İ-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"sanat-1-İ-4": {
+"lufs": -17.8,
+"truePeak": -4.2
+},
+"sanat-1-İ-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"sanat-1-Ş-1": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"sanat-1-Ş-1-cevap": {
+"lufs": -18.5,
+"truePeak": -6.4
+},
+"sanat-1-Ş-2": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"sanat-1-Ş-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-1-Ş-3": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"sanat-1-Ş-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.2
+},
+"sanat-1-Ş-4": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"sanat-1-Ş-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"sanat-2-A-1": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"sanat-2-A-1-cevap": {
+"lufs": -18.3,
+"truePeak": -2.4
+},
+"sanat-2-A-2": {
+"lufs": -17.5,
+"truePeak": -3.7
+},
+"sanat-2-A-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.0
+},
+"sanat-2-A-3": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"sanat-2-A-3-cevap": {
+"lufs": -18.0,
+"truePeak": -2.4
+},
+"sanat-2-A-4": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"sanat-2-A-4-cevap": {
+"lufs": -17.6,
+"truePeak": -2.3
+},
+"sanat-2-B-1": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"sanat-2-B-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-2-B-2": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"sanat-2-B-2-cevap": {
+"lufs": -18.8,
+"truePeak": -2.9
+},
+"sanat-2-B-3": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"sanat-2-B-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"sanat-2-B-4": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-2-B-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"sanat-2-C-1": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"sanat-2-C-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-2-C-2": {
+"lufs": -18.6,
+"truePeak": -5.2
+},
+"sanat-2-C-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.1
+},
+"sanat-2-C-3": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"sanat-2-C-3-cevap": {
+"lufs": -18.1,
+"truePeak": -2.5
+},
+"sanat-2-C-4": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"sanat-2-C-4-cevap": {
+"lufs": -18.5,
+"truePeak": -2.4
+},
+"sanat-2-D-1": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"sanat-2-D-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-2-D-2": {
+"lufs": -18.4,
+"truePeak": -6.0
+},
+"sanat-2-D-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"sanat-2-D-3": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"sanat-2-D-3-cevap": {
+"lufs": -18.4,
+"truePeak": -2.9
+},
+"sanat-2-D-4": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"sanat-2-D-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"sanat-2-E-1": {
+"lufs": -18.5,
+"truePeak": -6.9
+},
+"sanat-2-E-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"sanat-2-E-2": {
+"lufs": -17.8,
+"truePeak": -5.1
+},
+"sanat-2-E-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"sanat-2-E-3": {
+"lufs": -17.5,
+"truePeak": -3.4
+},
+"sanat-2-E-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"sanat-2-E-4": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-2-E-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"sanat-2-F-1": {
+"lufs": -18.5,
+"truePeak": -6.6
+},
+"sanat-2-F-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"sanat-2-F-2": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"sanat-2-F-2-cevap": {
+"lufs": -17.7,
+"truePeak": -1.9
+},
+"sanat-2-F-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"sanat-2-F-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-2-F-4": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"sanat-2-F-4-cevap": {
+"lufs": -18.3,
+"truePeak": -1.5
+},
+"sanat-2-G-1": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"sanat-2-G-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-2-G-2": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"sanat-2-G-2-cevap": {
+"lufs": -18.1,
+"truePeak": -5.2
+},
+"sanat-2-G-3": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-2-G-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"sanat-2-G-4": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"sanat-2-G-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"sanat-2-H-1": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"sanat-2-H-1-cevap": {
+"lufs": -17.9,
+"truePeak": -1.9
+},
+"sanat-2-H-2": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"sanat-2-H-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"sanat-2-H-3": {
+"lufs": -18.5,
+"truePeak": -5.9
+},
+"sanat-2-H-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"sanat-2-H-4": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"sanat-2-H-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"sanat-2-J-1": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"sanat-2-J-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.0
+},
+"sanat-2-J-2": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"sanat-2-J-2-cevap": {
+"lufs": -18.5,
+"truePeak": -2.2
+},
+"sanat-2-J-3": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-2-J-3-cevap": {
+"lufs": -17.7,
+"truePeak": -2.2
+},
+"sanat-2-J-4": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"sanat-2-J-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"sanat-2-K-1": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-2-K-1-cevap": {
+"lufs": -18.3,
+"truePeak": -4.0
+},
+"sanat-2-K-2": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"sanat-2-K-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"sanat-2-K-3": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"sanat-2-K-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-2-K-4": {
+"lufs": -17.6,
+"truePeak": -3.7
+},
+"sanat-2-K-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"sanat-2-L-1": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"sanat-2-L-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.0
+},
+"sanat-2-L-2": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"sanat-2-L-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"sanat-2-L-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"sanat-2-L-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"sanat-2-L-4": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"sanat-2-L-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"sanat-2-M-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"sanat-2-M-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"sanat-2-M-2": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"sanat-2-M-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"sanat-2-M-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"sanat-2-M-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-2-M-4": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"sanat-2-M-4-cevap": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"sanat-2-N-1": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"sanat-2-N-1-cevap": {
+"lufs": -18.5,
+"truePeak": -2.0
+},
+"sanat-2-N-2": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"sanat-2-N-2-cevap": {
+"lufs": -18.6,
+"truePeak": -4.2
+},
+"sanat-2-N-3": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"sanat-2-N-3-cevap": {
+"lufs": -19.0,
+"truePeak": -1.4
+},
+"sanat-2-N-4": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"sanat-2-N-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"sanat-2-O-1": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"sanat-2-O-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-2-O-2": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"sanat-2-O-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-2-O-3": {
+"lufs": -17.6,
+"truePeak": -3.7
+},
+"sanat-2-O-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-2-O-4": {
+"lufs": -17.8,
+"truePeak": -3.9
+},
+"sanat-2-O-4-cevap": {
+"lufs": -18.6,
+"truePeak": -5.0
+},
+"sanat-2-P-1": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"sanat-2-P-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"sanat-2-P-2": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"sanat-2-P-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"sanat-2-P-3": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"sanat-2-P-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-2-P-4": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"sanat-2-P-4-cevap": {
+"lufs": -18.7,
+"truePeak": -3.8
+},
+"sanat-2-R-1": {
+"lufs": -18.4,
+"truePeak": -6.1
+},
+"sanat-2-R-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"sanat-2-R-2": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"sanat-2-R-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"sanat-2-R-3": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"sanat-2-R-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"sanat-2-R-4": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"sanat-2-R-4-cevap": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"sanat-2-S-1": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"sanat-2-S-1-cevap": {
+"lufs": -18.4,
+"truePeak": -7.0
+},
+"sanat-2-S-2": {
+"lufs": -17.7,
+"truePeak": -3.1
+},
+"sanat-2-S-2-cevap": {
+"lufs": -17.9,
+"truePeak": -2.0
+},
+"sanat-2-S-3": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"sanat-2-S-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"sanat-2-S-4": {
+"lufs": -18.6,
+"truePeak": -4.6
+},
+"sanat-2-S-4-cevap": {
+"lufs": -17.7,
+"truePeak": -2.2
+},
+"sanat-2-T-1": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"sanat-2-T-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"sanat-2-T-2": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-2-T-2-cevap": {
+"lufs": -17.7,
+"truePeak": -1.9
+},
+"sanat-2-T-3": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"sanat-2-T-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"sanat-2-T-4": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"sanat-2-T-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-2-U-1": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"sanat-2-U-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"sanat-2-U-2": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-2-U-2-cevap": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"sanat-2-U-3": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"sanat-2-U-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"sanat-2-V-1": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"sanat-2-V-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"sanat-2-V-2": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"sanat-2-V-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"sanat-2-V-3": {
+"lufs": -17.5,
+"truePeak": -2.6
+},
+"sanat-2-V-3-cevap": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"sanat-2-V-4": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"sanat-2-V-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"sanat-2-Y-1": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"sanat-2-Y-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"sanat-2-Y-2": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"sanat-2-Y-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"sanat-2-Y-3": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"sanat-2-Y-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"sanat-2-Y-4": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"sanat-2-Y-4-cevap": {
+"lufs": -18.3,
+"truePeak": -4.5
+},
+"sanat-2-Z-1": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"sanat-2-Z-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"sanat-2-Z-2": {
+"lufs": -18.6,
+"truePeak": -5.4
+},
+"sanat-2-Z-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"sanat-2-Z-3": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"sanat-2-Z-3-cevap": {
+"lufs": -17.7,
+"truePeak": -2.0
+},
+"sanat-2-Z-4": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"sanat-2-Z-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"sanat-2-Ç-1": {
+"lufs": -18.5,
+"truePeak": -6.6
+},
+"sanat-2-Ç-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"sanat-2-Ç-2": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"sanat-2-Ç-2-cevap": {
+"lufs": -17.9,
+"truePeak": -2.0
+},
+"sanat-2-Ç-3": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"sanat-2-Ç-3-cevap": {
+"lufs": -17.8,
+"truePeak": -3.2
+},
+"sanat-2-Ç-4": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"sanat-2-Ç-4-cevap": {
+"lufs": -17.6,
+"truePeak": -2.2
+},
+"sanat-2-Ö-1": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"sanat-2-Ö-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"sanat-2-Ö-2": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"sanat-2-Ö-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"sanat-2-Ö-4": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"sanat-2-Ö-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"sanat-2-Ü-1": {
+"lufs": -18.2,
+"truePeak": -3.3
+},
+"sanat-2-Ü-1-cevap": {
+"lufs": -18.1,
+"truePeak": -1.8
+},
+"sanat-2-Ü-2": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"sanat-2-Ü-2-cevap": {
+"lufs": -18.6,
+"truePeak": -4.8
+},
+"sanat-2-İ-1": {
+"lufs": -17.7,
+"truePeak": -3.5
+},
+"sanat-2-İ-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"sanat-2-İ-2": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"sanat-2-İ-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"sanat-2-İ-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"sanat-2-İ-3-cevap": {
+"lufs": -17.9,
+"truePeak": -2.3
+},
+"sanat-2-İ-4": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"sanat-2-İ-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-2-Ş-1": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"sanat-2-Ş-1-cevap": {
+"lufs": -17.6,
+"truePeak": -3.8
+},
+"sanat-2-Ş-2": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"sanat-2-Ş-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"sanat-2-Ş-3": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"sanat-2-Ş-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-2-Ş-4": {
+"lufs": -17.6,
+"truePeak": -3.7
+},
+"sanat-2-Ş-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"sanat-3-A-1": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"sanat-3-A-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"sanat-3-A-2": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"sanat-3-A-2-cevap": {
+"lufs": -18.0,
+"truePeak": -1.9
+},
+"sanat-3-A-3": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"sanat-3-A-3-cevap": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"sanat-3-A-4": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"sanat-3-A-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-3-B-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"sanat-3-B-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"sanat-3-B-2": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"sanat-3-B-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-3-B-3": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"sanat-3-B-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"sanat-3-B-4": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"sanat-3-B-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"sanat-3-C-1": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"sanat-3-C-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-3-C-2": {
+"lufs": -17.6,
+"truePeak": -3.9
+},
+"sanat-3-C-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"sanat-3-C-3": {
+"lufs": -18.6,
+"truePeak": -5.0
+},
+"sanat-3-C-3-cevap": {
+"lufs": -17.8,
+"truePeak": -2.0
+},
+"sanat-3-C-4": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"sanat-3-C-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-3-D-1": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"sanat-3-D-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"sanat-3-D-2": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"sanat-3-D-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"sanat-3-D-3": {
+"lufs": -18.1,
+"truePeak": -4.5
+},
+"sanat-3-D-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"sanat-3-D-4": {
+"lufs": -18.3,
+"truePeak": -5.7
+},
+"sanat-3-D-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"sanat-3-E-1": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"sanat-3-E-1-cevap": {
+"lufs": -18.5,
+"truePeak": -6.6
+},
+"sanat-3-E-2": {
+"lufs": -17.7,
+"truePeak": -4.2
+},
+"sanat-3-E-2-cevap": {
+"lufs": -18.1,
+"truePeak": -2.1
+},
+"sanat-3-E-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"sanat-3-E-3-cevap": {
+"lufs": -18.4,
+"truePeak": -2.0
+},
+"sanat-3-E-4": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"sanat-3-E-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-3-F-1": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"sanat-3-F-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-3-F-2": {
+"lufs": -17.5,
+"truePeak": -2.8
+},
+"sanat-3-F-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.4
+},
+"sanat-3-F-3": {
+"lufs": -17.6,
+"truePeak": -3.6
+},
+"sanat-3-F-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"sanat-3-F-4": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"sanat-3-F-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"sanat-3-G-1": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"sanat-3-G-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"sanat-3-G-2": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"sanat-3-G-2-cevap": {
+"lufs": -17.9,
+"truePeak": -2.2
+},
+"sanat-3-G-3": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"sanat-3-G-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"sanat-3-G-4": {
+"lufs": -17.6,
+"truePeak": -3.1
+},
+"sanat-3-G-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"sanat-3-H-1": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"sanat-3-H-1-cevap": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"sanat-3-H-2": {
+"lufs": -17.9,
+"truePeak": -2.1
+},
+"sanat-3-H-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"sanat-3-H-3": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"sanat-3-H-3-cevap": {
+"lufs": -18.6,
+"truePeak": -4.5
+},
+"sanat-3-H-4": {
+"lufs": -17.5,
+"truePeak": -3.3
+},
+"sanat-3-H-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"sanat-3-J-1": {
+"lufs": -17.7,
+"truePeak": -4.2
+},
+"sanat-3-J-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"sanat-3-J-2": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"sanat-3-J-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"sanat-3-J-3": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"sanat-3-J-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"sanat-3-J-4": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"sanat-3-J-4-cevap": {
+"lufs": -17.9,
+"truePeak": -2.4
+},
+"sanat-3-K-1": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"sanat-3-K-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"sanat-3-K-2": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"sanat-3-K-2-cevap": {
+"lufs": -18.8,
+"truePeak": -1.4
+},
+"sanat-3-K-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"sanat-3-K-3-cevap": {
+"lufs": -17.6,
+"truePeak": -1.9
+},
+"sanat-3-K-4": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-3-K-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"sanat-3-L-1": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"sanat-3-L-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-3-L-2": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"sanat-3-L-2-cevap": {
+"lufs": -18.2,
+"truePeak": -4.5
+},
+"sanat-3-L-3": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"sanat-3-L-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"sanat-3-L-4": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"sanat-3-L-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"sanat-3-M-1": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-3-M-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"sanat-3-M-2": {
+"lufs": -18.4,
+"truePeak": -6.3
+},
+"sanat-3-M-2-cevap": {
+"lufs": -17.8,
+"truePeak": -2.0
+},
+"sanat-3-M-3": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"sanat-3-M-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-3-M-4": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"sanat-3-M-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-3-N-1": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"sanat-3-N-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"sanat-3-N-2": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"sanat-3-N-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"sanat-3-N-3": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"sanat-3-N-3-cevap": {
+"lufs": -17.7,
+"truePeak": -4.4
+},
+"sanat-3-N-4": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"sanat-3-N-4-cevap": {
+"lufs": -18.5,
+"truePeak": -6.6
+},
+"sanat-3-O-1": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"sanat-3-O-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"sanat-3-O-2": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"sanat-3-O-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"sanat-3-O-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"sanat-3-O-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"sanat-3-O-4": {
+"lufs": -18.4,
+"truePeak": -6.3
+},
+"sanat-3-O-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"sanat-3-P-1": {
+"lufs": -18.7,
+"truePeak": -5.2
+},
+"sanat-3-P-1-cevap": {
+"lufs": -18.6,
+"truePeak": -3.9
+},
+"sanat-3-P-2": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"sanat-3-P-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-3-P-3": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"sanat-3-P-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"sanat-3-P-4": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"sanat-3-P-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"sanat-3-R-1": {
+"lufs": -17.6,
+"truePeak": -3.9
+},
+"sanat-3-R-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-3-R-2": {
+"lufs": -18.6,
+"truePeak": -5.8
+},
+"sanat-3-R-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"sanat-3-R-3": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"sanat-3-R-3-cevap": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"sanat-3-R-4": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"sanat-3-R-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"sanat-3-S-1": {
+"lufs": -18.4,
+"truePeak": -6.1
+},
+"sanat-3-S-1-cevap": {
+"lufs": -18.3,
+"truePeak": -2.4
+},
+"sanat-3-S-2": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"sanat-3-S-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.0
+},
+"sanat-3-S-3": {
+"lufs": -18.4,
+"truePeak": -6.6
+},
+"sanat-3-S-3-cevap": {
+"lufs": -17.7,
+"truePeak": -2.1
+},
+"sanat-3-S-4": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"sanat-3-S-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"sanat-3-T-1": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"sanat-3-T-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"sanat-3-T-2": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"sanat-3-T-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"sanat-3-T-3": {
+"lufs": -18.4,
+"truePeak": -6.1
+},
+"sanat-3-T-3-cevap": {
+"lufs": -18.6,
+"truePeak": -3.5
+},
+"sanat-3-T-4": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-3-T-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-3-U-1": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"sanat-3-U-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"sanat-3-U-2": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"sanat-3-U-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"sanat-3-U-3": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-3-U-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"sanat-3-V-1": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"sanat-3-V-1-cevap": {
+"lufs": -18.4,
+"truePeak": -1.5
+},
+"sanat-3-V-2": {
+"lufs": -18.5,
+"truePeak": -6.4
+},
+"sanat-3-V-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"sanat-3-V-3": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"sanat-3-V-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"sanat-3-V-4": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"sanat-3-V-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.4
+},
+"sanat-3-Y-1": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-3-Y-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"sanat-3-Y-2": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"sanat-3-Y-2-cevap": {
+"lufs": -17.9,
+"truePeak": -2.0
+},
+"sanat-3-Y-3": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"sanat-3-Y-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"sanat-3-Y-4": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"sanat-3-Y-4-cevap": {
+"lufs": -17.6,
+"truePeak": -2.0
+},
+"sanat-3-Z-1": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"sanat-3-Z-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"sanat-3-Z-2": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"sanat-3-Z-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"sanat-3-Z-3": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"sanat-3-Z-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"sanat-3-Z-4": {
+"lufs": -18.3,
+"truePeak": -3.5
+},
+"sanat-3-Z-4-cevap": {
+"lufs": -17.9,
+"truePeak": -2.1
+},
+"sanat-3-Ç-2": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-3-Ç-2-cevap": {
+"lufs": -17.7,
+"truePeak": -2.2
+},
+"sanat-3-Ç-3": {
+"lufs": -18.4,
+"truePeak": -6.6
+},
+"sanat-3-Ç-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"sanat-3-Ç-4": {
+"lufs": -17.6,
+"truePeak": -3.7
+},
+"sanat-3-Ç-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"sanat-3-Ö-1": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"sanat-3-Ö-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"sanat-3-Ü-4": {
+"lufs": -17.8,
+"truePeak": -3.1
+},
+"sanat-3-Ü-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"sanat-3-İ-1": {
+"lufs": -17.5,
+"truePeak": -2.8
+},
+"sanat-3-İ-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.4
+},
+"sanat-3-İ-2": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-3-İ-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"sanat-3-İ-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"sanat-3-İ-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"sanat-3-İ-4": {
+"lufs": -17.9,
+"truePeak": -3.4
+},
+"sanat-3-İ-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"sanat-3-Ş-1": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"sanat-3-Ş-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"sanat-3-Ş-2": {
+"lufs": -18.4,
+"truePeak": -6.0
+},
+"sanat-3-Ş-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"sanat-3-Ş-3": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"sanat-3-Ş-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"spor-1-A-1": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"spor-1-A-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"spor-1-A-2": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"spor-1-A-2-cevap": {
+"lufs": -17.9,
+"truePeak": -2.3
+},
+"spor-1-A-3": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"spor-1-A-3-cevap": {
+"lufs": -18.8,
+"truePeak": -2.9
+},
+"spor-1-A-4": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"spor-1-A-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.1
+},
+"spor-1-B-1": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"spor-1-B-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"spor-1-B-2": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"spor-1-B-2-cevap": {
+"lufs": -17.5,
+"truePeak": -2.3
+},
+"spor-1-B-3": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-1-B-3-cevap": {
+"lufs": -18.1,
+"truePeak": -2.2
+},
+"spor-1-B-4": {
+"lufs": -17.8,
+"truePeak": -3.1
+},
+"spor-1-B-4-cevap": {
+"lufs": -18.2,
+"truePeak": -2.3
+},
+"spor-1-B-5": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"spor-1-B-5-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-1-C-1": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"spor-1-C-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"spor-1-C-2": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"spor-1-C-2-cevap": {
+"lufs": -18.6,
+"truePeak": -1.4
+},
+"spor-1-C-3": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"spor-1-C-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"spor-1-C-4": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"spor-1-C-4-cevap": {
+"lufs": -18.4,
+"truePeak": -2.8
+},
+"spor-1-D-1": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-1-D-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-1-D-2": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"spor-1-D-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"spor-1-D-3": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"spor-1-D-3-cevap": {
+"lufs": -18.6,
+"truePeak": -3.7
+},
+"spor-1-D-4": {
+"lufs": -17.8,
+"truePeak": -4.2
+},
+"spor-1-D-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"spor-1-D-5": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-1-D-5-cevap": {
+"lufs": -17.9,
+"truePeak": -2.3
+},
+"spor-1-E-1": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"spor-1-E-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"spor-1-E-2": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-1-E-2-cevap": {
+"lufs": -18.3,
+"truePeak": -2.3
+},
+"spor-1-E-3": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"spor-1-E-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"spor-1-E-4": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"spor-1-E-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"spor-1-F-1": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"spor-1-F-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-1-F-2": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"spor-1-F-2-cevap": {
+"lufs": -17.6,
+"truePeak": -3.0
+},
+"spor-1-F-3": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"spor-1-F-3-cevap": {
+"lufs": -18.5,
+"truePeak": -6.1
+},
+"spor-1-F-4": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-1-F-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-1-F-5": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-1-F-5-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"spor-1-G-1": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"spor-1-G-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"spor-1-G-2": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"spor-1-G-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"spor-1-G-3": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"spor-1-G-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"spor-1-G-4": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"spor-1-G-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-1-H-1": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"spor-1-H-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.4
+},
+"spor-1-H-2": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"spor-1-H-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"spor-1-H-3": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-1-H-3-cevap": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"spor-1-H-4": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-1-H-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"spor-1-I-1": {
+"lufs": -17.7,
+"truePeak": -3.5
+},
+"spor-1-I-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"spor-1-I-2": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"spor-1-I-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.1
+},
+"spor-1-J-1": {
+"lufs": -17.5,
+"truePeak": -3.9
+},
+"spor-1-J-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"spor-1-J-2": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"spor-1-J-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"spor-1-J-3": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"spor-1-J-3-cevap": {
+"lufs": -18.4,
+"truePeak": -1.5
+},
+"spor-1-J-4": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"spor-1-J-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-1-K-1": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"spor-1-K-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"spor-1-K-2": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"spor-1-K-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"spor-1-K-3": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"spor-1-K-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-1-K-4": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"spor-1-K-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-1-L-1": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"spor-1-L-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.2
+},
+"spor-1-L-2": {
+"lufs": -18.0,
+"truePeak": -4.7
+},
+"spor-1-L-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"spor-1-L-3": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"spor-1-L-3-cevap": {
+"lufs": -17.5,
+"truePeak": -3.0
+},
+"spor-1-L-4": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"spor-1-L-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"spor-1-M-1": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"spor-1-M-1-cevap": {
+"lufs": -18.2,
+"truePeak": -3.4
+},
+"spor-1-M-2": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-1-M-2-cevap": {
+"lufs": -18.6,
+"truePeak": -4.8
+},
+"spor-1-M-3": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-1-M-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-1-M-4": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"spor-1-M-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"spor-1-N-1": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"spor-1-N-1-cevap": {
+"lufs": -18.3,
+"truePeak": -2.2
+},
+"spor-1-N-2": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"spor-1-N-2-cevap": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"spor-1-N-3": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"spor-1-N-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"spor-1-N-4": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"spor-1-N-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-1-O-1": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"spor-1-O-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-1-O-2": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-1-O-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"spor-1-O-3": {
+"lufs": -18.5,
+"truePeak": -6.4
+},
+"spor-1-O-3-cevap": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"spor-1-O-4": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"spor-1-O-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-1-P-1": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"spor-1-P-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"spor-1-P-2": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"spor-1-P-2-cevap": {
+"lufs": -17.7,
+"truePeak": -2.1
+},
+"spor-1-P-3": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"spor-1-P-3-cevap": {
+"lufs": -17.6,
+"truePeak": -2.0
+},
+"spor-1-P-4": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"spor-1-P-4-cevap": {
+"lufs": -17.5,
+"truePeak": -2.3
+},
+"spor-1-R-1": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-1-R-1-cevap": {
+"lufs": -18.1,
+"truePeak": -2.2
+},
+"spor-1-R-2": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"spor-1-R-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"spor-1-R-3": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"spor-1-R-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"spor-1-R-4": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"spor-1-R-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-1-S-1": {
+"lufs": -18.6,
+"truePeak": -5.3
+},
+"spor-1-S-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"spor-1-S-2": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"spor-1-S-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"spor-1-S-3": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"spor-1-S-3-cevap": {
+"lufs": -19.8,
+"truePeak": -1.3
+},
+"spor-1-S-4": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-1-S-4-cevap": {
+"lufs": -17.5,
+"truePeak": -2.9
+},
+"spor-1-S-5": {
+"lufs": -18.6,
+"truePeak": -5.8
+},
+"spor-1-S-5-cevap": {
+"lufs": -18.6,
+"truePeak": -3.4
+},
+"spor-1-S-6": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"spor-1-S-6-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"spor-1-T-1": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"spor-1-T-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"spor-1-T-2": {
+"lufs": -18.5,
+"truePeak": -3.4
+},
+"spor-1-T-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-1-T-3": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-1-T-3-cevap": {
+"lufs": -18.0,
+"truePeak": -2.2
+},
+"spor-1-T-4": {
+"lufs": -18.4,
+"truePeak": -6.4
+},
+"spor-1-T-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-1-U-1": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"spor-1-U-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"spor-1-U-2": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-1-U-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"spor-1-U-3": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"spor-1-U-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-1-U-4": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-1-U-4-cevap": {
+"lufs": -18.1,
+"truePeak": -2.1
+},
+"spor-1-V-1": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"spor-1-V-1-cevap": {
+"lufs": -18.5,
+"truePeak": -5.9
+},
+"spor-1-V-2": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"spor-1-V-2-cevap": {
+"lufs": -18.6,
+"truePeak": -3.8
+},
+"spor-1-V-3": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"spor-1-V-3-cevap": {
+"lufs": -18.1,
+"truePeak": -1.9
+},
+"spor-1-V-4": {
+"lufs": -18.6,
+"truePeak": -5.8
+},
+"spor-1-V-4-cevap": {
+"lufs": -18.5,
+"truePeak": -2.0
+},
+"spor-1-Y-1": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"spor-1-Y-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"spor-1-Y-2": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"spor-1-Y-2-cevap": {
+"lufs": -17.8,
+"truePeak": -3.3
+},
+"spor-1-Y-3": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"spor-1-Y-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"spor-1-Y-4": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"spor-1-Y-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"spor-1-Z-1": {
+"lufs": -17.6,
+"truePeak": -3.9
+},
+"spor-1-Z-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"spor-1-Z-2": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"spor-1-Z-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"spor-1-Z-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-1-Z-3-cevap": {
+"lufs": -17.7,
+"truePeak": -2.0
+},
+"spor-1-Z-4": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"spor-1-Z-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"spor-1-Ç-1": {
+"lufs": -17.6,
+"truePeak": -3.6
+},
+"spor-1-Ç-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"spor-1-Ç-2": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"spor-1-Ç-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"spor-1-Ç-3": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-1-Ç-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"spor-1-Ç-4": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"spor-1-Ç-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"spor-1-Ö-1": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"spor-1-Ö-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-1-Ö-2": {
+"lufs": -17.5,
+"truePeak": -3.2
+},
+"spor-1-Ö-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"spor-1-Ü-1": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"spor-1-Ü-1-cevap": {
+"lufs": -17.7,
+"truePeak": -2.1
+},
+"spor-1-İ-1": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"spor-1-İ-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-1-İ-2": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"spor-1-İ-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"spor-1-İ-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-1-İ-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"spor-1-İ-4": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"spor-1-İ-4-cevap": {
+"lufs": -17.7,
+"truePeak": -2.2
+},
+"spor-1-Ş-1": {
+"lufs": -18.4,
+"truePeak": -6.1
+},
+"spor-1-Ş-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.1
+},
+"spor-1-Ş-2": {
+"lufs": -18.6,
+"truePeak": -4.7
+},
+"spor-1-Ş-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-1-Ş-3": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"spor-1-Ş-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.1
+},
+"spor-1-Ş-4": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"spor-1-Ş-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"spor-2-A-1": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"spor-2-A-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.3
+},
+"spor-2-A-2": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"spor-2-A-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"spor-2-A-3": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-2-A-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-2-A-4": {
+"lufs": -17.6,
+"truePeak": -3.4
+},
+"spor-2-A-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"spor-2-A-5": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"spor-2-A-5-cevap": {
+"lufs": -17.5,
+"truePeak": -2.1
+},
+"spor-2-B-1": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"spor-2-B-1-cevap": {
+"lufs": -18.3,
+"truePeak": -2.4
+},
+"spor-2-B-2": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"spor-2-B-2-cevap": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"spor-2-B-3": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"spor-2-B-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"spor-2-B-4": {
+"lufs": -18.4,
+"truePeak": -6.2
+},
+"spor-2-B-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"spor-2-C-1": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"spor-2-C-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-2-C-2": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"spor-2-C-2-cevap": {
+"lufs": -18.4,
+"truePeak": -1.8
+},
+"spor-2-C-3": {
+"lufs": -18.4,
+"truePeak": -6.4
+},
+"spor-2-C-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.3
+},
+"spor-2-C-4": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"spor-2-C-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"spor-2-D-1": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"spor-2-D-1-cevap": {
+"lufs": -18.3,
+"truePeak": -2.3
+},
+"spor-2-D-2": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"spor-2-D-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"spor-2-D-3": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-2-D-3-cevap": {
+"lufs": -17.6,
+"truePeak": -2.3
+},
+"spor-2-D-4": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"spor-2-D-4-cevap": {
+"lufs": -18.1,
+"truePeak": -2.1
+},
+"spor-2-E-1": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"spor-2-E-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.2
+},
+"spor-2-E-2": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"spor-2-E-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"spor-2-E-3": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-2-E-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"spor-2-E-4": {
+"lufs": -17.7,
+"truePeak": -2.8
+},
+"spor-2-E-4-cevap": {
+"lufs": -18.1,
+"truePeak": -2.1
+},
+"spor-2-F-1": {
+"lufs": -18.4,
+"truePeak": -6.5
+},
+"spor-2-F-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-2-F-2": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"spor-2-F-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-2-F-3": {
+"lufs": -18.6,
+"truePeak": -3.7
+},
+"spor-2-F-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"spor-2-F-4": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-2-F-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-2-G-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-2-G-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"spor-2-G-2": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"spor-2-G-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"spor-2-G-3": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"spor-2-G-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"spor-2-G-4": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"spor-2-G-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"spor-2-H-1": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"spor-2-H-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.0
+},
+"spor-2-H-2": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"spor-2-H-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"spor-2-H-3": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"spor-2-H-3-cevap": {
+"lufs": -18.0,
+"truePeak": -2.0
+},
+"spor-2-H-4": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"spor-2-H-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"spor-2-I-4": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-2-I-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"spor-2-J-1": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"spor-2-J-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.0
+},
+"spor-2-J-2": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"spor-2-J-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"spor-2-J-3": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-2-J-3-cevap": {
+"lufs": -18.4,
+"truePeak": -2.0
+},
+"spor-2-J-4": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"spor-2-J-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"spor-2-K-1": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-2-K-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"spor-2-K-2": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"spor-2-K-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"spor-2-K-3": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"spor-2-K-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"spor-2-K-4": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"spor-2-K-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-2-L-1": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-2-L-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-2-L-2": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-2-L-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"spor-2-L-3": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-2-L-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-2-L-4": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"spor-2-L-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"spor-2-M-1": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"spor-2-M-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"spor-2-M-2": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"spor-2-M-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-2-M-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"spor-2-M-3-cevap": {
+"lufs": -18.3,
+"truePeak": -2.2
+},
+"spor-2-M-4": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-2-M-4-cevap": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"spor-2-M-5": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"spor-2-M-5-cevap": {
+"lufs": -17.7,
+"truePeak": -2.0
+},
+"spor-2-M-6": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"spor-2-M-6-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-2-M-7": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"spor-2-M-7-cevap": {
+"lufs": -17.6,
+"truePeak": -3.9
+},
+"spor-2-N-1": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"spor-2-N-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-2-N-2": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"spor-2-N-2-cevap": {
+"lufs": -18.1,
+"truePeak": -2.2
+},
+"spor-2-N-3": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"spor-2-N-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"spor-2-N-4": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"spor-2-N-4-cevap": {
+"lufs": -18.5,
+"truePeak": -6.6
+},
+"spor-2-O-1": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"spor-2-O-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.4
+},
+"spor-2-O-2": {
+"lufs": -18.4,
+"truePeak": -6.1
+},
+"spor-2-O-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"spor-2-O-3": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"spor-2-O-3-cevap": {
+"lufs": -18.5,
+"truePeak": -5.9
+},
+"spor-2-O-4": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-2-O-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"spor-2-P-1": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"spor-2-P-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-2-P-2": {
+"lufs": -18.5,
+"truePeak": -6.3
+},
+"spor-2-P-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"spor-2-P-3": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-2-P-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"spor-2-P-4": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"spor-2-P-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"spor-2-R-1": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"spor-2-R-1-cevap": {
+"lufs": -18.0,
+"truePeak": -2.0
+},
+"spor-2-R-2": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"spor-2-R-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-2-R-3": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"spor-2-R-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-2-R-4": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"spor-2-R-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"spor-2-S-1": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"spor-2-S-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-2-S-2": {
+"lufs": -18.5,
+"truePeak": -6.1
+},
+"spor-2-S-2-cevap": {
+"lufs": -18.6,
+"truePeak": -3.5
+},
+"spor-2-S-3": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"spor-2-S-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-2-S-4": {
+"lufs": -17.9,
+"truePeak": -4.2
+},
+"spor-2-S-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-2-T-1": {
+"lufs": -18.4,
+"truePeak": -3.0
+},
+"spor-2-T-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"spor-2-T-2": {
+"lufs": -17.7,
+"truePeak": -3.4
+},
+"spor-2-T-2-cevap": {
+"lufs": -18.6,
+"truePeak": -1.3
+},
+"spor-2-T-3": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"spor-2-T-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"spor-2-T-4": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-2-T-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"spor-2-U-1": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"spor-2-U-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"spor-2-U-2": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-2-U-2-cevap": {
+"lufs": -18.6,
+"truePeak": -3.4
+},
+"spor-2-U-3": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"spor-2-U-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-2-U-4": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"spor-2-U-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-2-V-1": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-2-V-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"spor-2-V-2": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"spor-2-V-2-cevap": {
+"lufs": -17.8,
+"truePeak": -4.8
+},
+"spor-2-V-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"spor-2-V-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"spor-2-V-4": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"spor-2-V-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-2-Y-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-2-Y-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"spor-2-Y-2": {
+"lufs": -18.6,
+"truePeak": -4.1
+},
+"spor-2-Y-2-cevap": {
+"lufs": -18.3,
+"truePeak": -4.5
+},
+"spor-2-Y-3": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-2-Y-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"spor-2-Y-4": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"spor-2-Y-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"spor-2-Z-1": {
+"lufs": -18.5,
+"truePeak": -3.2
+},
+"spor-2-Z-1-cevap": {
+"lufs": -17.7,
+"truePeak": -2.0
+},
+"spor-2-Z-2": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"spor-2-Z-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-2-Z-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"spor-2-Z-3-cevap": {
+"lufs": -17.9,
+"truePeak": -2.1
+},
+"spor-2-Z-4": {
+"lufs": -17.5,
+"truePeak": -3.5
+},
+"spor-2-Z-4-cevap": {
+"lufs": -18.0,
+"truePeak": -2.4
+},
+"spor-2-Ç-1": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"spor-2-Ç-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"spor-2-Ç-2": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"spor-2-Ç-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"spor-2-Ç-3": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"spor-2-Ç-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"spor-2-Ç-4": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"spor-2-Ç-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"spor-2-Ö-2": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-2-Ö-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"spor-2-Ü-1": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"spor-2-Ü-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-2-Ü-2": {
+"lufs": -18.5,
+"truePeak": -3.2
+},
+"spor-2-Ü-2-cevap": {
+"lufs": -18.3,
+"truePeak": -4.7
+},
+"spor-2-İ-1": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-2-İ-1-cevap": {
+"lufs": -17.7,
+"truePeak": -2.0
+},
+"spor-2-İ-2": {
+"lufs": -17.6,
+"truePeak": -2.9
+},
+"spor-2-İ-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"spor-2-İ-3": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"spor-2-İ-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"spor-2-İ-4": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"spor-2-İ-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"spor-2-Ş-1": {
+"lufs": -18.4,
+"truePeak": -2.9
+},
+"spor-2-Ş-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-2-Ş-2": {
+"lufs": -17.7,
+"truePeak": -4.5
+},
+"spor-2-Ş-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-2-Ş-3": {
+"lufs": -18.2,
+"truePeak": -3.9
+},
+"spor-2-Ş-3-cevap": {
+"lufs": -18.6,
+"truePeak": -4.2
+},
+"spor-2-Ş-4": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"spor-2-Ş-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"spor-3-A-1": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"spor-3-A-1-cevap": {
+"lufs": -18.4,
+"truePeak": -2.0
+},
+"spor-3-A-2": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"spor-3-A-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-3-A-3": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"spor-3-A-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.0
+},
+"spor-3-A-4": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"spor-3-A-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"spor-3-B-1": {
+"lufs": -18.5,
+"truePeak": -3.4
+},
+"spor-3-B-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"spor-3-B-2": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"spor-3-B-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"spor-3-B-3": {
+"lufs": -17.9,
+"truePeak": -2.9
+},
+"spor-3-B-3-cevap": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"spor-3-B-4": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"spor-3-B-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"spor-3-C-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-3-C-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"spor-3-C-2": {
+"lufs": -17.5,
+"truePeak": -4.0
+},
+"spor-3-C-2-cevap": {
+"lufs": -18.0,
+"truePeak": -2.6
+},
+"spor-3-C-3": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"spor-3-C-3-cevap": {
+"lufs": -17.8,
+"truePeak": -2.2
+},
+"spor-3-C-4": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"spor-3-C-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"spor-3-D-1": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-3-D-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.1
+},
+"spor-3-D-2": {
+"lufs": -17.8,
+"truePeak": -3.1
+},
+"spor-3-D-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-3-D-3": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"spor-3-D-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"spor-3-D-4": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"spor-3-D-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"spor-3-E-1": {
+"lufs": -18.6,
+"truePeak": -4.5
+},
+"spor-3-E-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-3-E-2": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-3-E-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-3-E-3": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"spor-3-E-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"spor-3-E-4": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"spor-3-E-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"spor-3-F-1": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"spor-3-F-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"spor-3-F-2": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"spor-3-F-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-3-F-3": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-3-F-3-cevap": {
+"lufs": -17.7,
+"truePeak": -2.3
+},
+"spor-3-F-4": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"spor-3-F-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"spor-3-G-1": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-3-G-1-cevap": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"spor-3-G-2": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-3-G-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-3-G-3": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"spor-3-G-3-cevap": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"spor-3-G-4": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"spor-3-G-4-cevap": {
+"lufs": -18.4,
+"truePeak": -2.1
+},
+"spor-3-H-1": {
+"lufs": -18.5,
+"truePeak": -3.4
+},
+"spor-3-H-1-cevap": {
+"lufs": -18.1,
+"truePeak": -2.1
+},
+"spor-3-H-2": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"spor-3-H-2-cevap": {
+"lufs": -18.1,
+"truePeak": -1.9
+},
+"spor-3-H-3": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-3-H-3-cevap": {
+"lufs": -17.6,
+"truePeak": -2.3
+},
+"spor-3-H-4": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"spor-3-H-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"spor-3-J-1": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"spor-3-J-1-cevap": {
+"lufs": -17.8,
+"truePeak": -2.3
+},
+"spor-3-J-2": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"spor-3-J-2-cevap": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"spor-3-J-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"spor-3-J-3-cevap": {
+"lufs": -18.6,
+"truePeak": -3.9
+},
+"spor-3-J-4": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"spor-3-J-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.0
+},
+"spor-3-K-1": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"spor-3-K-1-cevap": {
+"lufs": -18.4,
+"truePeak": -1.7
+},
+"spor-3-K-2": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"spor-3-K-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.3
+},
+"spor-3-K-3": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"spor-3-K-3-cevap": {
+"lufs": -17.7,
+"truePeak": -2.0
+},
+"spor-3-K-4": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"spor-3-K-4-cevap": {
+"lufs": -17.6,
+"truePeak": -2.1
+},
+"spor-3-L-1": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-3-L-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"spor-3-L-2": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"spor-3-L-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"spor-3-L-3": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"spor-3-L-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-3-L-4": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-3-L-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-3-M-1": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"spor-3-M-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"spor-3-M-2": {
+"lufs": -17.6,
+"truePeak": -3.5
+},
+"spor-3-M-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"spor-3-M-3": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"spor-3-M-3-cevap": {
+"lufs": -18.6,
+"truePeak": -3.0
+},
+"spor-3-M-4": {
+"lufs": -17.5,
+"truePeak": -4.7
+},
+"spor-3-M-4-cevap": {
+"lufs": -18.3,
+"truePeak": -2.3
+},
+"spor-3-N-1": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-3-N-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"spor-3-N-2": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-3-N-2-cevap": {
+"lufs": -18.5,
+"truePeak": -5.9
+},
+"spor-3-N-3": {
+"lufs": -18.3,
+"truePeak": -3.0
+},
+"spor-3-N-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"spor-3-N-4": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"spor-3-N-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-3-O-1": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"spor-3-O-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"spor-3-O-2": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"spor-3-O-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-3-O-3": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"spor-3-O-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.2
+},
+"spor-3-O-4": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"spor-3-O-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-3-P-1": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"spor-3-P-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"spor-3-P-2": {
+"lufs": -18.4,
+"truePeak": -6.3
+},
+"spor-3-P-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"spor-3-P-3": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"spor-3-P-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"spor-3-P-4": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"spor-3-P-4-cevap": {
+"lufs": -18.0,
+"truePeak": -2.0
+},
+"spor-3-R-1": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"spor-3-R-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"spor-3-R-2": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"spor-3-R-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"spor-3-R-3": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"spor-3-R-3-cevap": {
+"lufs": -18.1,
+"truePeak": -2.2
+},
+"spor-3-R-4": {
+"lufs": -18.4,
+"truePeak": -6.0
+},
+"spor-3-R-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"spor-3-S-1": {
+"lufs": -17.7,
+"truePeak": -4.5
+},
+"spor-3-S-1-cevap": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"spor-3-S-2": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"spor-3-S-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"spor-3-S-3": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-3-S-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.0
+},
+"spor-3-S-4": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"spor-3-S-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"spor-3-T-1": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"spor-3-T-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"spor-3-T-2": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"spor-3-T-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"spor-3-T-3": {
+"lufs": -17.9,
+"truePeak": -3.3
+},
+"spor-3-T-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"spor-3-T-4": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"spor-3-T-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"spor-3-U-1": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"spor-3-U-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-3-U-2": {
+"lufs": -17.8,
+"truePeak": -3.4
+},
+"spor-3-U-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"spor-3-U-3": {
+"lufs": -18.1,
+"truePeak": -3.2
+},
+"spor-3-U-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"spor-3-U-4": {
+"lufs": -18.5,
+"truePeak": -6.4
+},
+"spor-3-U-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"spor-3-V-1": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"spor-3-V-1-cevap": {
+"lufs": -18.4,
+"truePeak": -6.1
+},
+"spor-3-V-2": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"spor-3-V-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"spor-3-V-3": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"spor-3-V-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"spor-3-V-4": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"spor-3-V-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"spor-3-Y-1": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"spor-3-Y-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"spor-3-Y-2": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"spor-3-Y-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"spor-3-Y-3": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"spor-3-Y-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"spor-3-Y-4": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"spor-3-Y-4-cevap": {
+"lufs": -17.6,
+"truePeak": -2.0
+},
+"spor-3-Z-1": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-3-Z-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-3-Z-2": {
+"lufs": -18.6,
+"truePeak": -5.4
+},
+"spor-3-Z-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"spor-3-Z-3": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"spor-3-Z-3-cevap": {
+"lufs": -17.6,
+"truePeak": -2.3
+},
+"spor-3-Z-4": {
+"lufs": -17.6,
+"truePeak": -2.7
+},
+"spor-3-Z-4-cevap": {
+"lufs": -18.4,
+"truePeak": -6.2
+},
+"spor-3-Ç-1": {
+"lufs": -17.6,
+"truePeak": -3.5
+},
+"spor-3-Ç-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"spor-3-Ç-2": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-3-Ç-2-cevap": {
+"lufs": -17.6,
+"truePeak": -2.2
+},
+"spor-3-Ç-3": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"spor-3-Ç-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"spor-3-Ç-4": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"spor-3-Ç-4-cevap": {
+"lufs": -18.4,
+"truePeak": -2.0
+},
+"spor-3-Ö-1": {
+"lufs": -18.4,
+"truePeak": -6.2
+},
+"spor-3-Ö-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"spor-3-Ö-2": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"spor-3-Ö-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"spor-3-Ü-1": {
+"lufs": -17.8,
+"truePeak": -2.6
+},
+"spor-3-Ü-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.2
+},
+"spor-3-Ü-2": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"spor-3-Ü-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"spor-3-İ-1": {
+"lufs": -17.6,
+"truePeak": -4.5
+},
+"spor-3-İ-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"spor-3-İ-2": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"spor-3-İ-2-cevap": {
+"lufs": -18.4,
+"truePeak": -6.2
+},
+"spor-3-İ-3": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"spor-3-İ-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"spor-3-İ-4": {
+"lufs": -17.6,
+"truePeak": -3.1
+},
+"spor-3-İ-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"spor-3-Ş-1": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"spor-3-Ş-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"spor-3-Ş-2": {
+"lufs": -18.6,
+"truePeak": -6.4
+},
+"spor-3-Ş-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"spor-3-Ş-3": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"spor-3-Ş-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"spor-3-Ş-4": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"spor-3-Ş-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"tarih-1-A-1": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"tarih-1-A-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"tarih-1-A-2": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"tarih-1-A-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"tarih-1-A-3": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"tarih-1-A-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"tarih-1-A-4": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"tarih-1-A-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"tarih-1-B-1": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"tarih-1-B-1-cevap": {
+"lufs": -17.8,
+"truePeak": -2.7
+},
+"tarih-1-B-2": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"tarih-1-B-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"tarih-1-B-3": {
+"lufs": -17.7,
+"truePeak": -5.4
+},
+"tarih-1-B-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"tarih-1-B-4": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"tarih-1-B-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"tarih-1-C-1": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"tarih-1-C-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-1-C-2": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"tarih-1-C-2-cevap": {
+"lufs": -18.2,
+"truePeak": -2.0
+},
+"tarih-1-C-3": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"tarih-1-C-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"tarih-1-C-4": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-1-C-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"tarih-1-D-1": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"tarih-1-D-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"tarih-1-D-2": {
+"lufs": -17.5,
+"truePeak": -3.8
+},
+"tarih-1-D-2-cevap": {
+"lufs": -17.6,
+"truePeak": -2.4
+},
+"tarih-1-D-3": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"tarih-1-D-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-1-D-4": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"tarih-1-D-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"tarih-1-E-1": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"tarih-1-E-1-cevap": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"tarih-1-E-2": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"tarih-1-E-2-cevap": {
+"lufs": -17.6,
+"truePeak": -3.6
+},
+"tarih-1-E-3": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"tarih-1-E-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"tarih-1-E-4": {
+"lufs": -18.5,
+"truePeak": -2.8
+},
+"tarih-1-E-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-1-F-1": {
+"lufs": -18.5,
+"truePeak": -3.2
+},
+"tarih-1-F-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"tarih-1-F-2": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"tarih-1-F-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"tarih-1-F-3": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"tarih-1-F-3-cevap": {
+"lufs": -18.0,
+"truePeak": -1.9
+},
+"tarih-1-F-4": {
+"lufs": -18.4,
+"truePeak": -6.8
+},
+"tarih-1-F-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-1-G-1": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"tarih-1-G-1-cevap": {
+"lufs": -18.7,
+"truePeak": -1.4
+},
+"tarih-1-G-2": {
+"lufs": -18.5,
+"truePeak": -5.9
+},
+"tarih-1-G-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"tarih-1-G-3": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"tarih-1-G-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"tarih-1-G-4": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"tarih-1-G-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"tarih-1-H-1": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"tarih-1-H-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"tarih-1-H-2": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"tarih-1-H-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"tarih-1-H-3": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"tarih-1-H-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"tarih-1-H-4": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"tarih-1-H-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.3
+},
+"tarih-1-I-1": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-1-I-1-cevap": {
+"lufs": -18.4,
+"truePeak": -2.2
+},
+"tarih-1-J-1": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"tarih-1-J-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.3
+},
+"tarih-1-J-2": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"tarih-1-J-2-cevap": {
+"lufs": -18.7,
+"truePeak": -3.8
+},
+"tarih-1-J-3": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"tarih-1-J-3-cevap": {
+"lufs": -17.8,
+"truePeak": -2.1
+},
+"tarih-1-K-1": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"tarih-1-K-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-1-K-2": {
+"lufs": -17.6,
+"truePeak": -4.4
+},
+"tarih-1-K-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"tarih-1-K-3": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-1-K-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"tarih-1-K-4": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"tarih-1-K-4-cevap": {
+"lufs": -18.2,
+"truePeak": -1.9
+},
+"tarih-1-L-1": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"tarih-1-L-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"tarih-1-L-2": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"tarih-1-L-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"tarih-1-L-3": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"tarih-1-L-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"tarih-1-L-4": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"tarih-1-L-4-cevap": {
+"lufs": -18.5,
+"truePeak": -2.1
+},
+"tarih-1-M-1": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"tarih-1-M-1-cevap": {
+"lufs": -18.0,
+"truePeak": -2.0
+},
+"tarih-1-M-2": {
+"lufs": -17.6,
+"truePeak": -4.0
+},
+"tarih-1-M-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-1-M-3": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"tarih-1-M-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"tarih-1-M-4": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"tarih-1-M-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"tarih-1-N-1": {
+"lufs": -17.6,
+"truePeak": -3.2
+},
+"tarih-1-N-1-cevap": {
+"lufs": -17.5,
+"truePeak": -2.1
+},
+"tarih-1-N-2": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"tarih-1-N-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"tarih-1-N-3": {
+"lufs": -17.6,
+"truePeak": -4.1
+},
+"tarih-1-N-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"tarih-1-N-4": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"tarih-1-N-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"tarih-1-O-1": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"tarih-1-O-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"tarih-1-O-2": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"tarih-1-O-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"tarih-1-O-3": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"tarih-1-O-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"tarih-1-O-4": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-1-O-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"tarih-1-P-1": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"tarih-1-P-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-1-P-2": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"tarih-1-P-2-cevap": {
+"lufs": -18.0,
+"truePeak": -2.2
+},
+"tarih-1-P-3": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"tarih-1-P-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.0
+},
+"tarih-1-P-4": {
+"lufs": -18.6,
+"truePeak": -4.2
+},
+"tarih-1-P-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-1-R-1": {
+"lufs": -17.7,
+"truePeak": -4.1
+},
+"tarih-1-R-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-1-R-2": {
+"lufs": -18.5,
+"truePeak": -6.5
+},
+"tarih-1-R-2-cevap": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"tarih-1-R-3": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"tarih-1-R-3-cevap": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"tarih-1-R-4": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"tarih-1-R-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"tarih-1-S-1": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"tarih-1-S-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"tarih-1-S-2": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"tarih-1-S-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"tarih-1-S-3": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"tarih-1-S-3-cevap": {
+"lufs": -18.4,
+"truePeak": -2.2
+},
+"tarih-1-S-4": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"tarih-1-S-4-cevap": {
+"lufs": -17.9,
+"truePeak": -3.0
+},
+"tarih-1-T-1": {
+"lufs": -18.0,
+"truePeak": -2.8
+},
+"tarih-1-T-1-cevap": {
+"lufs": -17.9,
+"truePeak": -2.2
+},
+"tarih-1-T-2": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"tarih-1-T-2-cevap": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"tarih-1-T-3": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"tarih-1-T-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"tarih-1-T-4": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"tarih-1-T-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"tarih-1-U-1": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"tarih-1-U-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"tarih-1-U-2": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"tarih-1-U-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-1-U-3": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"tarih-1-U-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"tarih-1-U-4": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"tarih-1-U-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"tarih-1-V-1": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"tarih-1-V-1-cevap": {
+"lufs": -18.2,
+"truePeak": -2.0
+},
+"tarih-1-V-2": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"tarih-1-V-2-cevap": {
+"lufs": -18.6,
+"truePeak": -3.8
+},
+"tarih-1-V-3": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"tarih-1-V-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.3
+},
+"tarih-1-V-4": {
+"lufs": -18.5,
+"truePeak": -6.6
+},
+"tarih-1-V-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"tarih-1-Y-1": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"tarih-1-Y-1-cevap": {
+"lufs": -18.5,
+"truePeak": -2.1
+},
+"tarih-1-Y-2": {
+"lufs": -17.7,
+"truePeak": -4.3
+},
+"tarih-1-Y-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"tarih-1-Y-3": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"tarih-1-Y-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.0
+},
+"tarih-1-Y-4": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"tarih-1-Y-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"tarih-1-Z-1": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"tarih-1-Z-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"tarih-1-Z-2": {
+"lufs": -17.5,
+"truePeak": -3.2
+},
+"tarih-1-Z-2-cevap": {
+"lufs": -17.6,
+"truePeak": -2.2
+},
+"tarih-1-Z-3": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"tarih-1-Z-3-cevap": {
+"lufs": -17.7,
+"truePeak": -3.4
+},
+"tarih-1-Z-4": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-1-Z-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"tarih-1-Ç-1": {
+"lufs": -18.5,
+"truePeak": -5.6
+},
+"tarih-1-Ç-1-cevap": {
+"lufs": -17.6,
+"truePeak": -4.1
+},
+"tarih-1-Ç-2": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"tarih-1-Ç-2-cevap": {
+"lufs": -17.9,
+"truePeak": -2.3
+},
+"tarih-1-Ç-3": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"tarih-1-Ç-3-cevap": {
+"lufs": -17.8,
+"truePeak": -2.1
+},
+"tarih-1-Ç-4": {
+"lufs": -18.4,
+"truePeak": -6.0
+},
+"tarih-1-Ç-4-cevap": {
+"lufs": -18.3,
+"truePeak": -2.1
+},
+"tarih-1-İ-1": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"tarih-1-İ-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"tarih-1-İ-2": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"tarih-1-İ-2-cevap": {
+"lufs": -17.7,
+"truePeak": -2.4
+},
+"tarih-1-İ-3": {
+"lufs": -18.4,
+"truePeak": -3.1
+},
+"tarih-1-İ-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"tarih-1-İ-4": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"tarih-1-İ-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"tarih-1-Ş-1": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"tarih-1-Ş-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"tarih-1-Ş-2": {
+"lufs": -18.5,
+"truePeak": -6.4
+},
+"tarih-1-Ş-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"tarih-1-Ş-3": {
+"lufs": -18.5,
+"truePeak": -6.2
+},
+"tarih-1-Ş-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"tarih-1-Ş-4": {
+"lufs": -17.6,
+"truePeak": -4.5
+},
+"tarih-1-Ş-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"tarih-2-A-1": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"tarih-2-A-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"tarih-2-A-2": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"tarih-2-A-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"tarih-2-A-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"tarih-2-A-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"tarih-2-A-4": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"tarih-2-A-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"tarih-2-B-1": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"tarih-2-B-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"tarih-2-B-2": {
+"lufs": -17.6,
+"truePeak": -3.4
+},
+"tarih-2-B-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"tarih-2-B-3": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"tarih-2-B-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"tarih-2-B-4": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"tarih-2-B-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"tarih-2-C-1": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"tarih-2-C-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"tarih-2-C-2": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"tarih-2-C-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"tarih-2-C-3": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"tarih-2-C-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"tarih-2-C-4": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"tarih-2-C-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"tarih-2-D-1": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"tarih-2-D-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-2-D-2": {
+"lufs": -18.5,
+"truePeak": -3.4
+},
+"tarih-2-D-2-cevap": {
+"lufs": -18.1,
+"truePeak": -2.1
+},
+"tarih-2-D-3": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-2-D-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.3
+},
+"tarih-2-D-4": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"tarih-2-D-4-cevap": {
+"lufs": -18.4,
+"truePeak": -2.9
+},
+"tarih-2-E-1": {
+"lufs": -18.5,
+"truePeak": -6.7
+},
+"tarih-2-E-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"tarih-2-E-2": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"tarih-2-E-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-2-E-3": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"tarih-2-E-3-cevap": {
+"lufs": -17.6,
+"truePeak": -3.0
+},
+"tarih-2-E-4": {
+"lufs": -17.6,
+"truePeak": -3.7
+},
+"tarih-2-E-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"tarih-2-F-1": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-2-F-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-2-F-2": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-2-F-2-cevap": {
+"lufs": -18.4,
+"truePeak": -2.7
+},
+"tarih-2-F-3": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"tarih-2-F-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"tarih-2-F-4": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"tarih-2-F-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"tarih-2-G-1": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"tarih-2-G-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"tarih-2-G-2": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"tarih-2-G-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"tarih-2-G-3": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"tarih-2-G-3-cevap": {
+"lufs": -19.1,
+"truePeak": -1.5
+},
+"tarih-2-G-4": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"tarih-2-G-4-cevap": {
+"lufs": -18.1,
+"truePeak": -2.1
+},
+"tarih-2-H-1": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"tarih-2-H-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"tarih-2-H-2": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"tarih-2-H-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.3
+},
+"tarih-2-H-3": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-2-H-3-cevap": {
+"lufs": -17.5,
+"truePeak": -3.4
+},
+"tarih-2-H-4": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"tarih-2-H-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"tarih-2-I-4": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"tarih-2-I-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.2
+},
+"tarih-2-J-1": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"tarih-2-J-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"tarih-2-J-2": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"tarih-2-J-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"tarih-2-J-3": {
+"lufs": -18.0,
+"truePeak": -3.1
+},
+"tarih-2-J-3-cevap": {
+"lufs": -18.2,
+"truePeak": -2.1
+},
+"tarih-2-J-4": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"tarih-2-J-4-cevap": {
+"lufs": -17.8,
+"truePeak": -2.1
+},
+"tarih-2-K-1": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"tarih-2-K-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-2-K-2": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"tarih-2-K-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-2-K-3": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"tarih-2-K-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"tarih-2-K-4": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"tarih-2-K-4-cevap": {
+"lufs": -18.6,
+"truePeak": -3.4
+},
+"tarih-2-L-1": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"tarih-2-L-1-cevap": {
+"lufs": -18.5,
+"truePeak": -2.8
+},
+"tarih-2-L-2": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"tarih-2-L-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"tarih-2-L-3": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"tarih-2-L-3-cevap": {
+"lufs": -17.6,
+"truePeak": -2.2
+},
+"tarih-2-L-4": {
+"lufs": -18.6,
+"truePeak": -3.9
+},
+"tarih-2-L-4-cevap": {
+"lufs": -18.3,
+"truePeak": -2.2
+},
+"tarih-2-M-1": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"tarih-2-M-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"tarih-2-M-2": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"tarih-2-M-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"tarih-2-M-3": {
+"lufs": -18.6,
+"truePeak": -5.5
+},
+"tarih-2-M-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-2-M-4": {
+"lufs": -18.5,
+"truePeak": -6.2
+},
+"tarih-2-M-4-cevap": {
+"lufs": -18.2,
+"truePeak": -2.3
+},
+"tarih-2-N-1": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"tarih-2-N-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"tarih-2-N-2": {
+"lufs": -17.6,
+"truePeak": -4.6
+},
+"tarih-2-N-2-cevap": {
+"lufs": -17.8,
+"truePeak": -2.2
+},
+"tarih-2-N-3": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"tarih-2-N-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"tarih-2-N-4": {
+"lufs": -18.5,
+"truePeak": -5.3
+},
+"tarih-2-N-4-cevap": {
+"lufs": -18.4,
+"truePeak": -2.9
+},
+"tarih-2-O-1": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"tarih-2-O-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-2-O-2": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"tarih-2-O-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"tarih-2-O-3": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"tarih-2-O-3-cevap": {
+"lufs": -17.9,
+"truePeak": -3.0
+},
+"tarih-2-O-4": {
+"lufs": -18.5,
+"truePeak": -6.3
+},
+"tarih-2-O-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-2-P-1": {
+"lufs": -18.5,
+"truePeak": -5.2
+},
+"tarih-2-P-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.3
+},
+"tarih-2-P-2": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"tarih-2-P-2-cevap": {
+"lufs": -17.5,
+"truePeak": -2.3
+},
+"tarih-2-P-3": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"tarih-2-P-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.1
+},
+"tarih-2-P-4": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-2-P-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"tarih-2-R-1": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-2-R-1-cevap": {
+"lufs": -18.1,
+"truePeak": -2.3
+},
+"tarih-2-R-2": {
+"lufs": -18.5,
+"truePeak": -6.6
+},
+"tarih-2-R-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"tarih-2-R-3": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"tarih-2-R-3-cevap": {
+"lufs": -17.8,
+"truePeak": -2.1
+},
+"tarih-2-R-4": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"tarih-2-R-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"tarih-2-S-1": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"tarih-2-S-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"tarih-2-S-2": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"tarih-2-S-2-cevap": {
+"lufs": -18.5,
+"truePeak": -6.4
+},
+"tarih-2-S-3": {
+"lufs": -18.6,
+"truePeak": -5.9
+},
+"tarih-2-S-3-cevap": {
+"lufs": -17.6,
+"truePeak": -2.4
+},
+"tarih-2-S-4": {
+"lufs": -18.4,
+"truePeak": -3.0
+},
+"tarih-2-S-4-cevap": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"tarih-2-T-1": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"tarih-2-T-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-2-T-2": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"tarih-2-T-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"tarih-2-T-3": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"tarih-2-T-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"tarih-2-T-4": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"tarih-2-T-4-cevap": {
+"lufs": -18.7,
+"truePeak": -3.6
+},
+"tarih-2-U-1": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"tarih-2-U-1-cevap": {
+"lufs": -18.4,
+"truePeak": -2.3
+},
+"tarih-2-U-2": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"tarih-2-U-2-cevap": {
+"lufs": -18.6,
+"truePeak": -3.8
+},
+"tarih-2-U-3": {
+"lufs": -17.8,
+"truePeak": -3.0
+},
+"tarih-2-U-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"tarih-2-U-4": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"tarih-2-U-4-cevap": {
+"lufs": -18.6,
+"truePeak": -3.2
+},
+"tarih-2-V-1": {
+"lufs": -17.5,
+"truePeak": -3.6
+},
+"tarih-2-V-1-cevap": {
+"lufs": -18.4,
+"truePeak": -1.9
+},
+"tarih-2-V-2": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"tarih-2-V-2-cevap": {
+"lufs": -18.0,
+"truePeak": -2.2
+},
+"tarih-2-V-3": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"tarih-2-V-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"tarih-2-V-4": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"tarih-2-V-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.2
+},
+"tarih-2-Y-1": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"tarih-2-Y-1-cevap": {
+"lufs": -18.6,
+"truePeak": -4.2
+},
+"tarih-2-Y-2": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"tarih-2-Y-2-cevap": {
+"lufs": -18.4,
+"truePeak": -2.3
+},
+"tarih-2-Y-3": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"tarih-2-Y-3-cevap": {
+"lufs": -17.7,
+"truePeak": -2.6
+},
+"tarih-2-Y-4": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"tarih-2-Y-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"tarih-2-Z-1": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"tarih-2-Z-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"tarih-2-Z-2": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"tarih-2-Z-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"tarih-2-Z-3": {
+"lufs": -18.5,
+"truePeak": -5.5
+},
+"tarih-2-Z-3-cevap": {
+"lufs": -18.1,
+"truePeak": -2.2
+},
+"tarih-2-Z-4": {
+"lufs": -17.7,
+"truePeak": -2.9
+},
+"tarih-2-Z-4-cevap": {
+"lufs": -17.6,
+"truePeak": -2.2
+},
+"tarih-2-Ç-1": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-2-Ç-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"tarih-2-Ç-2": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"tarih-2-Ç-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.4
+},
+"tarih-2-Ç-3": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"tarih-2-Ç-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"tarih-2-Ç-4": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"tarih-2-Ç-4-cevap": {
+"lufs": -18.5,
+"truePeak": -2.0
+},
+"tarih-2-Ö-1": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"tarih-2-Ö-1-cevap": {
+"lufs": -17.6,
+"truePeak": -2.2
+},
+"tarih-2-Ö-2": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"tarih-2-Ö-2-cevap": {
+"lufs": -18.4,
+"truePeak": -1.5
+},
+"tarih-2-Ü-3": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"tarih-2-Ü-3-cevap": {
+"lufs": -17.5,
+"truePeak": -2.2
+},
+"tarih-2-İ-1": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"tarih-2-İ-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"tarih-2-İ-2": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"tarih-2-İ-2-cevap": {
+"lufs": -18.0,
+"truePeak": -2.0
+},
+"tarih-2-İ-3": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"tarih-2-İ-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"tarih-2-İ-4": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"tarih-2-İ-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"tarih-2-Ş-1": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"tarih-2-Ş-1-cevap": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"tarih-2-Ş-2": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"tarih-2-Ş-2-cevap": {
+"lufs": -18.5,
+"truePeak": -2.9
+},
+"tarih-2-Ş-3": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"tarih-2-Ş-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"tarih-2-Ş-4": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"tarih-2-Ş-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"tarih-3-A-1": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"tarih-3-A-1-cevap": {
+"lufs": -18.4,
+"truePeak": -6.5
+},
+"tarih-3-A-2": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-3-A-2-cevap": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"tarih-3-A-3": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"tarih-3-A-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"tarih-3-A-4": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"tarih-3-A-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"tarih-3-B-1": {
+"lufs": -18.6,
+"truePeak": -5.7
+},
+"tarih-3-B-1-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"tarih-3-B-2": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"tarih-3-B-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"tarih-3-B-3": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"tarih-3-B-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.1
+},
+"tarih-3-B-4": {
+"lufs": -18.4,
+"truePeak": -3.1
+},
+"tarih-3-B-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"tarih-3-C-1": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"tarih-3-C-1-cevap": {
+"lufs": -18.3,
+"truePeak": -2.1
+},
+"tarih-3-C-2": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"tarih-3-C-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"tarih-3-C-3": {
+"lufs": -18.4,
+"truePeak": -5.2
+},
+"tarih-3-C-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"tarih-3-C-4": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"tarih-3-C-4-cevap": {
+"lufs": -18.5,
+"truePeak": -1.5
+},
+"tarih-3-D-1": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"tarih-3-D-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"tarih-3-D-2": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"tarih-3-D-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"tarih-3-D-3": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"tarih-3-D-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-3-D-4": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"tarih-3-D-4-cevap": {
+"lufs": -18.5,
+"truePeak": -5.7
+},
+"tarih-3-E-1": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"tarih-3-E-1-cevap": {
+"lufs": -18.5,
+"truePeak": -6.6
+},
+"tarih-3-E-2": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"tarih-3-E-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"tarih-3-E-3": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"tarih-3-E-3-cevap": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"tarih-3-E-4": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"tarih-3-E-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"tarih-3-F-1": {
+"lufs": -18.4,
+"truePeak": -6.0
+},
+"tarih-3-F-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.8
+},
+"tarih-3-F-2": {
+"lufs": -18.4,
+"truePeak": -6.0
+},
+"tarih-3-F-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"tarih-3-F-3": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"tarih-3-F-3-cevap": {
+"lufs": -17.9,
+"truePeak": -3.7
+},
+"tarih-3-F-4": {
+"lufs": -17.5,
+"truePeak": -3.0
+},
+"tarih-3-F-4-cevap": {
+"lufs": -18.3,
+"truePeak": -2.4
+},
+"tarih-3-G-1": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"tarih-3-G-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.2
+},
+"tarih-3-G-2": {
+"lufs": -18.4,
+"truePeak": -3.5
+},
+"tarih-3-G-2-cevap": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"tarih-3-G-3": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"tarih-3-G-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-3-G-4": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"tarih-3-G-4-cevap": {
+"lufs": -17.5,
+"truePeak": -3.0
+},
+"tarih-3-H-1": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"tarih-3-H-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"tarih-3-H-2": {
+"lufs": -18.4,
+"truePeak": -6.2
+},
+"tarih-3-H-2-cevap": {
+"lufs": -17.5,
+"truePeak": -2.2
+},
+"tarih-3-H-3": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"tarih-3-H-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"tarih-3-H-4": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"tarih-3-H-4-cevap": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"tarih-3-J-1": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"tarih-3-J-1-cevap": {
+"lufs": -17.8,
+"truePeak": -2.8
+},
+"tarih-3-J-2": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-3-J-2-cevap": {
+"lufs": -18.4,
+"truePeak": -1.9
+},
+"tarih-3-K-1": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"tarih-3-K-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"tarih-3-K-2": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"tarih-3-K-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"tarih-3-K-3": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"tarih-3-K-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.4
+},
+"tarih-3-K-4": {
+"lufs": -18.5,
+"truePeak": -5.8
+},
+"tarih-3-K-4-cevap": {
+"lufs": -17.5,
+"truePeak": -3.4
+},
+"tarih-3-L-1": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"tarih-3-L-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"tarih-3-L-2": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"tarih-3-L-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.6
+},
+"tarih-3-L-3": {
+"lufs": -18.5,
+"truePeak": -4.0
+},
+"tarih-3-L-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-3-L-4": {
+"lufs": -17.8,
+"truePeak": -3.8
+},
+"tarih-3-L-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"tarih-3-M-1": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"tarih-3-M-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.6
+},
+"tarih-3-M-2": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"tarih-3-M-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"tarih-3-M-3": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"tarih-3-M-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"tarih-3-M-4": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"tarih-3-M-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"tarih-3-N-1": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"tarih-3-N-1-cevap": {
+"lufs": -18.2,
+"truePeak": -3.6
+},
+"tarih-3-N-2": {
+"lufs": -17.8,
+"truePeak": -4.4
+},
+"tarih-3-N-2-cevap": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"tarih-3-N-3": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"tarih-3-N-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"tarih-3-N-4": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"tarih-3-N-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"tarih-3-O-1": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"tarih-3-O-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"tarih-3-O-2": {
+"lufs": -18.4,
+"truePeak": -5.1
+},
+"tarih-3-O-2-cevap": {
+"lufs": -18.0,
+"truePeak": -2.3
+},
+"tarih-3-O-3": {
+"lufs": -18.4,
+"truePeak": -6.0
+},
+"tarih-3-O-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.1
+},
+"tarih-3-O-4": {
+"lufs": -18.4,
+"truePeak": -6.1
+},
+"tarih-3-O-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.7
+},
+"tarih-3-P-1": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"tarih-3-P-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-3-P-2": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"tarih-3-P-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"tarih-3-P-3": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-3-P-3-cevap": {
+"lufs": -18.1,
+"truePeak": -2.1
+},
+"tarih-3-P-4": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"tarih-3-P-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"tarih-3-R-1": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"tarih-3-R-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.4
+},
+"tarih-3-R-2": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"tarih-3-R-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.8
+},
+"tarih-3-R-3": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-3-R-3-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"tarih-3-R-4": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"tarih-3-R-4-cevap": {
+"lufs": -18.3,
+"truePeak": -3.5
+},
+"tarih-3-S-1": {
+"lufs": -18.5,
+"truePeak": -6.0
+},
+"tarih-3-S-1-cevap": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"tarih-3-S-2": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"tarih-3-S-2-cevap": {
+"lufs": -17.9,
+"truePeak": -3.2
+},
+"tarih-3-S-3": {
+"lufs": -18.6,
+"truePeak": -4.5
+},
+"tarih-3-S-3-cevap": {
+"lufs": -18.5,
+"truePeak": -2.2
+},
+"tarih-3-S-4": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"tarih-3-S-4-cevap": {
+"lufs": -18.6,
+"truePeak": -2.0
+},
+"tarih-3-T-1": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"tarih-3-T-1-cevap": {
+"lufs": -18.6,
+"truePeak": -3.2
+},
+"tarih-3-T-2": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-3-T-2-cevap": {
+"lufs": -18.2,
+"truePeak": -4.5
+},
+"tarih-3-T-3": {
+"lufs": -18.4,
+"truePeak": -5.5
+},
+"tarih-3-T-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"tarih-3-T-4": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-3-T-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.4
+},
+"tarih-3-U-1": {
+"lufs": -17.8,
+"truePeak": -2.4
+},
+"tarih-3-U-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"tarih-3-U-2": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"tarih-3-U-2-cevap": {
+"lufs": -18.1,
+"truePeak": -2.2
+},
+"tarih-3-U-3": {
+"lufs": -18.4,
+"truePeak": -5.7
+},
+"tarih-3-U-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"tarih-3-U-4": {
+"lufs": -18.4,
+"truePeak": -4.1
+},
+"tarih-3-U-4-cevap": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"tarih-3-V-1": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"tarih-3-V-1-cevap": {
+"lufs": -18.6,
+"truePeak": -1.4
+},
+"tarih-3-V-2": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"tarih-3-V-2-cevap": {
+"lufs": -18.5,
+"truePeak": -4.7
+},
+"tarih-3-V-3": {
+"lufs": -18.4,
+"truePeak": -4.3
+},
+"tarih-3-V-3-cevap": {
+"lufs": -18.4,
+"truePeak": -4.0
+},
+"tarih-3-V-4": {
+"lufs": -18.5,
+"truePeak": -4.2
+},
+"tarih-3-V-4-cevap": {
+"lufs": -18.4,
+"truePeak": -3.3
+},
+"tarih-3-Y-1": {
+"lufs": -17.6,
+"truePeak": -3.7
+},
+"tarih-3-Y-1-cevap": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"tarih-3-Y-2": {
+"lufs": -18.5,
+"truePeak": -5.0
+},
+"tarih-3-Y-2-cevap": {
+"lufs": -18.4,
+"truePeak": -3.9
+},
+"tarih-3-Y-3": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"tarih-3-Y-3-cevap": {
+"lufs": -17.8,
+"truePeak": -1.9
+},
+"tarih-3-Y-4": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"tarih-3-Y-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.8
+},
+"tarih-3-Z-1": {
+"lufs": -17.8,
+"truePeak": -4.3
+},
+"tarih-3-Z-1-cevap": {
+"lufs": -18.4,
+"truePeak": -5.4
+},
+"tarih-3-Z-2": {
+"lufs": -17.6,
+"truePeak": -3.4
+},
+"tarih-3-Z-2-cevap": {
+"lufs": -18.5,
+"truePeak": -3.6
+},
+"tarih-3-Z-3": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"tarih-3-Z-3-cevap": {
+"lufs": -18.5,
+"truePeak": -4.3
+},
+"tarih-3-Z-4": {
+"lufs": -18.5,
+"truePeak": -4.6
+},
+"tarih-3-Z-4-cevap": {
+"lufs": -18.4,
+"truePeak": -4.2
+},
+"tarih-3-Ç-1": {
+"lufs": -18.4,
+"truePeak": -4.7
+},
+"tarih-3-Ç-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.6
+},
+"tarih-3-Ç-2": {
+"lufs": -18.5,
+"truePeak": -6.4
+},
+"tarih-3-Ç-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"tarih-3-Ç-3": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-3-Ç-3-cevap": {
+"lufs": -18.5,
+"truePeak": -3.5
+},
+"tarih-3-Ç-4": {
+"lufs": -18.5,
+"truePeak": -5.9
+},
+"tarih-3-Ç-4-cevap": {
+"lufs": -18.5,
+"truePeak": -3.9
+},
+"tarih-3-Ö-1": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"tarih-3-Ö-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-3-Ö-2": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"tarih-3-Ö-2-cevap": {
+"lufs": -18.4,
+"truePeak": -1.9
+},
+"tarih-3-İ-1": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-3-İ-1-cevap": {
+"lufs": -18.1,
+"truePeak": -2.0
+},
+"tarih-3-İ-2": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"tarih-3-İ-2-cevap": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"tarih-3-İ-3": {
+"lufs": -18.5,
+"truePeak": -4.5
+},
+"tarih-3-İ-3-cevap": {
+"lufs": -18.2,
+"truePeak": -2.1
+},
+"tarih-3-İ-4": {
+"lufs": -18.5,
+"truePeak": -3.7
+},
+"tarih-3-İ-4-cevap": {
+"lufs": -18.6,
+"truePeak": -1.4
+},
+"tarih-3-Ş-1": {
+"lufs": -18.5,
+"truePeak": -5.1
+},
+"tarih-3-Ş-1-cevap": {
+"lufs": -18.4,
+"truePeak": -4.5
+},
+"tarih-3-Ş-2": {
+"lufs": -18.4,
+"truePeak": -4.4
+},
+"tarih-3-Ş-2-cevap": {
+"lufs": -18.4,
+"truePeak": -5.0
+},
+"tarih-3-Ş-3": {
+"lufs": -18.4,
+"truePeak": -4.9
+},
+"tarih-3-Ş-3-cevap": {
+"lufs": -18.6,
+"truePeak": -3.4
+},
+"tarih-3-Ş-4": {
+"lufs": -18.4,
+"truePeak": -5.3
+},
+"tarih-3-Ş-4-cevap": {
+"lufs": -18.5,
+"truePeak": -4.9
+},
+"time": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"timeup": {
+"lufs": -18.4,
+"truePeak": -6.5
+},
+"turn": {
+"lufs": -18.5,
+"truePeak": -4.8
+},
+"turn2": {
+"lufs": -18.4,
+"truePeak": -5.8
+},
+"welcome": {
+"lufs": -18.4,
+"truePeak": -5.9
+},
+"welcome2": {
+"lufs": -18.5,
+"truePeak": -5.4
+},
+"win": {
+"lufs": -18.5,
+"truePeak": -6.2
+},
+"wrong": {
+"lufs": -18.2,
+"truePeak": -3.2
+}
+}
+}
