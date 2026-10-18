@@ -172,7 +172,7 @@ function ResultCard({ result, match, voice, onNext }: { result: TurnResult; matc
     voice,
     onNext,
     match.players.flatMap((q) => q.round.letters.flatMap((l) => l.question.answers)),
-    [hostLine(why === 'pass' ? 'pass_next' : 'wrong_next')],
+    why === 'pass' ? [hostLine('pass_next')] : [],
   );
   const passed = round.letters.filter((l) => l.passed && l.status === 'pending').length;
   return (

@@ -324,7 +324,7 @@ test('pass and play: "hazırım" starts each turn on the Sıra screen, and one m
   await say('tamam hazırım');
   expect(screen.getByTestId('turn-player')).toHaveTextContent('FIRAT');
 
-  // Fırat is wrong: the right answer first, then the bridge, on the result card.
+  // Fırat is wrong: the right answer, and no bridge line (Yakup dropped it), on the result card.
   await untilHostQuiet();
   await wait(ECHO_TAIL_MS + 100);
   const q = question(clueText());
@@ -333,7 +333,7 @@ test('pass and play: "hazırım" starts each turn on the Sıra screen, and one m
   expect(screen.getByText(q.answers[0])).toBeOnTheScreen();
   expect(await screen.findByTestId('turn-result', {}, { timeout: 20_000 })).toHaveTextContent(`Yanlış — doğru cevap: ${q.answers[0]}`);
   await act(async () => {});
-  expect(host.said).toEqual([said(answerLine(q)), said(hostLine('wrong_next'))]);
+  expect(host.said).toEqual([said(answerLine(q))]);
   await screen.findByText('Sıradaki oyuncu: Ece');
   await fireEvent.press(screen.getByText('Sıradaki oyuncu: Ece'));
   expect(await screen.findByTestId('handover')).toHaveTextContent('Sıra: Ece');

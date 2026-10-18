@@ -25,7 +25,6 @@ export const HOST_LINES = {
   win: 'Bravo!',
   // Pass and play: the turn goes to the next player after a Pas or a wrong answer.
   pass_next: 'Pas geçildi. Sıradaki yarışmacıya geçiyoruz.',
-  wrong_next: 'Hayır, olmadı. Sıradaki yarışmacıya geçiyoruz.',
 } as const;
 
 export type HostKey = keyof typeof HOST_LINES;
