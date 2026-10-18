@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
 
 import { ProgressProvider } from '../store/ProgressContext';
+import { SettingsProvider } from '../store/SettingsContext';
 import { C } from '../ui/theme';
 
 export default function RootLayout() {
@@ -18,12 +19,14 @@ export default function RootLayout() {
   });
   if (!loaded && !error) return <View style={{ flex: 1, backgroundColor: C.bg }} />;
   return (
-    <ProgressProvider>
-      <StatusBar style="light" />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: C.bg }, animation: 'fade' }}>
-        <Stack.Screen name="game" options={{ gestureEnabled: false }} />
-        <Stack.Screen name="result" options={{ gestureEnabled: false }} />
-      </Stack>
-    </ProgressProvider>
+    <SettingsProvider>
+      <ProgressProvider>
+        <StatusBar style="light" />
+        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: C.bg }, animation: 'fade' }}>
+          <Stack.Screen name="game" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="result" options={{ gestureEnabled: false }} />
+        </Stack>
+      </ProgressProvider>
+    </SettingsProvider>
   );
 }
