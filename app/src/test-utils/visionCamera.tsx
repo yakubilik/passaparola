@@ -45,7 +45,7 @@ export function useObjectOutput({ onObjectsScanned }: { onObjectsScanned?: (o: S
 }
 
 // The preview reports scanned objects already in view coordinates.
-export const Camera = forwardRef<object, { style?: object }>(function Camera({ style }, ref) {
+export const Camera = forwardRef<object, { style?: object; resizeMode?: string }>(function Camera({ style, resizeMode }, ref) {
   useImperativeHandle(ref, () => ({ convertScannedObjectCoordinatesToViewCoordinates: (o: Scanned) => o }));
-  return <View testID="camera-preview" style={style} />;
+  return <View testID="camera-preview" style={style} {...{ resizeMode }} />;
 });

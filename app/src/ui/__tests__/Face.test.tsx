@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { act, render, renderHook, screen } from '@testing-library/react-native';
-import type { Animated } from 'react-native';
+import { StyleSheet, type Animated } from 'react-native';
 
-import { LOST_MS } from '../../camera/faceCrop';
+import { EYE_LINE, LOST_MS } from '../../camera/faceCrop';
 import { SETTINGS_KEY } from '../../store/settings';
 import { SettingsProvider } from '../../store/SettingsContext';
 import { visionCamera } from '../../test-utils/visionCamera';
@@ -93,25 +93,53 @@ const read = (style: { transform: unknown }) => {
   return { x: v(t[0].translateX), y: v(t[1].translateY), scale: v(t[2].scale) };
 };
 
-test('the picture is moved and zoomed so the face sits in the centre, and holds still', async () => {
+test('the picture is moved and zoomed to frame the head as on the show, and holds still', async () => {
   const setFound = jest.fn();
   const { result } = await renderHook(() => useFaceCrop(SIZE, setFound));
   expect(read(result.current.style)).toEqual({ x: 0, y: 0, scale: 1 });
 
-  await feed(150, 130, 110, result.current.onFaces);
+  await feed(150, 130, 100, result.current.onFaces);
   expect(setFound).toHaveBeenLastCalledWith(true);
   const a = read(result.current.style);
-  // The face centre (130, 110) lands in the middle of the circle...
-  expect(Math.abs(SIZE / 2 + a.scale * (130 - SIZE / 2) + a.x - SIZE / 2)).toBeLessThan(6);
-  expect(Math.abs(SIZE / 2 + a.scale * (110 - SIZE / 2) + a.y - SIZE / 2)).toBeLessThan(6);
-  // ...at about two thirds of it.
-  expect((90 * a.scale) / SIZE).toBeGreaterThan(0.6);
-  expect((90 * a.scale) / SIZE).toBeLessThan(0.75);
+  const at = (p: number, t: number) => SIZE / 2 + a.scale * (p - SIZE / 2) + t;
+  // The head is centred left to right...
+  expect(Math.abs(at(130, a.x) - SIZE / 2)).toBeLessThan(6);
+  // ...its eyes 40-45% from the top...
+  const eyes = at(100 - 45 + 90 * EYE_LINE, a.y) / SIZE;
+  expect(eyes).toBeGreaterThan(0.39);
+  expect(eyes).toBeLessThan(0.46);
+  // ...and it is about half the square tall.
+  expect((90 * a.scale) / SIZE).toBeGreaterThan(0.45);
+  expect((90 * a.scale) / SIZE).toBeLessThan(0.56);
 
   // More wobbly readings of the same face: the picture does not move.
-  await feed(60, 130, 110, result.current.onFaces);
+  await feed(60, 130, 100, result.current.onFaces);
   const b = read(result.current.style);
   expect(Math.abs(b.x - a.x)).toBeLessThan(0.5);
   expect(Math.abs(b.y - a.y)).toBeLessThan(0.5);
   expect(Math.abs(b.scale - a.scale)).toBeLessThan(0.01);
+});
+
+function square() {
+  const f = StyleSheet.flatten(screen.getByTestId('face').props.style);
+  return { width: f.width, height: f.height, round: f.borderRadius, bg: f.backgroundColor };
+}
+// The navy square with softened corners, as wide as the ring (not a circle).
+const SQUARE = { width: SIZE, height: SIZE, round: Math.round(SIZE * 0.04), bg: '#161d3c' };
+
+test('camera off: the navy square, as wide as the ring, with the silhouette', async () => {
+  await show();
+  expect(square()).toEqual(SQUARE);
+  const ph = StyleSheet.flatten(screen.getByTestId('face-placeholder').props.style);
+  expect([ph.width, ph.height]).toEqual([SIZE, SIZE]);
+});
+
+test('camera on: the same square, the front camera cover-cropped to fill it', async () => {
+  visionCamera.device = { id: 'front', position: 'front' };
+  visionCamera.status = 'authorized';
+  await show();
+  expect(square()).toEqual(SQUARE);
+  const preview = StyleSheet.flatten(screen.getByTestId('camera-preview').props.style);
+  expect([preview.width, preview.height]).toEqual([SIZE, SIZE]);
+  expect(screen.getByTestId('camera-preview').props.resizeMode).toBe('cover');
 });

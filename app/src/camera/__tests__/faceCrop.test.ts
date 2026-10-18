@@ -1,5 +1,5 @@
 import {
-  clampCrop, cropFor, cropTransform, ease, FACE_SHARE, FIRST_READINGS, fullCrop, mainFace, MAX_ZOOM, nextAim, settled, type Aim, type Box, type Crop,
+  clampCrop, cropFor, cropTransform, ease, EYE_LINE, FACE_SHARE, FIRST_READINGS, fullCrop, mainFace, MAX_ZOOM, nextAim, settled, type Aim, type Box, type Crop,
 } from '../faceCrop';
 
 const VIEW = 240;
@@ -58,16 +58,48 @@ test('a jittery track of a face held still comes out steady', () => {
   expect(Math.max(...steps(shown.map((c) => c.size)))).toBeLessThan(10);
 });
 
-test('the face ends up in the centre, filling about two thirds of the circle', () => {
-  const { crop } = run(jitteryTrack(300, 130, 110, 90, 3, 0.05));
+// Where a point of the preview lands in the shown square: RN scales around
+// the centre, then translates.
+function onScreen(crop: Crop, x: number, y: number) {
   const t = cropTransform(crop, VIEW);
-  // Where the true face centre lands on screen: scale around the centre, then translate.
-  const onScreen = (p: number) => VIEW / 2 + t.scale * (p - VIEW / 2);
-  expect(Math.abs(onScreen(130) + t.translateX - VIEW / 2)).toBeLessThan(VIEW * 0.03);
-  expect(Math.abs(onScreen(110) + t.translateY - VIEW / 2)).toBeLessThan(VIEW * 0.03);
-  const faceOnScreen = (90 * t.scale) / VIEW;
-  expect(faceOnScreen).toBeGreaterThan(0.6);
-  expect(faceOnScreen).toBeLessThan(0.73);
+  return { x: VIEW / 2 + t.scale * (x - VIEW / 2) + t.translateX, y: VIEW / 2 + t.scale * (y - VIEW / 2) + t.translateY, scale: t.scale };
+}
+
+test('face box -> crop: head centred left to right, eyes at 40-45% from the top, head about half the square', () => {
+  // A face anywhere in the preview, small or large (but within the zoom limits).
+  for (const face of [
+    { x: 80, y: 50, width: 70, height: 80 },
+    { x: 60, y: 70, width: 90, height: 100 },
+    { x: 100, y: 40, width: 60, height: 66 },
+  ]) {
+    const crop = cropFor(face);
+    expect(clampCrop(crop, VIEW)).toEqual(crop);
+    const centre = onScreen(crop, face.x + face.width / 2, face.y + face.height / 2);
+    expect(centre.x / VIEW).toBeCloseTo(0.5, 5);
+    const eyes = onScreen(crop, 0, face.y + face.height * EYE_LINE).y / VIEW;
+    expect(eyes).toBeGreaterThanOrEqual(0.4);
+    expect(eyes).toBeLessThanOrEqual(0.45);
+    const head = (face.height * centre.scale) / VIEW;
+    expect(head).toBeGreaterThan(0.45);
+    expect(head).toBeLessThan(0.55);
+    // The chin is above the bottom letters' band, so the ring encircles the
+    // head and the lower letters sit over the shoulders.
+    const chin = onScreen(crop, 0, face.y + face.height).y / VIEW;
+    expect(chin).toBeLessThan(0.8);
+    expect(onScreen(crop, 0, face.y).y / VIEW).toBeGreaterThan(0.1);
+  }
+});
+
+test('a jittery face held still ends up framed the same way', () => {
+  const { crop } = run(jitteryTrack(300, 130, 100, 80, 3, 0.05));
+  const c = onScreen(crop, 130, 100);
+  expect(Math.abs(c.x - VIEW / 2)).toBeLessThan(VIEW * 0.03);
+  const eyes = onScreen(crop, 0, 100 - 40 + 80 * EYE_LINE).y / VIEW;
+  expect(eyes).toBeGreaterThan(0.39);
+  expect(eyes).toBeLessThan(0.46);
+  const head = (80 * c.scale) / VIEW;
+  expect(head).toBeGreaterThan(0.45);
+  expect(head).toBeLessThan(0.56);
 });
 
 test('a real move is followed, smoothly', () => {
@@ -108,7 +140,7 @@ test('the crop stays inside the picture and within the zoom limits', () => {
 });
 
 test('helpers: crop of a face, settled, the biggest face', () => {
-  expect(cropFor({ x: 10, y: 20, width: 60, height: 80 })).toEqual({ cx: 40, cy: 60, size: 120 });
+  expect(cropFor({ x: 10, y: 20, width: 60, height: 80 })).toEqual({ cx: 40, cy: 64.8, size: 160 });
   const goal = { cx: 100, cy: 100, size: 120 };
   expect(settled({ cx: 100.1, cy: 99.9, size: 120.1 }, goal, VIEW)).toBe(true);
   expect(settled({ cx: 103, cy: 100, size: 120 }, goal, VIEW)).toBe(false);

@@ -9,10 +9,11 @@ import { useSettings } from '../store/SettingsContext';
 
 const FACE_TYPES: ScannedObjectType[] = ['face'];
 
-// The middle of the ring: the front camera with the player's face centred
-// and zoomed (camera/faceCrop.ts keeps it steady). With the camera switched
-// off in settings, no permission, no front camera or no face in sight, the
-// silhouette placeholder shows instead and the game goes on.
+// The picture under the letter ring, as on the show: a square of the front
+// camera, cover-cropped, with the player's head framed in the middle of the
+// ring (camera/faceCrop.ts keeps it steady). With the camera switched off in
+// settings, no permission, no front camera or no face in sight, the navy
+// studio background with the silhouette shows instead and the game goes on.
 export function Face({ size }: { size: number }) {
   const { settings, ready } = useSettings();
   const permission = useCameraPermission();
@@ -30,10 +31,10 @@ export function Face({ size }: { size: number }) {
       style={{
         width: size,
         height: size,
-        borderRadius: size / 2,
+        borderRadius: Math.round(size * 0.04),
         overflow: 'hidden',
         backgroundColor: '#161d3c',
-        boxShadow: '0 0 0 2px rgba(255,255,255,0.12), 0 0 60px rgba(61,107,255,0.35)',
+        boxShadow: '0 0 0 1px rgba(255,255,255,0.12), 0 0 40px rgba(61,107,255,0.3)',
       }}
     >
       {wanted && permission.hasPermission ? <FaceCam size={size} device={device!} /> : <Placeholder size={size} />}
@@ -143,22 +144,23 @@ export function useFaceCrop(size: number, setFound: (found: boolean) => void) {
   return { onFaces, style };
 }
 
-// The circle without a picture: the player's silhouette.
+// The square without a picture: the studio background and the player's
+// silhouette, framed like the camera picture (head in the middle of the ring,
+// shoulders under the bottom letters).
 function Placeholder({ size }: { size: number }) {
+  const head = size * 0.36;
   return (
     <View
       testID="face-placeholder"
       style={{
         width: size,
         height: size,
-        backgroundImage: 'radial-gradient(circle at 50% 35%, #24305e 0%, #141a36 70%)',
+        backgroundImage: 'radial-gradient(circle at 50% 40%, #24305e 0%, #141a36 70%)',
         backgroundColor: '#161d3c',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
       }}
     >
-      <View style={{ width: size * 0.34, height: size * 0.34, borderRadius: size, backgroundColor: '#7fb0ff', marginBottom: size * 0.04 }} />
-      <View style={{ width: size * 0.68, height: size * 0.34, borderTopLeftRadius: size, borderTopRightRadius: size, backgroundColor: '#5a92f0' }} />
+      <View style={{ position: 'absolute', left: (size - head) / 2, top: size * 0.42 - head * 0.55, width: head, height: head * 1.1, borderRadius: size, backgroundColor: '#7fb0ff' }} />
+      <View style={{ position: 'absolute', left: size * 0.13, bottom: 0, width: size * 0.74, height: size * 0.3, borderTopLeftRadius: size * 0.37, borderTopRightRadius: size * 0.37, backgroundColor: '#5a92f0' }} />
     </View>
   );
 }

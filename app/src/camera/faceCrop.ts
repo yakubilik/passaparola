@@ -1,6 +1,8 @@
-// Keeps the player's face centred in the ring. The camera preview is a square
-// as big as the circle; we zoom into a smaller square of it (the crop) and
-// slide that square so the face sits in the middle. Lesson from the web
+// Frames the player's head inside the letter ring, as on the show
+// (docs/design/reference/ring-over-face.jpg). The camera preview is a square as
+// big as the ring; we zoom into a smaller square of it (the crop) and slide
+// that square so the head is centred left to right, the eyes a little above
+// the middle and the shoulders below, under the bottom letters. Lesson from the web
 // version (js/face.js): following every detector reading makes the picture
 // shake, so readings go through a dead zone first and the crop then eases
 // towards them, zoom slower than position.
@@ -10,7 +12,9 @@ export type Box = { x: number; y: number; width: number; height: number };
 // The visible square of the preview: centre and side length, same coordinates.
 export type Crop = { cx: number; cy: number; size: number };
 
-export const FACE_SHARE = 2 / 3;      // face size as a share of the circle
+export const FACE_SHARE = 0.5;        // face (detector box) height as a share of the square
+export const EYE_LINE = 0.4;          // the eyes, as a share of the face box from its top
+export const EYES_AT = 0.42;          // where the eyes go, as a share of the square from its top
 export const DEAD_ZONE = 0.06;        // ignore face moves under this share of the crop
 export const ZOOM_DEAD_ZONE = 0.15;   // re-zoom only when the face grows or shrinks this much
 export const MOVE_EASE = 0.15;        // per 60 fps frame, towards the goal centre
@@ -20,12 +24,16 @@ export const LOST_MS = 1200;          // no face for this long: show the placeho
 
 const FRAME_MS = 1000 / 60;
 
-// The crop that puts this face in the middle at FACE_SHARE of the circle.
+// The crop that frames this face: centred horizontally, FACE_SHARE of the
+// square tall, its eyes at EYES_AT from the top (so the crop reaches down to
+// the shoulders).
 export function cropFor(face: Box): Crop {
+  const size = Math.max(face.width, face.height) / FACE_SHARE;
+  const eyes = face.y + face.height * EYE_LINE;
   return {
     cx: face.x + face.width / 2,
-    cy: face.y + face.height / 2,
-    size: Math.max(face.width, face.height) / FACE_SHARE,
+    cy: eyes + (0.5 - EYES_AT) * size,
+    size,
   };
 }
 
@@ -99,7 +107,7 @@ export function settled(crop: Crop, goal: Crop, view: number): boolean {
   return Math.abs(crop.cx - t.cx) < 0.25 && Math.abs(crop.cy - t.cy) < 0.25 && Math.abs(crop.size - t.size) < 0.25;
 }
 
-// The transform that shows the crop filling a view-sized circle. RN scales
+// The transform that shows the crop filling the view-sized square. RN scales
 // around the view's centre, then translates.
 export function cropTransform(crop: Crop, view: number): { scale: number; translateX: number; translateY: number } {
   const scale = view / crop.size;
