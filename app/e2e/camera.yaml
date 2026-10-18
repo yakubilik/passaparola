@@ -1,0 +1,31 @@
+# Camera circle on a simulator (no front camera): the ring shows the
+# placeholder and the round runs; then the Ayarlar screen with the switch.
+appId: com.skolalabs.harfiyen
+---
+- launchApp
+- tapOn:
+    text: "Vazgeç"
+    optional: true
+- extendedWaitUntil:
+    visible: ".*Misafir olarak oyna.*"
+    timeout: 180000
+- tapOn: ".*Misafir olarak oyna.*"
+- extendedWaitUntil:
+    visible: ".*Hızlı oyun.*"
+    timeout: 10000
+- takeScreenshot: menu
+- tapOn: "^Ayarlar$"
+- extendedWaitUntil:
+    visible: ".*Ön kamera.*"
+    timeout: 10000
+- takeScreenshot: settings
+- tapOn: ".*Geri.*"
+- tapOn: ".*Hızlı oyun.*"
+- extendedWaitUntil:
+    visible: ".*Hazır mısın.*"
+    timeout: 10000
+- tapOn: "^Başla$"
+- assertVisible:
+    id: "face-placeholder"
+- hideKeyboard
+- takeScreenshot: game

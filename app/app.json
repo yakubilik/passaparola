@@ -8,7 +8,10 @@
     "userInterfaceStyle": "dark",
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.skolalabs.harfiyen"
+      "bundleIdentifier": "com.skolalabs.harfiyen",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Harfiyen shows your face inside the letter ring while you play. The picture never leaves your phone."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +21,10 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.skolalabs.harfiyen"
+      "package": "com.skolalabs.harfiyen",
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -22,14 +22,14 @@ export default function RootLayout() {
   });
   if (!loaded && !error) return <View style={{ flex: 1, backgroundColor: C.bg }} />;
   return (
-    <ProgressProvider>
-      <SettingsProvider>
+    <SettingsProvider>
+      <ProgressProvider>
         <StatusBar style="light" />
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: C.bg }, animation: 'fade' }}>
           <Stack.Screen name="game" options={{ gestureEnabled: false }} />
           <Stack.Screen name="result" options={{ gestureEnabled: false }} />
         </Stack>
-      </SettingsProvider>
-    </ProgressProvider>
+      </ProgressProvider>
+    </SettingsProvider>
   );
 }

@@ -167,7 +167,7 @@ describe('mic check before the first game', () => {
     expect(screen.getByTestId('mic-result')).toHaveTextContent('DUYDUM“Ankara”');
     await fireEvent.press(screen.getByText('Oyuna geç'));
     expect(await screen.findByText('Hazır mısın?')).toBeOnTheScreen();
-    expect(JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY))!)).toEqual({ voice: true, micChecked: true });
+    expect(JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY))!)).toMatchObject({ voice: true, micChecked: true });
   });
 
   test('permission off', async () => {

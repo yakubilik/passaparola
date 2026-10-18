@@ -5,7 +5,7 @@ import { DEFAULT_SETTINGS, loadSettings, saveSettings, type Settings } from './s
 type Value = {
   settings: Settings;
   ready: boolean;
-  update: (patch: Partial<Settings>) => void;
+  update: (patch: Partial<Settings>) => Promise<void>;
 };
 
 const Ctx = createContext<Value | null>(null);
@@ -26,11 +26,11 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     return () => { live = false; };
   }, []);
 
-  const update = useCallback((patch: Partial<Settings>) => {
+  const update = useCallback(async (patch: Partial<Settings>) => {
     const next = { ...ref.current, ...patch };
     ref.current = next;
     setSettings(next);
-    saveSettings(next);
+    await saveSettings(next);
   }, []);
 
   const value = useMemo(() => ({ settings, ready, update }), [settings, ready, update]);

@@ -1,13 +1,12 @@
 import { router } from 'expo-router';
 import type { ReactNode } from 'react';
-import { Pressable, ScrollView, Switch, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { CATEGORIES } from '../data/questions';
 import { difficulty, mapLength, MIXED, parseCats, selectionTitle } from '../game/selection';
 import { selectionUnlocked } from '../store/progress';
 import { useProgress } from '../store/ProgressContext';
-import { useSettings } from '../store/SettingsContext';
 import { SoonTag } from '../ui/Button';
 import { Screen } from '../ui/Screen';
 import { C, F } from '../ui/theme';
@@ -32,7 +31,6 @@ function Card({ children, onPress, testID }: { children: ReactNode; onPress?: ()
 // 1e: main menu.
 export default function Menu() {
   const { progress } = useProgress();
-  const { settings, update } = useSettings();
   const insets = useSafeAreaInsets();
   const last = progress.last;
   const lastParam = last ? last.cats.join(',') : '';
@@ -117,18 +115,6 @@ export default function Menu() {
           </View>
         </Card>
 
-        <Card>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-            <View style={{ gap: 2, flex: 1 }}>
-              <Text style={{ fontFamily: F.bodyBold, fontSize: 16, color: C.text }}>Sesli oyun</Text>
-              <Pressable accessibilityRole="link" onPress={() => router.push('/mic')} hitSlop={8}>
-                <Text style={{ fontFamily: F.bodySemi, fontSize: 13, color: C.accentSoft }}>Mikrofonu dene ›</Text>
-              </Pressable>
-            </View>
-            <Switch accessibilityLabel="Sesli oyun" value={settings.voice} onValueChange={(on) => update({ voice: on })} />
-          </View>
-        </Card>
-
         <View style={{ gap: 8 }}>
           <Text style={{ fontFamily: F.bodyBold, fontSize: 12, letterSpacing: 1.9, color: C.dim }}>GÜNÜN TURU</Text>
           <Card>
@@ -157,6 +143,7 @@ export default function Menu() {
         <Tab label="Ana sayfa" on />
         <Tab label="Kategoriler" onPress={() => router.push('/category')} />
         <Tab label="Profil" />
+        <Tab label="Ayarlar" onPress={() => router.push('/settings')} />
       </View>
     </Screen>
   );
@@ -164,7 +151,7 @@ export default function Menu() {
 
 function Tab({ label, on, onPress }: { label: string; on?: boolean; onPress?: () => void }) {
   return (
-    <Pressable accessibilityRole="tab" accessibilityState={{ selected: !!on }} onPress={onPress} style={{ alignItems: 'center', gap: 6, minWidth: 80 }}>
+    <Pressable accessibilityRole="tab" accessibilityState={{ selected: !!on }} onPress={onPress} style={{ alignItems: 'center', gap: 6, minWidth: 70 }}>
       <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: on ? C.accent : 'transparent' }} />
       <Text style={{ fontFamily: F.bodySemi, fontSize: 13, color: on ? C.text : C.dim }}>{label}</Text>
     </Pressable>

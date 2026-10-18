@@ -13,3 +13,9 @@ Regenerate it after the questions change:
 
 (`flow.mjs` writes the base flow; the committed file also taps away the iOS
 "open in Harfiyen?" dialog and matches labels by regex.)
+
+`camera.yaml` checks the camera circle on a simulator (no front camera): the
+Ayarlar screen with the camera switch, and a round with the placeholder in
+the ring.
+
+    maestro --device <simulator> test e2e/camera.yaml
