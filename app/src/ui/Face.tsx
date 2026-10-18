@@ -120,6 +120,19 @@ export function useFaceCrop(size: number, setFound: (found: boolean) => void) {
     kick();
   }, [apply, kick, setFound, size]);
 
+  // A new circle size (window change): start over at the whole preview in the
+  // new size instead of applying a crop measured for the old one.
+  const shownSize = useRef(size);
+  useEffect(() => {
+    if (shownSize.current === size) return;
+    shownSize.current = size;
+    cancelAnimationFrame(raf.current);
+    raf.current = 0;
+    aim.current = null;
+    crop.current = fullCrop(size);
+    apply(crop.current);
+  }, [size, apply]);
+
   useEffect(() => () => {
     cancelAnimationFrame(raf.current);
     raf.current = 0;

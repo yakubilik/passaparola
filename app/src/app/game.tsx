@@ -95,7 +95,9 @@ function GameView({ game }: { game: ReturnType<typeof useRound> }) {
   const { round, phase, reveal } = game;
   const r = round!;
   const { width } = useWindowDimensions();
-  const [stage, setStage] = useState({ w: width, h: 520 });
+  // h is the smallest stage seen (the keyboard up): the ring and the camera
+  // keep one size whether the keyboard is up or down. 0 = not measured yet.
+  const [stage, setStage] = useState({ w: width, h: 0 });
   const [text, setText] = useState('');
   const input = useRef<ComponentRef<typeof TextInput>>(null);
   const c = counts(r);
@@ -110,10 +112,14 @@ function GameView({ game }: { game: ReturnType<typeof useRound> }) {
     return { label: l.letter, kind, testID: `letter-${l.letter}`, accessibilityLabel: `${l.letter} harfi, ${label}` };
   }), [r.letters, r.idx, live]);
 
-  const { compact, questionH, size } = stageLayout(stage.w, stage.h);
+  const stageH = stage.h || 520;
+  const { compact, questionH, size } = stageLayout(stage.w, stageH);
   const onStage = (e: LayoutChangeEvent) => {
     const { width: w, height: h } = e.nativeEvent.layout;
-    setStage((s) => (s.w === w && s.h === h ? s : { w, h }));
+    setStage((s) => {
+      if (s.w !== w) return { w, h };
+      return s.h && s.h <= h ? s : { w, h };
+    });
   };
 
   const send = () => {
@@ -155,7 +161,7 @@ function GameView({ game }: { game: ReturnType<typeof useRound> }) {
         </View>
 
         <View testID="stage" style={{ flex: 1, gap: GAP }} onLayout={onStage}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View testID="ring-area" style={{ height: stageH - questionH - GAP, alignItems: 'center', justifyContent: 'center' }}>
           <Board items={items} size={size} />
         </View>
 

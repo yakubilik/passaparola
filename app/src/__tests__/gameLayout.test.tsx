@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, type Animated } from 'react-native';
 
 import { CATEGORIES } from '../data/questions';
+import { visionCamera } from '../test-utils/visionCamera';
 
 // The game screen must hold still: clock ticks (every 200 ms) and the active
 // letter moving on may not change the size of the ring or the question block.
@@ -30,6 +31,7 @@ jest.setTimeout(240_000);
 beforeEach(async () => {
   jest.useFakeTimers();
   await AsyncStorage.clear();
+  visionCamera.reset();
   mockBubbleRenders = 0;
 });
 afterEach(() => {
@@ -108,9 +110,10 @@ test('the active letter moving on keeps the ring and the question block the same
   }
 });
 
-test('the question block has a fixed height and the ring always fits beside it, keyboard up or down', async () => {
+test('the question block has a fixed height and the ring always fits beside it, for any stage height', async () => {
   await startGame();
-  for (let h = 330; h <= 760; h += 30) {
+  // Downwards: the screen keeps the smallest stage it has seen, so each step is a new layout.
+  for (let h = 760; h >= 330; h -= 30) {
     await layoutStage({ width: 440, height: h });
     const s = sizes();
     // A fixed height, not a minimum: longer clues can not grow it and shrink the ring.
@@ -118,5 +121,59 @@ test('the question block has a fixed height and the ring always fits beside it, 
     expect(typeof s.question).toBe('number');
     expect(s.ring[0]).toBe(s.ring[1]);
     expect(s.ring[0] + s.question).toBeLessThanOrEqual(h);
+  }
+});
+
+type V = Animated.Value | number;
+type T = { translateX: V; translateY: V; scale: V }[];
+function cameraView() {
+  // The rendered view carries plain numbers; an Animated.Value would need reading.
+  const v = (a: Animated.Value | number) => (typeof a === 'number' ? a : (a as unknown as { __getValue(): number }).__getValue());
+  const wrap = StyleSheet.flatten(screen.getByTestId('face-camera').props.style);
+  const t = wrap.transform as unknown as T;
+  const preview = StyleSheet.flatten(screen.getByTestId('camera-preview').props.style);
+  const face = StyleSheet.flatten(screen.getByTestId('face').props.style);
+  return {
+    face: [face.width, face.height],
+    preview: [preview.width, preview.height],
+    crop: { x: v(t[0].translateX), y: v(t[1].translateY), scale: v(t[2].scale) },
+  };
+}
+
+test('keyboard up and down, camera on: the ring, the question block, the camera circle and its face crop do not move', async () => {
+  visionCamera.device = { id: 'front', position: 'front' };
+  visionCamera.status = 'authorized';
+  await renderRouter('./src/app', { initialUrl: '/game?cats=tarih&level=1&seed=7' });
+  // The keyboard comes up under the "Hazır mısın?" cover (the answer field is focused on mount).
+  await layoutStage(KEYBOARD_DOWN);
+  await layoutStage(KEYBOARD_UP);
+  await fireEvent.press(await screen.findByText('Başla'));
+
+  // A steady face in view, then let the crop settle.
+  for (let i = 0; i < 30; i++) {
+    await act(() => {
+      visionCamera.onObjectsScanned!([{ type: 'face', boundingBox: { x: 80, y: 60, width: 90, height: 90 } }]);
+      jest.advanceTimersByTime(33);
+    });
+  }
+  await act(() => jest.advanceTimersByTime(600));
+  expect(screen.queryByTestId('face-placeholder')).toBeNull();
+  const ring = sizes();
+  const cam = cameraView();
+  expect(cam.crop.scale).toBeGreaterThan(1);
+
+  for (let i = 0; i < 5; i++) {
+    await layoutStage(i % 2 ? KEYBOARD_UP : KEYBOARD_DOWN);
+    await act(() => {
+      visionCamera.onObjectsScanned!([{ type: 'face', boundingBox: { x: 80, y: 60, width: 90, height: 90 } }]);
+      jest.advanceTimersByTime(200);
+    });
+    expect(sizes()).toEqual(ring);
+    const now = cameraView();
+    expect(now.face).toEqual(cam.face);
+    expect(now.preview).toEqual(cam.preview);
+    expect(Math.abs(now.crop.x - cam.crop.x)).toBeLessThan(0.5);
+    expect(Math.abs(now.crop.y - cam.crop.y)).toBeLessThan(0.5);
+    expect(Math.abs(now.crop.scale - cam.crop.scale)).toBeLessThan(0.01);
   }
 });
