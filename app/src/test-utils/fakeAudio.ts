@@ -16,6 +16,7 @@ export class FakePlayer {
   private subs = new Set<(s: Status) => void>();
   constructor(public source: unknown, public options: Record<string, unknown> = {}) {}
   play() {
+    audio.plays++;
     this.playing = true;
     if (this.timer) clearTimeout(this.timer);
     if (!this.loop) {
@@ -45,6 +46,8 @@ export const audio = {
   players: [] as FakePlayer[],
   mode: null as unknown,
   active: false,
+  /** How many times any sound was started. */
+  plays: 0,
   /** Every change made to the iOS audio session, in order. */
   sessionCalls: [] as string[],
 };

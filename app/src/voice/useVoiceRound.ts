@@ -6,7 +6,7 @@ import { current, type Round } from '../game/round';
 import type { Answered, useRound } from '../game/useRound';
 import { host, listener, prepareAudio, sounds } from './engine';
 import { answerLine, clueLine, host as hostLine, type HostKey, type Line } from './lines';
-import type { Heard, MicState, Pace } from './listener';
+import { contextFor, type Heard, type MicState, type Pace } from './listener';
 
 type Game = ReturnType<typeof useRound>;
 
@@ -84,6 +84,9 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     return spokenPace(alts, current(r).question.answers);
   }, []);
 
+  // The round's answers, for the recognizer to expect.
+  const context = useCallback(() => contextFor(game.current?.round?.letters.flatMap((l) => l.question.answers) ?? []), []);
+
   // From the Başla button: the bed starts and the mic opens for the whole round
   // (in a match it is already open and only gets this round's handler).
   const begin = useCallback(() => {
@@ -93,8 +96,8 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     if (!voice) return;
     listener.onState = setMic;
     listener.onInterim = setHeard;
-    listener.listen(onHeard, pace);
-  }, [voice, onHeard, pace]);
+    listener.listen(onHeard, pace, context());
+  }, [voice, onHeard, pace, context]);
 
   // The app went to the background (or a call, Control Centre): silence
   // everything, close the mic and stop the clock. Back in front: the bed and
@@ -113,7 +116,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
         if (!started.current || ended.current || !g || g.phase === 'over') return;
         sounds.startBg();
         if (voice) {
-          listener.listen(onHeard, pace);
+          listener.listen(onHeard, pace, context());
           readFor.current = -1;  // read the current clue again
         }
       } else if (state === 'background' || state === 'inactive') {
@@ -133,7 +136,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
       }
     });
     return () => sub.remove();
-  }, [voice, onHeard, pace]);
+  }, [voice, onHeard, pace, context]);
 
   const read = useCallback((r: Round) => {
     const g = game.current;
@@ -220,14 +223,16 @@ const READY = /hazır|hazir|başla|basla|tamam|evet|hadi/;
 
 // The "Sıra: <name>" screen of a match: the host hands over and the player
 // can start by saying "hazırım" (or tap). Opens the mic the first time; later
-// turns keep the session that is already open.
-export function useReadyByVoice(voice: boolean, onReady: () => void) {
+// turns keep the session that is already open, so `answers` should be every
+// player's answers (the recognizer is told to expect them when it starts).
+export function useReadyByVoice(voice: boolean, onReady: () => void, answers: readonly string[] = []) {
   const ready = useRef(onReady);
   ready.current = onReady;
   useEffect(() => {
     if (!voice) return;
     let live = true;
-    const open = () => listener.listen((alts) => { if (alts.some((a) => READY.test(a))) ready.current(); });
+    const context = contextFor(['hazırım', ...answers]);
+    const open = () => listener.listen((alts) => { if (alts.some((a) => READY.test(a))) ready.current(); }, undefined, context);
     prepareAudio().then(() => {
       if (!live) return;
       open();

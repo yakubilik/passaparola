@@ -143,7 +143,7 @@ function MatchTurn({ round, name, others, voice, onTurnEnd }: {
 
 function Handover({ match, note, voice, onStart }: { match: Match; note?: string; voice: boolean; onStart: () => void }) {
   const p = match.players[match.cur];
-  useReadyByVoice(voice, onStart);
+  useReadyByVoice(voice, onStart, match.players.flatMap((q) => q.round.letters.flatMap((l) => l.question.answers)));
   return (
     <Screen light="intro">
       <View style={{ flex: 1, padding: 32, gap: 22, justifyContent: 'center' }}>

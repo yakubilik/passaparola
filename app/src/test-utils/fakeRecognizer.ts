@@ -1,3 +1,5 @@
+import { audio } from './fakeAudio';
+
 // A speech recognizer that behaves like iOS: once started it keeps one result
 // that grows with everything heard and is never marked final. Stands in for
 // expo-speech-recognition in tests (see jest.setup.js).
@@ -8,6 +10,8 @@ export class FakeRecognizer {
   aborts = 0;
   running = false;
   lastOptions: any = null;
+  /** For each setCategoryIOS: how many sounds had been played before it (0 = before any). */
+  categoryAfterPlays: number[] = [];
   /** Categories set on the iOS session with setCategoryIOS, and every 'category' and 'start' in order; kept across reset(), like the session. */
   categories: any[] = [];
   events: string[] = [];
@@ -30,6 +34,13 @@ export class FakeRecognizer {
     if (!this.running) return;
     this.transcript = (this.transcript + ' ' + words).trim();
     this.emit('result', { isFinal: false, results: [{ transcript: this.transcript, confidence: 0, segments: [] }] });
+  }
+
+  // iOS rewrote what it heard so far (e.g. glued a short word onto the last one).
+  rewrite(transcript: string) {
+    if (!this.running) return;
+    this.transcript = transcript;
+    this.emit('result', { isFinal: false, results: [{ transcript, confidence: 0, segments: [] }] });
   }
 
   emit(event: string, payload: any = null) {
@@ -56,7 +67,11 @@ export class FakeRecognizer {
     },
     requestPermissionsAsync: async () => ({ granted: this.granted, status: this.granted ? 'granted' : 'denied', canAskAgain: true, expires: 'never' }),
     isRecognitionAvailable: () => this.available,
-    setCategoryIOS: (options: any) => { this.categories.push(options); this.events.push('category'); },
+    setCategoryIOS: (options: any) => {
+      this.categories.push(options);
+      this.categoryAfterPlays.push(audio.plays);
+      this.events.push('category');
+    },
   };
 }
 

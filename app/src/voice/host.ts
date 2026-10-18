@@ -22,6 +22,11 @@ export class Host {
 
   constructor(private clips: Record<string, number> = CLIPS) {}
 
+  /** The host's clip volume (1 = full). */
+  get volume(): number {
+    return this.player?.volume ?? 1;
+  }
+
   hasClip(key: string): boolean {
     return key in this.clips;
   }
@@ -83,6 +88,8 @@ export class Host {
       if (!this.player) this.player = createAudioPlayer(clip, PLAYER_OPTIONS);
       else this.player.replace(clip);
       const p = this.player;
+      // Always full: nothing else in the app may lower the host (the bed and cues duck under it).
+      p.volume = 1;
       this.sub = p.addListener('playbackStatusUpdate', (s) => { if (s.didJustFinish) end(false); });
       p.seekTo(0).catch(() => {});
       p.play();

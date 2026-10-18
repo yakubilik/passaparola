@@ -1,6 +1,6 @@
 import { judgeSpoken, spokenPace } from '../../game/normalize';
 import { FakeRecognizer } from '../../test-utils/fakeRecognizer';
-import { AnswerListener, ECHO_TAIL_MS, PARTIAL_MS, SETTLE_MS, type Recognizer } from '../listener';
+import { AnswerListener, contextFor, ECHO_TAIL_MS, PARTIAL_MS, SETTLE_MS, type Recognizer } from '../listener';
 
 // The listener on a recognizer that behaves like iOS: one result that keeps
 // growing with everything said and never turns final.
@@ -226,5 +226,53 @@ describe('judged at once', () => {
     fake.hear('nuri güntekin');
     expect(heard).toEqual([['reşat nuri güntekin']]);
     expect(PARTIAL_MS).toBeGreaterThan(SETTLE_MS);
+  });
+});
+
+describe('short answers (Ay, Su, Un, Ok)', () => {
+  const pace = (answers: string[]) => (alts: string[]) => spokenPace(alts, answers);
+
+  test('the recognizer is told to expect the round\'s answers, shortest first, and the pass words', () => {
+    l.stop();
+    l.listen(() => {}, undefined, contextFor(['Ankara', 'Ay', 'Su', 'ay']));
+    expect(fake.lastOptions.contextualStrings).toEqual(['pas', 'geç', 'pas geçiyorum', 'Ay', 'Su', 'Ankara']);
+    expect(contextFor(Array.from({ length: 300 }, (_, i) => `cevap${i}`)).length).toBe(100);
+  });
+
+  test('a lone two-letter answer is judged at once, with and without the host talking', () => {
+    l.listen((alts) => heard.push(alts), pace(['Ay']));
+    fake.hear('ay');
+    expect(heard).toEqual([['ay']]);
+    wait(SETTLE_MS + 10);
+    l.listen((alts) => heard.push(alts), pace(['Su']));
+    l.hostSpeaking(['İçmeden yaşanmaz... Se ile başlıyor.']);
+    fake.hear('su');
+    expect(heard).toEqual([['ay'], ['su']]);
+  });
+
+  test('a short answer iOS glued onto the last word still counts', () => {
+    l.listen((alts) => heard.push(alts), pace(['Su']));
+    fake.hear('izmir');
+    wait(SETTLE_MS + 10);  // judged (wrong) and handled
+    expect(heard).toEqual([['izmir']]);
+    l.listen((alts) => heard.push(alts), pace(['Un']));
+    fake.rewrite('izmirun');  // "un" said, no new word: the last one grew
+    expect(heard).toEqual([['izmir'], ['izmirun', 'un', 'run']]);
+    expect(judgeSpoken(heard[1], ['Un'])).toBe('correct');
+  });
+
+  test('a rewritten word never gives a wrong answer, and the host\'s rewritten words are not answers', () => {
+    l.listen((alts) => heard.push(alts), pace(['Ay']));
+    fake.hear('ankara');
+    wait(SETTLE_MS + 10);
+    fake.rewrite('an kara');
+    fake.rewrite('ankaralı');
+    wait(SETTLE_MS * 3);
+    expect(heard).toEqual([['ankara']]);
+    l.hostSpeaking(['Gece gökte parlar, Ay ile başlıyor.']);
+    fake.hear('gece gökte parlar');
+    fake.rewrite('gece gökte parlar ay');  // a new word, but the host's
+    wait(SETTLE_MS * 3);
+    expect(heard).toEqual([['ankara']]);
   });
 });
