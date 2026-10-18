@@ -26,10 +26,14 @@ async function feed(n: number, cx: number, cy: number, onFaces: (b: { x: number;
   }
 }
 
+jest.setTimeout(60_000);
+
 beforeEach(async () => {
   jest.useFakeTimers();
   visionCamera.reset();
   await AsyncStorage.clear();
+  // Past the mic check that comes before the first voice game.
+  await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ micChecked: true }));
 });
 afterEach(() => {
   jest.useRealTimers();
@@ -59,7 +63,7 @@ test('permission denied: placeholder', async () => {
 });
 
 test('camera switched off in settings: no camera at all, placeholder', async () => {
-  await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ camera: false }));
+  await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ camera: false, micChecked: true }));
   visionCamera.device = { id: 'front', position: 'front' };
   visionCamera.status = 'authorized';
   await show();

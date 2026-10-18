@@ -14,6 +14,8 @@ beforeEach(async () => {
   jest.useFakeTimers();
   visionCamera.reset();
   await AsyncStorage.clear();
+  // Past the mic check that comes before the first voice game.
+  await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ micChecked: true }));
 });
 afterEach(() => {
   jest.useRealTimers();
@@ -43,7 +45,7 @@ test('menu → Ayarlar: the camera is switched off, remembered, and the game sho
   expect(toggle.props.value).toBe(true);
   await fireEvent(toggle, 'valueChange', false);
   await act(async () => {});
-  expect(JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY))!)).toEqual({ camera: false });
+  expect(JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY))!)).toMatchObject({ camera: false });
   expect(screen.getByTestId('setting-camera').props.value).toBe(false);
 
   await fireEvent.press(screen.getByText('‹ Geri'));
@@ -60,4 +62,14 @@ test('no permission: the settings say so', async () => {
   visionCamera.status = 'denied';
   await renderRouter('./src/app', { initialUrl: '/settings' });
   expect(await screen.findByText(/Kamera izni kapalı/)).toBeOnTheScreen();
+});
+
+test('Ayarlar: the voice game is on by default and can be switched off', async () => {
+  await renderRouter('./src/app', { initialUrl: '/settings' });
+  const toggle = await screen.findByTestId('setting-voice');
+  expect(toggle.props.value).toBe(true);
+  await fireEvent(toggle, 'valueChange', false);
+  await act(async () => {});
+  expect(JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY))!)).toMatchObject({ voice: false });
+  expect(screen.getByText('Mikrofonu dene ›')).toBeOnTheScreen();
 });

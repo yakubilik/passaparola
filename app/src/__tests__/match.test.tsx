@@ -4,6 +4,7 @@ import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-librar
 import { CATEGORIES } from '../data/questions';
 import { REVEAL_MS } from '../game/useRound';
 import { PROGRESS_KEY } from '../store/progress';
+import { SETTINGS_KEY } from '../store/settings';
 
 // Pass and play driven through the screens: three people on one phone.
 jest.mock('../data/questions', () =>
@@ -31,6 +32,8 @@ jest.setTimeout(120_000);
 beforeEach(async () => {
   jest.useFakeTimers();
   await AsyncStorage.clear();
+  // The typed game (voice.test.tsx plays the spoken one).
+  await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ voice: false, micChecked: true }));
 });
 afterEach(() => {
   jest.useRealTimers();

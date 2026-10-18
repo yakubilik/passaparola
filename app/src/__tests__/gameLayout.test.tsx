@@ -3,6 +3,7 @@ import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-librar
 import { StyleSheet, type Animated } from 'react-native';
 
 import { CATEGORIES } from '../data/questions';
+import { SETTINGS_KEY } from '../store/settings';
 import { visionCamera } from '../test-utils/visionCamera';
 
 // The game screen must hold still: clock ticks (every 200 ms) and the active
@@ -31,6 +32,8 @@ jest.setTimeout(240_000);
 beforeEach(async () => {
   jest.useFakeTimers();
   await AsyncStorage.clear();
+  // The typed game (voice.test.tsx plays the spoken one).
+  await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ voice: false, micChecked: true }));
   visionCamera.reset();
   mockBubbleRenders = 0;
 });

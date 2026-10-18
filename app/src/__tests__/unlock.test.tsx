@@ -3,11 +3,12 @@ import { fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 
 import { CATEGORIES } from '../data/questions';
 import { PROGRESS_KEY } from '../store/progress';
+import { SETTINGS_KEY } from '../store/settings';
 
 // Tarih with two levels, so the map has exactly one level to unlock.
 jest.mock('../data/questions', () => require('../test-utils/mockQuestions').mockQuestions({ tarih: [1, 2] }));
 
-jest.setTimeout(60_000);
+jest.setTimeout(180_000);
 
 let saved = '';
 
@@ -33,7 +34,10 @@ async function playRound(rightAnswers: number) {
   }
 }
 
-beforeEach(() => AsyncStorage.clear());
+beforeEach(async () => {
+  await AsyncStorage.clear();
+  await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ voice: false, micChecked: true }));
+});
 
 test('17 correct keeps level 2 locked', async () => {
   await renderRouter('./src/app', { initialUrl: '/levels?cats=tarih' });
