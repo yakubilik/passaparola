@@ -9,7 +9,7 @@ import { View } from 'react-native';
 import { ProgressProvider } from '../store/ProgressContext';
 import { SettingsProvider, useSettings } from '../store/SettingsContext';
 import { C } from '../ui/theme';
-import { prepareAudio, sounds } from '../voice/engine';
+import { sounds } from '../voice/engine';
 
 // The Müzik choice from Ayarlar, applied to the bed wherever it plays.
 function MusicSetting() {
@@ -18,8 +18,9 @@ function MusicSetting() {
   return null;
 }
 
+// No sound and no audio session at launch or on the menus: a round sets the
+// session up when it opens (prepareAudio in voice/engine.ts).
 export default function RootLayout() {
-  useEffect(() => { prepareAudio(); }, []);
   const [loaded, error] = useFonts({
     Barlow_500Medium,
     Barlow_600SemiBold,

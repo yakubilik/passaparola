@@ -220,7 +220,7 @@ async function startVoiceGame() {
 test("the host's own voice in the mic never gives a wrong answer; echo cancellation is on", async () => {
   await startVoiceGame();
   // iOS voice processing takes the phone's own sound out of the mic.
-  expect(rec.lastOptions).toMatchObject({ iosVoiceProcessingEnabled: true, iosCategory: { category: 'playAndRecord', mode: 'voiceChat' } });
+  expect(rec.lastOptions).toMatchObject({ iosVoiceProcessingEnabled: true, iosCategory: { category: 'playAndRecord', mode: 'default' } });
 
   // While the host reads, the mic picks up a garbled bit of it (the endings
   // misheard): not an answer, and nothing judged.
@@ -367,23 +367,24 @@ async function untilHostQuiet() {
   expect(host.speaking).toBe(false);
 }
 
-test('speaker and mic: one voiceChat session with echo cancellation, set before the mic opens and never changed; the bed is faint and everything ducks under the host', async () => {
+test('speaker and mic: one session with echo cancellation, set before the mic opens and never changed; the bed is faint and everything ducks under the host', async () => {
   await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ voice: true, micChecked: true }));
   await renderRouter('./src/app', { initialUrl: '/game?cats=tarih&level=1&seed=7' });
   expect(await screen.findByText('Hazır mısın?')).toBeOnTheScreen();
   await act(async () => {});
-  // Once, when the app opened and before any mic: the session made active, its
-  // mode set, and put in the recognizer's own category.
-  expect(audio.sessionCalls).toEqual(['active', 'mode']);
+  // Once, when the round opened and before any mic: its mode set, put in the
+  // recognizer's own category, then made active.
+  expect(audio.sessionCalls).toEqual(['mode', 'active']);
   expect(rec.events.filter((e) => e === 'category')).toEqual(['category']);
   expect(rec.events.indexOf('category')).toBeLessThan(rec.events.indexOf('start') >>> 0);
   expect(rec.categories).toEqual([RECOGNITION_OPTIONS.iosCategory]);
 
   await fireEvent.press(screen.getByText('Başla'));
-  // The mic: iOS voice processing (echo cancellation) in voiceChat mode, the
-  // very category already in place, so opening it switches nothing.
+  // The mic: iOS voice processing (echo cancellation) in the 'default' mode (not
+  // voiceChat, which drives the loudspeaker to call loudness), the very category
+  // already in place, so opening it switches nothing.
   expect(rec.lastOptions).toMatchObject({ iosVoiceProcessingEnabled: true, iosCategory: RECOGNITION_OPTIONS.iosCategory });
-  expect(RECOGNITION_OPTIONS.iosCategory).toEqual({ category: 'playAndRecord', categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'], mode: 'voiceChat' });
+  expect(RECOGNITION_OPTIONS.iosCategory).toEqual({ category: 'playAndRecord', categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'], mode: 'default' });
 
   // The host reads: the bed is ducked, a cue that sounds now is not.
   expect(host.speaking).toBe(true);
@@ -409,7 +410,7 @@ test('speaker and mic: one voiceChat session with echo cancellation, set before 
   await untilHostQuiet();
   await say('bambaşka');
   await wait(REVEAL_MS + 3000);
-  expect(audio.sessionCalls).toEqual(['active', 'mode']);
+  expect(audio.sessionCalls).toEqual(['mode', 'active']);
   expect(rec.categories.length).toBe(1);
   expect(audio.players.length).toBeGreaterThan(2);
   for (const p of audio.players) expect(p.options).toMatchObject({ keepAudioSessionActive: true });

@@ -3,7 +3,7 @@ import * as Speech from 'expo-speech';
 
 import { CLIPS } from './clips.generated';
 import type { Line } from './lines';
-import { PLAYER_OPTIONS } from './sounds';
+import { HOST_VOLUME, PLAYER_OPTIONS, startAt } from './sounds';
 
 // The host's voice. A line with a recording (assets/voice/<key>.mp3) plays
 // it; any other line, and any recording that fails to play, is read by the
@@ -24,7 +24,7 @@ export class Host {
 
   /** The host's clip volume (1 = full). */
   get volume(): number {
-    return this.player?.volume ?? 1;
+    return this.player?.volume ?? HOST_VOLUME;
   }
 
   hasClip(key: string): boolean {
@@ -88,8 +88,8 @@ export class Host {
       if (!this.player) this.player = createAudioPlayer(clip, PLAYER_OPTIONS);
       else this.player.replace(clip);
       const p = this.player;
-      // Always full: nothing else in the app may lower the host (the bed and cues duck under it).
-      p.volume = 1;
+      // Always HOST_VOLUME: nothing else in the app may lower the host (the bed and cues sit under it).
+      startAt(p, HOST_VOLUME);
       this.sub = p.addListener('playbackStatusUpdate', (s) => { if (s.didJustFinish) end(false); });
       p.seekTo(0).catch(() => {});
       p.play();
