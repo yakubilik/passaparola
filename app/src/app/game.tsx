@@ -91,7 +91,8 @@ export default function Game() {
   return <GameView game={game} />;
 }
 
-function GameView({ game }: { game: ReturnType<typeof useRound> }) {
+// `player`: whose turn it is in a pass-and-play match (app/match.tsx).
+export function GameView({ game, player }: { game: ReturnType<typeof useRound>; player?: string }) {
   const { round, phase, reveal } = game;
   const r = round!;
   const { width } = useWindowDimensions();
@@ -148,7 +149,9 @@ function GameView({ game }: { game: ReturnType<typeof useRound> }) {
             <Text style={{ color: C.text, fontSize: 16 }}>✕</Text>
           </Pressable>
           <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontFamily: F.bodySemi, fontSize: 11, letterSpacing: 1.5, color: C.dim }}>KALAN SÜRE</Text>
+            <Text testID="turn-player" numberOfLines={1} style={{ fontFamily: F.bodySemi, fontSize: 11, letterSpacing: 1.5, color: player ? C.accentSoft : C.dim }}>
+              {player ? player.toLocaleUpperCase('tr-TR') : 'KALAN SÜRE'}
+            </Text>
             <Text testID="clock" style={{ fontFamily: F.display, fontSize: 32, lineHeight: 34, fontVariant: ['tabular-nums'], color: r.timeLeft <= 10 ? C.redSoft : C.text }}>
               {formatClock(r.timeLeft)}
             </Text>

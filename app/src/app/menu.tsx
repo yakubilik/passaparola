@@ -95,11 +95,10 @@ export default function Menu() {
             </Card>
           </View>
           <View style={{ flex: 1 }}>
-            <Card>
+            <Card testID="menu-multi" onPress={() => router.push('/multi')}>
               <View style={{ minHeight: 78, gap: 6 }}>
-                <Text style={{ fontFamily: F.display, fontSize: 24, color: C.text }}>Arkadaşlarla</Text>
-                <Text style={{ fontFamily: F.body, fontSize: 14, color: C.dim, lineHeight: 19 }}>2–4 kişi, sırayla</Text>
-                <View style={{ flexDirection: 'row' }}><SoonTag /></View>
+                <Text style={{ fontFamily: F.display, fontSize: 24, color: C.text }}>Çok oyunculu</Text>
+                <Text style={{ fontFamily: F.body, fontSize: 14, color: C.dim, lineHeight: 19 }}>2–4 kişi, tek telefon, sırayla</Text>
               </View>
             </Card>
           </View>
