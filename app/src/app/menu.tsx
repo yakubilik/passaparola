@@ -3,11 +3,9 @@ import type { ReactNode } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { CATEGORIES } from '../data/questions';
 import { difficulty, mapLength, MIXED, parseCats, selectionTitle } from '../game/selection';
 import { selectionUnlocked } from '../store/progress';
 import { useProgress } from '../store/ProgressContext';
-import { SoonTag } from '../ui/Button';
 import { Screen } from '../ui/Screen';
 import { C, F } from '../ui/theme';
 
@@ -28,7 +26,7 @@ function Card({ children, onPress, testID }: { children: ReactNode; onPress?: ()
   );
 }
 
-// 1e: main menu.
+// 1e: main menu. Only what works on one phone, offline: no rooms, no accounts.
 export default function Menu() {
   const { progress } = useProgress();
   const insets = useSafeAreaInsets();
@@ -41,14 +39,9 @@ export default function Menu() {
   return (
     <Screen light="menu" bottomInset={false}>
       <ScrollView contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 16, paddingBottom: 24, gap: 14 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <View>
-            <Text style={{ fontFamily: F.body, fontSize: 14, color: C.dim }}>{greeting()}</Text>
-            <Text style={{ fontFamily: F.display, fontSize: 32, color: C.text, lineHeight: 36 }}>Misafir</Text>
-          </View>
-          <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: '#1d2546', alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ fontFamily: F.bodyBold, color: C.text, fontSize: 16 }}>M</Text>
-          </View>
+        <View>
+          <Text style={{ fontFamily: F.body, fontSize: 14, color: C.dim }}>{greeting()}</Text>
+          <Text style={{ fontFamily: F.display, fontSize: 32, color: C.text, lineHeight: 36 }}>Harfiyen</Text>
         </View>
 
         <View
@@ -103,29 +96,6 @@ export default function Menu() {
             </Card>
           </View>
         </View>
-
-        <Card>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <View style={{ gap: 2 }}>
-              <Text style={{ fontFamily: F.bodyBold, fontSize: 16, color: C.text }}>Odaya katıl</Text>
-              <Text style={{ fontFamily: F.body, fontSize: 13, color: C.dim }}>Arkadaşının kodunu gir</Text>
-            </View>
-            <SoonTag />
-          </View>
-        </Card>
-
-        <View style={{ gap: 8 }}>
-          <Text style={{ fontFamily: F.bodyBold, fontSize: 12, letterSpacing: 1.9, color: C.dim }}>GÜNÜN TURU</Text>
-          <Card>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <View style={{ gap: 2 }}>
-                <Text style={{ fontFamily: F.bodyBold, fontSize: 17, color: C.text }}>{CATEGORIES[0].title}</Text>
-                <Text style={{ fontFamily: F.body, fontSize: 13, color: C.dim }}>Herkese aynı 28 soru</Text>
-              </View>
-              <SoonTag />
-            </View>
-          </Card>
-        </View>
       </ScrollView>
 
       <View
@@ -141,7 +111,6 @@ export default function Menu() {
       >
         <Tab label="Ana sayfa" on />
         <Tab label="Kategoriler" onPress={() => router.push('/category')} />
-        <Tab label="Profil" />
         <Tab label="Ayarlar" onPress={() => router.push('/settings')} />
       </View>
     </Screen>

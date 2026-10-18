@@ -1,6 +1,5 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
-import { Pressable, Text, View, useWindowDimensions } from 'react-native';
+import { Text, View, useWindowDimensions } from 'react-native';
 
 import { LETTERS } from '../game/letters';
 import { Button } from '../ui/Button';
@@ -13,10 +12,9 @@ const SPLASH: BubbleKind[] = LETTERS.map((_, i) =>
   (['correct', 'passed', 'wrong', 'pending'] as const)[i % 7 === 0 ? 1 : i % 9 === 0 ? 2 : i % 3 === 0 ? 0 : 3],
 );
 
-// 1d: intro. Sign-in comes later; guests play now.
+// 1d: intro. No accounts: everything stays on the phone, one tap to the menu.
 export default function Intro() {
   const { width } = useWindowDimensions();
-  const [note, setNote] = useState(false);
   const size = Math.min(width - 30, 360);
   return (
     <Screen light="intro">
@@ -26,17 +24,8 @@ export default function Intro() {
           <Text style={{ fontFamily: F.body, fontSize: 15, color: C.soft }}>A'dan Z'ye sesli bilgi yarışması</Text>
         </Ring>
       </View>
-      <View style={{ paddingHorizontal: 24, paddingBottom: 20, gap: 12 }}>
-        <Button kind="light" label="Apple ile devam et" onPress={() => setNote(true)} />
-        <Button kind="ghost" label="Google ile devam et" onPress={() => setNote(true)} />
-        {note && (
-          <Text style={{ textAlign: 'center', color: C.accentSoft, fontFamily: F.bodySemi, fontSize: 13 }}>
-            Hesapla giriş yakında. Şimdilik misafir olarak oynayabilirsin.
-          </Text>
-        )}
-        <Pressable accessibilityRole="button" onPress={() => router.replace('/menu')} style={{ paddingVertical: 10 }}>
-          <Text style={{ textAlign: 'center', fontSize: 15, color: C.dim, fontFamily: F.bodySemi }}>Misafir olarak oyna</Text>
-        </Pressable>
+      <View style={{ paddingHorizontal: 24, paddingBottom: 20 }}>
+        <Button kind="primary" label="Başla" testID="intro-start" onPress={() => router.replace('/menu')} />
       </View>
     </Screen>
   );

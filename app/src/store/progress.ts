@@ -57,3 +57,12 @@ export async function saveProgress(p: Progress): Promise<void> {
     // Storage full or unavailable: the round still counts for this session.
   }
 }
+
+// İlerlemeyi sıfırla in Ayarlar: every category back to level 1, no scores.
+export async function clearProgress(): Promise<void> {
+  try {
+    await AsyncStorage.removeItem(PROGRESS_KEY);
+  } catch {
+    // Storage unavailable: the reset holds for this session.
+  }
+}

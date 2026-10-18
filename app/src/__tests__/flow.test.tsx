@@ -50,7 +50,7 @@ test('intro → menu → category → level map → game: right, wrong and Pas; 
 
   // 1d intro
   expect(screen.getByText('HARFİYEN')).toBeOnTheScreen();
-  await press(screen.getByText('Misafir olarak oyna'));
+  await press(screen.getByTestId('intro-start'));
 
   // 1e main menu
   expect(await screen.findByText('Hızlı oyun')).toBeOnTheScreen();

@@ -1,11 +1,12 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
-import { EMPTY_PROGRESS, loadProgress, recordRound, saveProgress, type Progress } from './progress';
+import { clearProgress, EMPTY_PROGRESS, loadProgress, recordRound, saveProgress, type Progress } from './progress';
 
 type Value = {
   progress: Progress;
   ready: boolean;
   record: (cats: string[], level: number, correct: number) => Promise<Progress>;
+  reset: () => Promise<void>;
 };
 
 const Ctx = createContext<Value | null>(null);
@@ -34,7 +35,13 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     return next;
   }, []);
 
-  const value = useMemo(() => ({ progress, ready, record }), [progress, ready, record]);
+  const reset = useCallback(async () => {
+    ref.current = EMPTY_PROGRESS;
+    setProgress(EMPTY_PROGRESS);
+    await clearProgress();
+  }, []);
+
+  const value = useMemo(() => ({ progress, ready, record, reset }), [progress, ready, record, reset]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 
