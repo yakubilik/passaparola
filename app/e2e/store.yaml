@@ -1,0 +1,93 @@
+# App Store screenshots (run by scripts/store-screenshots.sh): menu, category,
+# level map, a seeded game with the ring and a clue, and the multiplayer
+# result card. Voice is switched off so no mic prompt shows; the simulator has
+# no front camera, so the ring shows the placeholder, never a face.
+appId: com.skolalabs.harfiyen
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    text: "Vazgeç"
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: "intro-start"
+    timeout: 180000
+- tapOn:
+    id: "intro-start"
+- extendedWaitUntil:
+    visible: ".*Hızlı oyun.*"
+    timeout: 10000
+- tapOn: "^Ayarlar$"
+- extendedWaitUntil:
+    visible: ".*Sesli oyun.*"
+    timeout: 10000
+- tapOn:
+    id: "setting-voice"
+- tapOn: ".*Geri.*"
+- extendedWaitUntil:
+    visible: ".*Hızlı oyun.*"
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: 01-menu
+- tapOn: "^Kategoriler$"
+- tapOn:
+    id: "cat-tarih"
+- waitForAnimationToEnd
+- takeScreenshot: 02-category
+- tapOn: ".*Bölümlere git.*"
+- extendedWaitUntil:
+    visible: ".*BÖLÜM HARİTASI.*"
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: 03-levels
+- openLink: "harfiyen://game?cats=tarih&level=1&seed=7"
+- tapOn:
+    text: "Aç"
+    optional: true
+- extendedWaitUntil:
+    visible: ".*Hazır mısın.*"
+    timeout: 10000
+- tapOn: "^Başla$"
+- inputText: "Ataturk"
+- pressKey: Enter
+- inputText: "Kale"
+- pressKey: Enter
+- tapOn:
+    id: "reveal"
+- tapOn:
+    id: "pass"
+- inputText: "Canakkale"
+- pressKey: Enter
+- inputText: "Divan"
+- pressKey: Enter
+- inputText: "Erzurum"
+- pressKey: Enter
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: 04-game
+- openLink: "harfiyen://match?names=%5B%22Ece%22%2C%22Can%22%5D&cats=tarih&level=1&seed=7"
+- tapOn:
+    text: "Aç"
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: "handover"
+    timeout: 10000
+- tapOn: "^Başla$"
+- inputText: "Ataturk"
+- pressKey: Enter
+- inputText: "Bursa"
+- pressKey: Enter
+- inputText: "Cumhurbaskani"
+- pressKey: Enter
+- inputText: "Cag"
+- pressKey: Enter
+- tapOn:
+    id: "pass"
+- extendedWaitUntil:
+    visible:
+      id: "turn-result"
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: 05-match-result

@@ -37,6 +37,31 @@ prints how many `.mp3` files went in.
 uv run --with pillow python3 tools/gen-app-icon.py
 ```
 
+## App Store (version 1.0.0)
+
+The App Store Connect record exists: "Harfiyen - Kelime Yarışması" (plain "Harfiyen" was
+taken), app id `6824316208`, SKU `harfiyen001`, primary language Turkish. The name on the
+home screen stays "Harfiyen".
+
+- Store texts: `docs/store/tr.md`; privacy policy (Turkish + English): `docs/store/privacy.md`.
+  `app/src/__tests__/storeReadiness.test.ts` checks the limits, the trademark rule, app.json
+  and the screenshots.
+- Push the texts (name, subtitle, description, keywords, promotional text; plus the privacy
+  policy URL once it is published): `python3 app/scripts/push-store-metadata.py [--privacy-url URL]`.
+- Categories, age rating (4+), free price, all territories, App Review contact/notes,
+  copyright, no IDFA: `uv run --with pyjwt --with cryptography --with requests python3 app/scripts/asc-store-setup.py`
+  (`check` prints the current values).
+- App Privacy is "Data Not Collected" (set and published in the web UI; the API cannot).
+- Screenshots: `cd app && scripts/store-screenshots.sh` (one iPhone 17 Pro Max simulator
+  under the simulator lock, Maestro flow `app/e2e/store.yaml`) writes
+  `docs/store/screenshots/6.9/` and `6.5/`; upload with
+  `ascelerate apps media upload com.skolalabs.harfiyen --folder <dir>`.
+- Build: `cd app && scripts/release.sh` runs the fastlane `release` lane under the build lock:
+  build number = latest on App Store Connect + 1, signed App Store IPA, uploaded for version
+  1.0.0. It never submits for review. Attach it with
+  `ascelerate apps build attach-latest com.skolalabs.harfiyen`.
+- Yakup presses "Add for Review" / "Submit for Review" himself.
+
 ## Later: TestFlight beta (prepared, not used)
 
 ```bash
