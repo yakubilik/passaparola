@@ -15,6 +15,7 @@
     "expo-router": "~58.0.23",
     "expo-speech": "~58.0.3",
     "expo-speech-recognition": "^58.0.0",
+    "expo-splash-screen": "~58.0.10",
     "expo-status-bar": "~58.0.3",
     "expo-system-ui": "~58.0.6",
     "react": "19.3.0",
@@ -43,7 +44,9 @@
     "ios": "expo run:ios",
     "voice-index": "node scripts/gen-voice-index.mjs",
     "test": "jest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "iphone": "scripts/install-iphone.sh",
+    "beta": "scripts/beta.sh"
   },
   "private": true,
   "jest": {

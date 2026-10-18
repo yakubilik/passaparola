@@ -55,6 +55,14 @@ export class Sounds {
     try { this.players.bg?.pause(); } catch { /* not loaded */ }
   }
 
+  // Silence: the bed and any cue still sounding (the app went to the background).
+  stopAll() {
+    this.stopBg();
+    for (const p of Object.values(this.players)) {
+      try { p?.pause(); } catch { /* not loaded */ }
+    }
+  }
+
   get bgPlaying() {
     return this.bgOn;
   }

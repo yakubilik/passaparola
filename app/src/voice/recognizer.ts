@@ -4,14 +4,22 @@ import type { RecOptions, Recognizer } from './listener';
 
 // expo-speech-recognition behind the listener's small interface. The audio
 // session is set to play and record at once, on the loudspeaker, so the host
-// and the sound cues keep playing while the mic is open.
+// and the sound cues keep playing while the mic is open; voice processing
+// (iOS echo cancellation, voiceChat mode) takes the phone's own sound out of
+// what the mic hears, so the host does not answer for the player.
+export const RECOGNITION_OPTIONS = {
+  addsPunctuation: false,
+  iosVoiceProcessingEnabled: true,
+  iosCategory: {
+    category: 'playAndRecord',
+    categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'],
+    mode: 'voiceChat',
+  },
+} as const;
+
 export const nativeRecognizer: Recognizer = {
   start(options: RecOptions) {
-    SR.start({
-      ...options,
-      addsPunctuation: false,
-      iosCategory: { category: 'playAndRecord', categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'], mode: 'default' },
-    });
+    SR.start({ ...options, ...RECOGNITION_OPTIONS, iosCategory: { ...RECOGNITION_OPTIONS.iosCategory, categoryOptions: [...RECOGNITION_OPTIONS.iosCategory.categoryOptions] } });
   },
   abort() {
     SR.abort();

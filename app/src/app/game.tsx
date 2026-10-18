@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useCallback, useMemo, useRef, useState, type ComponentRef } from 'react';
+import { memo, useCallback, useMemo, useRef, useState, type ComponentRef } from 'react';
 import {
   Alert, KeyboardAvoidingView, Platform, Pressable, Switch, Text, TextInput, View, useWindowDimensions, type LayoutChangeEvent,
 } from 'react-native';
@@ -22,6 +22,24 @@ import { C, F, type BubbleKind } from '../ui/theme';
 import { useVoiceEffects, useVoiceRound } from '../voice/useVoiceRound';
 
 const STATUS_TEXT = { correct: 'doğru', wrong: 'yanlış', passed: 'pas', pending: 'bekliyor', active: 'sırada' };
+
+// The question block has a fixed height per mode, so neither its text nor the
+// ring size can push the other around.
+const QUESTION_H = { full: 144, compact: 96 };
+const GAP = 6;
+const RING_MAX = 400;
+const RING_MIN = 160;
+const COMPACT_BELOW = 300;
+
+// Ring size and question mode from the stage: the whole space between the top
+// bar and the answer row. That space only changes with the window or the
+// keyboard, never with what is drawn inside it, so there is no layout loop.
+function stageLayout(w: number, h: number) {
+  const compact = h - QUESTION_H.full - GAP < COMPACT_BELOW;
+  const questionH = compact ? QUESTION_H.compact : QUESTION_H.full;
+  const size = Math.max(RING_MIN, Math.min(w - GAP, h - questionH - 2 * GAP, RING_MAX));
+  return { compact, questionH, size };
+}
 
 function kindOf(l: RoundLetter, active: boolean): BubbleKind {
   if (l.status !== 'pending') return l.status;
@@ -60,7 +78,7 @@ function GameRound({ voice }: { voice: boolean }) {
   const initial = useMemo(() => (picked ? createRound(picked) : null), [picked]);
   const locked = !!initial && ready && !quick && level > selectionUnlocked(progress, cats);
 
-  const v = useVoiceRound(voice, !!initial && ready && !locked);
+  const v = useVoiceRound(voice, { open: !!initial && ready && !locked });
   const onOver = useCallback(async (r: Round) => {
     v.onOver(r);
     const played = Array.from(new Set(r.letters.map((l) => l.category)));
@@ -96,12 +114,15 @@ function GameRound({ voice }: { voice: boolean }) {
   return <GameView game={game} voice={v} />;
 }
 
-function GameView({ game, voice }: { game: ReturnType<typeof useRound>; voice: ReturnType<typeof useVoiceRound> }) {
+// `player`: whose turn it is in a pass-and-play match (app/match.tsx).
+export function GameView({ game, voice, player }: { game: ReturnType<typeof useRound>; voice: ReturnType<typeof useVoiceRound>; player?: string }) {
   const { update } = useSettings();
   const { round, phase, reveal } = game;
   const r = round!;
   const { width } = useWindowDimensions();
-  const [area, setArea] = useState({ w: width, h: 380 });
+  // h is the smallest stage seen (the keyboard up): the ring and the camera
+  // keep one size whether the keyboard is up or down. 0 = not measured yet.
+  const [stage, setStage] = useState({ w: width, h: 0 });
   const [text, setText] = useState('');
   const input = useRef<ComponentRef<typeof TextInput>>(null);
   const c = counts(r);
@@ -109,15 +130,22 @@ function GameView({ game, voice }: { game: ReturnType<typeof useRound>; voice: R
   const shown = reveal?.letter ?? now;
   const live = phase === 'playing';
 
-  const items: RingItem[] = r.letters.map((l, i) => {
+  // Clock ticks keep the same letters array, so the ring is not rebuilt on a tick.
+  const items: RingItem[] = useMemo(() => r.letters.map((l, i) => {
     const kind = kindOf(l, live && i === r.idx);
     const label = kind === 'active' ? 'sırada' : STATUS_TEXT[kind as keyof typeof STATUS_TEXT];
     return { label: l.letter, kind, testID: `letter-${l.letter}`, accessibilityLabel: `${l.letter} harfi, ${label}` };
-  });
+  }), [r.letters, r.idx, live]);
 
-  const size = Math.max(160, Math.min(area.w - 6, area.h - 6, 400));
-  const onArea = (e: LayoutChangeEvent) => setArea({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height });
-  const compact = size < 300;
+  const stageH = stage.h || 520;
+  const { compact, questionH, size } = stageLayout(stage.w, stageH);
+  const onStage = (e: LayoutChangeEvent) => {
+    const { width: w, height: h } = e.nativeEvent.layout;
+    setStage((s) => {
+      if (s.w !== w) return { w, h };
+      return s.h && s.h <= h ? s : { w, h };
+    });
+  };
 
   const send = () => {
     if (!live || !text.trim()) return;
@@ -145,8 +173,10 @@ function GameView({ game, voice }: { game: ReturnType<typeof useRound>; voice: R
             <Text style={{ color: C.text, fontSize: 16 }}>✕</Text>
           </Pressable>
           <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontFamily: F.bodySemi, fontSize: 11, letterSpacing: 1.5, color: C.dim }}>KALAN SÜRE</Text>
-            <Text testID="clock" style={{ fontFamily: F.display, fontSize: 32, lineHeight: 34, color: r.timeLeft <= 10 ? C.redSoft : C.text }}>
+            <Text testID="turn-player" numberOfLines={1} style={{ fontFamily: F.bodySemi, fontSize: 11, letterSpacing: 1.5, color: player ? C.accentSoft : C.dim }}>
+              {player ? player.toLocaleUpperCase('tr-TR') : 'KALAN SÜRE'}
+            </Text>
+            <Text testID="clock" style={{ fontFamily: F.display, fontSize: 32, lineHeight: 34, fontVariant: ['tabular-nums'], color: r.timeLeft <= 10 ? C.redSoft : C.text }}>
               {formatClock(r.timeLeft)}
             </Text>
           </View>
@@ -157,23 +187,12 @@ function GameView({ game, voice }: { game: ReturnType<typeof useRound>; voice: R
           </View>
         </View>
 
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} onLayout={onArea}>
-          <View
-            pointerEvents="none"
-            style={{
-              position: 'absolute',
-              width: size * 1.1,
-              height: size * 1.1,
-              borderRadius: size,
-              backgroundImage: 'radial-gradient(circle, rgba(110,160,255,0.55) 30%, rgba(61,107,255,0.28) 46%, rgba(61,107,255,0) 70%)',
-            }}
-          />
-          <Ring items={items} size={size} bubble={Math.round(size * 0.079)}>
-            <Face size={Math.round(size * 0.63)} />
-          </Ring>
+        <View testID="stage" style={{ flex: 1, gap: GAP }} onLayout={onStage}>
+        <View testID="ring-area" style={{ height: stageH - questionH - GAP, alignItems: 'center', justifyContent: 'center' }}>
+          <Board items={items} size={size} />
         </View>
 
-        <View style={{ paddingHorizontal: 24, gap: compact ? 4 : 8, minHeight: compact ? 70 : 120 }}>
+        <View testID="question" style={{ paddingHorizontal: 24, gap: compact ? 4 : 8, height: questionH, overflow: 'hidden' }}>
           {reveal ? (
             <Pressable accessibilityRole="button" accessibilityLabel="Devam" onPress={game.skipReveal} testID="reveal" style={{ gap: 4 }}>
               <Text style={{ fontFamily: F.bodyBold, fontSize: 12, letterSpacing: 1.9, color: C.redSoft }}>YANLIŞ · {shown.letter}</Text>
@@ -190,6 +209,7 @@ function GameView({ game, voice }: { game: ReturnType<typeof useRound>; voice: R
               </Text>
             </>
           )}
+        </View>
         </View>
 
         {voice.voice && live && (
@@ -287,6 +307,28 @@ function voiceStatus(v: ReturnType<typeof useVoiceRound>): string {
   if (v.mic === 'listening') return v.heard ? `“${v.heard}”` : 'Dinliyorum…';
   return 'Mikrofon açılıyor…';
 }
+
+// The ring with its halo and the face. Memoised: a clock tick re-renders the
+// screen but leaves this alone unless a letter or the size changed.
+const Board = memo(function Board({ items, size }: { items: RingItem[]; size: number }) {
+  return (
+    <>
+      <View
+        pointerEvents="none"
+        style={{
+          position: 'absolute',
+          width: size * 1.1,
+          height: size * 1.1,
+          borderRadius: size,
+          backgroundImage: 'radial-gradient(circle, rgba(110,160,255,0.55) 30%, rgba(61,107,255,0.28) 46%, rgba(61,107,255,0) 70%)',
+        }}
+      />
+      <Ring testID="ring" items={items} size={size} bubble={Math.round(size * 0.079)}>
+        <Face size={Math.round(size * 0.63)} />
+      </Ring>
+    </>
+  );
+});
 
 function Count({ n, bg, fg, label }: { n: number; bg: string; fg: string; label: string }) {
   return (

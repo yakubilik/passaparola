@@ -14,14 +14,16 @@ export type Answered = { verdict: Verdict; was: RoundLetter; round: Round };
 // Runs one contestant's round: the clock, the answers, the wrong-answer
 // reveal. Typed answers come in through `submit`; a spoken answer calls
 // `judge` with its own verdict. `hold` stops the clock while the host reads a
-// clue; `holdReveal` keeps a wrong answer on screen until the host has said
-// the right one. `asked` counts the answers, so a new question can be read
-// even when it is the same letter again.
+// clue and `pause` while the app is away; `holdReveal` keeps a wrong answer
+// on screen until the host has said the right one. `asked` counts the
+// answers, so a new question can be read even when it is the same letter
+// again.
 export function useRound(initial: Round | null, onOver: (r: Round) => void, onAnswer?: (a: Answered) => void) {
   const [round, setRound] = useState<Round | null>(initial);
   const [phase, setPhase] = useState<Phase>('ready');
   const [reveal, setReveal] = useState<Reveal | null>(null);
   const [held, setHeld] = useState(false);
+  const [paused, setPaused] = useState(false);
   const [asked, setAsked] = useState(0);
   const ref = useRef(round);
   ref.current = round;
@@ -39,9 +41,9 @@ export function useRound(initial: Round | null, onOver: (r: Round) => void, onAn
   }, []);
 
   // The clock: total time for the round, stopped while a wrong answer is
-  // shown and while a clue is being read.
+  // shown, while a clue is being read and while the app is in the background.
   useEffect(() => {
-    if (phase !== 'playing' || held) return;
+    if (phase !== 'playing' || held || paused) return;
     let last = Date.now();
     const id = setInterval(() => {
       const now = Date.now();
@@ -57,7 +59,7 @@ export function useRound(initial: Round | null, onOver: (r: Round) => void, onAn
       }
     }, 200);
     return () => clearInterval(id);
-  }, [phase, held, finish]);
+  }, [phase, held, paused, finish]);
 
   useEffect(() => () => { if (revealTimer.current) clearTimeout(revealTimer.current); }, []);
 
@@ -120,6 +122,7 @@ export function useRound(initial: Round | null, onOver: (r: Round) => void, onAn
   const pass = useCallback(() => judge('pass'), [judge]);
   const start = useCallback(() => { if (phase === 'ready') setPhase('playing'); }, [phase]);
   const hold = useCallback((on: boolean) => setHeld(on), []);
+  const pause = useCallback((on: boolean) => setPaused(on), []);
 
-  return { round, phase, reveal, held, asked, start, submit, pass, judge, hold, holdReveal, skipReveal: endReveal };
+  return { round, phase, reveal, held, paused, asked, start, submit, pass, judge, hold, pause, holdReveal, skipReveal: endReveal };
 }

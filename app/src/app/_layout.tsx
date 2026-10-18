@@ -28,6 +28,8 @@ export default function RootLayout() {
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: C.bg }, animation: 'fade' }}>
           <Stack.Screen name="game" options={{ gestureEnabled: false }} />
           <Stack.Screen name="result" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="match" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="match-result" options={{ gestureEnabled: false }} />
         </Stack>
       </ProgressProvider>
     </SettingsProvider>

@@ -37,15 +37,30 @@ function words(s: string): string[] {
   return norm(s).split(' ').filter(Boolean);
 }
 
+// Edit distance, for heard words that are a slip away from what the host said.
+function distance(a: string, b: string): number {
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    for (let j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    prev = cur;
+  }
+  return prev[b.length];
+}
+
+/** Heard: the words, and whether any of them came while the host was talking (or just after). */
+export type Heard = { alts: string[]; duringHost: boolean };
+
 export class AnswerListener {
   private wanted = false;
   private running = false;
-  private handler: ((alts: string[]) => void) | null = null;
+  private handler: ((alts: string[], heard: Heard) => void) | null = null;
   private unsub: (() => void) | null = null;
   private used = 0;           // words of the current result already handled
   private lastKey = '';
   private lastAlts: string[] | null = null;
   private lastCount = 0;
+  private lastDuringHost = false;
   private settleTimer: ReturnType<typeof setTimeout> | null = null;
   private restartTimer: ReturnType<typeof setTimeout> | null = null;
   private echo: string[] = [];
@@ -55,10 +70,10 @@ export class AnswerListener {
   onState: (s: MicState, detail?: string) => void = () => {};
   onInterim: (text: string) => void = () => {};
 
-  constructor(private rec: Recognizer, private now: () => number = Date.now) {}
+  constructor(private rec: Recognizer, private now: () => number = () => Date.now()) {}
 
   // Opens the mic for a round; while it is open a new handler just replaces the old one.
-  listen(handler: (alts: string[]) => void) {
+  listen(handler: (alts: string[], heard: Heard) => void) {
     this.handler = handler;
     this.wanted = true;
     this.startRec();
@@ -100,8 +115,16 @@ export class AnswerListener {
   isEcho(w: string): boolean {
     if (this.now() > this.echoUntil) return false;
     const f = fold(w);
-    // "Hazır mısınız?" must not swallow the player's "hazırım", so only a one-letter slip counts as near.
-    return this.echo.some((e) => e === f || (f.length >= 5 && Math.abs(e.length - f.length) <= 1 && e.slice(0, 4) === f.slice(0, 4)));
+    // "Hazır mısınız?" must not swallow the player's "hazırım", so only a slip counts as near:
+    // one letter in a word of four or more, two in a long word.
+    return this.echo.some((e) => e === f
+      || (f.length >= 5 && Math.abs(e.length - f.length) <= 1 && e.slice(0, 4) === f.slice(0, 4))
+      || (f.length >= 4 && Math.abs(e.length - f.length) <= 2 && distance(e, f) <= (f.length >= 8 ? 2 : 1)));
+  }
+
+  /** The host is talking, or stopped less than ECHO_TAIL_MS ago. */
+  get hostRecent(): boolean {
+    return this.echoActive;
   }
 
   private clearTimers() {
@@ -115,6 +138,7 @@ export class AnswerListener {
     this.used = 0;
     this.lastKey = '';
     this.lastAlts = null;
+    this.lastDuringHost = false;
     if (!this.unsub) {
       this.unsub = this.rec.subscribe({
         result: (e) => this.onResult(e),
@@ -150,6 +174,7 @@ export class AnswerListener {
       if (e.isFinal) this.used = 0;
       return;
     }
+    if (this.echoActive) this.lastDuringHost = true;
     if (alts[0] === this.lastKey && !e.isFinal) return;  // nothing new, keep the settle timer running
     this.lastKey = alts[0];
     this.lastAlts = alts;
@@ -165,11 +190,13 @@ export class AnswerListener {
     this.settleTimer = null;
     const alts = this.lastAlts;
     if (!alts) return;
+    const duringHost = this.lastDuringHost || this.echoActive;
     this.lastAlts = null;
     this.lastKey = '';
+    this.lastDuringHost = false;
     // The next answer starts after these words; a final result starts a fresh one.
     this.used = final ? 0 : Math.max(this.used, this.lastCount);
-    this.handler?.(alts);
+    this.handler?.(alts, { alts, duringHost });
   }
 
   private onError(e: RecError) {
