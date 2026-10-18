@@ -300,11 +300,18 @@ export function GameView({ game, voice, player }: { game: ReturnType<typeof useR
   );
 }
 
+const VERDICT_TEXT = { correct: 'doğru', wrong: 'yanlış', pass: 'pas' } as const;
+const capital = (s: string) => s.charAt(0).toLocaleUpperCase('tr-TR') + s.slice(1);
+
+// What the mic heard is always shown: "Duydum: Merkür…" while it is being
+// judged, then the verdict for a moment.
 function voiceStatus(v: ReturnType<typeof useVoiceRound>): string {
-  if (v.reading) return v.heard ? `“${v.heard}”` : 'Sunucu okuyor… bildiysen hemen söyle';
+  if (v.heard && (v.reading || v.mic === 'listening')) return `Duydum: ${capital(v.heard)}…`;
+  if (v.judged) return `Duydum: ${capital(v.judged.text)} — ${VERDICT_TEXT[v.judged.verdict]}`;
+  if (v.reading) return 'Sunucu okuyor… bildiysen hemen söyle';
   if (v.mic === 'denied') return 'Mikrofon kapalı. Cevabı yazabilirsin.';
   if (v.mic === 'error') return 'Mikrofon duymuyor. Cevabı yazabilirsin.';
-  if (v.mic === 'listening') return v.heard ? `“${v.heard}”` : 'Dinliyorum…';
+  if (v.mic === 'listening') return 'Dinliyorum…';
   return 'Mikrofon açılıyor…';
 }
 

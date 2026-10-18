@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 
-import { judgeSpoken, spokenPace } from '../game/normalize';
+import { judgeSpoken, spokenPace, type Verdict } from '../game/normalize';
 import { current, type Round } from '../game/round';
 import type { Answered, useRound } from '../game/useRound';
 import { host, listener, prepareAudio, sounds } from './engine';
 import { answerLine, clueLine, host as hostLine, type HostKey, type Line } from './lines';
 import { contextFor, type Heard, type MicState, type Pace } from './listener';
+import { CUE_LEAD_MS } from './sounds';
 
 type Game = ReturnType<typeof useRound>;
 
@@ -25,11 +26,19 @@ const CORRECT: HostKey[] = ['correct1', 'correct2', 'correct3'];
 // turn does not close it (the next "Sıra" screen listens for "hazırım").
 // missEndsTurn: a wrong answer ends this match turn, so the host only says the
 // right answer here and bridges to the next player on the result card.
+/** The last spoken answer and how it was judged, shown under the answer field for a moment. */
+export type Judged = { text: string; verdict: Verdict };
+const JUDGED_MS = 3000;
+
 export type VoiceOptions = { open?: boolean; theme?: boolean; keepMic?: boolean; missEndsTurn?: boolean; rng?: () => number };
 
 export function useVoiceRound(voice: boolean, { open = true, theme = true, keepMic = false, missEndsTurn = false, rng = Math.random }: VoiceOptions = {}) {
   const [reading, setReading] = useState(false);
   const [heard, setHeard] = useState('');
+  const [judged, setJudged] = useState<Judged | null>(null);
+  const judgedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const speakTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cueAt = useRef(-Infinity);
   const [mic, setMic] = useState<MicState>('off');
   const game = useRef<Game | null>(null);
   const readingRef = useRef(false);
@@ -45,6 +54,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
   const stopReading = useCallback(() => {
     if (!readingRef.current) return;
     readingRef.current = false;
+    if (speakTimer.current) clearTimeout(speakTimer.current);
     host.cancel();
     setReading(false);
     game.current?.hold(false);
@@ -62,6 +72,8 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
   useEffect(() => {
     return () => {
       if (answerTimer.current) clearTimeout(answerTimer.current);
+      if (speakTimer.current) clearTimeout(speakTimer.current);
+      if (judgedTimer.current) clearTimeout(judgedTimer.current);
       if (!keepMicRef.current) listener.stop();
       sounds.stopBg();
       if (!ended.current) host.cancel();
@@ -74,10 +86,21 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     if (!g || !r || g.phase !== 'playing' || away.current) return;
     const verdict = judgeSpoken(alts, current(r).question.answers);
     // Words heard while the host talks (or just after) may be the host itself:
-    // they can give a right answer or a Pas, never a wrong one.
-    if (verdict === 'wrong' && (readingRef.current || host.speaking || listener.hostRecent || heard?.duringHost)) return;
+    // a wrong answer is dropped only when its words are the host's, or close to
+    // them. Anything else is the player's and is judged at once, reading or not.
+    const hostTime = readingRef.current || host.speaking || listener.hostRecent || !!heard?.duringHost;
     setHeard('');
+    if (verdict === 'wrong' && hostTime && listener.hostLike(alts[0])) return;
     g.judge(verdict, alts[0]);
+    if (judgedTimer.current) clearTimeout(judgedTimer.current);
+    setJudged({ text: alts[0], verdict });
+    judgedTimer.current = setTimeout(() => setJudged(null), JUDGED_MS);
+  }, []);
+
+  // Words being heard: shown at once, and the last verdict gives way to them.
+  const onInterim = useCallback((text: string) => {
+    setHeard(text);
+    if (text) setJudged(null);
   }, []);
 
   // A right answer or a Pas is judged the moment it is heard, not after a pause.
@@ -98,9 +121,9 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     sounds.startBg();
     if (!voice) return;
     listener.onState = setMic;
-    listener.onInterim = setHeard;
+    listener.onInterim = onInterim;
     listener.listen(onHeard, pace, context());
-  }, [voice, onHeard, pace, context]);
+  }, [voice, onHeard, onInterim, pace, context]);
 
   // The app went to the background (or a call, Control Centre): silence
   // everything, close the mic and stop the clock. Back in front: the bed and
@@ -128,6 +151,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
         setAway(true);
         g?.pause(true);
         if (answerTimer.current) clearTimeout(answerTimer.current);
+        if (speakTimer.current) clearTimeout(speakTimer.current);
         if (readingRef.current) {
           readingRef.current = false;
           setReading(false);
@@ -145,6 +169,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     const g = game.current;
     if (!g || away.current || missed.current) return;
     if (answerTimer.current) clearTimeout(answerTimer.current);
+    if (speakTimer.current) clearTimeout(speakTimer.current);
     const lines: Line[] = [];
     if (first.current) lines.push(hostLine('go'));
     if (prefix.current) lines.push(prefix.current);
@@ -154,17 +179,22 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     readingRef.current = true;
     setReading(true);
     g.hold(true);
-    host.speak(lines, () => {
+    const speak = () => host.speak(lines, () => {
       readingRef.current = false;
       setReading(false);
       game.current?.hold(false);
     });
+    // Right after an answer the cue sounds first and the host a moment later.
+    const lead = cueAt.current + CUE_LEAD_MS - Date.now();
+    if (lead > 0) speakTimer.current = setTimeout(speak, lead);
+    else speak();
   }, []);
 
   const onAnswer = useCallback(({ verdict, was }: Answered) => {
     stopReading();
     setHeard('');
     sounds.play(verdict === 'pass' ? 'pas' : verdict);
+    cueAt.current = Date.now();
     if (!voice) return;
     if (verdict === 'correct') {
       wrongRun.current = 0;
@@ -187,7 +217,11 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     sounds.stopBg();
     if (!voice) return;
     const all = r.correct === r.letters.length;
-    host.speak(all ? [hostLine('allcorrect')] : r.timeLeft <= 0 ? [hostLine('timeup'), hostLine('end')] : [hostLine('end')]);
+    const lines = all ? [hostLine('allcorrect')] : r.timeLeft <= 0 ? [hostLine('timeup'), hostLine('end')] : [hostLine('end')];
+    // After the last answer's cue; not cleared on leaving: the host finishes the line on the next screen.
+    const lead = cueAt.current + CUE_LEAD_MS - Date.now();
+    if (lead > 0) setTimeout(() => host.speak(lines), lead);
+    else host.speak(lines);
   }, [voice, stopReading]);
 
   // A match turn whose round ran out: the mic stays open for the next player.
@@ -203,7 +237,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     game.current = g;
   };
 
-  return { reading, heard, mic, away: awayState, begin, read, onAnswer, onOver, onTurnOver, bind, readFor, lastSec, voice };
+  return { reading, heard, judged, mic, away: awayState, begin, read, onAnswer, onOver, onTurnOver, bind, readFor, lastSec, voice };
 }
 
 // The effects that follow the round: read each new question, warn in the last ten seconds.

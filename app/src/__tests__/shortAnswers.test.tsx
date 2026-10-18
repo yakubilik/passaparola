@@ -6,6 +6,7 @@ import { audio } from '../test-utils/fakeAudio';
 import { fakeRecognizer as rec } from '../test-utils/fakeRecognizer';
 import { host } from '../voice/engine';
 import { ECHO_TAIL_MS } from '../voice/listener';
+import { CUE_LEAD_MS } from '../voice/sounds';
 
 // One-syllable answers ("Ay", "Su", "Un") said on their own: the real
 // questions, with the answers for A, B and C swapped for short ones.
@@ -77,7 +78,8 @@ test('"ay", "su" and "un" said alone count at once, while the host reads and aft
   expect(screen.getByLabelText('3 doğru')).toBeOnTheScreen();
   expect(screen.getByLabelText('0 yanlış')).toBeOnTheScreen();
 
-  // The host is reading Ç with the mic open: still at full volume.
+  // The host is reading Ç (a moment after the cue) with the mic open: still at full volume.
+  await act(() => jest.advanceTimersByTime(CUE_LEAD_MS + 10));
   expect(host.speaking).toBe(true);
   expect(host.volume).toBe(1);
   expect(rec.starts).toBe(1);
