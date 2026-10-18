@@ -11,7 +11,8 @@ import { C } from '../ui/theme';
 import { host, sounds } from '../voice/engine';
 import { answerLine, clueLine, host as hostLine, type Line } from '../voice/lines';
 import { ECHO_TAIL_MS, SETTLE_MS } from '../voice/listener';
-import { BG_DUCKED, BG_VOLUME } from '../voice/sounds';
+import { RECOGNITION_OPTIONS } from '../voice/recognizer';
+import { BG_DUCKED, BG_MAX, BG_VOLUME, DUCK } from '../voice/sounds';
 
 // A spoken round, played by a recognizer that behaves like iOS (one growing
 // result, never final) and a host whose clips and speech take fixed time.
@@ -300,7 +301,9 @@ test('pass and play: "hazırım" starts each turn on the Sıra screen, and one m
   expect(screen.getByTestId('turn-player')).toHaveTextContent('ECE');
   expect(host.speaking).toBe(true);  // Ece's first clue
 
-  await say('pas');
+  // "pas" while the host is still reading Ece's first clue: passed at once.
+  expect(host.speaking).toBe(true);
+  await act(() => rec.hear('pas'));
   expect(await screen.findByTestId('handover')).toHaveTextContent('Sıra: Fırat');
   expect(screen.getByTestId('handover-note')).toHaveTextContent('Ece: pas');
   await act(async () => {});
@@ -309,4 +312,149 @@ test('pass and play: "hazırım" starts each turn on the Sıra screen, and one m
   expect(screen.getByTestId('turn-player')).toHaveTextContent('FIRAT');
   expect(rec.starts).toBe(1);
   expect(rec.aborts).toBe(0);
+});
+
+// How the host's words reach the mic in the tests below: all of them, as if
+// there were no echo cancellation at all, and the end of each line once more
+// a moment after the host stopped (the recognizer is late with it).
+function echoHostIntoMic() {
+  const orig = host.onSpeaking;
+  let last = '';
+  let lines = 0;
+  host.onSpeaking = (texts) => {
+    orig(texts);
+    if (texts) {
+      lines++;
+      last = texts.join(' ');
+      rec.hear(last);
+    } else {
+      const tail = last.split(' ').slice(-4).join(' ');
+      setTimeout(() => rec.hear(tail), 300);
+    }
+  };
+  return { lines: () => lines, restore: () => { host.onSpeaking = orig; } };
+}
+
+async function untilHostQuiet() {
+  for (let i = 0; i < 40 && host.speaking; i++) await wait(250);
+  expect(host.speaking).toBe(false);
+}
+
+test('speaker and mic: one voiceChat session with echo cancellation, set before the mic opens and never changed; the bed is faint and everything ducks under the host', async () => {
+  await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ voice: true, micChecked: true }));
+  await renderRouter('./src/app', { initialUrl: '/game?cats=tarih&level=1&seed=7' });
+  expect(await screen.findByText('Hazır mısın?')).toBeOnTheScreen();
+  await act(async () => {});
+  // Once, when the app opened and before any mic: the session made active, its
+  // mode set, and put in the recognizer's own category.
+  expect(audio.sessionCalls).toEqual(['active', 'mode']);
+  expect(rec.events.filter((e) => e === 'category')).toEqual(['category']);
+  expect(rec.events.indexOf('category')).toBeLessThan(rec.events.indexOf('start') >>> 0);
+  expect(rec.categories).toEqual([RECOGNITION_OPTIONS.iosCategory]);
+
+  await fireEvent.press(screen.getByText('Başla'));
+  // The mic: iOS voice processing (echo cancellation) in voiceChat mode, the
+  // very category already in place, so opening it switches nothing.
+  expect(rec.lastOptions).toMatchObject({ iosVoiceProcessingEnabled: true, iosCategory: RECOGNITION_OPTIONS.iosCategory });
+  expect(RECOGNITION_OPTIONS.iosCategory).toEqual({ category: 'playAndRecord', categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'], mode: 'voiceChat' });
+
+  // The host reads: the bed is ducked, and a cue that sounds now is too.
+  expect(host.speaking).toBe(true);
+  expect(sounds.bgVolume).toBeCloseTo(BG_DUCKED, 5);
+  const a = question(clueText());
+  await say(a.answers[0]);
+  const correctCue = audio.players.find((p) => p.source === require('../../assets/sounds/correct.mp3'))!;
+  expect(host.speaking).toBe(true);  // reading B
+  expect(correctCue.volume).toBe(DUCK);
+
+  // The mic listening with the host quiet: only a faint bed, a quarter of the old 0.17.
+  await untilHostQuiet();
+  expect(sounds.bgVolume).toBeCloseTo(0.17 / 4, 2);
+  expect(sounds.bgVolume).toBe(BG_VOLUME);
+  expect(BG_VOLUME).toBeLessThanOrEqual(BG_MAX);
+  expect(BG_MAX).toBeLessThanOrEqual(0.17 / 2);
+
+  // A few answers on: still one session, no change to the iOS audio session
+  // since the mic opened, and every player keeps the session active (expo-audio
+  // would otherwise deactivate it under the mic when a clip ends).
+  await say('pas');
+  await untilHostQuiet();
+  await say('bambaşka');
+  await wait(REVEAL_MS + 3000);
+  expect(audio.sessionCalls).toEqual(['active', 'mode']);
+  expect(rec.categories.length).toBe(1);
+  expect(audio.players.length).toBeGreaterThan(2);
+  for (const p of audio.players) expect(p.options).toMatchObject({ keepAudioSessionActive: true });
+  expect(rec.starts).toBe(1);
+  expect(rec.aborts).toBe(0);
+});
+
+test("worst case, no echo cancellation at all: the host's own words reach the mic and are never judged", async () => {
+  const echo = echoHostIntoMic();
+  try {
+    await startVoiceGame();
+    for (const letter of ['A', 'B', 'C', 'Ç']) {
+      const q = question(clueText());
+      await untilHostQuiet();
+      await wait(SETTLE_MS * 2);  // the late tail of the reading arrives and is dropped
+      expect(screen.getByLabelText(`${letter} harfi, sırada`)).toBeOnTheScreen();
+      await wait(ECHO_TAIL_MS);
+      await say(q.answers[0]);
+      expect(screen.getByLabelText(`${letter} harfi, doğru`)).toBeOnTheScreen();
+    }
+    expect(echo.lines()).toBeGreaterThanOrEqual(4);
+    expect(screen.getByLabelText('4 doğru')).toBeOnTheScreen();
+    expect(screen.getByLabelText('0 yanlış')).toBeOnTheScreen();
+    expect(screen.getByLabelText('0 pas')).toBeOnTheScreen();
+    expect(rec.starts).toBe(1);
+  } finally {
+    echo.restore();
+  }
+});
+
+test('from the last word to the verdict: right and Pas at once, a slip counts, wrong in under 1.2 s; the mic is never restarted', async () => {
+  await startVoiceGame();
+  async function verdictAfter(words: string, label: string): Promise<number> {
+    await untilHostQuiet();
+    await wait(ECHO_TAIL_MS + 100);
+    const t0 = Date.now();
+    await act(() => rec.hear(words));
+    for (let i = 0; i < 40 && !screen.queryByLabelText(label); i++) await wait(50);
+    expect(screen.getByLabelText(label)).toBeOnTheScreen();
+    return Date.now() - t0;
+  }
+  const a = question(clueText());
+  expect(await verdictAfter(a.answers[0], 'A harfi, doğru')).toBe(0);
+  expect(await verdictAfter('pas', 'B harfi, pas')).toBe(0);
+  // A dictation slip (a doubled last letter) is right too, at once.
+  const c = question(clueText());
+  const slip = c.answers[0] + c.answers[0].slice(-1);
+  expect(await verdictAfter(slip, 'C harfi, doğru')).toBe(0);
+  const wrongMs = await verdictAfter('bambaşka', 'Ç harfi, yanlış');
+  expect(wrongMs).toBeLessThan(1200);
+  expect(wrongMs).toBeGreaterThanOrEqual(SETTLE_MS);
+  await wait(REVEAL_MS + 3000);
+  expect(await verdictAfter('pas geçiyorum', 'D harfi, pas')).toBe(0);
+  // "geçiyorum" did not pass E as well.
+  await wait(3000);
+  expect(screen.getByLabelText('E harfi, sırada')).toBeOnTheScreen();
+  expect(rec.starts).toBe(1);
+  expect(rec.aborts).toBe(0);
+});
+
+test('"pas" passes at once while the host is reading', async () => {
+  await startVoiceGame();
+  expect(host.speaking).toBe(true);
+  await act(() => rec.hear('pas'));
+  expect(screen.getByLabelText('A harfi, pas')).toBeOnTheScreen();
+  expect(host.speaking).toBe(true);  // now reading B
+  await wait(SETTLE_MS + 50);  // a new utterance, not more of "pas"
+  expect(host.speaking).toBe(true);
+  await act(() => rec.hear('geç'));
+  expect(screen.getByLabelText('B harfi, pas')).toBeOnTheScreen();
+  await wait(SETTLE_MS + 50);
+  expect(host.speaking).toBe(true);
+  await act(() => rec.hear('bas'));
+  expect(screen.getByLabelText('C harfi, pas')).toBeOnTheScreen();
+  expect(screen.getByLabelText('3 pas')).toBeOnTheScreen();
 });

@@ -7,9 +7,16 @@ import { useEffect } from 'react';
 import { View } from 'react-native';
 
 import { ProgressProvider } from '../store/ProgressContext';
-import { SettingsProvider } from '../store/SettingsContext';
+import { SettingsProvider, useSettings } from '../store/SettingsContext';
 import { C } from '../ui/theme';
-import { prepareAudio } from '../voice/engine';
+import { prepareAudio, sounds } from '../voice/engine';
+
+// The Müzik choice from Ayarlar, applied to the bed wherever it plays.
+function MusicSetting() {
+  const { settings } = useSettings();
+  useEffect(() => { sounds.setMusic(settings.music, settings.musicLevel); }, [settings.music, settings.musicLevel]);
+  return null;
+}
 
 export default function RootLayout() {
   useEffect(() => { prepareAudio(); }, []);
@@ -23,6 +30,7 @@ export default function RootLayout() {
   if (!loaded && !error) return <View style={{ flex: 1, backgroundColor: C.bg }} />;
   return (
     <SettingsProvider>
+      <MusicSetting />
       <ProgressProvider>
         <StatusBar style="light" />
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: C.bg }, animation: 'fade' }}>

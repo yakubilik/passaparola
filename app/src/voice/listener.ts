@@ -1,4 +1,4 @@
-import { fold, norm } from '../game/normalize';
+import { fold, isPassWord, norm } from '../game/normalize';
 
 // Spoken answers, ported from js/voice.js (the web game). The microphone is
 // opened once per round and kept open: on iOS every start plays the system
@@ -7,12 +7,19 @@ import { fold, norm } from '../game/normalize';
 //
 // iOS keeps growing one result for everything said and never marks it final,
 // so interim results are used: words already handled are cut off the front,
-// and an answer counts once the words stop changing for SETTLE_MS. Words the
-// host is saying (and for ECHO_TAIL_MS after) are the game's own voice heard
-// by the mic and are dropped.
+// and an answer counts once the words stop changing for SETTLE_MS. A right
+// answer or a Pas does not wait at all (the round tells, see `Pace`), and the
+// start of a longer answer ("Reşat" of Reşat Nuri Güntekin) waits PARTIAL_MS.
+// Words the host is saying (and for ECHO_TAIL_MS after) are the game's own
+// voice heard by the mic and are dropped, except a pass word the host is not
+// saying: "pas" always gets through.
 
-export const SETTLE_MS = 900;
-export const ECHO_TAIL_MS = 1500;
+export const SETTLE_MS = 700;
+export const PARTIAL_MS = 1500;
+export const ECHO_TAIL_MS = 800;
+
+/** How soon heard words can be judged: at once, after a long pause, or once they settle. */
+export type Pace = (alts: string[]) => 'now' | 'partial' | 'settle';
 
 export type RecResult = { isFinal: boolean; results: { transcript: string }[] };
 export type RecError = { error: string; message?: string };
@@ -22,7 +29,29 @@ export type RecOptions = {
   continuous: boolean;
   interimResults: boolean;
   maxAlternatives: number;
+  contextualStrings?: string[];
 };
+
+// Apple's limit for contextual strings is about 100 phrases.
+const MAX_CONTEXT = 100;
+const CONTEXT_PASS = ['pas', 'geç', 'pas geçiyorum'];
+
+/**
+ * Words the recognizer should expect: the pass words, then the round's
+ * answers, shortest first. iOS tends to sit on a lone short word ("Ay", "Su")
+ * until more speech follows unless it was told to expect it.
+ */
+export function contextFor(answers: readonly string[]): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const a of [...CONTEXT_PASS, ...[...answers].sort((x, y) => x.length - y.length)]) {
+    const k = fold(a);
+    if (!k || seen.has(k)) continue;
+    seen.add(k);
+    out.push(a);
+  }
+  return out.slice(0, MAX_CONTEXT);
+}
 
 // The part of expo-speech-recognition the listener uses (see recognizer.ts).
 export interface Recognizer {
@@ -65,6 +94,10 @@ export class AnswerListener {
   private restartTimer: ReturnType<typeof setTimeout> | null = null;
   private echo: string[] = [];
   private echoUntil = 0;
+  private pace: Pace | null = null;
+  private context: string[] = [];
+  private prevWords: string[] = [];  // the first guess as last heard, for rewritten words
+  private swallowUntil = 0;   // the rest of an utterance already judged at once
   /** How many times the recognizer was started (once per round when all is well). */
   starts = 0;
   onState: (s: MicState, detail?: string) => void = () => {};
@@ -73,8 +106,12 @@ export class AnswerListener {
   constructor(private rec: Recognizer, private now: () => number = () => Date.now()) {}
 
   // Opens the mic for a round; while it is open a new handler just replaces the old one.
-  listen(handler: (alts: string[], heard: Heard) => void) {
+  // `context`: words to expect, used when the recognizer (re)starts; an open
+  // session keeps the ones it was started with.
+  listen(handler: (alts: string[], heard: Heard) => void, pace?: Pace, context?: string[]) {
     this.handler = handler;
+    this.pace = pace ?? null;
+    if (context) this.context = context;
     this.wanted = true;
     this.startRec();
   }
@@ -82,6 +119,8 @@ export class AnswerListener {
   stop() {
     this.wanted = false;
     this.handler = null;
+    this.pace = null;
+    this.swallowUntil = 0;
     this.clearTimers();
     this.lastAlts = null;
     if (this.unsub) { this.unsub(); this.unsub = null; }
@@ -115,6 +154,7 @@ export class AnswerListener {
   isEcho(w: string): boolean {
     if (this.now() > this.echoUntil) return false;
     const f = fold(w);
+    if (isPassWord(f) && !this.echo.includes(f)) return false;
     // "Hazır mısınız?" must not swallow the player's "hazırım", so only a slip counts as near:
     // one letter in a word of four or more, two in a long word.
     return this.echo.some((e) => e === f
@@ -139,6 +179,7 @@ export class AnswerListener {
     this.lastKey = '';
     this.lastAlts = null;
     this.lastDuringHost = false;
+    this.prevWords = [];
     if (!this.unsub) {
       this.unsub = this.rec.subscribe({
         result: (e) => this.onResult(e),
@@ -149,7 +190,10 @@ export class AnswerListener {
     this.running = true;
     this.starts++;
     try {
-      this.rec.start({ lang: 'tr-TR', continuous: true, interimResults: true, maxAlternatives: 5 });
+      this.rec.start({
+        lang: 'tr-TR', continuous: true, interimResults: true, maxAlternatives: 5,
+        ...(this.context.length ? { contextualStrings: this.context } : {}),
+      });
       this.onState('listening');
     } catch (err) {
       this.running = false;
@@ -159,7 +203,8 @@ export class AnswerListener {
 
   private onResult(e: RecResult) {
     if (!this.running) return;
-    const skip = this.used;
+    const skip = this.realign(words(e.results[0]?.transcript ?? ''));
+    this.used = skip;
     let count = 0;
     const alts: string[] = [];
     e.results.forEach((r, i) => {
@@ -168,10 +213,26 @@ export class AnswerListener {
       w = w.slice(skip).filter((x) => !this.isEcho(x));
       if (w.length) alts.push(w.join(' '));
     });
+    const rewritten = this.rewritten(words(e.results[0]?.transcript ?? ''), skip);
+    this.prevWords = e.isFinal ? [] : words(e.results[0]?.transcript ?? '');
+    if (!alts.length && rewritten.length && !this.lastAlts && this.pace?.(rewritten) === 'now') {
+      this.lastAlts = rewritten;
+      this.lastCount = count;
+      this.lastDuringHost = this.echoActive;
+      this.swallowUntil = this.now() + SETTLE_MS;
+      this.deliver(false);
+      return;
+    }
     if (!alts.length) {
       // Only the game's own voice so far: mark it handled so it never prefixes an answer.
       if (!this.lastAlts && this.echoActive) this.used = Math.max(skip, count);
       if (e.isFinal) this.used = 0;
+      return;
+    }
+    // More words of an utterance that was judged at once ("pas" ... "geçiyorum"): already handled.
+    if (!this.lastAlts && this.now() < this.swallowUntil) {
+      this.used = e.isFinal ? 0 : Math.max(skip, count);
+      this.swallowUntil = this.now() + SETTLE_MS;
       return;
     }
     if (this.echoActive) this.lastDuringHost = true;
@@ -181,8 +242,46 @@ export class AnswerListener {
     this.lastCount = count;
     this.onInterim(alts[0]);
     if (this.settleTimer) clearTimeout(this.settleTimer);
+    const pace = this.pace?.(alts) ?? 'settle';
     if (e.isFinal) this.deliver(true);
-    else this.settleTimer = setTimeout(() => this.deliver(false), SETTLE_MS);
+    else if (pace === 'now') {
+      this.swallowUntil = this.now() + SETTLE_MS;
+      this.deliver(false);
+    } else this.settleTimer = setTimeout(() => this.deliver(false), pace === 'partial' ? PARTIAL_MS : SETTLE_MS);
+  }
+
+  // iOS re-splits words it already gave ("ankara" → "an kara"): the handled
+  // part is found again by its letters, so a split does not look like new words.
+  private realign(cur: string[]): number {
+    const used = this.used;
+    const prev = this.prevWords;
+    if (!used || prev.length < used || cur.slice(0, used).every((w, i) => w === prev[i])) return used;
+    const handled = fold(prev.slice(0, used).join(''));
+    let text = '';
+    for (let k = 1; k <= cur.length; k++) {
+      text += fold(cur[k - 1]);
+      if (text === handled) return k;
+      if (text.length > handled.length) break;
+    }
+    return used;
+  }
+
+  // iOS sometimes rewrites words it already gave instead of adding a new one:
+  // a short answer said after "su" can come back glued on as "suun". When no
+  // new word came but handled ones changed, the changed words (and, for a word
+  // that grew, its new ending) are offered; they count only as a right answer
+  // or a Pas, never as a wrong one, and never when they are the host's words.
+  private rewritten(cur: string[], used: number): string[] {
+    const prev = this.prevWords;
+    if (!prev.length || cur.length > used) return [];
+    let p = 0;
+    while (p < cur.length && p < prev.length && cur[p] === prev[p]) p++;
+    if (p >= cur.length) return [];
+    const out = [cur.slice(p).join(' ')];
+    const a = fold(prev[p] ?? '');
+    const b = fold(cur[p]);
+    if (a && b.length > a.length && b.startsWith(a)) out.push(b.slice(a.length), b.slice(a.length - 1));
+    return out.filter((t) => t && !t.split(' ').every((w) => this.isEcho(w)));
   }
 
   private deliver(final: boolean) {
