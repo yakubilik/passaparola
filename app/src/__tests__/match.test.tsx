@@ -52,6 +52,15 @@ async function timeUp() {
 const turns: string[] = [];
 const clues: Record<string, string[]> = {};
 
+// After a Pas or a wrong answer: the result card, which waits for its button.
+async function resultCard(result: string, next: string) {
+  expect(await screen.findByTestId('turn-result')).toHaveTextContent(result);
+  expect(screen.queryByTestId('handover')).toBeNull();
+  await act(() => jest.advanceTimersByTime(30_000));
+  expect(screen.getByTestId('turn-result')).toHaveTextContent(result);
+  await fireEvent.press(screen.getByText(`Sıradaki oyuncu: ${next}`));
+}
+
 async function startTurn(name: string, note?: string) {
   expect(await screen.findByTestId('handover')).toHaveTextContent(`Sıra: ${name}`);
   if (note) expect(screen.getByTestId('handover-note')).toHaveTextContent(note);
@@ -90,6 +99,8 @@ test('menu → setup → 3 players: right then Pas, wrong, time up; turn order a
   expect(screen.getByLabelText('A harfi, doğru')).toBeOnTheScreen();
   await act(() => jest.advanceTimersByTime(10_000));
   await fireEvent.press(screen.getByLabelText('Pas'));
+  await resultCard('Pas', 'Bora');
+  expect(screen.queryByTestId('turn-score')).toBeNull();
 
   // Bora: own ring and clock, wrong on A; the right answer shows, then the turn moves on.
   await startTurn('Bora', 'Ayşe: pas');
@@ -99,8 +110,9 @@ test('menu → setup → 3 players: right then Pas, wrong, time up; turn order a
   await type('bambaşka bir şey');
   expect(screen.getByText(boraA)).toBeOnTheScreen();
   await act(() => jest.advanceTimersByTime(REVEAL_MS + 50));
+  await resultCard(`Yanlış — doğru cevap: ${boraA}`, 'Cem');
 
-  // Cem: runs out of time.
+  // Cem: runs out of time; no result card for that.
   await startTurn('Cem', 'Bora: yanlış cevap');
   await timeUp();
 
@@ -111,14 +123,18 @@ test('menu → setup → 3 players: right then Pas, wrong, time up; turn order a
   expect(screen.getByLabelText('B harfi, pas')).toBeOnTheScreen();
   expect(screen.getByTestId('prompt')).toHaveTextContent('C HARFİYLE BAŞLIYOR');
   await type(answerFor(clueText()));
+  const ayseD = answerFor(clueText());
   await type('bambaşka bir şey');
   await act(() => jest.advanceTimersByTime(REVEAL_MS + 50));
+  expect(screen.getByTestId('turn-score')).toHaveProp('accessibilityLabel', 'Ayşe: 2 doğru, 1 yanlış, 1 pas');
+  await resultCard(`Yanlış — doğru cevap: ${ayseD}`, 'Bora');
 
   // Cem is out of time, so Bora is next: B, with A wrong.
   await startTurn('Bora', 'Ayşe: yanlış cevap');
   expect(screen.getByLabelText('A harfi, yanlış')).toBeOnTheScreen();
   expect(screen.getByTestId('prompt')).toHaveTextContent('B HARFİYLE BAŞLIYOR');
   await fireEvent.press(screen.getByLabelText('Pas'));
+  await resultCard('Pas', 'Ayşe');
 
   // Ayşe runs out of time; Bora is left alone and a Pas no longer hands the turn over.
   await startTurn('Ayşe', 'Bora: pas');

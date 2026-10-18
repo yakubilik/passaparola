@@ -23,9 +23,11 @@ const CORRECT: HostKey[] = ['correct1', 'correct2', 'correct3'];
 // open: the round is really there (theme plays once it is). theme: false for
 // later turns of a match. keepMic: the match screen owns the mic, so leaving a
 // turn does not close it (the next "Sıra" screen listens for "hazırım").
-export type VoiceOptions = { open?: boolean; theme?: boolean; keepMic?: boolean; rng?: () => number };
+// missEndsTurn: a wrong answer ends this match turn, so the host only says the
+// right answer here and bridges to the next player on the result card.
+export type VoiceOptions = { open?: boolean; theme?: boolean; keepMic?: boolean; missEndsTurn?: boolean; rng?: () => number };
 
-export function useVoiceRound(voice: boolean, { open = true, theme = true, keepMic = false, rng = Math.random }: VoiceOptions = {}) {
+export function useVoiceRound(voice: boolean, { open = true, theme = true, keepMic = false, missEndsTurn = false, rng = Math.random }: VoiceOptions = {}) {
   const [reading, setReading] = useState(false);
   const [heard, setHeard] = useState('');
   const [mic, setMic] = useState<MicState>('off');
@@ -37,6 +39,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
   const wrongRun = useRef(0);
   const answerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const ended = useRef(false);
+  const missed = useRef(false);  // a wrong answer ended this match turn: no next clue
   const lastSec = useRef(Infinity);
 
   const stopReading = useCallback(() => {
@@ -140,7 +143,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
 
   const read = useCallback((r: Round) => {
     const g = game.current;
-    if (!g || away.current) return;
+    if (!g || away.current || missed.current) return;
     if (answerTimer.current) clearTimeout(answerTimer.current);
     const lines: Line[] = [];
     if (first.current) lines.push(hostLine('go'));
@@ -169,12 +172,13 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
       if (rng() < 0.6) prefix.current = hostLine(CORRECT[Math.floor(rng() * CORRECT.length)]);
     } else if (verdict === 'wrong') {
       wrongRun.current++;
-      const lines = [hostLine('wrong'), answerLine(was.question)];
-      if (wrongRun.current === 2) lines.push(hostLine('listen'));
+      if (missEndsTurn) missed.current = true;
+      const lines = missEndsTurn ? [answerLine(was.question)] : [hostLine('wrong'), answerLine(was.question)];
+      if (!missEndsTurn && wrongRun.current === 2) lines.push(hostLine('listen'));
       const release = game.current?.holdReveal();
       answerTimer.current = setTimeout(() => host.speak(lines, release), 400);
     }
-  }, [voice, rng, stopReading]);
+  }, [voice, rng, missEndsTurn, stopReading]);
 
   const onOver = useCallback((r: Round) => {
     ended.current = true;
@@ -221,11 +225,12 @@ export function useVoiceEffects(v: ReturnType<typeof useVoiceRound>, g: Game) {
 
 const READY = /hazır|hazir|başla|basla|tamam|evet|hadi/;
 
-// The "Sıra: <name>" screen of a match: the host hands over and the player
-// can start by saying "hazırım" (or tap). Opens the mic the first time; later
-// turns keep the session that is already open, so `answers` should be every
-// player's answers (the recognizer is told to expect them when it starts).
-export function useReadyByVoice(voice: boolean, onReady: () => void, answers: readonly string[] = []) {
+// The "Sıra: <name>" screen of a match (and the result card before it): the
+// host says `lines` and the player moves on by saying "hazırım" (or tap).
+// Opens the mic the first time; later turns keep the session that is already
+// open, so `answers` should be every player's answers (the recognizer is told
+// to expect them when it starts).
+export function useReadyByVoice(voice: boolean, onReady: () => void, answers: readonly string[] = [], lines: Line[] = [hostLine('turn')]) {
   const ready = useRef(onReady);
   ready.current = onReady;
   useEffect(() => {
@@ -236,7 +241,7 @@ export function useReadyByVoice(voice: boolean, onReady: () => void, answers: re
     prepareAudio().then(() => {
       if (!live) return;
       open();
-      host.speak([hostLine('turn')]);
+      host.speak(lines);
     });
     // In the background: quiet and the mic closed; back in front the mic opens again.
     const sub = AppState.addEventListener('change', (state) => {

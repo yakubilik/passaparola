@@ -304,12 +304,35 @@ test('pass and play: "hazırım" starts each turn on the Sıra screen, and one m
   // "pas" while the host is still reading Ece's first clue: passed at once.
   expect(host.speaking).toBe(true);
   await act(() => rec.hear('pas'));
+  // The Pas result card: the host bridges to the next player, nothing moves on by itself.
+  expect(await screen.findByTestId('turn-result')).toHaveTextContent('Pas');
+  expect(screen.getByText('Sıradaki oyuncu: Fırat')).toBeOnTheScreen();
+  await act(async () => {});
+  expect(host.said.at(-1)).toBe(said(hostLine('pass_next')));
+  await wait(10_000);
+  expect(screen.queryByTestId('handover')).toBeNull();
+  // "hazırım" moves on to the hand-over, as the button does.
+  await say('hazırım');
   expect(await screen.findByTestId('handover')).toHaveTextContent('Sıra: Fırat');
   expect(screen.getByTestId('handover-note')).toHaveTextContent('Ece: pas');
   await act(async () => {});
   await wait(3000);
   await say('tamam hazırım');
   expect(screen.getByTestId('turn-player')).toHaveTextContent('FIRAT');
+
+  // Fırat is wrong: the right answer first, then the bridge, on the result card.
+  await untilHostQuiet();
+  await wait(ECHO_TAIL_MS + 100);
+  const q = question(clueText());
+  host.said.length = 0;
+  await say('bambaşka bir şey');
+  expect(screen.getByText(q.answers[0])).toBeOnTheScreen();
+  expect(await screen.findByTestId('turn-result', {}, { timeout: 20_000 })).toHaveTextContent(`Yanlış — doğru cevap: ${q.answers[0]}`);
+  await act(async () => {});
+  expect(host.said).toEqual([said(answerLine(q)), said(hostLine('wrong_next'))]);
+  await screen.findByText('Sıradaki oyuncu: Ece');
+  await fireEvent.press(screen.getByText('Sıradaki oyuncu: Ece'));
+  expect(await screen.findByTestId('handover')).toHaveTextContent('Sıra: Ece');
   expect(rec.starts).toBe(1);
   expect(rec.aborts).toBe(0);
 });
