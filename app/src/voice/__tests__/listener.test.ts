@@ -276,3 +276,19 @@ describe('short answers (Ay, Su, Un, Ok)', () => {
     expect(heard).toEqual([['ankara']]);
   });
 });
+
+test("hostLike: the host's words, or garbled close to them, are the host's; anything else is the player's", () => {
+  l.hostSpeaking(["Kızıl Gezegen diye bilinen, Güneş'e dördüncü sıradaki gezegen."]);
+  expect(l.hostLike('gezegen')).toBe(true);
+  expect(l.hostLike('kızıl gezegenler')).toBe(true);
+  expect(l.hostLike('dördün cü')).toBe(true);  // a word split in two
+  expect(l.hostLike('sıradakiler')).toBe(true);
+  expect(l.hostLike('merkür')).toBe(false);
+  expect(l.hostLike('kızıl merkür jüpiter')).toBe(false);
+  expect(l.hostLike('')).toBe(false);
+  // Long after the host stopped, the last words still tell its echo from the player.
+  l.hostDone();
+  jest.advanceTimersByTime(ECHO_TAIL_MS * 10);
+  expect(l.hostLike('gezegen')).toBe(true);
+  expect(l.hostLike('merkür')).toBe(false);
+});

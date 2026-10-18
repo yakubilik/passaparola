@@ -7,7 +7,7 @@ import { Sounds } from './sounds';
 
 // One host, one mic and one set of cues for the whole app, so the host can
 // finish a line after the game screen has gone. While the host speaks the
-// listener knows which words to ignore and the bed and cues are lowered.
+// listener knows which words to ignore and the bed is lowered.
 export const host = new Host();
 export const listener = new AnswerListener(nativeRecognizer);
 export const sounds = new Sounds();

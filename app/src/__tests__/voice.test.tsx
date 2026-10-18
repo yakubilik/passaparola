@@ -12,7 +12,7 @@ import { host, sounds } from '../voice/engine';
 import { answerLine, clueLine, host as hostLine, type Line } from '../voice/lines';
 import { ECHO_TAIL_MS, SETTLE_MS } from '../voice/listener';
 import { RECOGNITION_OPTIONS } from '../voice/recognizer';
-import { BG_DUCKED, BG_MAX, BG_VOLUME, DUCK } from '../voice/sounds';
+import { BG_DUCKED, BG_MAX, BG_VOLUME, CUE_LEAD_MS, DUCK } from '../voice/sounds';
 
 // A spoken round, played by a recognizer that behaves like iOS (one growing
 // result, never final) and a host whose clips and speech take fixed time.
@@ -222,22 +222,26 @@ test("the host's own voice in the mic never gives a wrong answer; echo cancellat
   // iOS voice processing takes the phone's own sound out of the mic.
   expect(rec.lastOptions).toMatchObject({ iosVoiceProcessingEnabled: true, iosCategory: { category: 'playAndRecord', mode: 'voiceChat' } });
 
-  // While the host reads, the mic picks up a garbled bit of it: not an answer.
+  // While the host reads, the mic picks up a garbled bit of it (the endings
+  // misheard): not an answer, and nothing judged.
   expect(host.speaking).toBe(true);
-  await say('kara zeminli bayrak hangisi');
+  const clue = clueText().replace(/[.,]/g, '').split(' ').filter((w) => /^[a-zçğıöşü]{6,}$/i.test(w));
+  await say(clue.slice(0, 2).map((w) => w.slice(0, -2) + 'ler').join(' '));
   expect(screen.getByLabelText('A harfi, sırada')).toBeOnTheScreen();
+  expect(screen.getByTestId('voice-status')).not.toHaveTextContent(/yanlış/);
 
-  // Just after the reading (inside the 1.5 s tail): still not a wrong answer.
+  // Just after the reading (inside the tail): its last word, split in two, is still not an answer.
   for (let i = 0; i < 20 && host.speaking; i++) await wait(500);
   expect(host.speaking).toBe(false);
-  await say('olmayan sözcük');
+  const last = clue[clue.length - 1];
+  await say(`${last.slice(0, 3)} ${last.slice(3)}`);
   expect(screen.getByLabelText('A harfi, sırada')).toBeOnTheScreen();
   expect(screen.getByLabelText('0 yanlış')).toBeOnTheScreen();
 
-  // Well after the host stopped, the player's wrong answer counts.
-  await wait(ECHO_TAIL_MS + 500);
+  // Words that are not the host's are the player's.
   await say('bambaşka');
   expect(screen.getByLabelText('A harfi, yanlış')).toBeOnTheScreen();
+  expect(screen.getByLabelText('1 yanlış')).toBeOnTheScreen();
 });
 
 test('in the background everything goes quiet, the mic closes and the clock stops; back in front it all resumes', async () => {
@@ -381,14 +385,15 @@ test('speaker and mic: one voiceChat session with echo cancellation, set before 
   expect(rec.lastOptions).toMatchObject({ iosVoiceProcessingEnabled: true, iosCategory: RECOGNITION_OPTIONS.iosCategory });
   expect(RECOGNITION_OPTIONS.iosCategory).toEqual({ category: 'playAndRecord', categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'], mode: 'voiceChat' });
 
-  // The host reads: the bed is ducked, and a cue that sounds now is too.
+  // The host reads: the bed is ducked, a cue that sounds now is not.
   expect(host.speaking).toBe(true);
   expect(sounds.bgVolume).toBeCloseTo(BG_DUCKED, 5);
   const a = question(clueText());
   await say(a.answers[0]);
   const correctCue = audio.players.find((p) => p.source === require('../../assets/sounds/correct.mp3'))!;
   expect(host.speaking).toBe(true);  // reading B
-  expect(correctCue.volume).toBe(DUCK);
+  expect(correctCue.volume).toBe(1);
+  expect(DUCK).toBeLessThan(1);
 
   // The mic listening with the host quiet: only a faint bed, a quarter of the old 0.17.
   await untilHostQuiet();
@@ -470,6 +475,7 @@ test('"pas" passes at once while the host is reading', async () => {
   expect(host.speaking).toBe(true);
   await act(() => rec.hear('pas'));
   expect(screen.getByLabelText('A harfi, pas')).toBeOnTheScreen();
+  await wait(CUE_LEAD_MS + 10);  // the cue first, then the host
   expect(host.speaking).toBe(true);  // now reading B
   await wait(SETTLE_MS + 50);  // a new utterance, not more of "pas"
   expect(host.speaking).toBe(true);

@@ -162,6 +162,23 @@ export class AnswerListener {
       || (f.length >= 4 && Math.abs(e.length - f.length) <= 2 && distance(e, f) <= (f.length >= 8 ? 2 : 1)));
   }
 
+  /**
+   * Heard words that are the host's last words, or garbled close to them: a
+   * wrong answer heard while the host talks is ignored only then. Words of
+   * which at most half are near the host's are the player's, so "Merkür"
+   * said over the Mars clue is judged.
+   */
+  hostLike(text: string): boolean {
+    const ws = words(text).map(fold);
+    if (!ws.length || !this.echo.length) return false;
+    const said = ws.join('');
+    if (said.length >= 5 && this.echo.join('').includes(said)) return true;
+    const near = ws.filter((f) => this.echo.some((e) => e === f
+      || (f.length >= 4 && Math.abs(e.length - f.length) <= 3 && e.slice(0, 4) === f.slice(0, 4))
+      || (f.length >= 4 && Math.abs(e.length - f.length) <= 2 && distance(e, f) <= (f.length >= 8 ? 2 : 1)))).length;
+    return near * 2 > ws.length;
+  }
+
   /** The host is talking, or stopped less than ECHO_TAIL_MS ago. */
   get hostRecent(): boolean {
     return this.echoActive;

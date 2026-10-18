@@ -24,9 +24,12 @@ export const BG_STEP = 0.0085;
 export const musicVolume = (level: number) => Math.min(MUSIC_LEVELS, Math.max(1, Math.round(level))) * BG_STEP;
 export const BG_VOLUME = musicVolume(DEFAULT_MUSIC_LEVEL);
 export const BG_MAX = musicVolume(MUSIC_LEVELS);
-/** While the host speaks the bed and the cues drop to this share of their level. */
+/** While the host speaks the bed drops to this share of its level (the cues never do). */
 export const DUCK = 0.3;
 export const BG_DUCKED = BG_VOLUME * DUCK;
+/** The host starts a line this long after an answer's cue, so the two never overlap. */
+export const CUE_LEAD_MS = 250;
+const SEEK_MAX_MS = 150;
 
 // keepAudioSessionActive: expo-audio otherwise deactivates the iOS audio
 // session ~100 ms after any clip ends or pauses while no other player is
@@ -40,8 +43,11 @@ export class Sounds {
   private ducked = false;
   private musicOn = true;
   private level = DEFAULT_MUSIC_LEVEL;
+  private gen = 0;  // stopAll() bumps it: a cue still waiting for its seek stays quiet
   /** Every cue played, for tests and logs. */
   readonly played: string[] = [];
+  /** Every cue as it really started: its volume and whether from its beginning. */
+  readonly started: { cue: Cue; volume: number; fromStart: boolean }[] = [];
 
   private get(name: keyof typeof FILES): AudioPlayer | null {
     try {
@@ -51,13 +57,25 @@ export class Sounds {
     }
   }
 
+  // Always at full volume, whoever is speaking (the host waits for the cue
+  // instead, see CUE_LEAD_MS). A replayed cue is rewound first and only then
+  // started: on iOS a play() racing the seek can be skipped.
   play(cue: Cue) {
     const p = this.get(cue);
     this.played.push(cue);
     if (!p) return;
-    p.volume = this.ducked ? DUCK : 1;
-    p.seekTo(0).catch(() => {});
-    p.play();
+    p.volume = 1;
+    const gen = this.gen;
+    const start = () => {
+      if (gen !== this.gen) return;
+      this.started.push({ cue, volume: p.volume, fromStart: !p.currentTime });
+      p.play();
+    };
+    if (!p.currentTime) { start(); return; }
+    let go = true;
+    const once = () => { if (go) { go = false; start(); } };
+    p.seekTo(0).then(once, once);
+    setTimeout(once, SEEK_MAX_MS);  // a seek that never answers must not swallow the cue
   }
 
   // The round wants the bed; it plays only with the music on in Ayarlar.
@@ -80,6 +98,7 @@ export class Sounds {
 
   // Silence: the bed and any cue still sounding (the app went to the background).
   stopAll() {
+    this.gen++;
     this.stopBg();
     for (const p of Object.values(this.players)) {
       try { p?.pause(); } catch { /* not loaded */ }
@@ -115,12 +134,10 @@ export class Sounds {
     return musicVolume(this.level) * (this.ducked ? DUCK : 1);
   }
 
-  // While the host speaks everything else is lowered: the bed and any cue still sounding.
+  // While the host speaks the bed is lowered; the cues stay at full volume.
   duck(on: boolean) {
     this.ducked = on;
-    for (const [name, p] of Object.entries(this.players)) {
-      if (!p) continue;
-      p.volume = name === 'bg' ? this.bedVolume : on ? DUCK : 1;
-    }
+    const p = this.players.bg;
+    if (p) p.volume = this.bedVolume;
   }
 }

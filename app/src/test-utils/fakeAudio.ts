@@ -22,6 +22,7 @@ export class FakePlayer {
     if (!this.loop) {
       this.timer = setTimeout(() => {
         this.playing = false;
+        this.currentTime = this.duration;  // left at the end, as a finished clip is
         [...this.subs].forEach((f) => f({ didJustFinish: true }));
       }, CLIP_MS);
     }
@@ -33,8 +34,13 @@ export class FakePlayer {
   replace(source: unknown) {
     this.pause();
     this.source = source;
+    this.currentTime = 0;
   }
-  async seekTo() {}
+  // Like iOS: the position moves only once the seek has gone through, a tick later.
+  async seekTo(t: number) {
+    await Promise.resolve();
+    this.currentTime = t;
+  }
   remove() { this.pause(); }
   addListener(_: string, f: (s: Status) => void) {
     this.subs.add(f);
