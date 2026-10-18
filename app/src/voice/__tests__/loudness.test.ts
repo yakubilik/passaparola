@@ -16,7 +16,9 @@ const CUES = ['correct', 'wrong', 'pas', 'warn'];
 test('every host clip in the app is measured and sits at the voice target', () => {
   for (const key of Object.keys(CLIPS)) {
     expect(report.voice[key]).toBeDefined();
-    expect(Math.abs(report.voice[key].lufs - report.targets.voice)).toBeLessThanOrEqual(1);
+    // Within 1 LU of the target, or as close as the true-peak ceiling lets a peaky clip get (it is then quieter, never louder).
+    const { lufs, truePeak } = report.voice[key];
+    expect(Math.abs(lufs - report.targets.voice) <= 1 || (lufs < report.targets.voice && truePeak >= report.targets.maxTruePeak - 0.5)).toBe(true);
     expect(report.voice[key].truePeak).toBeLessThanOrEqual(report.targets.maxTruePeak + 0.5);
   }
   expect(report.targets.voice).toBe(-18);
