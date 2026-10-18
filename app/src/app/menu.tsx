@@ -143,6 +143,7 @@ export default function Menu() {
         <Tab label="Ana sayfa" on />
         <Tab label="Kategoriler" onPress={() => router.push('/category')} />
         <Tab label="Profil" />
+        <Tab label="Ayarlar" onPress={() => router.push('/settings')} />
       </View>
     </Screen>
   );
@@ -150,7 +151,7 @@ export default function Menu() {
 
 function Tab({ label, on, onPress }: { label: string; on?: boolean; onPress?: () => void }) {
   return (
-    <Pressable accessibilityRole="tab" accessibilityState={{ selected: !!on }} onPress={onPress} style={{ alignItems: 'center', gap: 6, minWidth: 80 }}>
+    <Pressable accessibilityRole="tab" accessibilityState={{ selected: !!on }} onPress={onPress} style={{ alignItems: 'center', gap: 6, minWidth: 70 }}>
       <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: on ? C.accent : 'transparent' }} />
       <Text style={{ fontFamily: F.bodySemi, fontSize: 13, color: on ? C.text : C.dim }}>{label}</Text>
     </Pressable>

@@ -10,7 +10,8 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.skolalabs.harfiyen",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSCameraUsageDescription": "Harfiyen shows your face inside the letter ring while you play. The picture never leaves your phone."
       }
     },
     "android": {
@@ -21,7 +22,10 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.skolalabs.harfiyen"
+      "package": "com.skolalabs.harfiyen",
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
