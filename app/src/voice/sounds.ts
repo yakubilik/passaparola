@@ -14,8 +14,8 @@ const FILES = {
 
 export type Cue = Exclude<keyof typeof FILES, 'bg'>;
 
-export const BG_VOLUME = 0.35;
-export const BG_DUCKED = 0.12;
+export const BG_VOLUME = 0.17;
+export const BG_DUCKED = 0.06;
 
 export class Sounds {
   private players: Partial<Record<keyof typeof FILES, AudioPlayer>> = {};
