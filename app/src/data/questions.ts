@@ -7,7 +7,8 @@ import spor from '../../assets/questions/spor.json';
 import tarih from '../../assets/questions/tarih.json';
 import { LETTERS } from '../game/letters';
 
-export type QuestionType = 'starts' | 'contains';
+// Every answer starts with its letter; there is no other kind of question.
+export type QuestionType = 'starts';
 
 export type Question = {
   id: string;

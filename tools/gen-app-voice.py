@@ -28,8 +28,7 @@ def lines():
         for lv in json.load(open(f, encoding='utf-8'))['levels']:
             for q in lv['questions']:
                 name = NAMES[q['letter']]
-                tail = f"{name.capitalize()} ile başlıyor." if q['type'] == 'starts' else f"İçinde {name} var."
-                out[q['id']] = f"{q['clue'].rstrip('.')}... {tail}"
+                out[q['id']] = f"{q['clue'].rstrip('.')}... {name.capitalize()} ile başlıyor."
                 out[q['id'] + '-cevap'] = f"{q['answers'][0]} olacaktı."
     return out
 

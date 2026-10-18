@@ -382,19 +382,19 @@
         {
           "id": "spor-1-I-3",
           "letter": "I",
-          "type": "contains",
-          "clue": "Futbolda oyuncuyu oyundan atan kart.",
+          "type": "starts",
+          "clue": "Topa ya da hedefe vurmaya çalışırken boşa geçme.",
           "answers": [
-            "Kırmızı kart"
+            "Iska"
           ]
         },
         {
           "id": "spor-1-I-4",
           "letter": "I",
-          "type": "contains",
-          "clue": "Aynı formayı giyen oyuncuların oluşturduğu topluluk.",
+          "type": "starts",
+          "clue": "Temel Reis'in yiyince güçlendiği yeşil sebze.",
           "answers": [
-            "Takım"
+            "Ispanak"
           ]
         },
         {
@@ -675,19 +675,20 @@
         {
           "id": "spor-1-Ö-3",
           "letter": "Ö",
-          "type": "contains",
-          "clue": "Bir dizinin her bir yayın parçası.",
+          "type": "starts",
+          "clue": "Gerçek adı Peter Parker olan, ağ atarak binadan binaya sallanan kahraman.",
           "answers": [
-            "Bölüm"
+            "Örümcek Adam"
           ]
         },
         {
           "id": "spor-1-Ö-4",
           "letter": "Ö",
-          "type": "contains",
-          "clue": "Panayırda yükselip dönen, kabinli dev tekerlek.",
+          "type": "starts",
+          "clue": "Turnuvanın asıl bölümünden önce yapılan, katılacak takımları belirleyen eleme.",
           "answers": [
-            "Dönme dolap"
+            "Ön eleme",
+            "Ön elemeler"
           ]
         },
         {
@@ -938,28 +939,29 @@
         {
           "id": "spor-1-Ü-2",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "Halk müziğinde sözlü ezgi; bağlama eşliğinde söylenen halk şarkısı.",
+          "type": "starts",
+          "clue": "Bronz madalya kazanan sporcunun derecesi.",
           "answers": [
-            "Türkü"
+            "Üçüncü",
+            "Üçüncülük"
           ]
         },
         {
           "id": "spor-1-Ü-3",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "Maçı yöneten kişinin oyunu durdurmak için öttürdüğü alet.",
+          "type": "starts",
+          "clue": "Binicilikte atlının ayağını dayadığı, eyerden sarkan halka.",
           "answers": [
-            "Düdük"
+            "Üzengi"
           ]
         },
         {
           "id": "spor-1-Ü-4",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "Altından sonra gelen, ikincilerin boynuna takılan derecenin metali.",
+          "type": "starts",
+          "clue": "Bir spor kulübüne aidat ödeyerek katılan kişi.",
           "answers": [
-            "Gümüş"
+            "Üye"
           ]
         },
         {
@@ -1426,28 +1428,28 @@
         {
           "id": "spor-2-I-1",
           "letter": "I",
-          "type": "contains",
-          "clue": "Futbolda uyarı için gösterilen kart.",
+          "type": "starts",
+          "clue": "Bilardoda toplara vurmak için kullanılan uzun sopa.",
           "answers": [
-            "Sarı kart"
+            "Istaka"
           ]
         },
         {
           "id": "spor-2-I-2",
           "letter": "I",
-          "type": "contains",
-          "clue": "Türkiye kadın voleybol milli takımının lakabı.",
+          "type": "starts",
+          "clue": "Çağan Irmak'ın, Cahit Berkay müzikli, Alper ile Ada'nın aşkını anlatan 2008 filmi.",
           "answers": [
-            "Filenin Sultanları"
+            "Issız Adam"
           ]
         },
         {
           "id": "spor-2-I-3",
           "letter": "I",
-          "type": "contains",
-          "clue": "Finalden bir önceki tur.",
+          "type": "starts",
+          "clue": "Rafting ve kanonun yapıldığı, Çoruh ve Köprüçay gibi akarsuların genel adı.",
           "answers": [
-            "Yarı final"
+            "Irmak"
           ]
         },
         {
@@ -1749,10 +1751,10 @@
         {
           "id": "spor-2-Ö-1",
           "letter": "Ö",
-          "type": "contains",
-          "clue": "İzmir'in sarı-kırmızılı köklü futbol kulübü.",
+          "type": "starts",
+          "clue": "2010-2013 yılları arasında yayınlanan, Ali Kaptan ve ailesini anlatan dizi.",
           "answers": [
-            "Göztepe"
+            "Öyle Bir Geçer Zaman ki"
           ]
         },
         {
@@ -1768,19 +1770,19 @@
         {
           "id": "spor-2-Ö-3",
           "letter": "Ö",
-          "type": "contains",
-          "clue": "Bir şarkının sözlerini yazan kişi.",
+          "type": "starts",
+          "clue": "Ali Atay'ın yönettiği, Erdenay ailesinin tetikçi maceralarını anlatan 2018 komedisi.",
           "answers": [
-            "Söz yazarı"
+            "Ölümlü Dünya"
           ]
         },
         {
           "id": "spor-2-Ö-4",
           "letter": "Ö",
-          "type": "contains",
-          "clue": "Kaybedilen karşılaşmadan sonra yeniden yapılan, intikam maçı.",
+          "type": "starts",
+          "clue": "Almanya formasıyla 2014 Dünya Kupası'nı kazanan, sonra Fenerbahçe'de de oynayan Türk asıllı futbolcu.",
           "answers": [
-            "Rövanş"
+            "Özil"
           ]
         },
         {
@@ -2028,19 +2030,21 @@
         {
           "id": "spor-2-Ü-3",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "'Diva' lakaplı, 'Maazallah' şarkısıyla bilinen sanatçı.",
+          "type": "starts",
+          "clue": "Atletizmde sek, şek ve atlama adımlarıyla yapılan dal.",
           "answers": [
-            "Bülent Ersoy"
+            "Üçlü atlama"
           ]
         },
         {
           "id": "spor-2-Ü-4",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "Şarkı ve dansların hikâyenin parçası olduğu film ya da sahne eseri.",
+          "type": "starts",
+          "clue": "21 yaş altı oyunculardan kurulan milli futbol takımı.",
           "answers": [
-            "Müzikal"
+            "Ümit Milli Takım",
+            "Ümit Millî Takım",
+            "Ümitler"
           ]
         },
         {
@@ -2494,38 +2498,39 @@
         {
           "id": "spor-3-I-1",
           "letter": "I",
-          "type": "contains",
-          "clue": "Atletizmde uzun bir çubuk yardımıyla çıtanın üzerinden geçilen dal.",
+          "type": "starts",
+          "clue": "Sezen Aksu'nun halk müziğine yöneldiği 1995 tarihli albümü.",
           "answers": [
-            "Sırıkla atlama",
-            "Sırık atlama"
+            "Işık Doğudan Yükselir"
           ]
         },
         {
           "id": "spor-3-I-2",
           "letter": "I",
-          "type": "contains",
-          "clue": "Bağlama ve ud gibi telli çalgıları çalmak için kullanılan küçük çubuk.",
+          "type": "starts",
+          "clue": "Formula 1'de yarışın başlaması için sönmesi beklenen beş kırmızı lamba.",
           "answers": [
-            "Mızrap"
+            "Işıklar",
+            "Işık"
           ]
         },
         {
           "id": "spor-3-I-3",
           "letter": "I",
-          "type": "contains",
-          "clue": "Yüzmede sırt suya gelecek biçimde yapılan stil.",
+          "type": "starts",
+          "clue": "Kastamonu ile Çankırı arasında, kayak merkezi bulunan dağ.",
           "answers": [
-            "Sırtüstü"
+            "Ilgaz",
+            "Ilgaz Dağı"
           ]
         },
         {
           "id": "spor-3-I-4",
           "letter": "I",
-          "type": "contains",
-          "clue": "'Selvi Boylum Al Yazmalım' ve 'Mine' filmlerinin yönetmeni.",
+          "type": "starts",
+          "clue": "Galatasaray'la anılan, kadın basketbol milli takımının kaptanlığını da yapan oyun kurucu.",
           "answers": [
-            "Atıf Yılmaz"
+            "Işıl Alben"
           ]
         },
         {
@@ -2803,20 +2808,19 @@
         {
           "id": "spor-3-Ö-3",
           "letter": "Ö",
-          "type": "contains",
-          "clue": "Oyuncunun havada ters dönüp topu başının üzerinden geriye vurması.",
+          "type": "starts",
+          "clue": "Zihinsel engelli sporcular için düzenlenen uluslararası spor organizasyonu.",
           "answers": [
-            "Röveşata",
-            "Rövaşata"
+            "Özel Olimpiyatlar"
           ]
         },
         {
           "id": "spor-3-Ö-4",
           "letter": "Ö",
-          "type": "contains",
-          "clue": "Perdeye yansıtılan deriden tasvirlerle oynatılan geleneksel seyirlik oyun.",
+          "type": "starts",
+          "clue": "Yılmaz Erdoğan'la birlikte Vizontele'yi yöneten, Gora'nın da yönetmeni olan isim.",
           "answers": [
-            "Gölge oyunu"
+            "Ömer Faruk Sorak"
           ]
         },
         {
@@ -3064,20 +3068,21 @@
         {
           "id": "spor-3-Ü-3",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "Yahya Kemal'in 'Aziz İstanbul' şiirini besteleyen klasik Türk müziği sanatçısı.",
+          "type": "starts",
+          "clue": "Üniversite öğrencileri için düzenlenen, 2005'te İzmir'de yapılan dünya spor oyunları.",
           "answers": [
-            "Münir Nurettin Selçuk",
-            "Münir Nurettin"
+            "Üniversiade"
           ]
         },
         {
           "id": "spor-3-Ü-4",
           "letter": "Ü",
-          "type": "contains",
-          "clue": "1984'ten 2000'e kesintisiz Beşiktaş'ın başkanlığını yapan isim.",
+          "type": "starts",
+          "clue": "Fenerbahçe'nin basketbol maçlarını oynadığı, Ataşehir'deki salon.",
           "answers": [
-            "Süleyman Seba"
+            "Ülker Sports Arena",
+            "Ülker Spor ve Etkinlik Salonu",
+            "Ülker"
           ]
         },
         {
