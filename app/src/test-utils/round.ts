@@ -13,8 +13,19 @@ export async function settle() {
   await act(async () => {});
 }
 
-/** Presses Başla and waits until the host has started the first clue. */
+/**
+ * Waits (on jest's clock, in small steps) until the current clue is on
+ * screen: with the host reading, that is the moment its clue line starts.
+ */
+export async function untilClue(maxMs = 8000) {
+  for (let t = 0; t < maxMs && !screen.queryByTestId('clue'); t += 50) {
+    await act(async () => { jest.advanceTimersByTime(50); });
+  }
+}
+
+/** Presses Başla and waits until the host has started the first clue (the clue is on screen then). */
 export async function pressStart() {
   await fireEvent.press(await screen.findByText('Başla'));
   await settle();
+  await untilClue();
 }

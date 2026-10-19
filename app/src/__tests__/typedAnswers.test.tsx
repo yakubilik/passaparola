@@ -6,7 +6,7 @@ import { CATEGORIES } from '../data/questions';
 import { REVEAL_MAX_MS, REVEAL_MS } from '../game/useRound';
 import { SETTINGS_KEY } from '../store/settings';
 import { fakeRecognizer as rec } from '../test-utils/fakeRecognizer';
-import { pressStart, settle } from '../test-utils/round';
+import { pressStart, settle, untilClue } from '../test-utils/round';
 import { host, listener, sounds } from '../voice/engine';
 import { answerLine, host as hostLine, type Line } from '../voice/lines';
 
@@ -100,9 +100,11 @@ describe.each([['voice on', true], ['voice off', false]])('single player, %s', (
     await single(voice);
     await type(question(clueText()).answers[0]);
     expect(screen.getByLabelText('A harfi, doğru')).toBeOnTheScreen();
+    await untilClue();
     expect(screen.getByLabelText('B harfi, sırada')).toBeOnTheScreen();
     await type('pas');
     expect(screen.getByLabelText('B harfi, pas')).toBeOnTheScreen();
+    await untilClue();
     expect(screen.getByLabelText('C harfi, sırada')).toBeOnTheScreen();
     expect(sounds.played).toEqual(expect.arrayContaining(['correct', 'pas']));
   });
@@ -146,15 +148,16 @@ describe('the reveal never waits for host lines that are not coming', () => {
   test('a host that never reports the end of the right answer: the reveal ends after REVEAL_MAX_MS', async () => {
     await single(true);
     const speak = host.speak.bind(host);
-    jest.spyOn(host, 'speak').mockImplementation((lines, done, cut) => {
+    jest.spyOn(host, 'speak').mockImplementation((lines, done, cut, starts) => {
       if (lines.some((l) => l.key === hostLine('wrong').key)) return;  // never done, never cut
-      speak(lines, done, cut);
+      speak(lines, done, cut, starts);
     });
     await type('xyzzy');
     await wait(REVEAL_MS + 2000);
     expect(screen.getByTestId('reveal')).toBeOnTheScreen();
     await wait(REVEAL_MAX_MS);
     expect(screen.queryByTestId('reveal')).toBeNull();
+    await untilClue();
     expect(screen.getByLabelText('B harfi, sırada')).toBeOnTheScreen();
   });
 });
@@ -171,8 +174,10 @@ describe.each([['voice on', true], ['voice off', false]])('multiplayer, %s', (_,
 
   test('typed right moves to the next letter, typed wrong ends the turn on the result card with the right answer', async () => {
     await match();
+    await untilClue();
     await type(question(clueText()).answers[0]);
     expect(screen.getByLabelText('A harfi, doğru')).toBeOnTheScreen();
+    await untilClue();
     expect(screen.getByLabelText('B harfi, sırada')).toBeOnTheScreen();
     const b = question(clueText());
     await wait(1200);

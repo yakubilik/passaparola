@@ -56,7 +56,7 @@ test('menu → Ayarlar: the camera is switched off, remembered, and the game sho
   expect(screen.getByTestId('face-placeholder')).toBeOnTheScreen();
   expect(screen.queryByTestId('camera-preview')).toBeNull();
   // The round goes on as usual.
-  await fireEvent.press(screen.getByText('Başla'));
+  await pressStart();
   expect(screen.getByTestId('clue')).toBeOnTheScreen();
 });
 
@@ -145,7 +145,7 @@ test('Ayarlar: with Müzik off the round has no bed, and that is remembered', as
 
   await renderRouter('./src/app', { initialUrl: '/menu' });
   await quickGame();
-  await fireEvent.press(screen.getByText('Başla'));
+  await pressStart();
   expect(sounds.bgPlaying).toBe(false);
   expect(sounds.bgVolume).toBe(0);
   expect(screen.getByTestId('clue')).toBeOnTheScreen();
