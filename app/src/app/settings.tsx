@@ -42,7 +42,9 @@ export default function SettingsScreen() {
               trackColor={{ true: C.accent, false: '#2a3256' }}
             />
           </View>
-          <Pressable accessibilityRole="button" onPress={() => router.push('/mic')} hitSlop={8}>
+          {/* A long press opens the speech test (Ses tanıma testi), a debug screen. */}
+          <Pressable testID="mic-try" accessibilityRole="button" onPress={() => router.push('/mic')}
+            onLongPress={() => router.push('/speech-test')} delayLongPress={800} hitSlop={8}>
             <Text style={{ fontFamily: F.bodySemi, fontSize: 14, color: C.accentSoft }}>Mikrofonu dene ›</Text>
           </Pressable>
         </View>
