@@ -174,3 +174,43 @@ phone volume (`outputVolume`), voice processing on/off and the ducking level as
 each round found them once its mic was up and settled (`src/voice/roundAudio.ts`),
 plus `yeniden kurulum N` when the engine was rebuilt after a route change. A
 screenshot of the result screen after round 2 shows rounds 1 and 2 side by side.
+
+## Checked natively on the simulator (#361)
+
+A Release simulator build of this branch with the patched recognizer (iPhone 17,
+iOS 26.3) ran the self-test: levels 1, 2 and 3 back to back, voice on, the mic
+open all along. `app/e2e/selftest-report.py` on its log:
+
+    round 1 @ 5s:   playAndRecord (mixWithOthers, allowBluetooth, defaultToSpeaker), mode default,
+                    outputVolume 0.60, route Speaker; voice processing on, advanced ducking off,
+                    ducking min, engines 1, rebuilds 0
+    round 2 @ 178s: the same, engines 2, rebuilds 0
+    round 3 @ 406s: the same, engines 3, rebuilds 0
+    3 round starts; identical: True
+
+The session never changed after the first round set it up (one change in the whole
+log: soloAmbient → playAndRecord at the first round), and no engine was rebuilt.
+The simulator says nothing about how loud the iPhone's speaker gets; the same log
+from the phone does.
+
+## The self-test
+
+Launch argument `-harfiyenSelfTest 1` (`src/voice/selfTest.ts`): the app plays tarih
+levels 1-3 (quick, so nothing is locked and no progress is saved), voice on, each
+clue answered right 0.7 s after it was read (what the mic hears is not judged), and
+writes the session, the recognizer engine's voice processing and ducking, and every
+player's volume to `Documents/harfiyen-selftest.json` every second and at each round
+start. Each result screen stays 20 s, scrolled down to SES OTURUMU.
+
+On the iPhone (after the delivery installed the build):
+
+    xcrun devicectl device process launch --device <id> --terminate-existing \
+      com.skolalabs.harfiyen -- -harfiyenSelfTest 1
+    # about 8 minutes later
+    xcrun devicectl device copy from --device <id> --domain-type appDataContainer \
+      --domain-identifier com.skolalabs.harfiyen --source Documents/harfiyen-selftest.json \
+      --destination ./harfiyen-selftest.json
+    python3 app/e2e/selftest-report.py harfiyen-selftest.json
+
+On the simulator: `app/e2e/rounds.sh <Harfiyen.app> <udid> <out dir>` (inside the
+simulator lock) runs it with Maestro (`e2e/rounds.yaml`) and screenshots.
