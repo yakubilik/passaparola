@@ -45,6 +45,7 @@ describe('app.json is store-ready', () => {
     expect(ios.buildNumber).toMatch(/^\d+$/);
     const fastfile = readFileSync(join(APP, 'fastlane', 'Fastfile'), 'utf8');
     expect(fastfile).toMatch(/latest_testflight_build_number/);
+    expect(fastfile).toMatch(/\[latest_testflight_build_number\(.*\) \+ 1, floor\]\.max/);
     expect(fastfile).toMatch(/CFBundleVersion/);
   });
 
@@ -54,7 +55,7 @@ describe('app.json is store-ready', () => {
     expect(plist.ITSAppUsesNonExemptEncryption).toBe(false);
   });
 
-  it.each(['NSCameraUsageDescription', 'NSMicrophoneUsageDescription', 'NSSpeechRecognitionUsageDescription'])(
+  it.each(['NSCameraUsageDescription', 'NSMicrophoneUsageDescription', 'NSSpeechRecognitionUsageDescription', 'NSPhotoLibraryUsageDescription', 'NSPhotoLibraryAddUsageDescription'])(
     '%s is a Turkish sentence that names Harfiyen',
     (key) => {
       const text: string = plist[key];
@@ -63,6 +64,13 @@ describe('app.json is store-ready', () => {
       expect(text).not.toMatch(/\b(the|your|you)\b/i);
     },
   );
+
+  // A library in the app references the photo APIs, so App Store processing (ITMS-90683)
+  // wants these strings even though Harfiyen never asks for the photo library.
+  it('says the photo library is never accessed', () => {
+    expect(plist.NSPhotoLibraryUsageDescription).toMatch(/erişmez/);
+    expect(plist.NSPhotoLibraryAddUsageDescription).toMatch(/kaydetmez/);
+  });
 
   it('says the camera picture stays on the phone and the voice is not kept', () => {
     expect(plist.NSCameraUsageDescription).toMatch(/gönderilmez/);

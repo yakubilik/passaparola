@@ -9,12 +9,14 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.skolalabs.harfiyen",
-      "buildNumber": "1",
+      "buildNumber": "2",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSCameraUsageDescription": "Harfiyen oynarken yüzünü harf çemberinin ortasında gösterir. Görüntü yalnızca telefonunda işlenir, kaydedilmez ve hiçbir yere gönderilmez.",
         "NSMicrophoneUsageDescription": "Harfiyen cevaplarını sesli söyleyebilmen için mikrofonu kullanır. Ses kaydedilmez ve saklanmaz.",
-        "NSSpeechRecognitionUsageDescription": "Söylediğin cevap Apple'ın konuşma tanıma hizmetiyle yazıya çevrilir. Harfiyen sesini kaydetmez ve saklamaz."
+        "NSSpeechRecognitionUsageDescription": "Söylediğin cevap Apple'ın konuşma tanıma hizmetiyle yazıya çevrilir. Harfiyen sesini kaydetmez ve saklamaz.",
+        "NSPhotoLibraryUsageDescription": "Harfiyen fotoğraflarına erişmez ve bu izni istemez. Bu açıklama yalnızca uygulamadaki kamera kütüphanesi bu özelliği içerdiği için vardır.",
+        "NSPhotoLibraryAddUsageDescription": "Harfiyen fotoğraf arşivine hiçbir şey kaydetmez ve bu izni istemez."
       }
     },
     "android": {

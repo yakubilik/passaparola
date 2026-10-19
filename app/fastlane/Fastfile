@@ -9,6 +9,8 @@
 #          (still only the internal TestFlight group sees it). It never submits for review:
 #          Yakup presses "Submit for Review" himself.
 
+require "json"
+
 default_platform(:ios)
 
 APP_ROOT = File.expand_path("..", __dir__)
@@ -31,7 +33,10 @@ platform :ios do
   private_lane :store_ipa do |options|
     key = options[:key]
     sh("cd #{APP_ROOT.shellescape} && npx expo prebuild --platform ios --clean")
-    build = latest_testflight_build_number(api_key: key, app_identifier: BUNDLE_ID, initial_build_number: 0) + 1
+    # Uploads Apple rejected in processing never show up as builds, so app.json's buildNumber
+    # (raised after such a rejection) is a floor: a build number is never reused.
+    floor = JSON.parse(File.read(File.join(APP_ROOT, "app.json")))["expo"]["ios"]["buildNumber"].to_i
+    build = [latest_testflight_build_number(api_key: key, app_identifier: BUNDLE_ID, initial_build_number: 0) + 1, floor].max
     increment_build_number(xcodeproj: File.join(APP_ROOT, "ios", "Harfiyen.xcodeproj"), build_number: build)
     set_info_plist_value(path: File.join(APP_ROOT, "ios", "Harfiyen", "Info.plist"), key: "CFBundleVersion", value: build.to_s)
     build_app(
