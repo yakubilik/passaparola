@@ -60,7 +60,14 @@ home screen stays "Harfiyen".
   build number = latest on App Store Connect + 1, signed App Store IPA, uploaded for version
   1.0.0. It never submits for review. Attach it with
   `ascelerate apps build attach-latest com.skolalabs.harfiyen`.
-- Yakup presses "Add for Review" / "Submit for Review" himself.
+- Content rights (no third-party content) are also set by asc-store-setup.py.
+- State on 19 Oct 2026: build 2 (1.0.0) is processed, attached and in a draft submission
+  ("Item Ready to Submit"). Build 1 was rejected in processing (ITMS-90683: photo-library
+  purpose string), hence the NSPhotoLibrary* strings in app.json.
+- The main checkout's node_modules (which a worktree's symlink points at) can be reinstalled
+  mid-build; a long release build is safer from a snapshot copy of app/ (`cp -cR` the
+  node_modules) inside the worktree's gitignored `.work/`.
+- Yakup presses "Submit for Review" himself.
 
 ## Later: TestFlight beta (prepared, not used)
 

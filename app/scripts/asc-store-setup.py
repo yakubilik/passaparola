@@ -3,6 +3,7 @@
 
     uv run --with pyjwt --with cryptography --with requests python3 app/scripts/asc-store-setup.py [check]
 
+- content rights: no third-party content
 - categories: Games, subcategories Trivia and Word
 - age rating: every question answered "None" / "No" (4+)
 - price: free (price point 0 for every territory, base USA); availability: all territories
@@ -73,6 +74,11 @@ def main():
         for rel in ('primaryCategory', 'primarySubcategoryOne', 'primarySubcategoryTwo', 'secondaryCategory'):
             print(rel, call('GET', f"/v1/appInfos/{info['id']}/{rel}").get('data'))
         return
+
+    # Content rights: every question, clue and clip is our own (no third-party content).
+    call('PATCH', f'/v1/apps/{app_id}', json={'data': {'type': 'apps', 'id': app_id,
+         'attributes': {'contentRightsDeclaration': 'DOES_NOT_USE_THIRD_PARTY_CONTENT'}}})
+    print('✓ content rights: no third-party content')
 
     # Categories.
     cat = lambda c: {'data': {'type': 'appCategories', 'id': c}}
