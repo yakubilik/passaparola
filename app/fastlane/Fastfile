@@ -5,6 +5,11 @@
 #   beta — prebuild ios/, bump the build number past the latest TestFlight build, build a
 #          signed App Store IPA and upload it to TestFlight Internal Testing only (no
 #          external groups, no App Store review).
+#   release — the same build, uploaded to App Store Connect for the App Store version
+#          (still only the internal TestFlight group sees it). It never submits for review:
+#          Yakup presses "Submit for Review" himself.
+
+require "json"
 
 default_platform(:ios)
 
@@ -23,15 +28,17 @@ def asc_api_key
 end
 
 platform :ios do
-  desc "Build + upload to TestFlight Internal Testing. Bumps the build number automatically."
-  lane :beta do
-    key = asc_api_key
+  # Prebuild ios/, set the build number past the latest one on App Store Connect (in the
+  # project and in Info.plist, which expo writes as a literal) and build a signed App Store IPA.
+  private_lane :store_ipa do |options|
+    key = options[:key]
     sh("cd #{APP_ROOT.shellescape} && npx expo prebuild --platform ios --clean")
-    latest = latest_testflight_build_number(api_key: key, app_identifier: BUNDLE_ID, initial_build_number: 0)
-    increment_build_number(
-      xcodeproj: File.join(APP_ROOT, "ios", "Harfiyen.xcodeproj"),
-      build_number: latest + 1
-    )
+    # Uploads Apple rejected in processing never show up as builds, so app.json's buildNumber
+    # (raised after such a rejection) is a floor: a build number is never reused.
+    floor = JSON.parse(File.read(File.join(APP_ROOT, "app.json")))["expo"]["ios"]["buildNumber"].to_i
+    build = [latest_testflight_build_number(api_key: key, app_identifier: BUNDLE_ID, initial_build_number: 0) + 1, floor].max
+    increment_build_number(xcodeproj: File.join(APP_ROOT, "ios", "Harfiyen.xcodeproj"), build_number: build)
+    set_info_plist_value(path: File.join(APP_ROOT, "ios", "Harfiyen", "Info.plist"), key: "CFBundleVersion", value: build.to_s)
     build_app(
       workspace: File.join(APP_ROOT, "ios", "Harfiyen.xcworkspace"),
       scheme: "Harfiyen",
@@ -44,6 +51,13 @@ platform :ios do
               "PROVISIONING_PROFILE_SPECIFIER='#{PROFILE}'",
       clean: true
     )
+    build
+  end
+
+  desc "Build + upload to TestFlight Internal Testing. Bumps the build number automatically."
+  lane :beta do
+    key = asc_api_key
+    build = store_ipa(key: key)
     upload_to_testflight(
       api_key: key,
       ipa: IPA,
@@ -51,6 +65,24 @@ platform :ios do
       skip_waiting_for_build_processing: false,
       changelog: "Internal beta build."
     )
-    UI.success("Harfiyen build #{latest + 1} is on TestFlight Internal.")
+    UI.success("Harfiyen build #{build} is on TestFlight Internal.")
+  end
+
+  desc "Build + upload for the App Store version. Never submits for review."
+  lane :release do
+    key = asc_api_key
+    build = store_ipa(key: key)
+    upload_to_app_store(
+      api_key: key,
+      ipa: IPA,
+      app_version: "1.0.0",
+      skip_metadata: true,
+      skip_screenshots: true,
+      submit_for_review: false,
+      automatic_release: false,
+      force: true,
+      precheck_include_in_app_purchases: false
+    )
+    UI.success("Harfiyen build #{build} is uploaded. Attach it to version 1.0 and press Submit for Review in App Store Connect.")
   end
 end
