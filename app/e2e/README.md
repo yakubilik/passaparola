@@ -19,3 +19,8 @@ Ayarlar screen with the camera switch, and a round with the placeholder in
 the ring.
 
     maestro --device <simulator> test e2e/camera.yaml
+
+`ring-light.yaml` shows a round with the light around the ring (rays, halo,
+dashed circle; design 1b) and the placeholder in the square.
+
+    maestro --device <simulator> test e2e/ring-light.yaml

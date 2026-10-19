@@ -16,7 +16,8 @@ import { BackLink } from '../ui/BackLink';
 import { Button } from '../ui/Button';
 import { Face } from '../ui/Face';
 import { MicCheck } from '../ui/MicCheck';
-import { Ring, type RingItem } from '../ui/Ring';
+import { Ring, ringRadius, type RingItem } from '../ui/Ring';
+import { RingGlow, RingRays } from '../ui/RingLight';
 import { Screen } from '../ui/Screen';
 import { C, F, type BubbleKind } from '../ui/theme';
 import { selfTestOn, useSelfTestRound } from '../voice/selfTest';
@@ -205,6 +206,7 @@ export function GameView({ game, voice, player }: { game: ReturnType<typeof useR
 
         <View testID="stage" style={{ flex: 1, gap: GAP }} onLayout={onStage}>
         <View testID="ring-area" style={{ height: stageH - questionH - GAP, alignItems: 'center', justifyContent: 'center' }}>
+          <RingRays radius={ringRadius(size, bubbleFor(size))} />
           <Board items={items} size={size} />
         </View>
 
@@ -352,14 +354,19 @@ function voiceStatus(v: ReturnType<typeof useVoiceRound>): string {
   return 'Mikrofon açılıyor…';
 }
 
+const bubbleFor = (size: number) => Math.round(size * 0.079);
+
 // The camera square with the letter ring drawn over it, as on the show: the
 // picture is as wide as the ring and the letters overlap it around the
-// player's head. Memoised: a clock tick re-renders the screen but leaves this
+// player's head; the ring's light (ui/RingLight) sits between the picture and
+// the letters. Memoised: a clock tick re-renders the screen but leaves this
 // alone unless a letter or the size changed.
 const Board = memo(function Board({ items, size }: { items: RingItem[]; size: number }) {
+  const bubble = bubbleFor(size);
   return (
-    <Ring testID="ring" items={items} size={size} bubble={Math.round(size * 0.079)} halo>
+    <Ring testID="ring" items={items} size={size} bubble={bubble} halo>
       <Face size={size} />
+      <RingGlow size={size} radius={ringRadius(size, bubble)} />
     </Ring>
   );
 });
