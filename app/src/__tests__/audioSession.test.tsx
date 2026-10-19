@@ -5,9 +5,9 @@ import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-librar
 import { SETTINGS_KEY } from '../store/settings';
 import { audio } from '../test-utils/fakeAudio';
 import { fakeRecognizer as rec } from '../test-utils/fakeRecognizer';
-import { host, sounds } from '../voice/engine';
+import { host, SESSION_SETTLE_MS, sounds } from '../voice/engine';
 import { RECOGNITION_OPTIONS } from '../voice/recognizer';
-import { CUE_VOLUME, FADE_IN_MS, HOST_VOLUME } from '../voice/sounds';
+import { CUE_VOLUME, DEFAULT_GAIN, FADE_IN_MS, HOST_VOLUME } from '../voice/sounds';
 
 // No volume blast when the app opens: the iOS audio session is left alone at
 // launch and on every menu, and set up once, when a round opens, with the
@@ -67,18 +67,21 @@ test('launch, menu, Ayarlar, categories and the level map: no sound and no audio
   expect(theme.volume).toBeGreaterThan(0);
   expect(theme.volume).toBeLessThan(CUE_VOLUME);
   await wait(FADE_IN_MS / 2);
-  expect(theme.volume).toBe(CUE_VOLUME);
+  expect(theme.volume).toBeCloseTo(CUE_VOLUME * DEFAULT_GAIN);
 
   // Starting the round and the mic changes nothing more, and later sounds start at their level at once.
   await fireEvent.press(screen.getByText('Başla'));
   await wait(10);
   expect(rec.starts).toBe(1);  // the first question's request
+  await wait(SESSION_SETTLE_MS + 10);
+  await act(async () => {});
+  await wait(FADE_IN_MS);
   expect(host.speaking).toBe(true);
-  expect(host.volume).toBe(HOST_VOLUME);
+  expect(host.volume).toBeCloseTo(HOST_VOLUME * DEFAULT_GAIN);
   await fireEvent.press(screen.getByLabelText('Pas'));
-  const pas = audio.players.find((p) => p.source === require('../../assets/sounds/pas.mp3'))!;
+  const pas = (sounds as any).players.pas;
   expect(pas.playing).toBe(true);
-  expect(pas.volume).toBe(CUE_VOLUME);
+  expect(pas.volume).toBeCloseTo(CUE_VOLUME * DEFAULT_GAIN);
   await wait(3000);
   expect(audio.sessionCalls).toEqual(['mode', 'active']);
   expect(rec.categories.length).toBe(1);

@@ -73,6 +73,8 @@ export const nativeRecognizer: Recognizer = {
       SR.addListener('result', h.result),
       SR.addListener('error', h.error),
       SR.addListener('end', h.end),
+      // Sent once the audio engine (voice processing with it) is running: see whenUp in listener.ts.
+      ...(h.start ? [SR.addListener('start', h.start)] : []),
     ];
     return () => subs.forEach((s) => s.remove());
   },

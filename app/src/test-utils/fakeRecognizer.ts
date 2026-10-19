@@ -73,6 +73,7 @@ export class FakeRecognizer {
   }
 
   emit(event: string, payload: any = null) {
+    if (event === 'start') audio.log.push({ e: 'rec:up', t: Date.now() });
     this.listeners[event]?.forEach((h) => h(payload));
   }
 
@@ -89,6 +90,7 @@ export class FakeRecognizer {
       this.lastOptions = options;
       this.startOptions.push(options);
       this.startTimes.push(Date.now());
+      audio.log.push({ e: 'rec:start', t: Date.now() });
       this.later('start');
       this.later('audiostart', { uri: null, timestamp: this.audioStartAt ?? Date.now() });
     },
@@ -110,6 +112,7 @@ export class FakeRecognizer {
       this.categories.push(options);
       this.categoryAfterPlays.push(audio.plays);
       this.events.push('category');
+      audio.log.push({ e: 'category', t: Date.now() });
     },
   };
 }

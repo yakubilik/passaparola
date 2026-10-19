@@ -3,7 +3,7 @@ import * as Speech from 'expo-speech';
 
 import { CLIPS } from './clips.generated';
 import type { Line } from './lines';
-import { HOST_VOLUME, PLAYER_OPTIONS, startAt } from './sounds';
+import { HOST_VOLUME, masterGain, onGainChange, PLAYER_OPTIONS, regain, startAt } from './sounds';
 
 // The host's voice. A line with a recording (assets/voice/<key>.mp3) plays
 // it; any other line, and any recording that fails to play, is read by the
@@ -20,11 +20,23 @@ export class Host {
   /** Every line said, `clip:<key>` or `tts:<text>`, for tests and logs. */
   readonly said: string[] = [];
 
-  constructor(private clips: Record<string, number> = CLIPS) {}
+  constructor(private clips: Record<string, number> = CLIPS) {
+    onGainChange(() => regain(this.player, HOST_VOLUME));
+  }
 
-  /** The host's clip volume (1 = full). */
+  /** The host's clip volume (1 = full): HOST_VOLUME under the Ses gain. */
   get volume(): number {
-    return this.player?.volume ?? HOST_VOLUME;
+    return this.player?.volume ?? HOST_VOLUME * masterGain();
+  }
+
+  /**
+   * The player is let go unless a line is playing: the next clip gets a new
+   * one, made on the audio session as it is now. Called by settleAudio (engine.ts).
+   */
+  renew() {
+    if (this.speaking || !this.player) return;
+    try { this.player.remove(); } catch { /* gone */ }
+    this.player = null;
   }
 
   hasClip(key: string): boolean {
@@ -88,7 +100,7 @@ export class Host {
       if (!this.player) this.player = createAudioPlayer(clip, PLAYER_OPTIONS);
       else this.player.replace(clip);
       const p = this.player;
-      // Always HOST_VOLUME: nothing else in the app may lower the host (the bed and cues sit under it).
+      // Always HOST_VOLUME under the Ses gain: nothing else in the app may lower the host (the bed and cues sit under it).
       startAt(p, HOST_VOLUME);
       this.sub = p.addListener('playbackStatusUpdate', (s) => { if (s.didJustFinish) end(false); });
       p.seekTo(0).catch(() => {});

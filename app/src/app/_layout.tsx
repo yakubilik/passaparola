@@ -10,11 +10,13 @@ import { ProgressProvider } from '../store/ProgressContext';
 import { SettingsProvider, useSettings } from '../store/SettingsContext';
 import { C } from '../ui/theme';
 import { sounds } from '../voice/engine';
+import { setMasterVolume } from '../voice/sounds';
 
-// The Müzik choice from Ayarlar, applied to the bed wherever it plays.
+// The Müzik and Ses choices from Ayarlar, applied wherever the game plays.
 function MusicSetting() {
   const { settings } = useSettings();
   useEffect(() => { sounds.setMusic(settings.music, settings.musicLevel); }, [settings.music, settings.musicLevel]);
+  useEffect(() => { setMasterVolume(settings.volume); }, [settings.volume]);
   return null;
 }
 
