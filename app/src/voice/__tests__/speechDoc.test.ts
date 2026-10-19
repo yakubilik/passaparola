@@ -29,7 +29,7 @@ test.each([
 });
 
 test('the audit says what the code sends', () => {
-  expect(RECOGNITION_OPTIONS).toMatchObject({ addsPunctuation: false, iosTaskHint: 'search', iosVoiceProcessingEnabled: true });
+  expect(RECOGNITION_OPTIONS).toMatchObject({ addsPunctuation: false, iosTaskHint: 'search', iosVoiceProcessingEnabled: false });
   expect(RECOGNITION_OPTIONS.iosCategory).toMatchObject({ category: 'playAndRecord', mode: 'default' });
   expect(doc).toContain(`\`${RECOGNITION_OPTIONS.iosTaskHint}\``);
   expect(doc).toContain(`${REQUEST_REFRESH_MS / 1000} s`);

@@ -71,7 +71,7 @@ test('ten words, each in its own request as in the game; live results with times
   expect(rec.starts).toBe(1);
   expect(rec.lastOptions).toMatchObject({
     lang: 'tr-TR', continuous: true, interimResults: true, contextualStrings: contextFor(['Ay']),
-    requiresOnDeviceRecognition: true, iosTaskHint: 'search', addsPunctuation: false, iosVoiceProcessingEnabled: true,
+    requiresOnDeviceRecognition: true, iosTaskHint: 'search', addsPunctuation: false, iosVoiceProcessingEnabled: false,
   });
 
   // "Ay": heard 600 ms into the request, the word ended at 450 ms, Apple's final at 900 ms.
