@@ -5,12 +5,12 @@ import { BackLink } from '../ui/BackLink';
 import { Button } from '../ui/Button';
 import { Screen } from '../ui/Screen';
 import { C, F } from '../ui/theme';
-import { prepareAudio } from '../voice/engine';
+import { listener, prepareAudio } from '../voice/engine';
 import { DEFAULT_PROBE, latency, PROBE_WORDS, runProbe, summary, type ProbeConfig, type ProbeState, type TaskHint } from '../voice/probe';
 import { supportsOnDevice } from '../voice/recognizer';
 
 // Ses tanıma testi: a debug screen, reached by a long press on "Mikrofonu
-// dene" in Ayarlar. Ten words, each in its own request as in the game; every
+// dene" in Ayarlar. Ten words, each in its own request (the game keeps one per round); every
 // result as it comes with its time, the mode iOS was asked for, and how
 // long after the end of each word it was recognised (see voice/probe.ts).
 const HINTS: TaskHint[] = ['search', 'confirmation', 'dictation', 'unspecified'];
@@ -33,6 +33,8 @@ export default function SpeechTest() {
     let gone = false;
     let cancel: (() => void) | null = null;
     stop.current = () => { gone = true; cancel?.(); };
+    // A game's mic still closing (it waits for silence) gives the recognizer up now.
+    listener.release();
     prepareAudio().then(() => { if (!gone) cancel = runProbe(config, setState); });
   };
 

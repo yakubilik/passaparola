@@ -5,8 +5,9 @@ import { contextFor } from './listener';
 import { prepareMic, RECOGNITION_OPTIONS, supportsOnDevice } from './recognizer';
 
 // The speech test behind Ayarlar (a long press on "Mikrofonu dene"): ten
-// words said one after the other, each in its own request as in the game (its
-// answer as contextualStrings, the game's task hint and session), with every
+// words said one after the other, each in its own request (its answer as
+// contextualStrings, the game's task hint and session; the game keeps one
+// request for the round), with every
 // result shown as it comes and how long after the end of the word the
 // recognizer had it. The final result carries the timing of each word
 // (segments, from the start of the audio, which 'audiostart' reports), so the

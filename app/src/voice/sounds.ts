@@ -221,6 +221,11 @@ export class Sounds {
     }
   }
 
+  /** A cue (or the theme) is sounding; the bed does not count. */
+  get cuePlaying(): boolean {
+    return Object.entries(this.players).some(([name, p]) => name !== 'bg' && !!p?.playing);
+  }
+
   get bgPlaying() {
     return this.bgOn && this.musicOn;
   }

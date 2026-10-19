@@ -7,7 +7,7 @@ import { REVEAL_MS } from '../game/useRound';
 import { SETTINGS_KEY } from '../store/settings';
 import { fakeRecognizer as rec } from '../test-utils/fakeRecognizer';
 import { pressStart } from '../test-utils/round';
-import { host, sounds } from '../voice/engine';
+import { host, listener, sounds } from '../voice/engine';
 import { clueLine, type Line } from '../voice/lines';
 import { SETTLE_MS } from '../voice/listener';
 import { CUE_LEAD_MS, CUE_VOLUME, DEFAULT_GAIN } from '../voice/sounds';
@@ -69,6 +69,8 @@ beforeEach(async () => {
   jest.useFakeTimers();
   jest.spyOn(AppState, 'addEventListener').mockImplementation(() => ({ remove: () => {} }) as ReturnType<typeof AppState.addEventListener>);
   jest.spyOn(Math, 'random').mockReturnValue(0.99);
+  host.cancel();
+  listener.release();  // a mic still closing after the last test's screen went
   rec.reset();
   sounds.played.length = 0;
   host.said.length = 0;

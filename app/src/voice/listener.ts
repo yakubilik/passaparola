@@ -5,14 +5,19 @@ import { fold, isPassWord, norm } from '../game/normalize';
 // while a clue is still being read. What the iOS recognizer is asked for, and
 // why, is in docs/speech.md.
 //
-// One recognition request serves one question: the words to expect
-// (contextualStrings) are fixed when a request starts, so a new question
-// starts a fresh request with its own answers (expectWords). A request is
-// also renewed before the iOS limit of about a minute of audio, at a quiet
-// moment (REQUEST_REFRESH_MS) or at the latest at REQUEST_MAX_MS, instead of
-// being cut off by iOS in the middle of an answer. The audio session is not
-// touched by any of this; the next request starts the moment the old one
-// has ended.
+// One recognition request serves the whole round (a match: the whole
+// match), expecting all of its answers (contextualStrings, fixed when a
+// request starts). On iOS every start() of expo-speech-recognition tears the
+// audio engine down and builds a new one: it sets the session category and
+// makes it active again and turns voice processing on afresh on the input and
+// output nodes. That changes the output level of everything playing and cuts
+// off or swallows a cue sounding at that moment (#357, after #351 restarted it
+// for every question). So a request is replaced only when iOS forces it: it
+// ended on its own ('end', an error), or, on the iOS speech servers, its one-minute
+// limit is near (REQUEST_REFRESH_MS at a quiet moment, REQUEST_MAX_MS at the
+// latest). On-device recognition has no such limit and is never renewed.
+// Nothing starts or stops the recognizer while a host clip or a cue plays
+// (`busy`): it waits for the silence after it (QUIET_POLL_MS).
 //
 // iOS keeps growing one result for everything said and never marks it final,
 // so interim results are used: words already handled are cut off the front,
@@ -33,6 +38,10 @@ export const REQUEST_MAX_MS = 55_000;
 export const QUIET_MS = 1000;
 /** A renewed request starts once the old one reports 'end', or after this long without it. */
 export const RESTART_WAIT_MS = 1000;
+/** While a host clip or a cue plays, a start or stop of the recognizer is retried this often. */
+export const QUIET_POLL_MS = 100;
+/** An on-device request iOS ended on its own at this age was held to the server limit after all. */
+export const LIMIT_SEEN_MS = 50_000;
 
 /** How soon heard words can be judged: at once, after a long pause, or once they settle. */
 export type Pace = (alts: string[]) => 'now' | 'partial' | 'settle';
@@ -80,10 +89,6 @@ export interface Recognizer {
 
 export type MicState = 'off' | 'listening' | 'denied' | 'error';
 
-function sameWords(a: readonly string[], b: readonly string[]): boolean {
-  return a.length === b.length && a.every((w, i) => w === b[i]);
-}
-
 function words(s: string): string[] {
   return norm(s).split(' ').filter(Boolean);
 }
@@ -121,7 +126,9 @@ export class AnswerListener {
   private prevWords: string[] = [];  // the first guess as last heard, for rewritten words
   private swallowUntil = 0;   // the rest of an utterance already judged at once
   private renewing = false;   // the request was dropped on purpose; the next starts on its 'end'
-  private requestContext: string[] = [];
+  private closing = false;    // stop() came while something played: the request is aborted at the next silence
+  private closeTimer: ReturnType<typeof setTimeout> | null = null;
+  private limited = false;    // iOS held an on-device request to the server's minute anyway
   private startedAt = 0;
   private lastResultAt = 0;
   private ageTimer: ReturnType<typeof setTimeout> | null = null;
@@ -131,9 +138,9 @@ export class AnswerListener {
   private staleEnds = 0;      // 'end's still owed by requests renewed without waiting for them
   private up = false;         // the mic has really started since it was opened ('start' came)
   private upWaiters: (() => void)[] = [];
-  /** How many times the recognizer was started: once per question when all is well. */
+  /** How many times the recognizer was started: once per round when all is well. */
   starts = 0;
-  /** Requests renewed on purpose (a new question's words, the time limit, the server fallback). */
+  /** Requests renewed on purpose (the server's time limit, the server fallback). */
   renewals = 0;
   /** How many times the mic was opened from closed (listen() after stop()). */
   openings = 0;
@@ -141,28 +148,36 @@ export class AnswerListener {
   onDevice = true;
   onState: (s: MicState, detail?: string) => void = () => {};
   onInterim: (text: string) => void = () => {};
+  /** A host clip or a cue is sounding: the recognizer is not started or stopped now (set by engine.ts). */
+  busy: () => boolean = () => false;
 
   constructor(private rec: Recognizer, private now: () => number = () => Date.now()) {}
 
   // Opens the mic for a round; while it is open a new handler just replaces the old one.
-  // `context`: words to expect (see expectWords).
+  // `context`: the words to expect, for the next request that starts. A
+  // running request keeps its own: it is never restarted for new words.
   listen(handler: (alts: string[], heard: Heard) => void, pace?: Pace, context?: string[]) {
     this.handler = handler;
     this.pace = pace ?? null;
     if (!this.wanted) this.openings++;
     this.wanted = true;
-    if (context) this.expectWords(context);
+    if (context) this.context = context;
+    if (this.closing) {
+      // Reopened before the closing request was aborted: it simply goes on.
+      this.closing = false;
+      if (this.closeTimer) clearTimeout(this.closeTimer);
+      this.closeTimer = null;
+      this.up = true;
+      if (this.timeLimited) this.ageTimer = setTimeout(() => this.checkAge(), Math.max(0, REQUEST_REFRESH_MS - (this.now() - this.startedAt)));
+      this.onState('listening');
+      return;
+    }
     this.startRec();
   }
 
-  /**
-   * The words to expect from now on (a new question's answers). A running
-   * request cannot take new contextualStrings, so when they differ it is
-   * renewed: dropped, and a fresh one started as soon as iOS has ended it.
-   */
-  expectWords(context: string[]) {
-    this.context = context;
-    if (this.running && !sameWords(context, this.requestContext)) this.renew();
+  /** Requests are held to the server's one-minute limit (server recognition) and renewed ahead of it. */
+  private get timeLimited(): boolean {
+    return !this.onDevice || this.limited;
   }
 
   /** 'on-device' or 'server': what the next (or running) request asks iOS for. */
@@ -181,17 +196,39 @@ export class AnswerListener {
     this.lastAlts = null;
     this.up = false;
     this.wakeUpWaiters();
-    if (this.unsub) { this.unsub(); this.unsub = null; }
-    if (this.running) {
-      this.running = false;
-      this.staleEndUntil = this.now() + 2 * RESTART_WAIT_MS;
-      try { this.rec.abort(); } catch { /* already stopped */ }
-    }
+    if (this.running && !this.closing) this.close();
+    else if (!this.running && this.unsub) { this.unsub(); this.unsub = null; }
     this.onState('off');
   }
 
+  /**
+   * Closes the mic now, not at the next silence: the mic check and the test
+   * screen are about to use the recognizer themselves.
+   */
+  release() {
+    if (this.wanted) this.stop();
+    if (this.closing) this.close(true);
+  }
+
+  // Aborts the request of a closed mic, once nothing is playing.
+  private close(now = false) {
+    if (this.closeTimer) clearTimeout(this.closeTimer);
+    this.closeTimer = null;
+    if (!now && this.busy()) {
+      this.closing = true;
+      this.closeTimer = setTimeout(() => this.close(), QUIET_POLL_MS);
+      return;
+    }
+    this.closing = false;
+    if (this.unsub) { this.unsub(); this.unsub = null; }
+    if (!this.running) return;
+    this.running = false;
+    this.staleEndUntil = this.now() + 2 * RESTART_WAIT_MS;
+    try { this.rec.abort(); } catch { /* already stopped */ }
+  }
+
   get listening() {
-    return this.running;
+    return this.running && !this.closing;
   }
 
   /** The mic was opened and its first request has really started (the recognizer said 'start'). */
@@ -288,8 +325,7 @@ export class AnswerListener {
     this.settleTimer = this.restartTimer = this.ageTimer = this.renewTimer = null;
   }
 
-  // Drops the running request on purpose; renewed() starts the next one.
-  // Words still settling belonged to the old request (and question) and are dropped.
+  // Drops the running request on purpose (the time limit); renewed() starts the next one.
   private renew() {
     if (!this.running || this.renewing) return;
     this.renewing = true;
@@ -315,18 +351,25 @@ export class AnswerListener {
   }
 
   // Server recognition takes about a minute of audio per request: an
-  // old request is renewed when nobody is talking, and before the limit regardless.
+  // old request is renewed when nobody is talking, and before the limit
+  // regardless of the player, but never while the game itself is sounding.
   private checkAge() {
     this.ageTimer = null;
-    if (!this.running || this.renewing) return;
+    if (!this.running || this.renewing || this.closing) return;
     const now = this.now();
     const quiet = !this.lastAlts && now - this.lastResultAt >= QUIET_MS;
-    if (quiet || now - this.startedAt >= REQUEST_MAX_MS) this.renew();
+    if (!this.busy() && (quiet || now - this.startedAt >= REQUEST_MAX_MS)) this.renew();
     else this.ageTimer = setTimeout(() => this.checkAge(), 250);
   }
 
   private startRec() {
     if (!this.wanted || this.running) return;
+    if (this.restartTimer) clearTimeout(this.restartTimer);
+    this.restartTimer = null;
+    if (this.busy()) {
+      this.restartTimer = setTimeout(() => this.startRec(), QUIET_POLL_MS);
+      return;
+    }
     this.used = 0;
     this.lastKey = '';
     this.lastAlts = null;
@@ -342,11 +385,10 @@ export class AnswerListener {
     }
     this.running = true;
     this.starts++;
-    this.requestContext = this.context;
     this.startedAt = this.lastResultAt = this.now();
     this.heardThisRequest = false;
     if (this.ageTimer) clearTimeout(this.ageTimer);
-    this.ageTimer = setTimeout(() => this.checkAge(), REQUEST_REFRESH_MS);
+    this.ageTimer = this.timeLimited ? setTimeout(() => this.checkAge(), REQUEST_REFRESH_MS) : null;
     try {
       this.rec.start({
         lang: 'tr-TR', continuous: true, interimResults: true, maxAlternatives: 5,
@@ -361,7 +403,7 @@ export class AnswerListener {
   }
 
   private onResult(e: RecResult) {
-    if (!this.running || this.renewing) return;
+    if (!this.running || this.renewing || this.closing) return;
     this.lastResultAt = this.now();
     this.heardThisRequest = true;
     const skip = this.realign(words(e.results[0]?.transcript ?? ''));
@@ -460,7 +502,7 @@ export class AnswerListener {
   }
 
   private onError(e: RecError) {
-    if (this.renewing) return;  // the 'aborted' of a request dropped on purpose
+    if (this.renewing || this.closing) return;  // the 'aborted' of a request dropped on purpose
     if (e.error === 'service-not-allowed' && this.onDevice && this.running) {
       // On-device recognition failed (its model missing, or not for tr-TR
       // after all): the next request goes to the iOS speech servers. Only if they
@@ -484,7 +526,8 @@ export class AnswerListener {
   }
 
   // iOS ends a session on its own now and then (an interruption, a long
-  // silence): what was said is delivered and the mic opens again.
+  // silence, the server's minute): what was said is delivered and the mic
+  // opens again, once nothing is playing (startRec).
   private onEnd() {
     if (this.renewing) return this.renewed();
     if (this.staleEnds > 0) {
@@ -497,6 +540,14 @@ export class AnswerListener {
     }
     if (!this.running) return;
     this.running = false;
+    if (this.closing) {
+      this.closing = false;
+      if (this.closeTimer) clearTimeout(this.closeTimer);
+      this.closeTimer = null;
+      if (this.unsub) { this.unsub(); this.unsub = null; }
+      return;
+    }
+    if (this.onDevice && this.now() - this.startedAt >= LIMIT_SEEN_MS) this.limited = true;
     if (this.ageTimer) clearTimeout(this.ageTimer);
     this.ageTimer = null;
     if (this.lastAlts) this.deliver(true);
