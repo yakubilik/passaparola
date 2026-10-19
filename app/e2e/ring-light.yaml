@@ -1,0 +1,32 @@
+# The game screen with the ring's light (design 1b) on a simulator, camera
+# off (no front camera): a seeded round, keyboard down.
+appId: com.skolalabs.harfiyen
+---
+- launchApp
+- tapOn:
+    text: "Vazgeç"
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: "intro-start"
+    timeout: 300000
+- tapOn:
+    id: "intro-start"
+- extendedWaitUntil:
+    visible: ".*Hızlı oyun.*"
+    timeout: 20000
+- openLink: "harfiyen://game?cats=tarih&level=1&seed=7"
+- tapOn:
+    text: "Aç"
+    optional: true
+- extendedWaitUntil:
+    visible: ".*Hazır mısın.*"
+    timeout: 20000
+- tapOn: "^Başla$"
+- assertVisible:
+    id: "face-placeholder"
+- assertVisible:
+    id: "ring-dash"
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: ring-light
