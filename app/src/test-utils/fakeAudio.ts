@@ -118,25 +118,68 @@ export const mockAudio = {
   },
 };
 
-type SpeechOpts = { onDone?: () => void; onStopped?: () => void; onError?: (e: unknown) => void; language?: string };
+type SpeechOpts = {
+  onStart?: () => void; onDone?: () => void; onStopped?: () => void; onError?: (e: unknown) => void;
+  language?: string; useApplicationAudioSession?: boolean;
+};
+
+/**
+ * How the fake phone voice behaves, like the iOS failures #362 guards against:
+ * 'ok' starts a moment after speak() (a microtask, like the native
+ * 'speakingStarted' event) and reports its end; 'never' takes the utterance
+ * and never starts it (no event at all); 'dropped' cancels it at once
+ * ('speakingStopped' without a start). `failures` utterances behave so, then 'ok'.
+ */
+export type SpeechMode = 'ok' | 'never' | 'dropped';
 
 export const speech = {
-  spoken: [] as { text: string; language?: string }[],
-  current: null as { opts: SpeechOpts; timer: ReturnType<typeof setTimeout> } | null,
+  spoken: [] as { text: string; language?: string; useApplicationAudioSession?: boolean }[],
+  current: null as { opts: SpeechOpts; timer: ReturnType<typeof setTimeout> | null } | null,
+  /** Every utterance that really started, in order. */
+  started: [] as string[],
+  mode: 'ok' as SpeechMode,
+  failures: Infinity,
+  stops: 0,
+  reset() {
+    this.spoken.length = 0;
+    this.started.length = 0;
+    this.current = null;
+    this.mode = 'ok';
+    this.failures = Infinity;
+    this.stops = 0;
+  },
 };
 
 export const mockSpeech = {
   speak: (text: string, opts: SpeechOpts = {}) => {
-    speech.spoken.push({ text, language: opts.language });
-    const timer = setTimeout(() => {
-      speech.current = null;
-      opts.onDone?.();
-    }, ttsMs(text));
-    speech.current = { opts, timer };
+    speech.spoken.push({ text, language: opts.language, useApplicationAudioSession: opts.useApplicationAudioSession });
+    // A newer utterance is queued behind one still speaking, as AVSpeechSynthesizer does; the fake simply replaces it.
+    if (speech.current?.timer) clearTimeout(speech.current.timer);
+    const failing = speech.mode !== 'ok' && speech.failures > 0;
+    if (failing) speech.failures--;
+    const mode: SpeechMode = failing ? speech.mode : 'ok';
+    const entry: { opts: SpeechOpts; timer: ReturnType<typeof setTimeout> | null } = { opts, timer: null };
+    speech.current = entry;
+    if (mode === 'never') return;
+    Promise.resolve().then(() => {
+      if (speech.current !== entry) return;
+      if (mode === 'dropped') {
+        speech.current = null;
+        opts.onStopped?.();
+        return;
+      }
+      speech.started.push(text);
+      opts.onStart?.();
+      entry.timer = setTimeout(() => {
+        if (speech.current === entry) speech.current = null;
+        opts.onDone?.();
+      }, ttsMs(text));
+    });
   },
   stop: async () => {
+    speech.stops++;
     if (speech.current) {
-      clearTimeout(speech.current.timer);
+      if (speech.current.timer) clearTimeout(speech.current.timer);
       const { opts } = speech.current;
       speech.current = null;
       opts.onStopped?.();

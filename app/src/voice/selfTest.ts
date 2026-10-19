@@ -25,6 +25,13 @@ import type { useVoiceRound } from './useVoiceRound';
 // The simulator takes the same argument (`xcrun simctl launch <udid>
 // com.skolalabs.harfiyen -harfiyenSelfTest 1`, or Maestro's launchApp
 // arguments, e2e/rounds.yaml).
+//
+// `-harfiyenSelfTest speech` (#362) plays tarih level 2 only, with every clue
+// recording of that level withheld, so each clue is read by the phone voice
+// (expo-speech) in the round's own audio session (play and record, the mic
+// open, voice processing on). The game screen then shows what the phone
+// voice did (testID speech-state) and the log carries host.speechLog:
+// e2e/speech.sh and e2e/speech.yaml.
 
 export const SELF_TEST_LOG = 'harfiyen-selftest.json';
 export const SELF_TEST_LEVELS = 3;
@@ -47,18 +54,34 @@ function native(): Native | null {
   }
 }
 
-let on: boolean | null = null;
-/** The app was launched for the self-test. */
-export function selfTestOn(): boolean {
-  if (on == null) {
+export type SelfTestMode = 'rounds' | 'speech';
+let mode: SelfTestMode | null | undefined;
+/** How the app was launched for the self-test: `-harfiyenSelfTest 1` (rounds) or `speech`; null when not. */
+export function selfTestMode(): SelfTestMode | null {
+  if (mode === undefined) {
     try {
-      on = native()?.selfTest?.() === '1';
+      const arg = native()?.selfTest?.();
+      mode = arg === '1' ? 'rounds' : arg === 'speech' ? 'speech' : null;
     } catch {
-      on = false;
+      mode = null;
     }
   }
-  return on;
+  return mode;
 }
+
+/** The app was launched for the self-test. */
+export function selfTestOn(): boolean {
+  return selfTestMode() != null;
+}
+
+/** The levels the self-test plays, in order. */
+export function selfTestLevels(): number[] {
+  return selfTestMode() === 'speech' ? [SPEECH_TEST_LEVEL] : Array.from({ length: SELF_TEST_LEVELS }, (_, i) => i + 1);
+}
+
+/** The speech self-test's level; its clue recordings are withheld (withholdSpeechTestClips). */
+export const SPEECH_TEST_LEVEL = 2;
+const speechTestClue = (key: string) => new RegExp(`^${SELF_TEST_CATS}-${SPEECH_TEST_LEVEL}-[^-]+-\\d+$`).test(key);
 
 // quick: the levels play whatever the saved progress (nothing locked), and the self-test leaves no progress behind.
 export const selfTestUrl = (level: number) => `/game?cats=${SELF_TEST_CATS}&level=${level}&seed=7&quick=1&selftest=1`;
@@ -99,7 +122,7 @@ export function logAudio(event: string, roundNo?: number) {
     players: [...(h ? [h] : []), ...sounds.playerStates()],
   });
   try {
-    native()?.writeDocument?.(SELF_TEST_LOG, JSON.stringify({ startedAt, levels: SELF_TEST_LEVELS, samples }));
+    native()?.writeDocument?.(SELF_TEST_LOG, JSON.stringify({ startedAt, mode: selfTestMode(), levels: selfTestLevels(), samples, speech: host.speechLog }));
   } catch {
     // Nowhere to write: the log stays in memory.
   }
@@ -122,9 +145,10 @@ export function useSelfTestLaunch(ready: boolean, update: (p: { voice: boolean; 
   useEffect(() => {
     if (!ready || launched || !selfTestOn()) return;
     launched = true;
+    if (selfTestMode() === 'speech') host.withholdClips(speechTestClue);
     update({ voice: true, micChecked: true, camera: false }).then(() => {
       startLog();
-      setTimeout(() => router.replace(selfTestUrl(1)), LAUNCH_DELAY_MS);
+      setTimeout(() => router.replace(selfTestUrl(selfTestLevels()[0])), LAUNCH_DELAY_MS);
     });
   }, [ready]);
 }
@@ -167,7 +191,9 @@ export function useSelfTestResult(level: number, scrollToEnd?: () => void) {
     logAudio('result');
     const scroll = setTimeout(() => scrollToEnd?.(), 500);
     const t = setTimeout(() => {
-      if (level < SELF_TEST_LEVELS) router.replace(selfTestUrl(level + 1));
+      const levels = selfTestLevels();
+      const at = levels.indexOf(level);
+      if (at >= 0 && at < levels.length - 1) router.replace(selfTestUrl(levels[at + 1]));
       else {
         logAudio('done');
         stopLog();

@@ -19,7 +19,8 @@ import { MicCheck } from '../ui/MicCheck';
 import { Ring, type RingItem } from '../ui/Ring';
 import { Screen } from '../ui/Screen';
 import { C, F, type BubbleKind } from '../ui/theme';
-import { selfTestOn, useSelfTestRound } from '../voice/selfTest';
+import { SpeechState } from '../ui/SpeechState';
+import { selfTestMode, selfTestOn, useSelfTestRound } from '../voice/selfTest';
 import { useVoiceEffects, useVoiceRound } from '../voice/useVoiceRound';
 
 const STATUS_TEXT = { correct: 'doğru', wrong: 'yanlış', passed: 'pas', pending: 'bekliyor', active: 'sırada' };
@@ -125,11 +126,12 @@ function GameRound({ voice }: { voice: boolean }) {
     );
   }
 
-  return <GameView game={game} voice={v} />;
+  return <GameView game={game} voice={v} speechState={params.selftest === '1' && selfTestMode() === 'speech'} />;
 }
 
 // `player`: whose turn it is in a pass-and-play match (app/match.tsx).
-export function GameView({ game, voice, player }: { game: ReturnType<typeof useRound>; voice: ReturnType<typeof useVoiceRound>; player?: string }) {
+// `speechState`: the phone voice diagnostic under the status line (the speech self-test).
+export function GameView({ game, voice, player, speechState = false }: { game: ReturnType<typeof useRound>; voice: ReturnType<typeof useVoiceRound>; player?: string; speechState?: boolean }) {
   const { update } = useSettings();
   const { round, phase, reveal } = game;
   const r = round!;
@@ -256,6 +258,7 @@ export function GameView({ game, voice, player }: { game: ReturnType<typeof useR
             </Text>
           </View>
         )}
+        {speechState && <SpeechState />}
 
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 20, paddingTop: 10, paddingBottom: 12 }}>
           <Pressable
