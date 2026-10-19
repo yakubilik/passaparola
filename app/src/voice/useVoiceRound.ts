@@ -113,7 +113,10 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     // them. Anything else is the player's and is judged at once, reading or not.
     const hostTime = readingRef.current || host.speaking || listener.hostRecent || !!heard?.duringHost;
     setHeard('');
-    if (verdict === 'wrong' && hostTime && listener.hostLike(alts[0])) return;
+    // With iOS voice processing off (19 Oct 2026) the mic hears the loudspeaker; recognised
+    // host speech rarely matches the clue text closely enough for hostLike, so while the host
+    // talks (and just after) a 'wrong' is never judged: only a right answer or Pas counts then.
+    if (verdict === 'wrong' && (host.speaking || listener.hostRecent)) return;
     g.judge(verdict, alts[0]);
     if (judgedTimer.current) clearTimeout(judgedTimer.current);
     setJudged({ text: alts[0], verdict });
