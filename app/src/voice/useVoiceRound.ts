@@ -4,7 +4,7 @@ import { AppState } from 'react-native';
 import { judgeSpoken, spokenPace, type Verdict } from '../game/normalize';
 import { current, type Round } from '../game/round';
 import type { Answered, useRound } from '../game/useRound';
-import { host, listener, prepareAudio, sounds } from './engine';
+import { audioSettled, host, listener, prepareAudio, settleAudio, sounds } from './engine';
 import { answerLine, clueLine, host as hostLine, type HostKey, type Line } from './lines';
 import { contextFor, type Heard, type MicState, type Pace } from './listener';
 import { CUE_LEAD_MS } from './sounds';
@@ -50,6 +50,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
   const ended = useRef(false);
   const missed = useRef(false);  // a wrong answer ended this match turn: no next clue
   const lastSec = useRef(Infinity);
+  const readGen = useRef(0);  // a newer read() (or none at all) drops a line still waiting for settleAudio
 
   const stopReading = useCallback(() => {
     if (!readingRef.current) return;
@@ -69,8 +70,11 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
   }, [open, theme]);
   const keepMicRef = useRef(keepMic);
   keepMicRef.current = keepMic;
+  const alive = useRef(true);
   useEffect(() => {
+    alive.current = true;
     return () => {
+      alive.current = false;
       if (answerTimer.current) clearTimeout(answerTimer.current);
       if (speakTimer.current) clearTimeout(speakTimer.current);
       if (judgedTimer.current) clearTimeout(judgedTimer.current);
@@ -116,16 +120,33 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     return contextFor(r && !r.done ? current(r).question.answers : []);
   }, []);
 
-  // From the Başla button: the bed starts and the mic opens for the whole round
-  // (in a match it is already open and only gets this round's handler).
+  // From the Başla button: the mic opens for the whole round (in a match it is
+  // already open and only gets this round's handler) and the bed starts. In
+  // this order: the session is set first, then the mic, and only once its
+  // start has settled (settleAudio) the bed and the host's first line (read).
   const begin = useCallback(() => {
     started.current = true;
-    prepareAudio();
-    sounds.startBg();
-    if (!voice) return;
-    listener.onState = setMic;
-    listener.onInterim = onInterim;
-    listener.listen(onHeard, pace, context());
+    const live = () => alive.current && !ended.current && !away.current;
+    const open = () => {
+      if (!voice) return;
+      listener.onState = setMic;
+      listener.onInterim = onInterim;
+      listener.listen(onHeard, pace, context());
+    };
+    const settled = () => { if (live()) sounds.startBg(); };
+    // A match's next turn: the mic is open, the session long set.
+    if (listener.open) {
+      open();
+      if (audioSettled()) settled();
+      else settleAudio().then(settled);
+      return;
+    }
+    prepareAudio().then(() => {
+      if (!live()) return;
+      if (voice) sounds.hushCues();
+      open();
+      return settleAudio().then(settled);
+    });
   }, [voice, onHeard, onInterim, pace, context]);
 
   // The app went to the background (or a call, Control Centre): silence
@@ -143,11 +164,11 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
         setAway(false);
         g?.pause(false);
         if (!started.current || ended.current || !g || g.phase === 'over') return;
-        sounds.startBg();
         if (voice) {
           listener.listen(onHeard, pace, context());
-          readFor.current = -1;  // read the current clue again
+          readFor.current = -1;  // read the current clue again, once the mic has settled
         }
+        settleAudio().then(() => { if (alive.current && !away.current && !ended.current) sounds.startBg(); });
       } else if (state === 'background' || state === 'inactive') {
         if (away.current) return;
         away.current = true;
@@ -190,9 +211,16 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
       game.current?.hold(false);
     });
     // Right after an answer the cue sounds first and the host a moment later.
-    const lead = cueAt.current + CUE_LEAD_MS - Date.now();
-    if (lead > 0) speakTimer.current = setTimeout(speak, lead);
-    else speak();
+    const go = () => {
+      const lead = cueAt.current + CUE_LEAD_MS - Date.now();
+      if (lead > 0) speakTimer.current = setTimeout(speak, lead);
+      else speak();
+    };
+    // The round's first line (and the first after coming back) waits for the
+    // mic's start to settle, with the clock held: see settleAudio.
+    const my = ++readGen.current;
+    if (audioSettled()) go();
+    else settleAudio().then(() => { if (my === readGen.current && readingRef.current && !away.current) go(); });
   }, []);
 
   const onAnswer = useCallback(({ verdict, was }: Answered) => {
@@ -278,10 +306,11 @@ export function useReadyByVoice(voice: boolean, onReady: () => void, lines: Line
     let live = true;
     const context = contextFor(READY_WORDS);
     const open = () => listener.listen((alts) => { if (alts.some((a) => READY.test(a))) ready.current(); }, undefined, context);
+    // The session, then the mic, then (once its start has settled) the host.
     prepareAudio().then(() => {
       if (!live) return;
       open();
-      host.speak(lines);
+      return settleAudio().then(() => { if (live) host.speak(lines); });
     });
     // In the background: quiet and the mic closed; back in front the mic opens again.
     const sub = AppState.addEventListener('change', (state) => {

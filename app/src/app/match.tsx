@@ -14,7 +14,7 @@ import { Button } from '../ui/Button';
 import { MicCheck } from '../ui/MicCheck';
 import { Screen } from '../ui/Screen';
 import { C, F } from '../ui/theme';
-import { host, listener, prepareAudio, sounds } from '../voice/engine';
+import { host, listener, prepareAudio, settleAudio, sounds } from '../voice/engine';
 import { host as hostLine } from '../voice/lines';
 import { useReadyByVoice, useVoiceEffects, useVoiceRound } from '../voice/useVoiceRound';
 import { GameView } from './game';
@@ -63,10 +63,11 @@ function MatchScreen({ voice }: { voice: boolean }) {
   const ref = useRef(match);
   ref.current = match;
 
-  // The theme once for the match; the mic closes when the match screen goes.
+  // The theme once for the match, after the mic the first turn opens has
+  // settled (settleAudio); the mic closes when the match screen goes.
   useEffect(() => {
     if (!initial) return;
-    prepareAudio().then(() => sounds.play('theme'));
+    prepareAudio().then(settleAudio).then(() => sounds.play('theme'));
     return () => listener.stop();
   }, [initial]);
 

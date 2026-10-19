@@ -37,3 +37,42 @@ export function prepareAudio(): Promise<void> {
     .catch(() => { ready = null; });
   return ready;
 }
+
+/** Once the mic has really started, the session is left this long before the host's first line. */
+export const SESSION_SETTLE_MS = 300;
+/** The longest wait for the mic to report it has started. */
+export const MIC_UP_MAX_MS = 1500;
+
+let settling: Promise<void> | null = null;
+let settledFor = -1;  // the listener's opening the players were last renewed for
+
+/** The host's first line of this mic opening may play now: settleAudio has run since the mic opened. */
+export function audioSettled(): boolean {
+  return settledFor === listener.openings;
+}
+
+// The first host line of a round waits for this. On iOS the recognizer's
+// first start sets the session and then brings up its audio engine with
+// voice processing, input and output, which reconfigures the audio I/O and
+// switches on the ducking of the app's other sound. A clip already playing
+// across that change is left at the level it started with, louder than every
+// sound after it and deaf to the volume buttons until it ends (the 'go' line,
+// "İşte sağ cepten sorular çıkıyor efendim", reported 19 Oct 2026). So:
+// the session is set (prepareAudio), the mic is opened and reports 'start'
+// (its engine is running), a short pause lets the route settle, the players
+// made before it are let go, and the next sound fades in.
+export function settleAudio(): Promise<void> {
+  if (audioSettled()) return Promise.resolve();
+  settling ??= prepareAudio()
+    .then(() => (listener.open ? listener.whenUp(MIC_UP_MAX_MS).then(() => wait(SESSION_SETTLE_MS)) : undefined))
+    .then(() => {
+      host.renew();
+      sounds.renew();
+      fadeInNext();
+      settledFor = listener.openings;
+    })
+    .finally(() => { settling = null; });
+  return settling;
+}
+
+const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));

@@ -75,7 +75,7 @@ export function contextFor(answers: readonly string[]): string[] {
 export interface Recognizer {
   start(options: RecOptions): void;
   abort(): void;
-  subscribe(handlers: { result(e: RecResult): void; error(e: RecError): void; end(): void }): () => void;
+  subscribe(handlers: { result(e: RecResult): void; error(e: RecError): void; end(): void; start?(): void }): () => void;
 }
 
 export type MicState = 'off' | 'listening' | 'denied' | 'error';
@@ -129,10 +129,14 @@ export class AnswerListener {
   private staleEndUntil = 0;  // an 'end' before this, with nothing heard yet, is the one of a request closed by stop()
   private heardThisRequest = false;
   private staleEnds = 0;      // 'end's still owed by requests renewed without waiting for them
+  private up = false;         // the mic has really started since it was opened ('start' came)
+  private upWaiters: (() => void)[] = [];
   /** How many times the recognizer was started: once per question when all is well. */
   starts = 0;
   /** Requests renewed on purpose (a new question's words, the time limit, the server fallback). */
   renewals = 0;
+  /** How many times the mic was opened from closed (listen() after stop()). */
+  openings = 0;
   /** Ask for on-device recognition; off after it failed once (then the iOS speech servers). */
   onDevice = true;
   onState: (s: MicState, detail?: string) => void = () => {};
@@ -145,6 +149,7 @@ export class AnswerListener {
   listen(handler: (alts: string[], heard: Heard) => void, pace?: Pace, context?: string[]) {
     this.handler = handler;
     this.pace = pace ?? null;
+    if (!this.wanted) this.openings++;
     this.wanted = true;
     if (context) this.expectWords(context);
     this.startRec();
@@ -174,6 +179,8 @@ export class AnswerListener {
     this.staleEnds = 0;
     this.clearTimers();
     this.lastAlts = null;
+    this.up = false;
+    this.wakeUpWaiters();
     if (this.unsub) { this.unsub(); this.unsub = null; }
     if (this.running) {
       this.running = false;
@@ -185,6 +192,43 @@ export class AnswerListener {
 
   get listening() {
     return this.running;
+  }
+
+  /** The mic was opened and its first request has really started (the recognizer said 'start'). */
+  get micUp() {
+    return this.up;
+  }
+
+  /** The mic is meant to be open (listen() was called and not stop()). */
+  get open() {
+    return this.wanted;
+  }
+
+  /**
+   * Resolves once the mic opened by listen() has really started: on iOS the
+   * recognizer's 'start' comes after its audio engine, voice processing and
+   * all, is running. Also resolves when the mic is closed, or after `maxMs`,
+   * so nobody waits for a recognizer that never answers.
+   */
+  whenUp(maxMs: number): Promise<void> {
+    if (this.up || !this.wanted) return Promise.resolve();
+    return new Promise((resolve) => {
+      const t = setTimeout(done, maxMs);
+      function done() { clearTimeout(t); resolve(); }
+      this.upWaiters.push(done);
+    });
+  }
+
+  private wakeUpWaiters() {
+    const ws = this.upWaiters;
+    this.upWaiters = [];
+    ws.forEach((w) => w());
+  }
+
+  private onStart() {
+    if (!this.running || this.up) return;
+    this.up = true;
+    this.wakeUpWaiters();
   }
 
   // The host started saying these words: the mic will hear them too.
@@ -293,6 +337,7 @@ export class AnswerListener {
         result: (e) => this.onResult(e),
         error: (e) => this.onError(e),
         end: () => this.onEnd(),
+        start: () => this.onStart(),
       });
     }
     this.running = true;
@@ -431,6 +476,7 @@ export class AnswerListener {
     if (e.error !== 'aborted') this.staleEndUntil = 0;
     if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
       this.wanted = false;
+      this.wakeUpWaiters();
       this.onState('denied', e.error);
     } else if (e.error !== 'no-speech' && e.error !== 'aborted') {
       this.onState('error', e.error);
