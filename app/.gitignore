@@ -42,3 +42,8 @@ yarn-error.*
 
 # local device builds (scripts/install-iphone.sh)
 /build
+
+# fastlane run output
+fastlane/report.xml
+fastlane/README.md
+__pycache__/
