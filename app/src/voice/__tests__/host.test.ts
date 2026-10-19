@@ -104,3 +104,24 @@ test('every question in the bank starts with its letter and its clue says so', (
     expect(clueLine(x).text).not.toMatch(/\.\.\. İçinde \S+ var\.$/);
   }
 });
+
+test('lines cut off by cancel() or a newer speak() call `cut` once, never `done`; lines said to the end never call `cut`', () => {
+  const h = new Host({ 'tarih-1-B-1': 101, wrong: 102 });
+  const [done1, cut1, done2, cut2, done3, cut3] = [jest.fn(), jest.fn(), jest.fn(), jest.fn(), jest.fn(), jest.fn()];
+  h.speak([hostLine('wrong'), answerLine(q)], done1, cut1);
+  jest.advanceTimersByTime(CLIP_MS / 2);
+  h.speak([clueLine(q)], done2, cut2);
+  expect(cut1).toHaveBeenCalledTimes(1);
+  h.cancel();
+  expect(cut2).toHaveBeenCalledTimes(1);
+  h.cancel();
+  jest.advanceTimersByTime(10_000);
+  expect([done1, done2].map((f) => f.mock.calls.length)).toEqual([0, 0]);
+  expect([cut1, cut2].map((f) => f.mock.calls.length)).toEqual([1, 1]);
+
+  h.speak([hostLine('wrong')], done3, cut3);
+  jest.advanceTimersByTime(CLIP_MS + 10);
+  h.cancel();
+  expect(done3).toHaveBeenCalledTimes(1);
+  expect(cut3).not.toHaveBeenCalled();
+});

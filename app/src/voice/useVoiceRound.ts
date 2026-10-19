@@ -47,6 +47,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
   const prefix = useRef<Line | null>(null);
   const wrongRun = useRef(0);
   const answerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const answerRelease = useRef<(() => void) | null>(null);  // lets the wrong answer's reveal end
   const ended = useRef(false);
   const missed = useRef(false);  // a wrong answer ended this match turn: no next clue
   const lastSec = useRef(Infinity);
@@ -59,6 +60,16 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     host.cancel();
     setReading(false);
     game.current?.hold(false);
+  }, []);
+
+  // The host's lines after a wrong answer will not be said after all (a new
+  // clue, the app going away): the reveal must not wait for them.
+  const dropAnswer = useCallback(() => {
+    if (answerTimer.current) clearTimeout(answerTimer.current);
+    answerTimer.current = null;
+    const release = answerRelease.current;
+    answerRelease.current = null;
+    release?.();
   }, []);
 
   // The round opens with the theme; leaving it closes the mic and the bed.
@@ -174,7 +185,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
         away.current = true;
         setAway(true);
         g?.pause(true);
-        if (answerTimer.current) clearTimeout(answerTimer.current);
+        dropAnswer();
         if (speakTimer.current) clearTimeout(speakTimer.current);
         if (readingRef.current) {
           readingRef.current = false;
@@ -187,12 +198,12 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
       }
     });
     return () => sub.remove();
-  }, [voice, onHeard, pace, context]);
+  }, [voice, onHeard, pace, context, dropAnswer]);
 
   const read = useCallback((r: Round) => {
     const g = game.current;
     if (!g || away.current || missed.current) return;
-    if (answerTimer.current) clearTimeout(answerTimer.current);
+    dropAnswer();
     if (speakTimer.current) clearTimeout(speakTimer.current);
     const lines: Line[] = [];
     if (first.current) lines.push(hostLine('go'));
@@ -221,7 +232,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     const my = ++readGen.current;
     if (audioSettled()) go();
     else settleAudio().then(() => { if (my === readGen.current && readingRef.current && !away.current) go(); });
-  }, []);
+  }, [dropAnswer]);
 
   const onAnswer = useCallback(({ verdict, was }: Answered) => {
     stopReading();
@@ -238,10 +249,18 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
       if (missEndsTurn) missed.current = true;
       const lines = missEndsTurn ? [answerLine(was.question)] : [hostLine('wrong'), answerLine(was.question)];
       if (!missEndsTurn && wrongRun.current === 2) lines.push(hostLine('listen'));
-      const release = game.current?.holdReveal();
-      answerTimer.current = setTimeout(() => host.speak(lines, release), 400);
+      // The reveal waits for these lines, and ends anyway if they are cut off
+      // (host.speak's `cut`) or never start (dropAnswer): it may never hang on them.
+      dropAnswer();
+      const release = game.current?.holdReveal() ?? null;
+      answerRelease.current = release;
+      answerTimer.current = setTimeout(() => {
+        answerTimer.current = null;
+        answerRelease.current = null;
+        host.speak(lines, release ?? undefined, release ?? undefined);
+      }, 400);
     }
-  }, [voice, rng, missEndsTurn, stopReading]);
+  }, [voice, rng, missEndsTurn, stopReading, dropAnswer]);
 
   const onOver = useCallback((r: Round) => {
     ended.current = true;
