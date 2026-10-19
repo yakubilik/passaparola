@@ -5,6 +5,9 @@ import { DEFAULT_SETTINGS, DEFAULT_VOLUME, loadSettings, SETTINGS_KEY } from '..
 import { AudioDiagnostic } from '../AudioDiagnostic';
 import { Slider } from '../Slider';
 
+// Room for a loaded machine: the full suite runs its files in parallel.
+jest.setTimeout(60_000);
+
 // The Ses slider of Ayarlar and the audio session diagnostic of the mic check.
 beforeEach(() => AsyncStorage.clear());
 

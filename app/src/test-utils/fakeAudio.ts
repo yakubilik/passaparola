@@ -17,6 +17,7 @@ export class FakePlayer {
   constructor(public source: unknown, public options: Record<string, unknown> = {}) {}
   play() {
     audio.plays++;
+    if (this.options.keepAudioSessionActive) audio.keepers.add(this);
     audio.log.push({ e: `play#${audio.players.indexOf(this)}`, t: Date.now() });
     this.playing = true;
     if (this.timer) clearTimeout(this.timer);
@@ -31,6 +32,7 @@ export class FakePlayer {
   pause() {
     this.playing = false;
     if (this.timer) clearTimeout(this.timer);
+    if (!this.options.keepAudioSessionActive) deactivateLater();
   }
   replace(source: unknown) {
     this.pause();
@@ -43,14 +45,40 @@ export class FakePlayer {
     this.currentTime = t;
   }
   removed = false;
-  remove() { this.pause(); this.removed = true; }
+  // Like expo-audio's remove(): the player stops keeping the session active,
+  // and if it was the last one that did, the session may be deactivated.
+  remove() {
+    this.playing = false;
+    if (this.timer) clearTimeout(this.timer);
+    this.removed = true;
+    if (audio.keepers.delete(this)) deactivateLater();
+  }
   addListener(_: string, f: (s: Status) => void) {
     this.subs.add(f);
     return { remove: () => this.subs.delete(f) };
   }
 }
 
+/** The iOS audio session as the fakes leave it (AVAudioSession.sharedInstance()). */
+export type FakeSession = { category: string; mode: string; options: string[]; active: boolean };
+
+// expo-audio's deactivateSession() (AudioModule.swift): 100 ms later, the
+// session is made inactive if it is active, no player that keeps it active is
+// left and nothing plays.
+function deactivateLater() {
+  setTimeout(() => {
+    if (!audio.session.active || audio.keepers.size || audio.players.some((p) => p.playing && !p.removed)) return;
+    audio.session.active = false;
+    audio.sessionCalls.push('deactivated');
+    audio.log.push({ e: 'deactivated', t: Date.now() });
+  }, 100);
+}
+
 export const audio = {
+  /** The shared iOS audio session: category, mode and options as last set, and whether it is active. */
+  session: { category: 'soloAmbient', mode: 'default', options: [], active: false } as FakeSession,
+  /** Players that played with keepAudioSessionActive and were not removed (expo-audio's activity keepers). */
+  keepers: new Set<FakePlayer>(),
   players: [] as FakePlayer[],
   mode: null as unknown,
   active: false,
@@ -73,9 +101,18 @@ export const mockAudio = {
     audio.log.push({ e: `create#${audio.players.length - 1}`, t: Date.now() });
     return p;
   },
-  setAudioModeAsync: async (m: unknown) => { audio.mode = m; audio.sessionCalls.push('mode'); audio.log.push({ e: 'mode', t: Date.now() }); },
+  setAudioModeAsync: async (m: any) => {
+    audio.mode = m;
+    // What expo-audio's setAudioMode sets on the session for this mode.
+    if (m?.playsInSilentMode) {
+      const options = [m.interruptionMode === 'mixWithOthers' ? 'mixWithOthers' : m.interruptionMode === 'duckOthers' ? 'duckOthers' : null];
+      if (m.allowsRecording) options.push(m.shouldRouteThroughEarpiece ? null : 'defaultToSpeaker', 'allowBluetooth');
+      audio.session = { ...audio.session, category: m.allowsRecording ? 'playAndRecord' : 'playback', mode: 'default', options: options.filter((o): o is string => !!o).sort() };
+    } audio.sessionCalls.push('mode'); audio.log.push({ e: 'mode', t: Date.now() }); },
   setIsAudioActiveAsync: async (on: boolean) => {
     audio.active = on;
+    audio.session.active = on;
+    if (!on) audio.keepers.clear();
     audio.sessionCalls.push(on ? 'active' : 'inactive');
     audio.log.push({ e: on ? 'active' : 'inactive', t: Date.now() });
   },

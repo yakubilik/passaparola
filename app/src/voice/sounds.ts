@@ -105,6 +105,32 @@ const SEEK_MAX_MS = 150;
 // recognizer stops or comes back without echo cancellation).
 export const PLAYER_OPTIONS = { keepAudioSessionActive: true } as const;
 
+// Players let go by renew() (Sounds, Host) are removed only once a newer
+// player has started. expo-audio counts every player that played with
+// keepAudioSessionActive as keeping the session active; remove() takes it off
+// that list and, when it was the last one, deactivates the session 100 ms
+// later if nothing is playing (AudioModule.swift: remove ->
+// unregisterAudioSessionActivityKeeper -> deactivateSession ->
+// AVAudioSession.setActive(false)). Every round's start let go of all of them
+// at once, so the session the first round set up could go inactive under the
+// next round's open mic. After a play() the new player is already on that
+// list (both calls are queued in order on expo-audio's session queue), so the
+// old ones can go without the session ever being left without one.
+const retired: AudioPlayer[] = [];
+export function retire(p: AudioPlayer) {
+  retired.push(p);
+}
+/** A player has just been started: the retired ones are removed now. */
+export function startedPlaying() {
+  for (const p of retired.splice(0)) {
+    try { p.remove(); } catch { /* gone */ }
+  }
+}
+/** Players let go but not removed yet, for tests. */
+export function retiredCount(): number {
+  return retired.length;
+}
+
 export class Sounds {
   private players: Partial<Record<keyof typeof FILES, AudioPlayer>> = {};
   private bgOn = false;
@@ -134,7 +160,7 @@ export class Sounds {
   renew() {
     for (const [name, p] of Object.entries(this.players) as [keyof typeof FILES, AudioPlayer][]) {
       if (p.playing) continue;
-      try { p.remove(); } catch { /* gone */ }
+      retire(p);
       delete this.players[name];
     }
   }
@@ -160,6 +186,7 @@ export class Sounds {
       const fromStart = !p.currentTime;
       this.started.push({ cue, volume: startAt(p, CUE_VOLUME), fromStart });
       p.play();
+      startedPlaying();
     };
     if (!p.currentTime) { start(); return; }
     let go = true;
@@ -179,6 +206,7 @@ export class Sounds {
     p.loop = true;
     p.volume = this.bedVolume;
     p.play();
+    startedPlaying();
   }
 
   stopBg() {
@@ -219,6 +247,11 @@ export class Sounds {
       this.bgOn = false;
       this.startBg();
     }
+  }
+
+  /** Each player's volume and whether it plays, for the self-test log. */
+  playerStates(): { name: string; volume: number; playing: boolean }[] {
+    return Object.entries(this.players).map(([name, p]) => ({ name, volume: p?.volume ?? 0, playing: !!p?.playing }));
   }
 
   /** A cue (or the theme) is sounding; the bed does not count. */

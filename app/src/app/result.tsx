@@ -1,19 +1,25 @@
 import { Redirect, router } from 'expo-router';
+import { useRef, type ComponentRef } from 'react';
 import { ScrollView, Text, View, useWindowDimensions } from 'react-native';
 
 import { CATEGORIES } from '../data/questions';
 import { counts, PASS_MARK } from '../game/round';
 import { selectionHasLevel } from '../game/selection';
 import { lastResult } from '../game/session';
+import { AudioDiagnostic } from '../ui/AudioDiagnostic';
 import { Button } from '../ui/Button';
 import { Ring } from '../ui/Ring';
 import { Screen } from '../ui/Screen';
 import { C, F, type BubbleKind } from '../ui/theme';
+import { roundAudio } from '../voice/roundAudio';
+import { useSelfTestResult } from '../voice/selfTest';
 
 // Round end: the ring as it finished, the score, what unlocked, the answers missed.
 export default function RoundEnd() {
   const res = lastResult();
   const { width } = useWindowDimensions();
+  const scroller = useRef<ComponentRef<typeof ScrollView>>(null);
+  useSelfTestResult(res?.level ?? 0, () => scroller.current?.scrollToEnd({ animated: false }));
   if (!res) return <Redirect href="/menu" />;
   const { round, level, quick, passed, unlockedNext, catsParam } = res;
   const c = counts(round);
@@ -37,7 +43,7 @@ export default function RoundEnd() {
 
   return (
     <Screen light="intro">
-      <ScrollView contentContainerStyle={{ padding: 22, gap: 18, alignItems: 'stretch' }}>
+      <ScrollView ref={scroller} contentContainerStyle={{ padding: 22, gap: 18, alignItems: 'stretch' }}>
         <View style={{ alignItems: 'center', gap: 6 }}>
           <Text style={{ fontFamily: F.bodyBold, fontSize: 12, letterSpacing: 1.9, color: C.accentSoft }}>
             {quick ? 'HIZLI OYUN' : `BÖLÜM ${level}`} · TUR SONU
@@ -94,6 +100,9 @@ export default function RoundEnd() {
             ))}
           </View>
         )}
+
+        {/* The audio of every voice round so far, one line each: a screenshot after round 1 and round 2 compares them. */}
+        {roundAudio().length > 0 && <AudioDiagnostic />}
       </ScrollView>
     </Screen>
   );

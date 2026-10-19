@@ -100,3 +100,120 @@ whether the mic is open. It is read every 0.5 s by a small local Expo module,
 `app/modules/audio-session-info` (read only; autolinked from `modules/` at
 prebuild). A screenshot of it during the problem tells which path the sound
 is on.
+
+# Round 1 fine, round 2 loud phone and quiet game (ticket #361)
+
+**Report (19 Oct 2026, build with e9eb352 and #357):** level 1 sounded right;
+from level 2 on the old symptom was back: the phone volume jumps to call
+level and the game's own sound gets quiet.
+
+## What differs between round 1 and round 2
+
+The JS side does the same thing every round (one recognizer start with the
+same options, the session category set once, nothing ever calling
+`setIsAudioActiveAsync(false)`); `app/src/__tests__/roundsAudio.test.tsx`
+proves that on the fakes. The difference is native, in what one request
+leaves behind and in a path that only sometimes runs:
+
+1. **Route-change rebuild without voice processing.**
+   `node_modules/expo-speech-recognition/ios/ExpoSpeechRecognizer.swift`
+   (58.0.0 with the e9eb352 patch): an `AVAudioSession.routeChangeNotification`
+   while a request is starting or running (observer at line 762,
+   `handleAudioRouteChange` line 775) calls `restartAudioEngineForRouteChange`
+   (line 799), which makes `AVAudioEngine()` (line 812) and starts it through
+   `prepareEngine` **without `setVoiceProcessingEnabled(true)` and without
+   `voiceProcessingOtherAudioDuckingConfiguration`**. Whether a round runs on
+   the first engine (voice processing on, the call-style volume path) or on a
+   rebuilt one (none of it) therefore depends on whether iOS happens to post a
+   route change while that round's request comes up, which is not the same for
+   the first voice-processing start of the app and for later ones.
+2. **The old engine is let go with voice processing still on.** `reset()`
+   (line 536) and `stopListening()` stop and drop the engine at the end of a
+   round (`audioEngine = nil`, lines 554 / 529) but never switch voice
+   processing off, so the next round's engine brings up its voice-processing
+   I/O next to one still held by the old engine instead of from the clean state
+   the first round started from. The ducking configuration was also only set
+   before `audioEngine.start()`, i.e. before the voice-processing unit is
+   initialised.
+3. **expo-audio can deactivate the session at a round start.**
+   `settleAudio()` let every idle player go with `remove()`
+   (`app/src/voice/engine.ts` → `Sounds.renew` / `Host.renew`). In
+   `node_modules/expo-audio/ios/AudioModule.swift` `remove` (line 269) calls
+   `unregisterAudioSessionActivityKeeper`, and when the last player that kept
+   the session active is gone and nothing plays, `deactivateSession()` (line
+   956) calls `AVAudioSession.setActive(false)` 100 ms later, under the open
+   mic. In the usual flow the host's first line starts within those 100 ms,
+   so it is a race, not the steady cause; `src/voice/__tests__/retire.test.ts`
+   shows the deactivation with the old code.
+
+Items 1 and 2 are read from the library source, not observed on the phone:
+the new per-round diagnostic line below shows which engine each round really
+had (voice processing on/off, ducking, rebuild count).
+
+## Fix
+
+- `app/patches/expo-speech-recognition+58.0.0.patch`: one
+  `configureVoiceProcessing` for the first engine and for a rebuilt one (voice
+  processing on input and output, ducking off: no advanced ducking, level min),
+  the ducking set again once the engine runs (`applyDucking` after
+  `prepareEngine`), voice processing switched off on an engine being let go
+  (`releaseVoiceProcessing` in `reset`, `stopListening` and the rebuild), and
+  `getVoiceProcessingStateIOS()` reporting what the engine's input node really
+  has after start (enabled, advanced ducking, ducking level, engines built,
+  rebuilds).
+- `app/src/voice/sounds.ts` `retire` / `startedPlaying`: players let go at a
+  round start are removed only after a newer player has started, so expo-audio
+  always has a player keeping the session active. The session set up by the
+  first round stays configured and active for the life of the app.
+
+## Diagnostic: one line per round
+
+SES OTURUMU (the result screen after a voice round, and Ayarlar → Mikrofonu
+dene) lists `Tur 1`, `Tur 2`, …: the session category with its options, mode,
+phone volume (`outputVolume`), voice processing on/off and the ducking level as
+each round found them once its mic was up and settled (`src/voice/roundAudio.ts`),
+plus `yeniden kurulum N` when the engine was rebuilt after a route change. A
+screenshot of the result screen after round 2 shows rounds 1 and 2 side by side.
+
+## Checked natively on the simulator (#361)
+
+A Release simulator build of this branch with the patched recognizer (iPhone 17,
+iOS 26.3) ran the self-test: levels 1, 2 and 3 back to back, voice on, the mic
+open all along. `app/e2e/selftest-report.py` on its log:
+
+    round 1 @ 5s:   playAndRecord (mixWithOthers, allowBluetooth, defaultToSpeaker), mode default,
+                    outputVolume 0.60, route Speaker; voice processing on, advanced ducking off,
+                    ducking min, engines 1, rebuilds 0
+    round 2 @ 178s: the same, engines 2, rebuilds 0
+    round 3 @ 406s: the same, engines 3, rebuilds 0
+    3 round starts; identical: True
+
+A second run after the self-test fixes (`app/e2e/rounds.sh`, Maestro exit 0, a
+screenshot of each result screen's SES OTURUMU with its Tur 1/2/3 lines, 28/28
+answered in every level) gave the same three identical round starts at 5 s, 180 s
+and 407 s. The session never changed after the first round set it up (one change in the whole
+log: soloAmbient → playAndRecord at the first round), and no engine was rebuilt.
+The simulator says nothing about how loud the iPhone's speaker gets; the same log
+from the phone does.
+
+## The self-test
+
+Launch argument `-harfiyenSelfTest 1` (`src/voice/selfTest.ts`): the app plays tarih
+levels 1-3 (quick, so nothing is locked and no progress is saved), voice on, each
+clue answered right 0.7 s after it was read (what the mic hears is not judged), and
+writes the session, the recognizer engine's voice processing and ducking, and every
+player's volume to `Documents/harfiyen-selftest.json` every second and at each round
+start. Each result screen stays 20 s, scrolled down to SES OTURUMU.
+
+On the iPhone (after the delivery installed the build):
+
+    xcrun devicectl device process launch --device <id> --terminate-existing \
+      com.skolalabs.harfiyen -- -harfiyenSelfTest 1
+    # about 8 minutes later
+    xcrun devicectl device copy from --device <id> --domain-type appDataContainer \
+      --domain-identifier com.skolalabs.harfiyen --source Documents/harfiyen-selftest.json \
+      --destination ./harfiyen-selftest.json
+    python3 app/e2e/selftest-report.py harfiyen-selftest.json
+
+On the simulator: `app/e2e/rounds.sh <Harfiyen.app> <udid> <out dir>` (inside the
+simulator lock) runs it with Maestro (`e2e/rounds.yaml`) and screenshots.

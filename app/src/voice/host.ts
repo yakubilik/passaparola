@@ -3,7 +3,7 @@ import * as Speech from 'expo-speech';
 
 import { CLIPS } from './clips.generated';
 import type { Line } from './lines';
-import { HOST_VOLUME, masterGain, onGainChange, PLAYER_OPTIONS, regain, startAt } from './sounds';
+import { HOST_VOLUME, masterGain, onGainChange, PLAYER_OPTIONS, regain, retire, startAt, startedPlaying } from './sounds';
 
 // The host's voice. A line with a recording (assets/voice/<key>.mp3) plays
 // it; any other line, and any recording that fails to play, is read by the
@@ -36,8 +36,13 @@ export class Host {
    */
   renew() {
     if (this.speaking || !this.player) return;
-    try { this.player.remove(); } catch { /* gone */ }
+    retire(this.player);  // removed once the next player has started (see retire)
     this.player = null;
+  }
+
+  /** The clip player's volume and whether it plays, for the self-test log. */
+  playerState(): { name: string; volume: number; playing: boolean } | null {
+    return this.player ? { name: 'host', volume: this.player.volume, playing: this.player.playing } : null;
   }
 
   hasClip(key: string): boolean {
@@ -125,6 +130,7 @@ export class Host {
       this.sub = p.addListener('playbackStatusUpdate', (s) => { if (s.didJustFinish) end(false); });
       p.seekTo(0).catch(() => {});
       p.play();
+      startedPlaying();
       this.said.push(`clip:${line.key}`);
       begin();
       // A clip that never loads is read aloud instead; one that never reports its end must not hang the game.

@@ -7,6 +7,8 @@ import type { Answered, useRound } from '../game/useRound';
 import { audioSettled, host, listener, prepareAudio, settleAudio, sounds } from './engine';
 import { answerLine, clueLine, host as hostLine, type HostKey, type Line } from './lines';
 import { contextFor, type Heard, type MicState, type Pace } from './listener';
+import { noteRoundAudio } from './roundAudio';
+import { logAudio, selfTestOn } from './selfTest';
 import { CUE_LEAD_MS } from './sounds';
 
 type Game = ReturnType<typeof useRound>;
@@ -102,6 +104,9 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     const g = game.current;
     const r = g?.round;
     if (!g || !r || g.phase !== 'playing' || away.current) return;
+    // The self-test answers by itself; what the mic hears there (on the simulator,
+    // the Mac's own speakers) is not judged, the mic stays open all the same.
+    if (selfTestOn()) return;
     const verdict = judgeSpoken(alts, current(r).question.answers);
     // Words heard while the host talks (or just after) may be the host itself:
     // a wrong answer is dropped only when its words are the host's, or close to
@@ -145,7 +150,15 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
       listener.onInterim = onInterim;
       listener.listen(onHeard, pace, context());
     };
-    const settled = () => { if (live()) sounds.startBg(); };
+    // The round's audio as its mic came up, for SES OTURUMU (one line per round).
+    const settled = () => {
+      if (!live()) return;
+      if (voice) {
+        const r = noteRoundAudio();
+        if (selfTestOn()) logAudio('round-start', r.round);
+      }
+      sounds.startBg();
+    };
     // A match's next turn: the mic is open, the session long set.
     if (listener.open) {
       open();
