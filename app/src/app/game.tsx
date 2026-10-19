@@ -43,6 +43,16 @@ function stageLayout(w: number, h: number) {
   return { compact, questionH, size };
 }
 
+// The big letter in front of the clue.
+function letterStyle(compact: boolean) {
+  const size = LETTER_SIZE[compact ? 'compact' : 'full'];
+  return {
+    fontFamily: F.display, fontSize: size, lineHeight: size,
+    color: C.text, textShadowColor: 'rgba(120,160,255,0.8)', textShadowRadius: 18,
+    minWidth: Math.round(size * 0.55), textAlign: 'center' as const,
+  };
+}
+
 function kindOf(l: RoundLetter, active: boolean): BubbleKind {
   if (l.status !== 'pending') return l.status;
   if (active) return 'active';
@@ -132,13 +142,15 @@ export function GameView({ game, voice, player }: { game: ReturnType<typeof useR
   const now = current(r);
   const shown = reveal?.letter ?? now;
   const live = phase === 'playing';
+  // With the host reading, the clue and the active letter wait for the moment its reading starts.
+  const clueShown = voice.clueShown(game.asked);
 
   // Clock ticks keep the same letters array, so the ring is not rebuilt on a tick.
   const items: RingItem[] = useMemo(() => r.letters.map((l, i) => {
-    const kind = kindOf(l, live && i === r.idx);
+    const kind = kindOf(l, live && clueShown && i === r.idx);
     const label = kind === 'active' ? 'sırada' : STATUS_TEXT[kind as keyof typeof STATUS_TEXT];
     return { label: l.letter, kind, testID: `letter-${l.letter}`, accessibilityLabel: `${l.letter} harfi, ${label}` };
-  }), [r.letters, r.idx, live]);
+  }), [r.letters, r.idx, live, clueShown]);
 
   const stageH = stage.h || 520;
   const { compact, questionH, size } = stageLayout(stage.w, stageH);
@@ -203,17 +215,23 @@ export function GameView({ game, voice, player }: { game: ReturnType<typeof useR
                 Doğru cevap: <Text style={{ fontFamily: F.bodyBold, color: C.greenSoft }}>{shown.question.answers[0]}</Text>
               </Text>
             </Pressable>
+          ) : !clueShown ? (
+            <View testID="clue-waiting" style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-start', gap: compact ? 12 : 16 }}>
+              {/* The big letter's place, empty until the host starts reading the clue. */}
+              <Text style={[letterStyle(compact), { color: C.dim, textShadowRadius: 0 }]}>?</Text>
+              <View style={{ flex: 1, gap: compact ? 4 : 8 }}>
+                <Text style={{ fontFamily: F.bodySemi, fontSize: compact ? 19 : 23, lineHeight: compact ? 24 : 29, color: C.dim }}>
+                  {game.asked === 0 ? 'Hazır olun…' : 'Sıradaki soru geliyor…'}
+                </Text>
+              </View>
+            </View>
           ) : (
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-start', gap: compact ? 12 : 16 }}>
               {/* The letter the answer starts with, large in front of the clue, as in the design. */}
               <Text
                 testID="clue-letter"
                 accessibilityLabel={`${now.letter} harfi`}
-                style={{
-                  fontFamily: F.display, fontSize: LETTER_SIZE[compact ? 'compact' : 'full'], lineHeight: LETTER_SIZE[compact ? 'compact' : 'full'],
-                  color: C.text, textShadowColor: 'rgba(120,160,255,0.8)', textShadowRadius: 18,
-                  minWidth: Math.round(LETTER_SIZE[compact ? 'compact' : 'full'] * 0.55), textAlign: 'center',
-                }}
+                style={letterStyle(compact)}
               >
                 {now.letter}
               </Text>

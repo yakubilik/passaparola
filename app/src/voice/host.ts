@@ -46,7 +46,9 @@ export class Host {
 
   // Says the lines one after another; `done` runs when the last one ends,
   // not when the host is cut off by cancel() or a newer speak(): `cut` runs then.
-  speak(lines: Line[], done?: () => void, cut?: () => void) {
+  // `starts` runs with a line's index the moment that line starts sounding
+  // (its clip's play(), or the phone voice when it reads the line instead).
+  speak(lines: Line[], done?: () => void, cut?: () => void, starts?: (i: number) => void) {
     this.halt();
     this.cutOff();
     const my = ++this.token;
@@ -63,10 +65,17 @@ export class Host {
         done?.();
         return;
       }
+      const at = i;
       const line = lines[i++];
+      let begun = false;
+      const begin = () => {
+        if (begun || my !== this.token) return;
+        begun = true;
+        starts?.(at);
+      };
       const clip = line.key ? this.clips[line.key] : undefined;
-      if (clip != null) this.playClip(my, line, clip, next);
-      else this.tts(my, line.text, next);
+      if (clip != null) this.playClip(my, line, clip, next, begin);
+      else this.tts(my, line.text, next, begin);
     };
     next();
   }
@@ -96,7 +105,7 @@ export class Host {
     Speech.stop().catch(() => {});
   }
 
-  private playClip(my: number, line: Line, clip: number, next: () => void) {
+  private playClip(my: number, line: Line, clip: number, next: () => void, begin: () => void) {
     let over = false;
     const end = (fallback: boolean) => {
       if (over || my !== this.token) return;
@@ -104,7 +113,7 @@ export class Host {
       if (this.safety) clearTimeout(this.safety);
       this.sub?.remove();
       this.sub = null;
-      if (fallback) this.tts(my, line.text, next);
+      if (fallback) this.tts(my, line.text, next, begin);
       else next();
     };
     try {
@@ -117,6 +126,7 @@ export class Host {
       p.seekTo(0).catch(() => {});
       p.play();
       this.said.push(`clip:${line.key}`);
+      begin();
       // A clip that never loads is read aloud instead; one that never reports its end must not hang the game.
       this.safety = setTimeout(() => end(!p.isLoaded), 4000);
       this.watchLength(p, () => over || my !== this.token, () => end(false));
@@ -139,7 +149,7 @@ export class Host {
     setTimeout(poll, 250);
   }
 
-  private tts(my: number, text: string, next: () => void) {
+  private tts(my: number, text: string, next: () => void, begin: () => void) {
     let over = false;
     const end = () => {
       if (over || my !== this.token) return;
@@ -150,6 +160,7 @@ export class Host {
     this.said.push(`tts:${text}`);
     // On the app's audio session, so the silent switch does not mute it either.
     Speech.speak(text, { language: 'tr-TR', rate: 1.0, useApplicationAudioSession: true, onDone: end, onError: end });
+    begin();
     // iOS sometimes never reports the end; don't let the game hang on it.
     this.safety = setTimeout(end, 1500 + text.length * 110);
   }

@@ -34,6 +34,9 @@ export type VoiceOptions = { open?: boolean; theme?: boolean; keepMic?: boolean;
 
 export function useVoiceRound(voice: boolean, { open = true, theme = true, keepMic = false, missEndsTurn = false, rng = Math.random }: VoiceOptions = {}) {
   const [reading, setReading] = useState(false);
+  // Which question's clue is on screen (useRound's `asked`): a clue appears
+  // when the host starts reading it, not before (see clueShown).
+  const [shownFor, setShownFor] = useState(-1);
   const [heard, setHeard] = useState('');
   const [judged, setJudged] = useState<Judged | null>(null);
   const judgedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -208,7 +211,9 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     if (prefix.current) lines.push(prefix.current);
     first.current = false;
     prefix.current = null;
+    const clueAt = lines.length;
     lines.push(clueLine(current(r).question));
+    const asked = readFor.current;
     // The recognizer is left alone: its request already expects every answer of the round.
     readingRef.current = true;
     setReading(true);
@@ -221,7 +226,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
         readingRef.current = false;
         setReading(false);
         game.current?.hold(false);
-      });
+      }, undefined, (i) => { if (i === clueAt) setShownFor(asked); });
     };
     // Right after an answer the cue sounds first and the host a moment later.
     const go = () => {
@@ -293,7 +298,11 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     game.current = g;
   };
 
-  return { reading, heard, judged, mic, away: awayState, begin, read, onAnswer, onOver, onTurnOver, bind, readFor, lastSec, voice };
+  // With the host reading, a question's clue and its letter are shown from
+  // the moment its clue line starts; typed (voice off) at once.
+  const clueShown = useCallback((asked: number) => !voice || shownFor === asked, [voice, shownFor]);
+
+  return { reading, heard, clueShown, judged, mic, away: awayState, begin, read, onAnswer, onOver, onTurnOver, bind, readFor, lastSec, voice };
 }
 
 // The effects that follow the round: read each new question, warn in the last ten seconds.

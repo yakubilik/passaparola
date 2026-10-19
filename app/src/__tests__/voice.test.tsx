@@ -7,7 +7,7 @@ import { REVEAL_MS } from '../game/useRound';
 import { SETTINGS_KEY } from '../store/settings';
 import { audio } from '../test-utils/fakeAudio';
 import { fakeRecognizer as rec } from '../test-utils/fakeRecognizer';
-import { pressStart, settle } from '../test-utils/round';
+import { pressStart, settle, untilClue } from '../test-utils/round';
 import { C } from '../ui/theme';
 import { host, listener, sounds } from '../voice/engine';
 import { answerLine, clueLine, host as hostLine, type Line } from '../voice/lines';
@@ -89,7 +89,7 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; one reco
   // The host reads A (after "İşte sağ cepten sorular çıkıyor"); the clock waits, the bed is lowered.
   const a = question(clueText());
   expect(host.speaking).toBe(true);
-  expect(host.said).toEqual([said(hostLine('go'))]);
+  expect(host.said).toEqual([said(hostLine('go')), said(clueLine(a))]);
   expect(sounds.bgVolume).toBeCloseTo(BG_DUCKED * DEFAULT_GAIN, 6);
   expect(screen.getByTestId('voice-status')).toHaveTextContent(/Sunucu okuyor/);
   await wait(1000);
@@ -144,6 +144,7 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; one reco
 
   // One request for the whole round, never restarted for a new question (each
   // start rebuilds the iOS audio engine), expecting every answer of the round.
+  await untilClue();
   const d = question(clueText());
   expect(rec.starts).toBe(1);
   expect(listener.renewals).toBe(0);
@@ -481,6 +482,7 @@ test('from the last word to the verdict: right and Pas at once, a slip counts, w
   expect(await verdictAfter(a.answers[0], 'A harfi, doğru')).toBe(0);
   expect(await verdictAfter('pas', 'B harfi, pas')).toBe(0);
   // A dictation slip (a doubled last letter) is right too, at once.
+  await untilClue();
   const c = question(clueText());
   const slip = c.answers[0] + c.answers[0].slice(-1);
   expect(await verdictAfter(slip, 'C harfi, doğru')).toBe(0);
