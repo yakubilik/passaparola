@@ -1,9 +1,18 @@
 import { fold, isPassWord, norm } from '../game/normalize';
 
 // Spoken answers, ported from js/voice.js (the web game). The microphone is
-// opened once per round and kept open: on iOS every start plays the system
-// chime and a late start misses the answer, so the player can also answer
-// while a clue is still being read.
+// opened when the round starts and kept open, so the player can also answer
+// while a clue is still being read. What the iOS recognizer is asked for, and
+// why, is in docs/speech.md.
+//
+// One recognition request serves one question: the words to expect
+// (contextualStrings) are fixed when a request starts, so a new question
+// starts a fresh request with its own answers (expectWords). A request is
+// also renewed before the iOS limit of about a minute of audio, at a quiet
+// moment (REQUEST_REFRESH_MS) or at the latest at REQUEST_MAX_MS, instead of
+// being cut off by iOS in the middle of an answer. The audio session is not
+// touched by any of this; the next request starts the moment the old one
+// has ended.
 //
 // iOS keeps growing one result for everything said and never marks it final,
 // so interim results are used: words already handled are cut off the front,
@@ -17,6 +26,13 @@ import { fold, isPassWord, norm } from '../game/normalize';
 export const SETTLE_MS = 700;
 export const PARTIAL_MS = 1500;
 export const ECHO_TAIL_MS = 800;
+/** A request this old is renewed at the next quiet moment (no words for QUIET_MS, nothing pending). */
+export const REQUEST_REFRESH_MS = 45_000;
+/** ...and renewed regardless at this age, ahead of the iOS one-minute limit. */
+export const REQUEST_MAX_MS = 55_000;
+export const QUIET_MS = 1000;
+/** A renewed request starts once the old one reports 'end', or after this long without it. */
+export const RESTART_WAIT_MS = 1000;
 
 /** How soon heard words can be judged: at once, after a long pause, or once they settle. */
 export type Pace = (alts: string[]) => 'now' | 'partial' | 'settle';
@@ -30,6 +46,8 @@ export type RecOptions = {
   interimResults: boolean;
   maxAlternatives: number;
   contextualStrings?: string[];
+  /** The on-device speech model; iOS applies it only where the tr-TR recognizer supports it. */
+  requiresOnDeviceRecognition: boolean;
 };
 
 // The iOS limit for contextual strings is about 100 phrases.
@@ -61,6 +79,10 @@ export interface Recognizer {
 }
 
 export type MicState = 'off' | 'listening' | 'denied' | 'error';
+
+function sameWords(a: readonly string[], b: readonly string[]): boolean {
+  return a.length === b.length && a.every((w, i) => w === b[i]);
+}
 
 function words(s: string): string[] {
   return norm(s).split(' ').filter(Boolean);
@@ -98,22 +120,49 @@ export class AnswerListener {
   private context: string[] = [];
   private prevWords: string[] = [];  // the first guess as last heard, for rewritten words
   private swallowUntil = 0;   // the rest of an utterance already judged at once
-  /** How many times the recognizer was started (once per round when all is well). */
+  private renewing = false;   // the request was dropped on purpose; the next starts on its 'end'
+  private requestContext: string[] = [];
+  private startedAt = 0;
+  private lastResultAt = 0;
+  private ageTimer: ReturnType<typeof setTimeout> | null = null;
+  private renewTimer: ReturnType<typeof setTimeout> | null = null;
+  private staleEndUntil = 0;  // an 'end' before this, with nothing heard yet, is the one of a request closed by stop()
+  private heardThisRequest = false;
+  private staleEnds = 0;      // 'end's still owed by requests renewed without waiting for them
+  /** How many times the recognizer was started: once per question when all is well. */
   starts = 0;
+  /** Requests renewed on purpose (a new question's words, the time limit, the server fallback). */
+  renewals = 0;
+  /** Ask for on-device recognition; off after it failed once (then the iOS speech servers). */
+  onDevice = true;
   onState: (s: MicState, detail?: string) => void = () => {};
   onInterim: (text: string) => void = () => {};
 
   constructor(private rec: Recognizer, private now: () => number = () => Date.now()) {}
 
   // Opens the mic for a round; while it is open a new handler just replaces the old one.
-  // `context`: words to expect, used when the recognizer (re)starts; an open
-  // session keeps the ones it was started with.
+  // `context`: words to expect (see expectWords).
   listen(handler: (alts: string[], heard: Heard) => void, pace?: Pace, context?: string[]) {
     this.handler = handler;
     this.pace = pace ?? null;
-    if (context) this.context = context;
     this.wanted = true;
+    if (context) this.expectWords(context);
     this.startRec();
+  }
+
+  /**
+   * The words to expect from now on (a new question's answers). A running
+   * request cannot take new contextualStrings, so when they differ it is
+   * renewed: dropped, and a fresh one started as soon as iOS has ended it.
+   */
+  expectWords(context: string[]) {
+    this.context = context;
+    if (this.running && !sameWords(context, this.requestContext)) this.renew();
+  }
+
+  /** 'on-device' or 'server': what the next (or running) request asks iOS for. */
+  get mode(): 'on-device' | 'server' {
+    return this.onDevice ? 'on-device' : 'server';
   }
 
   stop() {
@@ -121,11 +170,14 @@ export class AnswerListener {
     this.handler = null;
     this.pace = null;
     this.swallowUntil = 0;
+    this.renewing = false;
+    this.staleEnds = 0;
     this.clearTimers();
     this.lastAlts = null;
     if (this.unsub) { this.unsub(); this.unsub = null; }
     if (this.running) {
       this.running = false;
+      this.staleEndUntil = this.now() + 2 * RESTART_WAIT_MS;
       try { this.rec.abort(); } catch { /* already stopped */ }
     }
     this.onState('off');
@@ -187,7 +239,46 @@ export class AnswerListener {
   private clearTimers() {
     if (this.settleTimer) clearTimeout(this.settleTimer);
     if (this.restartTimer) clearTimeout(this.restartTimer);
-    this.settleTimer = this.restartTimer = null;
+    if (this.ageTimer) clearTimeout(this.ageTimer);
+    if (this.renewTimer) clearTimeout(this.renewTimer);
+    this.settleTimer = this.restartTimer = this.ageTimer = this.renewTimer = null;
+  }
+
+  // Drops the running request on purpose; renewed() starts the next one.
+  // Words still settling belonged to the old request (and question) and are dropped.
+  private renew() {
+    if (!this.running || this.renewing) return;
+    this.renewing = true;
+    this.renewals++;
+    if (this.settleTimer) clearTimeout(this.settleTimer);
+    if (this.ageTimer) clearTimeout(this.ageTimer);
+    this.settleTimer = this.ageTimer = null;
+    this.lastAlts = null;
+    this.renewTimer = setTimeout(() => this.renewed(true), RESTART_WAIT_MS);
+    try { this.rec.abort(); } catch { this.renewed(); }
+  }
+
+  // The old request has ended (or never said so in time): the next one starts at once.
+  // Its 'end', if it comes after all, must not be taken for the new one's.
+  private renewed(late = false) {
+    if (!this.renewing) return;
+    this.renewing = false;
+    if (late) this.staleEnds++;
+    if (this.renewTimer) clearTimeout(this.renewTimer);
+    this.renewTimer = null;
+    this.running = false;
+    this.startRec();
+  }
+
+  // Server recognition takes about a minute of audio per request: an
+  // old request is renewed when nobody is talking, and before the limit regardless.
+  private checkAge() {
+    this.ageTimer = null;
+    if (!this.running || this.renewing) return;
+    const now = this.now();
+    const quiet = !this.lastAlts && now - this.lastResultAt >= QUIET_MS;
+    if (quiet || now - this.startedAt >= REQUEST_MAX_MS) this.renew();
+    else this.ageTimer = setTimeout(() => this.checkAge(), 250);
   }
 
   private startRec() {
@@ -206,9 +297,15 @@ export class AnswerListener {
     }
     this.running = true;
     this.starts++;
+    this.requestContext = this.context;
+    this.startedAt = this.lastResultAt = this.now();
+    this.heardThisRequest = false;
+    if (this.ageTimer) clearTimeout(this.ageTimer);
+    this.ageTimer = setTimeout(() => this.checkAge(), REQUEST_REFRESH_MS);
     try {
       this.rec.start({
         lang: 'tr-TR', continuous: true, interimResults: true, maxAlternatives: 5,
+        requiresOnDeviceRecognition: this.onDevice,
         ...(this.context.length ? { contextualStrings: this.context } : {}),
       });
       this.onState('listening');
@@ -219,7 +316,9 @@ export class AnswerListener {
   }
 
   private onResult(e: RecResult) {
-    if (!this.running) return;
+    if (!this.running || this.renewing) return;
+    this.lastResultAt = this.now();
+    this.heardThisRequest = true;
     const skip = this.realign(words(e.results[0]?.transcript ?? ''));
     this.used = skip;
     let count = 0;
@@ -316,6 +415,20 @@ export class AnswerListener {
   }
 
   private onError(e: RecError) {
+    if (this.renewing) return;  // the 'aborted' of a request dropped on purpose
+    if (e.error === 'service-not-allowed' && this.onDevice && this.running) {
+      // On-device recognition failed (its model missing, or not for tr-TR
+      // after all): the next request goes to the iOS speech servers. Only if they
+      // refuse too is Siri and Dictation really off.
+      this.onDevice = false;
+      this.renewing = true;
+      this.renewals++;
+      if (this.renewTimer) clearTimeout(this.renewTimer);
+      this.renewTimer = setTimeout(() => this.renewed(true), RESTART_WAIT_MS);
+      return;
+    }
+    // A real error: the 'end' after it belongs to this request.
+    if (e.error !== 'aborted') this.staleEndUntil = 0;
     if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
       this.wanted = false;
       this.onState('denied', e.error);
@@ -327,8 +440,19 @@ export class AnswerListener {
   // iOS ends a session on its own now and then (an interruption, a long
   // silence): what was said is delivered and the mic opens again.
   private onEnd() {
+    if (this.renewing) return this.renewed();
+    if (this.staleEnds > 0) {
+      this.staleEnds--;
+      return;
+    }
+    if (this.now() < this.staleEndUntil && !this.heardThisRequest) {
+      this.staleEndUntil = 0;
+      return;
+    }
     if (!this.running) return;
     this.running = false;
+    if (this.ageTimer) clearTimeout(this.ageTimer);
+    this.ageTimer = null;
     if (this.lastAlts) this.deliver(true);
     if (this.wanted) this.restartTimer = setTimeout(() => this.startRec(), 250);
     else this.onState('off');

@@ -8,9 +8,9 @@ import { SETTINGS_KEY } from '../store/settings';
 import { audio } from '../test-utils/fakeAudio';
 import { fakeRecognizer as rec } from '../test-utils/fakeRecognizer';
 import { C } from '../ui/theme';
-import { host, sounds } from '../voice/engine';
+import { host, listener, sounds } from '../voice/engine';
 import { answerLine, clueLine, host as hostLine, type Line } from '../voice/lines';
-import { ECHO_TAIL_MS, SETTLE_MS } from '../voice/listener';
+import { contextFor, ECHO_TAIL_MS, REQUEST_MAX_MS, SETTLE_MS } from '../voice/listener';
 import { RECOGNITION_OPTIONS } from '../voice/recognizer';
 import { BG_DUCKED, BG_MAX, BG_VOLUME, CUE_LEAD_MS, DUCK } from '../voice/sounds';
 
@@ -56,6 +56,7 @@ beforeEach(async () => {
   });
   jest.spyOn(Math, 'random').mockReturnValue(0.99); // the host does not add "Doğru." before the next clue
   rec.reset();
+  listener.renewals = 0;
   sounds.played.length = 0;
   host.said.length = 0;
   await AsyncStorage.clear();
@@ -65,7 +66,7 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-test('a spoken round: answer during the reading, a wrong answer, a pas; the mic is opened once', async () => {
+test('a spoken round: answer during the reading, a wrong answer, a pas; one recognition request per question, each expecting its answers', async () => {
   await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ voice: true, micChecked: true }));
   await renderRouter('./src/app', { initialUrl: '/game?cats=tarih&level=1&seed=7' });
   expect(await screen.findByText('Hazır mısın?')).toBeOnTheScreen();
@@ -123,6 +124,7 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; the mic 
   expect(screen.getByLabelText('C harfi, sırada')).toBeOnTheScreen();
 
   // Pas while C is read: C turns yellow, Ç is next.
+  const c = question(clueText());
   await say('pas');
   expect(screen.getByLabelText('C harfi, pas')).toHaveStyle({ backgroundColor: C.yellow });
   expect(screen.getByLabelText('Ç harfi, sırada')).toBeOnTheScreen();
@@ -137,9 +139,13 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; the mic 
   expect(screen.getByLabelText('1 pas')).toBeOnTheScreen();
   expect(screen.getByLabelText('1 yanlış')).toBeOnTheScreen();
 
-  // One recognition session for all of it.
-  expect(rec.starts).toBe(1);
-  expect(rec.aborts).toBe(0);
+  // One request per question (A, B, C, Ç and now D), each started with that
+  // question's answers; every start after the first was a planned renewal.
+  const d = question(clueText());
+  expect(rec.startOptions.map((o) => o.contextualStrings)).toEqual([a, b, c, c2, d].map((q) => contextFor(q.answers)));
+  expect(rec.starts).toBe(5);
+  expect(listener.renewals).toBe(4);
+  expect(rec.aborts).toBe(4);
 
   // The last ten seconds warn every second; time up closes the mic and the host says so.
   await wait(3000);
@@ -148,10 +154,16 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; the mic 
   for (let i = 0; i < 30 && !screen.queryByText('Az kaldı!'); i++) await wait(1000);
   expect(sounds.played.filter((s) => s === 'warn').length).toBeGreaterThanOrEqual(9);
   expect(await screen.findByText('Az kaldı!')).toBeOnTheScreen();
-  expect(rec.aborts).toBe(1);
   expect(sounds.bgPlaying).toBe(false);
   expect(host.said).toContain(said(hostLine('timeup')));
-  expect(rec.starts).toBe(1);
+  // The quiet minutes at D: its request was renewed before Apple's limit of
+  // about a minute, each time, and the mic closed for good at time up.
+  const ages = rec.startTimes.slice(1).map((t, i) => t - rec.startTimes[i]);
+  expect(rec.starts).toBeGreaterThan(5);
+  expect(Math.max(...ages.slice(4))).toBeLessThanOrEqual(REQUEST_MAX_MS);
+  expect(rec.starts).toBe(listener.renewals + 1);
+  expect(rec.aborts).toBe(listener.renewals + 1);
+  expect(rec.running).toBe(false);
 });
 
 test('voice off: no host, no mic, the cues still play', async () => {
@@ -289,7 +301,7 @@ test('voice off: the background still silences the cues and stops the clock', as
   expect(screen.getByTestId('clock')).not.toHaveTextContent(before);
 });
 
-test('pass and play: "hazırım" starts each turn on the Sıra screen, and one mic session serves the whole match', async () => {
+test('pass and play: "hazırım" starts each turn on the Sıra screen, and one mic serves the whole match (a fresh request per screen and question, never closed)', async () => {
   await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ voice: true, micChecked: true }));
   await renderRouter('./src/app', { initialUrl: `/match?names=${encodeURIComponent(JSON.stringify(['Ece', 'Fırat']))}&cats=karisik&level=1&seed=5` });
   expect(await screen.findByTestId('handover')).toHaveTextContent('Sıra: Ece');
@@ -337,8 +349,9 @@ test('pass and play: "hazırım" starts each turn on the Sıra screen, and one m
   await screen.findByText('Sıradaki oyuncu: Ece');
   await fireEvent.press(screen.getByText('Sıradaki oyuncu: Ece'));
   expect(await screen.findByTestId('handover')).toHaveTextContent('Sıra: Ece');
-  expect(rec.starts).toBe(1);
-  expect(rec.aborts).toBe(0);
+  expect(rec.starts).toBe(listener.renewals + 1);
+  expect(rec.aborts).toBe(listener.renewals);
+  expect(rec.startOptions.at(-1).contextualStrings).toEqual(contextFor(['hazırım', 'hazır', 'tamam', 'başla']));
 });
 
 // How the host's words reach the mic in the tests below: all of them, as if
@@ -403,7 +416,7 @@ test('speaker and mic: one session with echo cancellation, set before the mic op
   expect(BG_VOLUME).toBeLessThanOrEqual(BG_MAX);
   expect(BG_MAX).toBeLessThanOrEqual(0.17 / 2);
 
-  // A few answers on: still one session, no change to the iOS audio session
+  // A few answers on: a request per question, no change to the iOS audio session
   // since the mic opened, and every player keeps the session active (expo-audio
   // would otherwise deactivate it under the mic when a clip ends).
   await say('pas');
@@ -414,8 +427,8 @@ test('speaker and mic: one session with echo cancellation, set before the mic op
   expect(rec.categories.length).toBe(1);
   expect(audio.players.length).toBeGreaterThan(2);
   for (const p of audio.players) expect(p.options).toMatchObject({ keepAudioSessionActive: true });
-  expect(rec.starts).toBe(1);
-  expect(rec.aborts).toBe(0);
+  expect(rec.starts).toBe(listener.renewals + 1);
+  expect(rec.aborts).toBe(listener.renewals);
 });
 
 test("worst case, no echo cancellation at all: the host's own words reach the mic and are never judged", async () => {
@@ -435,13 +448,14 @@ test("worst case, no echo cancellation at all: the host's own words reach the mi
     expect(screen.getByLabelText('4 doğru')).toBeOnTheScreen();
     expect(screen.getByLabelText('0 yanlış')).toBeOnTheScreen();
     expect(screen.getByLabelText('0 pas')).toBeOnTheScreen();
-    expect(rec.starts).toBe(1);
+    expect(rec.starts).toBe(5);  // A, B, C, Ç, then D: one request per question
+    expect(rec.aborts).toBe(listener.renewals);
   } finally {
     echo.restore();
   }
 });
 
-test('from the last word to the verdict: right and Pas at once, a slip counts, wrong in under 1.2 s; the mic is never restarted', async () => {
+test('from the last word to the verdict: right and Pas at once, a slip counts, wrong in under 1.2 s; the mic restarts only for a new question', async () => {
   await startVoiceGame();
   async function verdictAfter(words: string, label: string): Promise<number> {
     await untilHostQuiet();
@@ -467,8 +481,9 @@ test('from the last word to the verdict: right and Pas at once, a slip counts, w
   // "geçiyorum" did not pass E as well.
   await wait(3000);
   expect(screen.getByLabelText('E harfi, sırada')).toBeOnTheScreen();
-  expect(rec.starts).toBe(1);
-  expect(rec.aborts).toBe(0);
+  expect(rec.starts).toBe(6);  // A to E
+  expect(rec.aborts).toBe(listener.renewals);
+  expect(listener.renewals).toBe(5);
 });
 
 test('"pas" passes at once while the host is reading', async () => {

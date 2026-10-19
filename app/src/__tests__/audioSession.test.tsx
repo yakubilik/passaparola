@@ -72,7 +72,7 @@ test('launch, menu, Ayarlar, categories and the level map: no sound and no audio
   // Starting the round and the mic changes nothing more, and later sounds start at their level at once.
   await fireEvent.press(screen.getByText('Başla'));
   await wait(10);
-  expect(rec.starts).toBe(1);
+  expect(rec.starts).toBe(1);  // the first question's request
   expect(host.speaking).toBe(true);
   expect(host.volume).toBe(HOST_VOLUME);
   await fireEvent.press(screen.getByLabelText('Pas'));
