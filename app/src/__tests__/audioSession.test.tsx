@@ -94,5 +94,5 @@ test('the session mode is not voiceChat: the loudspeaker is not driven to call l
     categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'],
     mode: 'default',
   });
-  expect(RECOGNITION_OPTIONS.iosVoiceProcessingEnabled).toBe(true);
+  expect(RECOGNITION_OPTIONS.iosVoiceProcessingEnabled).toBe(false);
 });

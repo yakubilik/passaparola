@@ -29,7 +29,11 @@ import { SETTLE_MS, type RecOptions, type Recognizer } from './listener';
 export const RECOGNITION_OPTIONS = {
   addsPunctuation: false,
   iosTaskHint: 'search',
-  iosVoiceProcessingEnabled: true,
+  // Off (19 Oct 2026, phone self-test docs/selftest/2026-10-19-1826-phone.json): with voice
+  // processing on, iOS switched the session to voiceChat, drove outputVolume 0.55 -> 1.0 step
+  // by step and rebuilt the recognizer's engine every second (7 engines in 5 s). The host's
+  // own words are kept out of the answers by the listener's text filter instead.
+  iosVoiceProcessingEnabled: false,
   iosCategory: {
     category: 'playAndRecord',
     categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'],

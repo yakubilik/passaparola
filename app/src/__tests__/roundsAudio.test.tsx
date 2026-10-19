@@ -93,7 +93,7 @@ test('round 1 -> result -> round 2 -> result -> round 3: the same session and re
   const [o1, o2, o3] = rec.startOptions.map(audioOptions);
   expect(o2).toEqual(o1);
   expect(o3).toEqual(o1);
-  expect(o1).toMatchObject({ ...RECOGNITION_OPTIONS, iosVoiceProcessingEnabled: true, iosCategory: RECOGNITION_OPTIONS.iosCategory });
+  expect(o1).toMatchObject({ ...RECOGNITION_OPTIONS, iosVoiceProcessingEnabled: false, iosCategory: RECOGNITION_OPTIONS.iosCategory });
 
   // Nothing made the session inactive: not the app (setIsAudioActiveAsync(false)),
   // not expo-audio letting players go; and it was set up once, in round 1.
@@ -109,12 +109,12 @@ test('round 1 -> result -> round 2 -> result -> round 3: the same session and re
   expect(rounds.map((r) => r.round)).toEqual([1, 2, 3]);
   for (const r of rounds) {
     expect(r.session).toMatchObject({ category: 'playAndRecord', mode: 'default', options: first.options, outputVolume: 0.5 });
-    expect(r.vp).toMatchObject({ running: true, enabled: true, advancedDucking: false, duckingLevel: 'min', rebuilds: 0 });
-    expect(r.asked).toEqual({ voiceProcessing: true, category: RECOGNITION_OPTIONS.iosCategory });
+    expect(r.vp).toMatchObject({ running: true, enabled: false, rebuilds: 0 });
+    expect(r.asked).toEqual({ voiceProcessing: false, category: RECOGNITION_OPTIONS.iosCategory });
   }
   // One line per round in SES OTURUMU, identical for the three rounds.
   const lines = rounds.map(roundLine);
-  expect(lines[0]).toBe('playAndRecord (allowBluetooth, defaultToSpeaker, mixWithOthers), mod default, telefon sesi %50; yankı önleme açık, kısma min');
+  expect(lines[0]).toBe('playAndRecord (allowBluetooth, defaultToSpeaker, mixWithOthers), mod default, telefon sesi %50; yankı önleme kapalı, kısma -');
   expect(lines).toEqual([lines[0], lines[0], lines[0]]);
   expect(screen.getByTestId('diag-tur-3')).toHaveTextContent(`Tur 3: ${lines[0]}`);
 });
