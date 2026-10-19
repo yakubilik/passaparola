@@ -14,6 +14,7 @@ export class Host {
   private player: AudioPlayer | null = null;
   private sub: { remove(): void } | null = null;
   private safety: ReturnType<typeof setTimeout> | null = null;
+  private onCut: (() => void) | null = null;
   speaking = false;
   /** Called with the words about to be said, and with null when the host is quiet again. */
   onSpeaking: (texts: string[] | null) => void = () => {};
@@ -44,16 +45,19 @@ export class Host {
   }
 
   // Says the lines one after another; `done` runs when the last one ends,
-  // not when the host is cut off by cancel() or a newer speak().
-  speak(lines: Line[], done?: () => void) {
+  // not when the host is cut off by cancel() or a newer speak(): `cut` runs then.
+  speak(lines: Line[], done?: () => void, cut?: () => void) {
     this.halt();
+    this.cutOff();
     const my = ++this.token;
+    this.onCut = cut ?? null;
     let i = 0;
     this.speaking = true;
     this.onSpeaking(lines.map((l) => l.text));
     const next = () => {
       if (my !== this.token) return;
       if (i >= lines.length) {
+        this.onCut = null;
         this.speaking = false;
         this.onSpeaking(null);
         done?.();
@@ -74,6 +78,13 @@ export class Host {
       this.speaking = false;
       this.onSpeaking(null);
     }
+    this.cutOff();
+  }
+
+  private cutOff() {
+    const cut = this.onCut;
+    this.onCut = null;
+    cut?.();
   }
 
   private halt() {
