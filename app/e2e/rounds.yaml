@@ -1,0 +1,44 @@
+# #361: three rounds back to back (levels 1, 2, 3 of tarih) on the simulator,
+# played by the app's own self-test mode (src/voice/selfTest.ts: voice on, the
+# host reading, the mic open, every clue answered right once it was read).
+# e2e/rounds.sh launches the app with -harfiyenSelfTest 1 and then runs this:
+# it waits for each result screen and photographs its SES OTURUMU, where
+# "Tur N" holds the session and voice-processing state of round N.
+appId: com.skolalabs.harfiyen
+---
+- repeat:
+    times: 3
+    commands:
+      - tapOn:
+          text: "(Allow|OK|İzin Ver|Tamam)"
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: "diag-tur-1"
+    timeout: 900000
+- scrollUntilVisible:
+    element:
+      id: "diag-tur-1"
+    timeout: 5000
+    optional: true
+- takeScreenshot: round-1
+- extendedWaitUntil:
+    visible:
+      id: "diag-tur-2"
+    timeout: 900000
+- scrollUntilVisible:
+    element:
+      id: "diag-tur-2"
+    timeout: 5000
+    optional: true
+- takeScreenshot: round-2
+- extendedWaitUntil:
+    visible:
+      id: "diag-tur-3"
+    timeout: 900000
+- scrollUntilVisible:
+    element:
+      id: "diag-tur-3"
+    timeout: 5000
+    optional: true
+- takeScreenshot: round-3
