@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Pushes the Turkish store listing in docs/store/tr.md to App Store Connect.
 
-    python3 app/scripts/push-store-metadata.py [--privacy-url URL]
+    python3 app/scripts/push-store-metadata.py [--privacy-url URL]   # default: the live yakupkeskin.dev page
 
 Uses ascelerate (App Store Connect API key, no browser): app name, subtitle and, when given,
 the privacy policy URL on the app info (categories are set by asc-store-setup.py);
@@ -29,7 +29,7 @@ def run(*args):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--privacy-url')
+    ap.add_argument('--privacy-url', default='https://yakupkeskin.dev/harfiyen/gizlilik')
     a = ap.parse_args()
     md = open(os.path.join(ROOT, 'docs', 'store', 'tr.md'), encoding='utf-8').read()
     info = ['apps', 'app-info', 'update', BUNDLE, '--locale', 'tr',
