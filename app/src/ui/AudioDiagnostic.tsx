@@ -29,7 +29,7 @@ export function AudioDiagnostic() {
       ['Mikrofon', info.inputs.join(', ') || '-'],
       ['Telefon sesi', pct(info.outputVolume)],
       ['Oyun sesi', pct(masterGain())],
-      ['Dinleme', `${listener.listening ? 'açık' : 'kapalı'}, yankı önleme ${RECOGNITION_OPTIONS.iosVoiceProcessingEnabled ? 'açık' : 'kapalı'}`],
+      ['Oyun mikrofonu', `${listener.listening ? 'açık' : 'kapalı'}, yankı önleme ${RECOGNITION_OPTIONS.iosVoiceProcessingEnabled ? 'açık' : 'kapalı'}`],
     ]
     : [['Ses oturumu', 'bu sürümde okunamıyor'], ['Oyun sesi', pct(masterGain())]];
 
