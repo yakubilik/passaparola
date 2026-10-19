@@ -1,20 +1,199 @@
+diff --git a/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognitionModule.swift b/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognitionModule.swift
+index 9dc9082..76f1bea 100644
+--- a/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognitionModule.swift
++++ b/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognitionModule.swift
+@@ -286,6 +286,12 @@ public class ExpoSpeechRecognitionModule: Module {
+       )
+     }
+ 
++    // Harfiyen: the recognizer engine's voice processing as it last was (see
++    // HarfiyenVoiceProcessing), for the app's audio diagnostic.
++    Function("getVoiceProcessingStateIOS") { () -> [String: Any] in
++      return HarfiyenVoiceProcessing.snapshot()
++    }
++
+     Function("getAudioSessionCategoryAndOptionsIOS") { () -> [String: Any] in
+       let instance = AVAudioSession.sharedInstance()
+ 
 diff --git a/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognizer.swift b/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognizer.swift
-index b278425..cb773b8 100644
+index b278425..88d8598 100644
 --- a/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognizer.swift
 +++ b/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognizer.swift
-@@ -364,6 +364,15 @@ actor ExpoSpeechRecognizer: ObservableObject {
-       do {
-         try audioEngine.inputNode.setVoiceProcessingEnabled(true)
-         try audioEngine.outputNode.setVoiceProcessingEnabled(true)
-+        // Harfiyen: voice processing ducks every other sound in the app (the host's
-+        // clips and the cues play through expo-audio, outside this engine) while it
-+        // runs, so the game went quiet as the call-style volume went up. Keep the echo
-+        // cancellation, switch the ducking off.
-+        if #available(iOS 17.0, *) {
-+          audioEngine.inputNode.voiceProcessingOtherAudioDuckingConfiguration =
-+            AVAudioVoiceProcessingOtherAudioDuckingConfiguration(
-+              enableAdvancedDucking: false, duckingLevel: .min)
-+        }
-       } catch {
-         print(
-           "expo-speech-recognition: WARNING - Failed to set voice processing: \(error)"
+@@ -29,6 +29,29 @@ enum RecognizerError: Error {
+   }
+ }
+ 
++// Harfiyen: the voice processing of the recognizer's audio engine as it last was,
++// for the app's audio diagnostic (getVoiceProcessingStateIOS). Read from the
++// engine's own input node after it started, not from the options asked for.
++final class HarfiyenVoiceProcessing {
++  private static let lock = NSLock()
++  private static var state: [String: Any] = [
++    "running": false, "enabled": false, "advancedDucking": NSNull(), "duckingLevel": NSNull(),
++    "engines": 0, "rebuilds": 0,
++  ]
++
++  static func snapshot() -> [String: Any] {
++    lock.lock()
++    defer { lock.unlock() }
++    return state
++  }
++
++  static func update(_ change: (inout [String: Any]) -> Void) {
++    lock.lock()
++    change(&state)
++    lock.unlock()
++  }
++}
++
+ actor ExpoSpeechRecognizer: ObservableObject {
+   private var options: SpeechRecognitionOptions?
+   private var audioEngine: AVAudioEngine?
+@@ -360,16 +383,7 @@ actor ExpoSpeechRecognizer: ObservableObject {
+     audioEngine.connect(inputNode, to: mixerNode, format: audioFormat)
+ 
+     // Configure voice processing if enabled
+-    if options.iosVoiceProcessingEnabled == true {
+-      do {
+-        try audioEngine.inputNode.setVoiceProcessingEnabled(true)
+-        try audioEngine.outputNode.setVoiceProcessingEnabled(true)
+-      } catch {
+-        print(
+-          "expo-speech-recognition: WARNING - Failed to set voice processing: \(error)"
+-        )
+-      }
+-    }
++    Self.configureVoiceProcessing(audioEngine, options: options)
+ 
+     if options.recordingOptions?.persist == true {
+       guard let fileAudioFormat = Self.getFileAudioFormat(options: options, engine: audioEngine)
+@@ -398,6 +412,8 @@ actor ExpoSpeechRecognizer: ObservableObject {
+         }
+       }
+     )
++    Self.applyDucking(audioEngine)
++    Self.recordVoiceProcessing(audioEngine, rebuilt: false)
+ 
+     if !options.continuous {
+       invalidateAndScheduleTimer()
+@@ -517,6 +533,7 @@ actor ExpoSpeechRecognizer: ObservableObject {
+       audioEngine?.inputNode.removeTap(onBus: 0)
+       audioEngine?.inputNode.reset()
+       audioEngine?.reset()
++      Self.releaseVoiceProcessing(audioEngine)
+       audioEngine = nil
+     }
+ 
+@@ -542,6 +559,7 @@ actor ExpoSpeechRecognizer: ObservableObject {
+     audioEngine?.inputNode.removeTap(onBus: 0)
+     audioEngine?.inputNode.reset()
+     audioEngine?.reset()
++    Self.releaseVoiceProcessing(audioEngine)
+     audioEngine = nil
+     for observer in [audioSessionInterruptionObserver, audioSessionRouteChangeObserver].compactMap({
+       $0
+@@ -727,6 +745,75 @@ actor ExpoSpeechRecognizer: ObservableObject {
+     try audioEngine.start()
+   }
+ 
++  // Harfiyen: voice processing (echo cancellation) for an engine of this recognizer,
++  // the same for the first engine of a request and for one rebuilt after a route
++  // change. Voice processing ducks every other sound in the app (the host's clips and
++  // the cues play through expo-audio, outside this engine) while it runs, so the game
++  // went quiet as the call-style volume went up: the ducking is switched off.
++  private static func configureVoiceProcessing(
++    _ engine: AVAudioEngine, options: SpeechRecognitionOptions
++  ) {
++    guard options.iosVoiceProcessingEnabled == true else { return }
++    do {
++      try engine.inputNode.setVoiceProcessingEnabled(true)
++      try engine.outputNode.setVoiceProcessingEnabled(true)
++    } catch {
++      print(
++        "expo-speech-recognition: WARNING - Failed to set voice processing: \(error)"
++      )
++    }
++    applyDucking(engine)
++  }
++
++  // Set before the engine starts and again once it runs: the voice-processing I/O
++  // unit is only initialised by start(), and a configuration set before that must
++  // not be the only one it gets.
++  private static func applyDucking(_ engine: AVAudioEngine) {
++    if #available(iOS 17.0, *) {
++      guard engine.inputNode.isVoiceProcessingEnabled else { return }
++      engine.inputNode.voiceProcessingOtherAudioDuckingConfiguration =
++        AVAudioVoiceProcessingOtherAudioDuckingConfiguration(
++          enableAdvancedDucking: false, duckingLevel: .min)
++    }
++  }
++
++  // The engine is let go with voice processing switched off, so the next request
++  // (the next round) builds its voice-processing I/O from the same state as the first
++  // request of the app did, not next to one still held by the old engine.
++  private static func releaseVoiceProcessing(_ engine: AVAudioEngine?) {
++    guard let engine else { return }
++    if engine.inputNode.isVoiceProcessingEnabled {
++      try? engine.inputNode.setVoiceProcessingEnabled(false)
++      try? engine.outputNode.setVoiceProcessingEnabled(false)
++    }
++    HarfiyenVoiceProcessing.update { $0["running"] = false }
++  }
++
++  private static func recordVoiceProcessing(_ engine: AVAudioEngine, rebuilt: Bool) {
++    let enabled = engine.inputNode.isVoiceProcessingEnabled
++    var advanced: Any = NSNull()
++    var level: Any = NSNull()
++    if #available(iOS 17.0, *), enabled {
++      let config = engine.inputNode.voiceProcessingOtherAudioDuckingConfiguration
++      advanced = config.enableAdvancedDucking.boolValue
++      switch config.duckingLevel {
++      case .min: level = "min"
++      case .mid: level = "mid"
++      case .max: level = "max"
++      case .default: level = "default"
++      @unknown default: level = "\(config.duckingLevel.rawValue)"
++      }
++    }
++    HarfiyenVoiceProcessing.update { state in
++      state["running"] = engine.isRunning
++      state["enabled"] = enabled
++      state["advancedDucking"] = advanced
++      state["duckingLevel"] = level
++      state["engines"] = ((state["engines"] as? Int) ?? 0) + 1
++      if rebuilt { state["rebuilds"] = ((state["rebuilds"] as? Int) ?? 0) + 1 }
++    }
++  }
++
+   private func registerAudioSessionObservers() {
+     guard audioSessionInterruptionObserver == nil else {
+       return
+@@ -798,6 +885,7 @@ actor ExpoSpeechRecognizer: ObservableObject {
+       oldEngine.inputNode.removeTap(onBus: 0)
+       oldEngine.inputNode.reset()
+       oldEngine.reset()
++      Self.releaseVoiceProcessing(oldEngine)
+     }
+ 
+     let newEngine = AVAudioEngine()
+@@ -811,6 +899,11 @@ actor ExpoSpeechRecognizer: ObservableObject {
+     let mixerNode = AVAudioMixerNode()
+     newEngine.attach(mixerNode)
+     newEngine.connect(inputNode, to: mixerNode, format: audioFormat)
++    // Harfiyen: the rebuilt engine gets the same voice processing as the first one.
++    // Upstream builds it without, so whether a round had echo cancellation (and the
++    // call-style volume and ducking that come with it) depended on whether iOS posted a
++    // route change while that round's request was starting.
++    Self.configureVoiceProcessing(newEngine, options: options)
+ 
+     do {
+       try Self.prepareEngine(
+@@ -826,6 +919,8 @@ actor ExpoSpeechRecognizer: ObservableObject {
+         }
+       )
+       self.audioEngine = newEngine
++      Self.applyDucking(newEngine)
++      Self.recordVoiceProcessing(newEngine, rebuilt: true)
+       return true
+     } catch {
+       return false

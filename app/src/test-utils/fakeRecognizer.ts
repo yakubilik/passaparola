@@ -25,6 +25,13 @@ export class FakeRecognizer {
   /** Every start's options, and when it was made (Date.now()), in order. */
   startOptions: any[] = [];
   startTimes: number[] = [];
+  /**
+   * The voice processing of the recognizer's audio engine, as the patched
+   * native module reports it (getVoiceProcessingStateIOS, app/patches): each
+   * start builds an engine with voice processing when asked for, and the
+   * ducking switched off on it; abort lets the engine go.
+   */
+  vp = { running: false, enabled: false, advancedDucking: null as boolean | null, duckingLevel: null as string | null, engines: 0, rebuilds: 0 };
   /** The epoch time reported with 'audiostart'; Date.now() when null. */
   audioStartAt: number | null = null;
   private gen = 0;
@@ -90,14 +97,22 @@ export class FakeRecognizer {
       this.lastOptions = options;
       this.startOptions.push(options);
       this.startTimes.push(Date.now());
+      // The native start sets the session to the request's category and makes it active (setupAudioSession).
+      const c = options.iosCategory;
+      if (c) audio.session = { category: c.category, mode: c.mode, options: [...c.categoryOptions].sort(), active: true };
+      else audio.session = { ...audio.session, active: true };
+      const vp = !!options.iosVoiceProcessingEnabled;
+      this.vp = { ...this.vp, running: true, enabled: vp, advancedDucking: vp ? false : null, duckingLevel: vp ? 'min' : null, engines: this.vp.engines + 1 };
       audio.log.push({ e: 'rec:start', t: Date.now() });
       this.later('start');
       this.later('audiostart', { uri: null, timestamp: this.audioStartAt ?? Date.now() });
     },
-    stop: () => { this.running = false; },
+    stop: () => { this.running = false; this.vp = { ...this.vp, running: false }; },
+    getVoiceProcessingStateIOS: () => ({ ...this.vp }),
     abort: () => {
       this.aborts++;
       this.running = false;
+      this.vp = { ...this.vp, running: false };
       this.later('error', { error: 'aborted', message: 'Speech recognition aborted.' });
       this.later('end');
     },
@@ -109,6 +124,7 @@ export class FakeRecognizer {
     isRecognitionAvailable: () => this.available,
     supportsOnDeviceRecognition: () => this.onDevice,
     setCategoryIOS: (options: any) => {
+      audio.session = { ...audio.session, category: options.category, mode: options.mode, options: [...options.categoryOptions].sort() };
       this.categories.push(options);
       this.categoryAfterPlays.push(audio.plays);
       this.events.push('category');

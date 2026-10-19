@@ -61,9 +61,42 @@ export function supportsOnDevice(): boolean {
   }
 }
 
+/** The voice processing of the recognizer's audio engine as it last was (app/patches/expo-speech-recognition). */
+export type VoiceProcessingInfo = {
+  /** The engine is running (a request is open). */
+  running: boolean;
+  /** Voice processing (echo cancellation) is on in the engine's input node. */
+  enabled: boolean;
+  /** The ducking of the app's other sound (iOS 17+): null where it is not known. */
+  advancedDucking: boolean | null;
+  duckingLevel: string | null;
+  /** Engines built so far, and how many of them were rebuilt after a route change. */
+  engines: number;
+  rebuilds: number;
+};
+
+type PatchedModule = { getVoiceProcessingStateIOS?: () => VoiceProcessingInfo };
+
+/** Null where the patched native call is not there (Android, an older build). */
+export function readVoiceProcessing(): VoiceProcessingInfo | null {
+  try {
+    return (SR as unknown as PatchedModule).getVoiceProcessingStateIOS?.() ?? null;
+  } catch {
+    return null;
+  }
+}
+
+const startOptions = (options: RecOptions) => ({ ...options, ...RECOGNITION_OPTIONS, iosCategory: sessionCategory() });
+let lastStart: ReturnType<typeof startOptions> | null = null;
+/** The options of the game's last recognizer start, as passed to the native module. */
+export function lastStartOptions() {
+  return lastStart;
+}
+
 export const nativeRecognizer: Recognizer = {
   start(options: RecOptions) {
-    SR.start({ ...options, ...RECOGNITION_OPTIONS, iosCategory: sessionCategory() });
+    lastStart = startOptions(options);
+    SR.start(lastStart);
   },
   abort() {
     SR.abort();
