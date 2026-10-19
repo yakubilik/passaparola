@@ -117,12 +117,14 @@ function stopLog() {
 }
 
 let launched = false;
-/** From the root layout once the settings are loaded: voice on, mic check seen, camera off, then level 1. */
-export function useSelfTestLaunch(ready: boolean, update: (p: { voice: boolean; micChecked: boolean; camera: boolean }) => Promise<void>) {
+/** From the root layout once the settings are loaded: voice on, mic check seen, then level 1.
+ * The camera setting is left as the player set it: it is saved, and a self-test that switched it
+ * off left Yakup's game without a camera (19 Oct 2026). */
+export function useSelfTestLaunch(ready: boolean, update: (p: { voice: boolean; micChecked: boolean }) => Promise<void>) {
   useEffect(() => {
     if (!ready || launched || !selfTestOn()) return;
     launched = true;
-    update({ voice: true, micChecked: true, camera: false }).then(() => {
+    update({ voice: true, micChecked: true }).then(() => {
       startLog();
       setTimeout(() => router.replace(selfTestUrl(1)), LAUNCH_DELAY_MS);
     });
