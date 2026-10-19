@@ -388,7 +388,8 @@ function echoHostIntoMic() {
 }
 
 async function untilHostQuiet() {
-  for (let i = 0; i < 40 && host.speaking; i++) await wait(250);
+  // Quiet for a while, not just between two lines (a confirmation and the next clue).
+  for (let i = 0, quiet = 0; i < 80 && quiet < 3; i++) { await wait(250); quiet = host.speaking ? 0 : quiet + 1; }
   expect(host.speaking).toBe(false);
 }
 
