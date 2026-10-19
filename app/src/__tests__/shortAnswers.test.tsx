@@ -6,7 +6,7 @@ import { audio } from '../test-utils/fakeAudio';
 import { fakeRecognizer as rec } from '../test-utils/fakeRecognizer';
 import { pressStart } from '../test-utils/round';
 import { DEFAULT_GAIN, FADE_IN_MS, HOST_VOLUME } from '../voice/sounds';
-import { host } from '../voice/engine';
+import { host, listener } from '../voice/engine';
 import { ECHO_TAIL_MS } from '../voice/listener';
 import { CUE_LEAD_MS } from '../voice/sounds';
 
@@ -38,6 +38,8 @@ async function untilHostQuiet() {
 beforeEach(async () => {
   jest.useFakeTimers();
   jest.spyOn(Math, 'random').mockReturnValue(0.99);
+  host.cancel();
+  listener.release();  // a mic still closing after the last test's screen went
   rec.reset();
   await AsyncStorage.clear();
   await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ voice: true, micChecked: true }));
@@ -56,9 +58,10 @@ test('"ay", "su" and "un" said alone count at once, while the host reads and aft
   expect(rec.categoryAfterPlays).toEqual([0]);
 
   await pressStart();
-  // The recognizer was told to expect this question's answer and the pass words,
-  // as a short-phrase ('search') request.
-  expect(rec.lastOptions.contextualStrings).toEqual(['pas', 'geç', 'pas geçiyorum', 'Ay']);
+  // The recognizer was told to expect the pass words and the round's answers,
+  // short ones first, as a short-phrase ('search') request.
+  expect(rec.lastOptions.contextualStrings.slice(0, 3)).toEqual(['pas', 'geç', 'pas geçiyorum']);
+  expect(rec.lastOptions.contextualStrings).toEqual(expect.arrayContaining(['Ay', 'Su', 'Un']));
   expect(rec.lastOptions).toMatchObject({ iosTaskHint: 'search', addsPunctuation: false, requiresOnDeviceRecognition: true });
 
   // A, while the host is still reading it: "ay" alone.
@@ -68,16 +71,14 @@ test('"ay", "su" and "un" said alone count at once, while the host reads and aft
   await act(() => rec.hear('ay'));
   expect(screen.getByLabelText('A harfi, doğru')).toBeOnTheScreen();
 
-  // B, after the reading: "su" alone, in a fresh request that expects it.
-  expect(rec.lastOptions.contextualStrings).toEqual(['pas', 'geç', 'pas geçiyorum', 'Su']);
+  // B, after the reading: "su" alone, in the same request.
   await untilHostQuiet();
   await wait(ECHO_TAIL_MS + 100);
   await act(() => rec.hear('su'));
   expect(screen.getByLabelText('B harfi, doğru')).toBeOnTheScreen();
 
-  // C: "un" alone. (A short word glued onto an earlier one of the same
-  // request is covered in listener.test.ts; a new question's request starts empty.)
-  expect(rec.lastOptions.contextualStrings).toEqual(['pas', 'geç', 'pas geçiyorum', 'Un']);
+  // C: "un" alone, after "ay su" in the same growing result. (A short word
+  // glued onto an earlier one is covered in listener.test.ts.)
   await untilHostQuiet();
   await wait(ECHO_TAIL_MS + 100);
   await act(() => rec.hear('un'));
@@ -90,7 +91,7 @@ test('"ay", "su" and "un" said alone count at once, while the host reads and aft
   expect(host.speaking).toBe(true);
   await act(async () => { jest.advanceTimersByTime(FADE_IN_MS); });  // the round's first line fades in
   expect(host.volume).toBeCloseTo(HOST_VOLUME * DEFAULT_GAIN);
-  expect(rec.starts).toBe(4);  // A, B, C, Ç
-  expect(rec.aborts).toBe(3);
+  expect(rec.starts).toBe(1);  // one request for the round
+  expect(rec.aborts).toBe(0);
   expect(audio.sessionCalls.filter((c) => c === 'mode')).toEqual(['mode']);
 });

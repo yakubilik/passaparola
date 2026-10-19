@@ -1,7 +1,7 @@
 import { judgeSpoken, spokenPace } from '../../game/normalize';
 import { FakeRecognizer } from '../../test-utils/fakeRecognizer';
 import {
-  AnswerListener, contextFor, ECHO_TAIL_MS, PARTIAL_MS, QUIET_MS, REQUEST_MAX_MS, REQUEST_REFRESH_MS, RESTART_WAIT_MS, SETTLE_MS, type Recognizer,
+  AnswerListener, contextFor, ECHO_TAIL_MS, LIMIT_SEEN_MS, PARTIAL_MS, QUIET_MS, QUIET_POLL_MS, REQUEST_MAX_MS, REQUEST_REFRESH_MS, SETTLE_MS, type Recognizer,
 } from '../listener';
 
 // The listener on a recognizer that behaves like iOS: one result that keeps
@@ -298,78 +298,111 @@ test("hostLike: the host's words, or garbled close to them, are the host's; anyt
 // The native module reports 'aborted' and 'end' a moment after abort() (see fakeRecognizer.ts).
 const flush = async () => { for (let i = 0; i < 5; i++) await Promise.resolve(); };
 
-describe('a fresh request per question (contextualStrings are fixed when a request starts)', () => {
-  const ay = contextFor(['Ay']);
-  const su = contextFor(['Su']);
+describe('one request for the whole round (every start rebuilds the iOS audio engine)', () => {
+  const round = contextFor(['Ay', 'Su', 'Merkür']);
   beforeEach(() => {
     l.stop();
     fake.reset();
     heard = [];
   });
 
-  test('new words to expect: the request is dropped and a new one starts with them, the mic never closes', async () => {
+  test('new words to expect while the mic is open do not restart it; they are used by the next request iOS forces', async () => {
     const states: string[] = [];
     l.onState = (s) => states.push(s);
-    l.listen((alts) => heard.push(alts), undefined, ay);
-    expect(fake.lastOptions.contextualStrings).toEqual(['pas', 'geç', 'pas geçiyorum', 'Ay']);
-    l.expectWords(ay);  // the same words: nothing to do
-    expect(fake.aborts).toBe(0);
-
-    l.expectWords(su);
-    expect(fake.aborts).toBe(1);
-    expect(fake.starts).toBe(1);  // waits for the old request to end
+    l.listen((alts) => heard.push(alts), undefined, round);
+    expect(fake.lastOptions.contextualStrings).toEqual(['pas', 'geç', 'pas geçiyorum', 'Ay', 'Su', 'Merkür']);
+    l.listen((alts) => heard.push(alts), undefined, contextFor(['Ankara']));
     await flush();
-    expect(fake.starts).toBe(2);
-    expect(fake.lastOptions.contextualStrings).toEqual(['pas', 'geç', 'pas geçiyorum', 'Su']);
-    expect(l.renewals).toBe(1);
-    expect(states).not.toContain('off');
-    expect(l.listening).toBe(true);
-
-    fake.hear('su');
-    wait(SETTLE_MS + 10);
-    expect(heard).toEqual([['su']]);
-  });
-
-  test("words still settling belong to the old question and are dropped; the old request's late words too", async () => {
-    l.listen((alts) => heard.push(alts), undefined, ay);
-    fake.hear('ankara');
-    l.expectWords(su);
-    fake.emit('result', { isFinal: false, results: [{ transcript: 'ankara izmir' }] });  // still on its way from the old request
-    wait(SETTLE_MS * 3);
-    expect(heard).toEqual([]);
-    await flush();
-    fake.hear('bursa');
-    wait(SETTLE_MS + 10);
-    expect(heard).toEqual([['bursa']]);
-  });
-
-  test("if the old request never says it ended, the next starts after RESTART_WAIT_MS, and its 'end' arriving late changes nothing", () => {
-    const silent: Recognizer = { ...rec, abort: () => { fake.aborts++; fake.running = false; } };
-    const m = new AnswerListener(silent);
-    m.listen((alts) => heard.push(alts), undefined, ay);
-    m.expectWords(su);
-    wait(RESTART_WAIT_MS - 10);
+    wait(10_000);
     expect(fake.starts).toBe(1);
-    wait(20);
-    expect(fake.starts).toBe(2);
-    fake.emit('end');  // the old request's, late
-    wait(1000);
-    expect(fake.starts).toBe(2);
-    expect(m.listening).toBe(true);
+    expect(fake.aborts).toBe(0);
+    expect(l.renewals).toBe(0);
+    expect(states).not.toContain('off');
     fake.hear('su');
     wait(SETTLE_MS + 10);
     expect(heard).toEqual([['su']]);
-    m.stop();
+    // iOS ends the request on its own: the next one expects the new words.
+    fake.module.stop();
+    fake.emit('end');
+    wait(300);
+    expect(fake.starts).toBe(2);
+    expect(fake.lastOptions.contextualStrings).toEqual(contextFor(['Ankara']));
   });
 
   test("closing and reopening the mic at once: the closed request's 'end' does not restart the new one", async () => {
-    l.listen((alts) => heard.push(alts), undefined, ay);
+    l.listen((alts) => heard.push(alts), undefined, round);
     l.stop();
-    l.listen((alts) => heard.push(alts), undefined, ay);
+    l.listen((alts) => heard.push(alts), undefined, round);
     await flush();
     wait(1000);
     expect(fake.starts).toBe(2);
     expect(l.listening).toBe(true);
+  });
+});
+
+describe('never while the game is sounding (a host clip or a cue)', () => {
+  let sounding: boolean;
+  beforeEach(() => {
+    l.stop();
+    fake.reset();
+    heard = [];
+    sounding = false;
+    l.busy = () => sounding;
+  });
+
+  test("a request iOS ended during a cue is reopened only once it is quiet", () => {
+    l.listen((alts) => heard.push(alts));
+    wait(3000);
+    sounding = true;
+    fake.module.stop();
+    fake.emit('end');
+    wait(5000);
+    expect(fake.starts).toBe(1);
+    sounding = false;
+    wait(QUIET_POLL_MS + 10);
+    expect(fake.starts).toBe(2);
+  });
+
+  test('closing the mic while something plays: aborted at the silence after it; reopened before that, it just goes on', async () => {
+    l.listen((alts) => heard.push(alts));
+    sounding = true;
+    l.stop();
+    expect(l.open).toBe(false);
+    wait(3000);
+    expect(fake.aborts).toBe(0);
+    fake.hear('ankara');  // heard by a closed mic: nobody gets it
+    wait(SETTLE_MS * 2);
+    expect(heard).toEqual([]);
+    sounding = false;
+    wait(QUIET_POLL_MS + 10);
+    expect(fake.aborts).toBe(1);
+    await flush();
+    wait(1000);
+    expect(fake.starts).toBe(1);
+
+    l.listen((alts) => heard.push(alts));
+    expect(fake.starts).toBe(2);
+    sounding = true;
+    l.stop();
+    l.listen((alts) => heard.push(alts));
+    sounding = false;
+    wait(5000);
+    expect(fake.aborts).toBe(1);
+    expect(fake.starts).toBe(2);
+    expect(l.listening).toBe(true);
+    expect(l.micUp).toBe(true);
+    fake.hear('su');
+    wait(SETTLE_MS + 10);
+    expect(heard).toEqual([['su']]);
+  });
+
+  test('release() closes a mic still waiting for silence at once (the mic check and the test screen)', () => {
+    l.listen(() => {});
+    sounding = true;
+    l.stop();
+    expect(fake.aborts).toBe(0);
+    l.release();
+    expect(fake.aborts).toBe(1);
   });
 });
 
@@ -378,6 +411,45 @@ describe("Apple's time limit (about a minute of audio per server request)", () =
     l.stop();
     fake.reset();
     heard = [];
+    l.onDevice = false;  // on Apple's servers
+  });
+
+  test('on-device recognition has no limit: its request is never renewed', async () => {
+    const m = new AnswerListener(rec);
+    m.listen(() => {});
+    for (let i = 0; i < 10; i++) { wait(REQUEST_MAX_MS); await flush(); }
+    expect(fake.starts).toBe(1);
+    expect(fake.aborts).toBe(0);
+    expect(m.renewals).toBe(0);
+    m.stop();
+  });
+
+  test('an on-device request iOS ends at about a minute anyway was held to the limit: from then on it is renewed ahead of it', async () => {
+    const m = new AnswerListener(rec);
+    m.listen(() => {});
+    wait(LIMIT_SEEN_MS + 5000);
+    fake.module.stop();
+    fake.emit('end');
+    wait(300);
+    expect(fake.starts).toBe(2);
+    wait(REQUEST_REFRESH_MS + 300);
+    expect(fake.aborts).toBe(1);
+    m.stop();
+  });
+
+  test('the renewal waits for the game to fall silent, past REQUEST_MAX_MS too', async () => {
+    let sounding = false;
+    l.busy = () => sounding;
+    l.listen(() => {});
+    wait(REQUEST_REFRESH_MS - 100);
+    sounding = true;
+    wait(REQUEST_MAX_MS - REQUEST_REFRESH_MS + 2000);
+    expect(fake.aborts).toBe(0);
+    sounding = false;
+    wait(300);
+    expect(fake.aborts).toBe(1);
+    await flush();
+    expect(fake.starts).toBe(2);
   });
 
   test('a quiet request is renewed after REQUEST_REFRESH_MS, keeping the words to expect', async () => {

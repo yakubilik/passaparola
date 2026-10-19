@@ -7,7 +7,7 @@ import { REVEAL_MAX_MS, REVEAL_MS } from '../game/useRound';
 import { SETTINGS_KEY } from '../store/settings';
 import { fakeRecognizer as rec } from '../test-utils/fakeRecognizer';
 import { pressStart, settle } from '../test-utils/round';
-import { host, sounds } from '../voice/engine';
+import { host, listener, sounds } from '../voice/engine';
 import { answerLine, host as hostLine, type Line } from '../voice/lines';
 
 // Typed answers, wrong, right and "pas", move the round on exactly as spoken
@@ -57,6 +57,8 @@ beforeEach(async () => {
     return { remove: () => appState.delete(h as (s: AppStateStatus) => void) } as ReturnType<typeof AppState.addEventListener>;
   });
   jest.spyOn(Math, 'random').mockReturnValue(0.99);
+  host.cancel();
+  listener.release();  // a mic still closing after the last test's screen went
   rec.reset();
   sounds.played.length = 0;
   host.said.length = 0;

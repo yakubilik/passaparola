@@ -125,11 +125,9 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     return spokenPace(alts, current(r).question.answers);
   }, []);
 
-  // The current question's answers (and the pass words), for the recognizer to expect.
-  const context = useCallback(() => {
-    const r = game.current?.round;
-    return contextFor(r && !r.done ? current(r).question.answers : []);
-  }, []);
+  // Every answer of the round (and the pass words), for the recognizer to
+  // expect: one request serves the whole round (see listener.ts).
+  const context = useCallback(() => contextFor(game.current?.round?.letters.flatMap((l) => l.question.answers) ?? []), []);
 
   // From the Başla button: the mic opens for the whole round (in a match it is
   // already open and only gets this round's handler) and the bed starts. In
@@ -211,8 +209,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     first.current = false;
     prefix.current = null;
     lines.push(clueLine(current(r).question));
-    // A new question: a fresh recognition request expecting its answers (see listener.ts).
-    listener.expectWords(contextFor(current(r).question.answers));
+    // The recognizer is left alone: its request already expects every answer of the round.
     readingRef.current = true;
     setReading(true);
     g.hold(true);
@@ -265,15 +262,17 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
   const onOver = useCallback((r: Round) => {
     ended.current = true;
     stopReading();
-    listener.stop();
     sounds.stopBg();
-    if (!voice) return;
-    const all = r.correct === r.letters.length;
-    const lines = all ? [hostLine('allcorrect')] : r.timeLeft <= 0 ? [hostLine('timeup'), hostLine('end')] : [hostLine('end')];
-    // After the last answer's cue; not cleared on leaving: the host finishes the line on the next screen.
-    const lead = cueAt.current + CUE_LEAD_MS - Date.now();
-    if (lead > 0) setTimeout(() => host.speak(lines), lead);
-    else host.speak(lines);
+    if (voice) {
+      const all = r.correct === r.letters.length;
+      const lines = all ? [hostLine('allcorrect')] : r.timeLeft <= 0 ? [hostLine('timeup'), hostLine('end')] : [hostLine('end')];
+      // After the last answer's cue; not cleared on leaving: the host finishes the line on the next screen.
+      const lead = cueAt.current + CUE_LEAD_MS - Date.now();
+      if (lead > 0) setTimeout(() => host.speak(lines), lead);
+      else host.speak(lines);
+    }
+    // After the cue and the host's line have started: the mic closes once they are over (see listener.stop).
+    listener.stop();
   }, [voice, stopReading]);
 
   // A match turn whose round ran out: the mic stays open for the next player.
@@ -314,16 +313,16 @@ const READY_WORDS = ['hazırım', 'hazır', 'tamam', 'başla'];
 
 // The "Sıra: <name>" screen of a match (and the result card before it): the
 // host says `lines` and the player moves on by saying "hazırım" (or tap).
-// Opens the mic the first time; later turns keep it open. The recognizer is
-// told to expect the ready words here, and each question's answers once the
-// turn starts (a fresh request per question, see listener.ts).
-export function useReadyByVoice(voice: boolean, onReady: () => void, lines: Line[] = [hostLine('turn')]) {
+// Opens the mic the first time; later turns keep it open and its request
+// with it, so `answers` should be every player's answers: the first request
+// of the match expects them along with the ready words (see listener.ts).
+export function useReadyByVoice(voice: boolean, onReady: () => void, lines: Line[] = [hostLine('turn')], answers: readonly string[] = []) {
   const ready = useRef(onReady);
   ready.current = onReady;
   useEffect(() => {
     if (!voice) return;
     let live = true;
-    const context = contextFor(READY_WORDS);
+    const context = contextFor([...READY_WORDS, ...answers]);
     const open = () => listener.listen((alts) => { if (alts.some((a) => READY.test(a))) ready.current(); }, undefined, context);
     // The session, then the mic, then (once its start has settled) the host.
     prepareAudio().then(() => {

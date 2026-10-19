@@ -12,6 +12,11 @@ export const host = new Host();
 export const listener = new AnswerListener(nativeRecognizer);
 export const sounds = new Sounds();
 
+// The recognizer is never started or stopped while the host or a cue is
+// sounding: each start or stop rebuilds its audio engine with voice
+// processing, which changes the level of what is playing (see listener.ts).
+listener.busy = () => host.speaking || sounds.cuePlaying;
+
 host.onSpeaking = (texts) => {
   if (texts) listener.hostSpeaking(texts);
   else listener.hostDone();
