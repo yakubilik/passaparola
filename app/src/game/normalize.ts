@@ -213,7 +213,9 @@ export function spokenPace(alts: readonly string[], answers: readonly string[]):
   const v = judgeSpoken(alts, answers);
   const heard = phon(alts[0] ?? '');
   const grows = answers.some((a) => { const k = phon(a); return k.length > heard.length && k.startsWith(heard); });
-  if (v === 'correct') return 'now';
+  // Another guess has the whole answer while the best one has only its start
+  // ("Sezen" and "Sezen Aksu"): wait for the words to settle (#358).
+  if (v === 'correct') return grows && judgeSpoken(alts.slice(0, 1), answers) !== 'correct' ? 'settle' : 'now';
   if (v === 'pass') return grows ? 'settle' : 'now';
   return grows && heard.length >= 3 ? 'partial' : 'settle';
 }

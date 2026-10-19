@@ -213,11 +213,16 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     readingRef.current = true;
     setReading(true);
     g.hold(true);
-    const speak = () => host.speak(lines, () => {
-      readingRef.current = false;
-      setReading(false);
-      game.current?.hold(false);
-    });
+    const speak = () => {
+      // Only what is said from here on is an answer to this clue: the last
+      // answer's late words (and its final) never are (#358).
+      listener.clueStarts();
+      host.speak(lines, () => {
+        readingRef.current = false;
+        setReading(false);
+        game.current?.hold(false);
+      });
+    };
     // Right after an answer the cue sounds first and the host a moment later.
     const go = () => {
       const lead = cueAt.current + CUE_LEAD_MS - Date.now();
