@@ -8,7 +8,7 @@ import { prepareMic, RECOGNITION_OPTIONS, supportsOnDevice } from './recognizer'
 // words said one after the other, each in its own request as in the game (its
 // answer as contextualStrings, the game's task hint and session), with every
 // result shown as it comes and how long after the end of the word the
-// recognizer had it. Apple's final result carries the timing of each word
+// recognizer had it. The final result carries the timing of each word
 // (segments, from the start of the audio, which 'audiostart' reports), so the
 // end of the speech is known exactly once the final result is there.
 
@@ -18,7 +18,7 @@ export type TaskHint = 'search' | 'confirmation' | 'dictation' | 'unspecified';
 export type ProbeConfig = { onDevice: boolean; taskHint: TaskHint; voiceProcessing: boolean };
 export const DEFAULT_PROBE: ProbeConfig = { onDevice: true, taskHint: RECOGNITION_OPTIONS.iosTaskHint, voiceProcessing: RECOGNITION_OPTIONS.iosVoiceProcessingEnabled };
 
-/** Waits for each word: to be heard at all, then for Apple's own final result, then after the stop. */
+/** Waits for each word: to be heard at all, then for the recognizer's own final result, then after the stop. */
 export const LISTEN_MS = 6000;
 export const FINAL_WAIT_MS = 2500;
 export const END_WAIT_MS = 1500;
@@ -143,7 +143,7 @@ export function runProbe(config: ProbeConfig, update: (s: ProbeState) => void, {
     emit();
   };
 
-  // Enough for this word: the request is stopped, which makes Apple send its final result.
+  // Enough for this word: the request is stopped, which makes iOS send its final result.
   const close = () => {
     if (done || phase !== 'listening') return;
     phase = 'closing';
@@ -200,7 +200,7 @@ export function runProbe(config: ProbeConfig, update: (s: ProbeState) => void, {
       if (!w.ok && alts.length && hit(w.word, alts)) {
         w.ok = true;
         w.matchAt = t;
-        // Now wait for Apple's own final result, which says when the word ended.
+        // Now wait for the recognizer's own final result, which says when the word ended.
         if (phase === 'listening') later(FINAL_WAIT_MS, close);
       }
       if (e.isFinal && alts.length) {

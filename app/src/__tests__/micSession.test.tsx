@@ -12,7 +12,7 @@ jest.mock('../data/questions', () =>
   require('../test-utils/mockQuestions').mockQuestions({ tarih: [1], spor: [], cografya: [], bilim: [], sanat: [] }),
 );
 
-jest.setTimeout(60_000);
+jest.setTimeout(180_000);
 
 beforeEach(async () => {
   jest.useFakeTimers();

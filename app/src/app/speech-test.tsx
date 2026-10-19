@@ -11,7 +11,7 @@ import { supportsOnDevice } from '../voice/recognizer';
 
 // Ses tanıma testi: a debug screen, reached by a long press on "Mikrofonu
 // dene" in Ayarlar. Ten words, each in its own request as in the game; every
-// result as it comes with its time, the mode Apple was asked for, and how
+// result as it comes with its time, the mode iOS was asked for, and how
 // long after the end of each word it was recognised (see voice/probe.ts).
 const HINTS: TaskHint[] = ['search', 'confirmation', 'dictation', 'unspecified'];
 
@@ -44,10 +44,10 @@ export default function SpeechTest() {
 
         <View style={{ borderRadius: 16, padding: 14, gap: 10, backgroundColor: C.card, borderWidth: 1, borderColor: C.cardBorder }}>
           <Text testID="probe-mode" style={{ fontFamily: F.bodyBold, fontSize: 16, color: C.text }}>
-            Etkin mod: {mode === 'on-device' ? 'cihaz üstü' : 'sunucu (Apple)'}
+            Etkin mod: {mode === 'on-device' ? 'cihaz üstü' : 'sunucu'}
           </Text>
           <Text testID="probe-supports" style={{ fontFamily: F.body, fontSize: 13, color: C.dim, lineHeight: 18 }}>
-            Cihaz üstü tanıma bu iPhone'da {supports ? 'var' : 'yok'} (Apple bunu telefonun dili için söyler).
+            Cihaz üstü tanıma bu iPhone'da {supports ? 'var' : 'yok'} (iOS bunu telefonun dili için söyler).
           </Text>
           <Row label="Cihaz üstü iste">
             <Switch testID="probe-ondevice" value={config.onDevice} disabled={running}
@@ -109,7 +109,7 @@ export default function SpeechTest() {
               );
             })}
             <Text style={{ fontFamily: F.body, fontSize: 11, color: C.dim, lineHeight: 15 }}>
-              Süreler Apple'ın son sonuçta verdiği kelime bitişinden itibaren. * son sonuç ancak istek durdurulunca geldi.
+              Süreler iOS'un son sonuçta verdiği kelime bitişinden itibaren. * son sonuç ancak istek durdurulunca geldi.
             </Text>
           </View>
         )}

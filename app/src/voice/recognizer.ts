@@ -20,10 +20,10 @@ import { SETTLE_MS, type RecOptions, type Recognizer } from './listener';
 // the very same category is set once before the round (setVoiceSession, from
 // prepareAudio) and by the mic check, and every start finds it in place.
 //
-// The answers are one word or a short name, so the request carries Apple's
+// The answers are one word or a short name, so the request carries the
 // 'search' task hint (short phrases), not 'dictation' (long free speech) or
 // 'confirmation' (yes / no). No punctuation: answers are compared as words.
-// See docs/speech.md for each option against Apple's documentation.
+// See docs/speech.md for each option against the Speech framework documentation.
 export const RECOGNITION_OPTIONS = {
   addsPunctuation: false,
   iosTaskHint: 'search',
@@ -47,7 +47,7 @@ export function setVoiceSession() {
 }
 
 /**
- * Whether this iPhone can recognise speech without the network. Apple's
+ * Whether this iPhone can recognise speech without the network. The
  * answer is for the recognizer of the phone's own language (the library asks
  * SFSpeechRecognizer() without a locale), so it speaks for tr-TR only on a
  * phone set to Turkish; each tr-TR request asks for on-device recognition and
@@ -132,7 +132,7 @@ export function testMic(update: (t: MicTest) => void, settleMs = SETTLE_MS, maxM
     update(t);
   };
   const limit = setTimeout(() => finish(heard ? { state: 'ok', text: heard } : { state: 'error', text: explainMicError('no-speech') }), maxMs);
-  // As in the game: on-device first, Apple's servers if that is refused.
+  // As in the game: on-device first, the iOS speech servers if that is refused.
   let onDevice = true;
   let retrying = false;
   const start = () => {

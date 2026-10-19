@@ -2,13 +2,13 @@ import { fold, isPassWord, norm } from '../game/normalize';
 
 // Spoken answers, ported from js/voice.js (the web game). The microphone is
 // opened when the round starts and kept open, so the player can also answer
-// while a clue is still being read. What Apple's recognizer is asked for, and
+// while a clue is still being read. What the iOS recognizer is asked for, and
 // why, is in docs/speech.md.
 //
 // One recognition request serves one question: the words to expect
 // (contextualStrings) are fixed when a request starts, so a new question
 // starts a fresh request with its own answers (expectWords). A request is
-// also renewed before Apple's limit of about a minute of audio, at a quiet
+// also renewed before the iOS limit of about a minute of audio, at a quiet
 // moment (REQUEST_REFRESH_MS) or at the latest at REQUEST_MAX_MS, instead of
 // being cut off by iOS in the middle of an answer. The audio session is not
 // touched by any of this; the next request starts the moment the old one
@@ -28,7 +28,7 @@ export const PARTIAL_MS = 1500;
 export const ECHO_TAIL_MS = 800;
 /** A request this old is renewed at the next quiet moment (no words for QUIET_MS, nothing pending). */
 export const REQUEST_REFRESH_MS = 45_000;
-/** ...and renewed regardless at this age, ahead of Apple's one-minute limit. */
+/** ...and renewed regardless at this age, ahead of the iOS one-minute limit. */
 export const REQUEST_MAX_MS = 55_000;
 export const QUIET_MS = 1000;
 /** A renewed request starts once the old one reports 'end', or after this long without it. */
@@ -46,7 +46,7 @@ export type RecOptions = {
   interimResults: boolean;
   maxAlternatives: number;
   contextualStrings?: string[];
-  /** Apple's on-device model; iOS applies it only where the tr-TR recognizer supports it. */
+  /** The on-device speech model; iOS applies it only where the tr-TR recognizer supports it. */
   requiresOnDeviceRecognition: boolean;
 };
 
@@ -133,7 +133,7 @@ export class AnswerListener {
   starts = 0;
   /** Requests renewed on purpose (a new question's words, the time limit, the server fallback). */
   renewals = 0;
-  /** Ask for Apple's on-device recognition; off after it failed once (then Apple's servers). */
+  /** Ask for on-device recognition; off after it failed once (then the iOS speech servers). */
   onDevice = true;
   onState: (s: MicState, detail?: string) => void = () => {};
   onInterim: (text: string) => void = () => {};
@@ -160,7 +160,7 @@ export class AnswerListener {
     if (this.running && !sameWords(context, this.requestContext)) this.renew();
   }
 
-  /** 'on-device' or 'server': what the next (or running) request asks Apple for. */
+  /** 'on-device' or 'server': what the next (or running) request asks iOS for. */
   get mode(): 'on-device' | 'server' {
     return this.onDevice ? 'on-device' : 'server';
   }
@@ -270,7 +270,7 @@ export class AnswerListener {
     this.startRec();
   }
 
-  // Apple's server recognition takes about a minute of audio per request: an
+  // Server recognition takes about a minute of audio per request: an
   // old request is renewed when nobody is talking, and before the limit regardless.
   private checkAge() {
     this.ageTimer = null;
@@ -418,7 +418,7 @@ export class AnswerListener {
     if (this.renewing) return;  // the 'aborted' of a request dropped on purpose
     if (e.error === 'service-not-allowed' && this.onDevice && this.running) {
       // On-device recognition failed (its model missing, or not for tr-TR
-      // after all): the next request goes to Apple's servers. Only if they
+      // after all): the next request goes to the iOS speech servers. Only if they
       // refuse too is Siri and Dictation really off.
       this.onDevice = false;
       this.renewing = true;
