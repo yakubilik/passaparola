@@ -60,7 +60,8 @@ export function selfTestOn(): boolean {
   return on;
 }
 
-export const selfTestUrl = (level: number) => `/game?cats=${SELF_TEST_CATS}&level=${level}&seed=7&selftest=1`;
+// quick: the levels play whatever the saved progress (nothing locked), and the self-test leaves no progress behind.
+export const selfTestUrl = (level: number) => `/game?cats=${SELF_TEST_CATS}&level=${level}&seed=7&quick=1&selftest=1`;
 
 export type Sample = {
   t: number;
@@ -155,11 +156,16 @@ export function useSelfTestRound(enabled: boolean, game: Game, voice: Voice) {
   }, [enabled, phase, asked, voice.reading, shown]);
 }
 
-/** On the result screen of a self-test round: logs it, waits RESULT_DWELL_MS, then opens the next level or ends. */
-export function useSelfTestResult(level: number) {
+/**
+ * On the result screen of a self-test round: logs it, scrolls down to SES
+ * OTURUMU (for a screenshot), waits RESULT_DWELL_MS, then opens the next
+ * level or ends.
+ */
+export function useSelfTestResult(level: number, scrollToEnd?: () => void) {
   useEffect(() => {
     if (!selfTestOn() || !launched) return;
     logAudio('result');
+    const scroll = setTimeout(() => scrollToEnd?.(), 500);
     const t = setTimeout(() => {
       if (level < SELF_TEST_LEVELS) router.replace(selfTestUrl(level + 1));
       else {
@@ -167,6 +173,6 @@ export function useSelfTestResult(level: number) {
         stopLog();
       }
     }, RESULT_DWELL_MS);
-    return () => clearTimeout(t);
+    return () => { clearTimeout(t); clearTimeout(scroll); };
   }, [level]);
 }

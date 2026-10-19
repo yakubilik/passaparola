@@ -104,6 +104,9 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     const g = game.current;
     const r = g?.round;
     if (!g || !r || g.phase !== 'playing' || away.current) return;
+    // The self-test answers by itself; what the mic hears there (on the simulator,
+    // the Mac's own speakers) is not judged, the mic stays open all the same.
+    if (selfTestOn()) return;
     const verdict = judgeSpoken(alts, current(r).question.answers);
     // Words heard while the host talks (or just after) may be the host itself:
     // a wrong answer is dropped only when its words are the host's, or close to

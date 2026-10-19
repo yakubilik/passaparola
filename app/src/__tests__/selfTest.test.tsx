@@ -37,6 +37,8 @@ test('plays three levels back to back by itself and logs the audio every second 
   const results: string[] = [];
   for (let i = 0; i < 2000 && !selfTestSamples().some((s) => s.event === 'done'); i++) {
     await act(async () => { jest.advanceTimersByTime(500); });
+    // The mic hears something else now and then (on the simulator: the Mac's speakers): never judged.
+    if (i % 20 === 10) await act(async () => { rec.hear('kırmızı balon'); });
     const title = screen.queryByTestId('result-title');
     if (title) {
       const t = String(title.props.children);
@@ -47,7 +49,7 @@ test('plays three levels back to back by itself and logs the audio every second 
   expect(samples.map((s) => s.event).filter((e) => e !== 'tick')).toEqual(
     ['launch', 'round-start', 'result', 'round-start', 'result', 'round-start', 'result', 'done'],
   );
-  // Every level answered right: all three passed (the next one opened each time).
+  // Every clue answered right in every level, whatever the mic heard.
   expect(results).toEqual(['HARFİYEN!']);
   expect(rec.starts).toBe(SELF_TEST_LEVELS);
   expect(samples.filter((s) => s.event === 'round-start').map((s) => s.round)).toEqual([1, 2, 3]);

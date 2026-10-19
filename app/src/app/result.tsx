@@ -1,4 +1,5 @@
 import { Redirect, router } from 'expo-router';
+import { useRef, type ComponentRef } from 'react';
 import { ScrollView, Text, View, useWindowDimensions } from 'react-native';
 
 import { CATEGORIES } from '../data/questions';
@@ -17,7 +18,8 @@ import { useSelfTestResult } from '../voice/selfTest';
 export default function RoundEnd() {
   const res = lastResult();
   const { width } = useWindowDimensions();
-  useSelfTestResult(res?.level ?? 0);
+  const scroller = useRef<ComponentRef<typeof ScrollView>>(null);
+  useSelfTestResult(res?.level ?? 0, () => scroller.current?.scrollToEnd({ animated: false }));
   if (!res) return <Redirect href="/menu" />;
   const { round, level, quick, passed, unlockedNext, catsParam } = res;
   const c = counts(round);
@@ -41,7 +43,7 @@ export default function RoundEnd() {
 
   return (
     <Screen light="intro">
-      <ScrollView contentContainerStyle={{ padding: 22, gap: 18, alignItems: 'stretch' }}>
+      <ScrollView ref={scroller} contentContainerStyle={{ padding: 22, gap: 18, alignItems: 'stretch' }}>
         <View style={{ alignItems: 'center', gap: 6 }}>
           <Text style={{ fontFamily: F.bodyBold, fontSize: 12, letterSpacing: 1.9, color: C.accentSoft }}>
             {quick ? 'HIZLI OYUN' : `BÖLÜM ${level}`} · TUR SONU
