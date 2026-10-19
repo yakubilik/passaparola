@@ -16,7 +16,9 @@ import { SETTLE_MS, type RecOptions, type Recognizer } from './listener';
 //
 // The session must not change while the mic is open: on an iOS route change
 // (a new category or mode is one) expo-speech-recognition rebuilds its audio
-// engine without voice processing, and an interruption ends recognition. So
+// engine (upstream without voice processing; app/patches gives the rebuilt
+// engine the same voice processing and ducking, #361), and an interruption
+// ends recognition. So
 // the very same category is set once before the round (setVoiceSession, from
 // prepareAudio) and by the mic check, and every start finds it in place.
 //

@@ -100,3 +100,77 @@ whether the mic is open. It is read every 0.5 s by a small local Expo module,
 `app/modules/audio-session-info` (read only; autolinked from `modules/` at
 prebuild). A screenshot of it during the problem tells which path the sound
 is on.
+
+# Round 1 fine, round 2 loud phone and quiet game (ticket #361)
+
+**Report (19 Oct 2026, build with e9eb352 and #357):** level 1 sounded right;
+from level 2 on the old symptom was back: the phone volume jumps to call
+level and the game's own sound gets quiet.
+
+## What differs between round 1 and round 2
+
+The JS side does the same thing every round (one recognizer start with the
+same options, the session category set once, nothing ever calling
+`setIsAudioActiveAsync(false)`); `app/src/__tests__/roundsAudio.test.tsx`
+proves that on the fakes. The difference is native, in what one request
+leaves behind and in a path that only sometimes runs:
+
+1. **Route-change rebuild without voice processing.**
+   `node_modules/expo-speech-recognition/ios/ExpoSpeechRecognizer.swift`
+   (58.0.0 with the e9eb352 patch): an `AVAudioSession.routeChangeNotification`
+   while a request is starting or running (observer at line 762,
+   `handleAudioRouteChange` line 775) calls `restartAudioEngineForRouteChange`
+   (line 799), which makes `AVAudioEngine()` (line 812) and starts it through
+   `prepareEngine` **without `setVoiceProcessingEnabled(true)` and without
+   `voiceProcessingOtherAudioDuckingConfiguration`**. Whether a round runs on
+   the first engine (voice processing on, the call-style volume path) or on a
+   rebuilt one (none of it) therefore depends on whether iOS happens to post a
+   route change while that round's request comes up, which is not the same for
+   the first voice-processing start of the app and for later ones.
+2. **The old engine is let go with voice processing still on.** `reset()`
+   (line 536) and `stopListening()` stop and drop the engine at the end of a
+   round (`audioEngine = nil`, lines 554 / 529) but never switch voice
+   processing off, so the next round's engine brings up its voice-processing
+   I/O next to one still held by the old engine instead of from the clean state
+   the first round started from. The ducking configuration was also only set
+   before `audioEngine.start()`, i.e. before the voice-processing unit is
+   initialised.
+3. **expo-audio can deactivate the session at a round start.**
+   `settleAudio()` let every idle player go with `remove()`
+   (`app/src/voice/engine.ts` → `Sounds.renew` / `Host.renew`). In
+   `node_modules/expo-audio/ios/AudioModule.swift` `remove` (line 269) calls
+   `unregisterAudioSessionActivityKeeper`, and when the last player that kept
+   the session active is gone and nothing plays, `deactivateSession()` (line
+   956) calls `AVAudioSession.setActive(false)` 100 ms later, under the open
+   mic. In the usual flow the host's first line starts within those 100 ms,
+   so it is a race, not the steady cause; `src/voice/__tests__/retire.test.ts`
+   shows the deactivation with the old code.
+
+Items 1 and 2 are read from the library source, not observed on the phone:
+the new per-round diagnostic line below shows which engine each round really
+had (voice processing on/off, ducking, rebuild count).
+
+## Fix
+
+- `app/patches/expo-speech-recognition+58.0.0.patch`: one
+  `configureVoiceProcessing` for the first engine and for a rebuilt one (voice
+  processing on input and output, ducking off: no advanced ducking, level min),
+  the ducking set again once the engine runs (`applyDucking` after
+  `prepareEngine`), voice processing switched off on an engine being let go
+  (`releaseVoiceProcessing` in `reset`, `stopListening` and the rebuild), and
+  `getVoiceProcessingStateIOS()` reporting what the engine's input node really
+  has after start (enabled, advanced ducking, ducking level, engines built,
+  rebuilds).
+- `app/src/voice/sounds.ts` `retire` / `startedPlaying`: players let go at a
+  round start are removed only after a newer player has started, so expo-audio
+  always has a player keeping the session active. The session set up by the
+  first round stays configured and active for the life of the app.
+
+## Diagnostic: one line per round
+
+SES OTURUMU (the result screen after a voice round, and Ayarlar → Mikrofonu
+dene) lists `Tur 1`, `Tur 2`, …: the session category with its options, mode,
+phone volume (`outputVolume`), voice processing on/off and the ducking level as
+each round found them once its mic was up and settled (`src/voice/roundAudio.ts`),
+plus `yeniden kurulum N` when the engine was rebuilt after a route change. A
+screenshot of the result screen after round 2 shows rounds 1 and 2 side by side.
