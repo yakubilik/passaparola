@@ -45,6 +45,7 @@ export const MIC_UP_MAX_MS = 1500;
 
 let settling: Promise<void> | null = null;
 let settledFor = -1;  // the listener's opening the players were last renewed for
+let settlingFor = -1;
 
 /** The host's first line of this mic opening may play now: settleAudio has run since the mic opened. */
 export function audioSettled(): boolean {
@@ -63,16 +64,22 @@ export function audioSettled(): boolean {
 // made before it are let go, and the next sound fades in.
 export function settleAudio(): Promise<void> {
   if (audioSettled()) return Promise.resolve();
-  settling ??= prepareAudio()
+  // A settle still running for an earlier opening of the mic is not waited for.
+  const opening = listener.openings;
+  if (settling && settlingFor === opening) return settling;
+  settlingFor = opening;
+  const p: Promise<void> = prepareAudio()
     .then(() => (listener.open ? listener.whenUp(MIC_UP_MAX_MS).then(() => wait(SESSION_SETTLE_MS)) : undefined))
-    .then(() => {
+    .then((): void | Promise<void> => {
+      if (opening !== listener.openings) return settleAudio();  // the mic was reopened meanwhile: settle that one
       host.renew();
       sounds.renew();
       fadeInNext();
-      settledFor = listener.openings;
+      settledFor = opening;
     })
-    .finally(() => { settling = null; });
-  return settling;
+    .finally(() => { if (settling === p) settling = null; });
+  settling = p;
+  return p;
 }
 
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));

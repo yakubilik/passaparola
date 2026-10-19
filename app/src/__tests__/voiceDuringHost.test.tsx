@@ -6,10 +6,14 @@ import { CATEGORIES } from '../data/questions';
 import { REVEAL_MS } from '../game/useRound';
 import { SETTINGS_KEY } from '../store/settings';
 import { fakeRecognizer as rec } from '../test-utils/fakeRecognizer';
+import { pressStart } from '../test-utils/round';
 import { host, sounds } from '../voice/engine';
 import { clueLine, type Line } from '../voice/lines';
 import { SETTLE_MS } from '../voice/listener';
-import { CUE_LEAD_MS } from '../voice/sounds';
+import { CUE_LEAD_MS, CUE_VOLUME, DEFAULT_GAIN } from '../voice/sounds';
+
+/** A cue at its full level: CUE_VOLUME under the default Ses gain. */
+const FULL = CUE_VOLUME * DEFAULT_GAIN;
 
 // An answer said while the host talks (iPhone, 18 Oct 2026): over the Mars
 // clue the player says "Merkür". It must be judged wrong at once, with its
@@ -81,7 +85,7 @@ afterEach(() => {
 test('"Merkür" said over the Mars clue is judged wrong once, at once, with its cue; the host\'s words never are', async () => {
   echoHostIntoMic();
   await renderRouter('./src/app', { initialUrl: '/game?cats=bilim&level=1&seed=3' });
-  await fireEvent.press(await screen.findByText('Başla'));
+  await pressStart();
 
   // Pas through the ring to M, each while the host reads (and the mic hears it).
   let passes = 0;
@@ -136,18 +140,18 @@ test('"Merkür" said over the Mars clue is judged wrong once, at once, with its 
   expect(cueStarts('wrong')).toHaveLength(1);
   expect(cueStarts('correct')).toHaveLength(1);
   for (const s of [...cueStarts('pas'), ...cueStarts('wrong'), ...cueStarts('correct')]) {
-    expect(s).toMatchObject({ volume: 1, fromStart: true });
+    expect(s).toMatchObject({ volume: FULL, fromStart: true });
   }
 });
 
 test('a cue played while the host speaks stays at full volume; the bed alone is lowered', async () => {
   await renderRouter('./src/app', { initialUrl: '/game?cats=bilim&level=1&seed=3' });
-  await fireEvent.press(await screen.findByText('Başla'));
+  await pressStart();
   expect(host.speaking).toBe(true);
   await act(() => rec.hear(question(clueText()).answers[0]));
   await wait(CUE_LEAD_MS + 10);
   expect(host.speaking).toBe(true);  // "Doğru efendim" or the next clue, over the cue still sounding
-  expect(cueStarts('correct')).toEqual([expect.objectContaining({ volume: 1, fromStart: true })]);
+  expect(cueStarts('correct')).toEqual([expect.objectContaining({ volume: FULL, fromStart: true })]);
   // And a replayed cue (the same player again) starts from its beginning, not where the last one ended.
   await wait(2000);
   await act(() => rec.hear('pas'));
@@ -155,5 +159,5 @@ test('a cue played while the host speaks stays at full volume; the bed alone is 
   await act(() => rec.hear('pas'));
   await wait(1000);
   expect(cueStarts('pas')).toHaveLength(2);
-  expect(cueStarts('pas').every((s) => s.volume === 1 && s.fromStart)).toBe(true);
+  expect(cueStarts('pas').every((s) => s.volume === FULL && s.fromStart)).toBe(true);
 });

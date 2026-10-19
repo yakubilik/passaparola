@@ -4,6 +4,8 @@ import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-librar
 import { SETTINGS_KEY } from '../store/settings';
 import { audio } from '../test-utils/fakeAudio';
 import { fakeRecognizer as rec } from '../test-utils/fakeRecognizer';
+import { pressStart } from '../test-utils/round';
+import { DEFAULT_GAIN, FADE_IN_MS, HOST_VOLUME } from '../voice/sounds';
 import { host } from '../voice/engine';
 import { ECHO_TAIL_MS } from '../voice/listener';
 import { CUE_LEAD_MS } from '../voice/sounds';
@@ -53,7 +55,7 @@ test('"ay", "su" and "un" said alone count at once, while the host reads and aft
   // so opening the mic later changes nothing about how loud the game is.
   expect(rec.categoryAfterPlays).toEqual([0]);
 
-  await fireEvent.press(screen.getByText('Başla'));
+  await pressStart();
   // The recognizer was told to expect this question's answer and the pass words,
   // as a short-phrase ('search') request.
   expect(rec.lastOptions.contextualStrings).toEqual(['pas', 'geç', 'pas geçiyorum', 'Ay']);
@@ -61,7 +63,8 @@ test('"ay", "su" and "un" said alone count at once, while the host reads and aft
 
   // A, while the host is still reading it: "ay" alone.
   expect(host.speaking).toBe(true);
-  expect(host.volume).toBe(1);
+  await act(async () => { jest.advanceTimersByTime(FADE_IN_MS); });  // the round's first line fades in
+  expect(host.volume).toBeCloseTo(HOST_VOLUME * DEFAULT_GAIN);
   await act(() => rec.hear('ay'));
   expect(screen.getByLabelText('A harfi, doğru')).toBeOnTheScreen();
 
@@ -85,7 +88,8 @@ test('"ay", "su" and "un" said alone count at once, while the host reads and aft
   // The host is reading Ç (a moment after the cue) with the mic open: still at full volume.
   await act(() => jest.advanceTimersByTime(CUE_LEAD_MS + 10));
   expect(host.speaking).toBe(true);
-  expect(host.volume).toBe(1);
+  await act(async () => { jest.advanceTimersByTime(FADE_IN_MS); });  // the round's first line fades in
+  expect(host.volume).toBeCloseTo(HOST_VOLUME * DEFAULT_GAIN);
   expect(rec.starts).toBe(4);  // A, B, C, Ç
   expect(rec.aborts).toBe(3);
   expect(audio.sessionCalls.filter((c) => c === 'mode')).toEqual(['mode']);
