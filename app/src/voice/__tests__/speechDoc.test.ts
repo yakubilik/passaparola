@@ -1,13 +1,14 @@
-import { readFileSync } from 'fs';
-import { join } from 'path';
-
 import { REQUEST_MAX_MS, REQUEST_REFRESH_MS } from '../listener';
 import { RECOGNITION_OPTIONS } from '../recognizer';
 
+// Node's fs, typed here: the app has no Node type definitions.
+declare const __dirname: string;
+const { readFileSync } = jest.requireActual<{ readFileSync: (file: string, enc: 'utf8') => string }>('fs');
+
 // docs/speech.md audits every recognizer option we rely on; it must keep
 // covering each of them, with a source, and agree with what the code sends.
-const doc = readFileSync(join(__dirname, '../../../../docs/speech.md'), 'utf8');
-const rows = doc.split('\n').filter((l) => /^\| \d+a? \|/.test(l));
+const doc = readFileSync(`${__dirname}/../../../../docs/speech.md`, 'utf8');
+const rows = doc.split('\n').filter((l: string) => /^\| \d+a? \|/.test(l));
 
 test.each([
   ['on-device vs server', /supportsOnDeviceRecognition.*requiresOnDeviceRecognition/],
@@ -22,7 +23,7 @@ test.each([
   ["'end' / 'error' and restarts", /'end' \/ 'error'/],
   ['Siri & Dictation permissions', /Siri & Dictation/],
 ])('the audit has a row for %s, with a source link', (_name, re) => {
-  const row = rows.find((r) => re.test(r));
+  const row = rows.find((r: string) => re.test(r));
   expect(row).toBeDefined();
   expect(row).toMatch(/https:\/\/|\.swift|README/);
 });
