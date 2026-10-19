@@ -42,7 +42,8 @@ if [[ "${1:-}" == "--shoot" ]]; then
   xcrun simctl install "$udid" "$APP"
   rm -rf "$RAW" && mkdir -p "$RAW"
   status=0
-  (cd "$RAW" && maestro --device "$udid" test "$APP_DIR/e2e/store.yaml") || status=$?
+  maestro --device "$udid" test --test-output-dir "$RAW/run" "$APP_DIR/e2e/store.yaml" || status=$?
+  find "$RAW/run" -name "0*-*.png" -exec cp {} "$RAW/" ;
   xcrun simctl shutdown "$udid" || true
   exit $status
 fi
