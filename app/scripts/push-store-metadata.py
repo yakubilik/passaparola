@@ -3,9 +3,10 @@
 
     python3 app/scripts/push-store-metadata.py [--privacy-url URL]
 
-Uses ascelerate (App Store Connect API key, no browser): app name, subtitle, categories
-(Games > Trivia, Games > Word) and, when given, the privacy policy URL on the app info;
-description, keywords and promotional text on version 1.0. What's New is left out: Apple
+Uses ascelerate (App Store Connect API key, no browser): app name, subtitle and, when given,
+the privacy policy URL on the app info (categories are set by asc-store-setup.py);
+description, keywords, promotional text and (the privacy page, which carries the contact
+address) the support URL on version 1.0.0. What's New is left out: Apple
 does not accept it on an app's first version. Never submits anything for review.
 """
 import argparse, os, re, subprocess, sys
@@ -33,13 +34,14 @@ def main():
     md = open(os.path.join(ROOT, 'docs', 'store', 'tr.md'), encoding='utf-8').read()
     info = ['apps', 'app-info', 'update', BUNDLE, '--locale', 'tr',
             '--name', section(md, 'Name'), '--subtitle', section(md, 'Subtitle'),
-            '--primary-category', 'GAMES_TRIVIA', '--secondary-category', 'GAMES_WORD', '--yes']
+            '--yes']
     if a.privacy_url:
         info += ['--privacy-policy-url', a.privacy_url]
     run(*info)
     run('apps', 'localizations', 'update', BUNDLE, '--locale', 'tr',
         '--description', section(md, 'Description'), '--keywords', section(md, 'Keywords'),
-        '--promotional-text', section(md, 'Promotional text'))
+        '--promotional-text', section(md, 'Promotional text'),
+        *(['--support-url', a.privacy_url] if a.privacy_url else []))
 
 
 if __name__ == '__main__':

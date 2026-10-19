@@ -2,8 +2,8 @@
 
 Son güncelleme / Last updated: 18 October 2026
 
-Public URL: _pending — Yakup gives the address where this page is published._
-Once published, put the same URL into App Store Connect (App Information > Privacy Policy URL).
+Public URL: https://yakupkeskin.dev/harfiyen/gizlilik (published from the portfolio repo).
+App Store Connect uses it as the Privacy Policy URL and the Support URL.
 
 ---
 

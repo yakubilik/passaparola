@@ -110,6 +110,10 @@ describe('store listing (docs/store/tr.md)', () => {
 describe('privacy policy (docs/store/privacy.md)', () => {
   const md = readFileSync(join(STORE, 'privacy.md'), 'utf8');
 
+  it('names the public URL App Store Connect points at', () => {
+    expect(md).toMatch(/Public URL: https:\/\/yakupkeskin\.dev\/harfiyen\/gizlilik/);
+  });
+
   it('has a Turkish and an English part, both saying nothing is collected or sent', () => {
     const tr = section(md, 'Türkçe');
     const en = section(md, 'English');

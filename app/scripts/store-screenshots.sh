@@ -23,7 +23,8 @@ log() { echo "→ $*" >&2; }
 
 if [[ "${1:-}" == "--build" ]]; then
   cd "$APP_DIR"
-  npx expo prebuild --platform ios --clean
+  # A resumed run keeps ios/ and the DerivedData, so an interrupted build picks up where it stopped.
+  [[ -d ios/Pods ]] || npx expo prebuild --platform ios --clean
   xcodebuild -workspace ios/Harfiyen.xcworkspace -scheme Harfiyen -configuration Release \
     -sdk iphonesimulator -destination "generic/platform=iOS Simulator" -derivedDataPath "$DERIVED" \
     CODE_SIGNING_ALLOWED=NO build -quiet
