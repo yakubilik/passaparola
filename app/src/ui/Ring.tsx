@@ -16,10 +16,15 @@ type Props = {
   halo?: boolean;
 };
 
+// Radius of the circle the letters' centres sit on.
+export function ringRadius(size: number, bubble: number): number {
+  return (size - bubble - 12) / 2;
+}
+
 // Letters on a circle, A at twelve o'clock, clockwise; children sit in the
 // middle, under the letters.
 export function Ring({ items, size, bubble, children, testID, halo }: Props) {
-  const r = (size - bubble - 12) / 2;
+  const r = ringRadius(size, bubble);
   const c = size / 2;
   return (
     <View testID={testID} style={{ width: size, height: size }}>
