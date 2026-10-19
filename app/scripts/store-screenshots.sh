@@ -43,7 +43,7 @@ if [[ "${1:-}" == "--shoot" ]]; then
   rm -rf "$RAW" && mkdir -p "$RAW"
   status=0
   maestro --device "$udid" test --test-output-dir "$RAW/run" "$APP_DIR/e2e/store.yaml" || status=$?
-  find "$RAW/run" -name "0*-*.png" -exec cp {} "$RAW/" ;
+  find "$RAW/run" -name "0*-*.png" -exec cp {} "$RAW/" \;
   xcrun simctl shutdown "$udid" || true
   exit $status
 fi
