@@ -44,6 +44,7 @@ export function isPass(input: string): boolean {
 // how the recognizer often writes a short "pas", but also a real word.
 const PASS_WORDS = ['pas', 'pass', 'paso', 'passaparola', 'gec', 'geciyorum', 'gectim', 'bilmiyorum'];
 const PASS_ALONE = ['bas', 'bass'];
+const PAS = ['pas', 'pass', 'paso', 'passaparola'];
 
 /** A single word that is a Pas when the player says it. */
 export function isPassWord(w: string): boolean {
@@ -52,10 +53,17 @@ export function isPassWord(w: string): boolean {
 }
 
 // The player said Pas: a short phrase with a pass word in it ("pas",
-// "pas geçiyorum", "geç"), or "bas" on its own.
+// "pas geçiyorum", "geç"), a longer one ending in one, or "bas" on its own.
 export function saidPass(alts: readonly string[]): boolean {
   const first = norm(alts[0] ?? '').split(' ').filter(Boolean);
-  if (!first.length || first.length > 3) return false;
+  if (!first.length) return false;
+  // A longer run that ends in "pas" (or "pas geçiyorum"): the host's words,
+  // misheard so the echo filter kept them, with the player's Pas after them
+  // (#362). Only "pas" itself: "geç" ends many a sentence.
+  if (first.length > 3) {
+    const [a, b] = first.slice(-2).map(fold);
+    return PAS.includes(b) || (PAS.includes(a) && ['gec', 'geciyorum', 'gectim'].includes(b));
+  }
   if (first.some((w) => PASS_WORDS.includes(fold(w)))) return true;
   return first.length === 1 && PASS_ALONE.includes(fold(first[0]));
 }

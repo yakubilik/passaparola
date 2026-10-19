@@ -177,3 +177,15 @@ test("'pas pas' in one breath is one Pas, and 'pas geçiyorum' too", async () =>
   expect(passes()).toBe(2);
   expect(status('C')).toMatch(/^(bekliyor|sırada)$/);
 });
+
+test("'pas' at the end of misheard host words (no echo cancellation): passes once", async () => {
+  await startRound();
+  expect(host.speaking).toBe(true);
+  // Voice processing is off (ea5bc9c): the mic hears the reading, and iOS writes
+  // some of it wrong, so the echo filter does not know those words.
+  await act(() => rec.hear('zırhlı bulvar kıyısında'));
+  await wait(300);
+  await act(() => rec.hear('dördüncü pas'));
+  await wait(SETTLE_MS * 2);
+  passedOnce('A', 0);
+});

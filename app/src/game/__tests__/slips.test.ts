@@ -135,6 +135,10 @@ describe('Pas', () => {
 
   test('a long sentence with "geç" in it is not a Pas', () => {
     expect(judgeSpoken(['dün akşam eve geç geldim'], ['Ankara'])).toBe('wrong');
+    // Misheard host words with the player's Pas at the end (#362): a Pas; 'geç' at the end of a sentence is not.
+    expect(judgeSpoken(['zırhlı bulvar kıyısında dördüncü pas'], ['Ankara'])).toBe('pass');
+    expect(judgeSpoken(['bu sabah işe biraz pas geçiyorum'], ['Ankara'])).toBe('pass');
+    expect(judgeSpoken(['yarın sabah işe geç'], ['Ankara'])).toBe('wrong');
   });
 
   test('the answer itself is never taken for a Pas', () => {
