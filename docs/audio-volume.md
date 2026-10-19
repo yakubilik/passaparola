@@ -188,7 +188,10 @@ open all along. `app/e2e/selftest-report.py` on its log:
     round 3 @ 406s: the same, engines 3, rebuilds 0
     3 round starts; identical: True
 
-The session never changed after the first round set it up (one change in the whole
+A second run after the self-test fixes (`app/e2e/rounds.sh`, Maestro exit 0, a
+screenshot of each result screen's SES OTURUMU with its Tur 1/2/3 lines, 28/28
+answered in every level) gave the same three identical round starts at 5 s, 180 s
+and 407 s. The session never changed after the first round set it up (one change in the whole
 log: soloAmbient → playAndRecord at the first round), and no engine was rebuilt.
 The simulator says nothing about how loud the iPhone's speaker gets; the same log
 from the phone does.
