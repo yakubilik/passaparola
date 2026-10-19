@@ -1,0 +1,27 @@
+# #362: a clue without a recording is read by the phone voice. e2e/speech.sh
+# launches the app with -harfiyenSelfTest speech (tarih level 2, every clue
+# recording of the level withheld, the mic open, voice processing on) and runs
+# this: it waits until the speech-state diagnostic says the phone voice started
+# reading the first clue, with the clue on screen, and photographs it.
+appId: com.skolalabs.harfiyen
+---
+- repeat:
+    times: 3
+    commands:
+      - tapOn:
+          text: "(Allow|OK|İzin Ver|Tamam)"
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: "speech-state"
+      text: "TELEFON SESİ · tarih-2-A-.*: başladı.*"
+    timeout: 120000
+- assertVisible:
+    id: "clue"
+- takeScreenshot: speech-first-clue
+- extendedWaitUntil:
+    visible:
+      id: "speech-state"
+      text: ".*başlayan [3-9].*sessiz 0"
+    timeout: 300000
+- takeScreenshot: speech-later-clue
