@@ -137,7 +137,7 @@ export class AnswerListener {
   private swallowUntil = 0;   // the rest of an utterance already judged (LATE_MS)
   private tailOpen = false;   // an utterance was judged and its final has not come yet
   private seenCount = 0;      // words in the current result as last heard
-  private judged: string[] = [];  // the guesses of the last verdict, folded
+  private judged: string[] = [];  // what the last verdict's guesses had beyond its best guess, folded
   private wordsAt = 0;        // when the player's words last changed
   private renewing = false;   // the request was dropped on purpose; the next starts on its 'end'
   private closing = false;    // stop() came while something played: the request is aborted at the next silence
@@ -459,8 +459,14 @@ export class AnswerListener {
     // Aksu" after "Sezen", "pas geçiyorum" after "pas"), or its final: already
     // handled, whatever the word count of each guess. A final ends it.
     const window = this.now() < this.swallowUntil;
-    const late = window && alts.length > 0 && (!pause || this.revises(alts[0]));
-    if (!this.lastAlts && (late || (e.isFinal && this.tailOpen))) {
+    // New words after a pause that the judged guesses did not already hold: a new utterance.
+    const fresh = alts.length > 0 && pause && !this.revises(alts[0]);
+    const late = window && alts.length > 0 && !fresh;
+    // A final that ends the judged utterance may also carry a new short one
+    // iOS gave no interim for ("pas" said once, #362): a Pas or a right answer
+    // in it still counts; anything else in it is dropped with the tail.
+    const carried = e.isFinal && this.tailOpen && !late && fresh && this.pace?.(alts) === 'now';
+    if (!this.lastAlts && !carried && (late || (e.isFinal && this.tailOpen))) {
       this.used = e.isFinal ? 0 : Math.max(skip, count);
       if (e.isFinal) {
         this.swallowUntil = 0;
@@ -500,7 +506,10 @@ export class AnswerListener {
     else this.settleTimer = setTimeout(() => this.deliver(false), pace === 'partial' ? PARTIAL_MS : SETTLE_MS);
   }
 
-  // Heard words that are already in the judged guesses, however iOS split them.
+  // Heard words that a judged guess already had and its best guess did not yet
+  // ("aksu" when "sezen" was judged with "sezen aksu" among the guesses),
+  // however iOS split them. Words the best guess itself had are not: "pas"
+  // after a judged "pas" is the next Pas (#362).
   private revises(alt: string): boolean {
     const f = fold(alt);
     return !!f && this.judged.some((j) => j.includes(f));
@@ -554,7 +563,8 @@ export class AnswerListener {
     this.used = final ? 0 : Math.max(this.used, this.lastCount);
     this.swallowUntil = final ? 0 : this.now() + LATE_MS;
     this.tailOpen = !final;
-    this.judged = alts.map(fold);
+    const best = fold(alts[0]);
+    this.judged = alts.slice(1).map((a) => { const f = fold(a); return f.startsWith(best) ? f.slice(best.length) : f; }).filter(Boolean);
     this.handler?.(alts, { alts, duringHost });
   }
 

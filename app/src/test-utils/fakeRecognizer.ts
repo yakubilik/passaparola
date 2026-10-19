@@ -34,6 +34,13 @@ export class FakeRecognizer {
   vp = { running: false, enabled: false, advancedDucking: null as boolean | null, duckingLevel: null as string | null, engines: 0, rebuilds: 0 };
   /** The epoch time reported with 'audiostart'; Date.now() when null. */
   audioStartAt: number | null = null;
+  /**
+   * iOS 18 and later in continuous mode (#362): each utterance ends with a
+   * final-like result (Apple's speechDuration > 0, which the library reports
+   * as isFinal) and the next result starts afresh, every transcript after the
+   * first such final prefixed with a space by the library. See endUtterance.
+   */
+  private seenFinal = false;
   private gen = 0;
   private listeners: Record<string, Set<Handler>> = {};
 
@@ -46,6 +53,7 @@ export class FakeRecognizer {
     this.startOptions = [];
     this.startTimes = [];
     this.audioStartAt = null;
+    this.seenFinal = false;
     this.listeners = {};
     this.gen++;
   }
@@ -69,7 +77,26 @@ export class FakeRecognizer {
   hear(words: string) {
     if (!this.running) return;
     this.transcript = (this.transcript + ' ' + words).trim();
-    this.emit('result', { isFinal: false, results: [{ transcript: this.transcript, confidence: 0, segments: [] }] });
+    const transcript = (this.seenFinal ? ' ' : '') + this.transcript;
+    this.emit('result', { isFinal: false, results: [{ transcript, confidence: 0, segments: [] }] });
+  }
+
+  // iOS heard these words but gives no result for them yet: a short word said
+  // alone, held back until more speech follows or the utterance ends
+  // (expo-speech-recognition README, "single-word prompts").
+  holdBack(words: string) {
+    if (!this.running) return;
+    this.transcript = (this.transcript + ' ' + words).trim();
+  }
+
+  // iOS 18+: the utterance ends (a pause): its final-like result, with every
+  // word held back, then the next result starts empty.
+  endUtterance() {
+    if (!this.running || !this.transcript) return;
+    const transcript = (this.seenFinal ? ' ' : '') + this.transcript;
+    this.transcript = '';
+    this.seenFinal = true;
+    this.emit('result', { isFinal: true, results: [{ transcript, confidence: 0.9, segments: [] }] });
   }
 
   // iOS rewrote what it heard so far (e.g. glued a short word onto the last one).
