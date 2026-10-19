@@ -5,21 +5,33 @@ import { SETTLE_MS, type RecOptions, type Recognizer } from './listener';
 // expo-speech-recognition behind the listener's small interface. The audio
 // session is set to play and record at once, on the loudspeaker, so the host
 // and the sound cues keep playing while the mic is open; voice processing
-// (iOS echo cancellation, voiceChat mode) takes the phone's own sound out of
-// what the mic hears, so the host does not answer for the player.
+// (iOS echo cancellation, iosVoiceProcessingEnabled) takes the phone's own
+// sound out of what the mic hears, so the host does not answer for the player.
+//
+// The session mode is 'default', not 'voiceChat': voiceChat puts the whole
+// session on the phone-call output path, which drives the loudspeaker to call
+// loudness the moment it is set. Echo cancellation does not need that mode:
+// the recognizer turns voice processing on in its own audio engine (the input
+// node, and the output node with it; the library does both) whatever the mode.
 //
 // The session must not change while the mic is open: on an iOS route change
 // (a new category or mode is one) expo-speech-recognition rebuilds its audio
 // engine without voice processing, and an interruption ends recognition. So
-// the very same category is set once before the first round (setVoiceSession,
-// from prepareAudio) and by the mic check, and every start finds it in place.
+// the very same category is set once before the round (setVoiceSession, from
+// prepareAudio) and by the mic check, and every start finds it in place.
+//
+// The answers are one word or a short name, so the request carries the
+// 'search' task hint (short phrases), not 'dictation' (long free speech) or
+// 'confirmation' (yes / no). No punctuation: answers are compared as words.
+// See docs/speech.md for each option against the Speech framework documentation.
 export const RECOGNITION_OPTIONS = {
   addsPunctuation: false,
+  iosTaskHint: 'search',
   iosVoiceProcessingEnabled: true,
   iosCategory: {
     category: 'playAndRecord',
     categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'],
-    mode: 'voiceChat',
+    mode: 'default',
   },
 } as const;
 
@@ -31,6 +43,21 @@ export function setVoiceSession() {
     SR.setCategoryIOS?.(sessionCategory());
   } catch {
     // Not iOS, or the session is busy: the recognizer sets it when it starts.
+  }
+}
+
+/**
+ * Whether this iPhone can recognise speech without the network. The
+ * answer is for the recognizer of the phone's own language (the library asks
+ * SFSpeechRecognizer() without a locale), so it speaks for tr-TR only on a
+ * phone set to Turkish; each tr-TR request asks for on-device recognition and
+ * iOS applies it only where the tr-TR recognizer supports it.
+ */
+export function supportsOnDevice(): boolean {
+  try {
+    return !!SR.supportsOnDeviceRecognition?.();
+  } catch {
+    return false;
   }
 }
 
@@ -46,6 +73,8 @@ export const nativeRecognizer: Recognizer = {
       SR.addListener('result', h.result),
       SR.addListener('error', h.error),
       SR.addListener('end', h.end),
+      // Sent once the audio engine (voice processing with it) is running: see whenUp in listener.ts.
+      ...(h.start ? [SR.addListener('start', h.start)] : []),
     ];
     return () => subs.forEach((s) => s.remove());
   },
@@ -105,6 +134,16 @@ export function testMic(update: (t: MicTest) => void, settleMs = SETTLE_MS, maxM
     update(t);
   };
   const limit = setTimeout(() => finish(heard ? { state: 'ok', text: heard } : { state: 'error', text: explainMicError('no-speech') }), maxMs);
+  // As in the game: on-device first, the iOS speech servers if that is refused.
+  let onDevice = true;
+  let retrying = false;
+  const start = () => {
+    // The game's own session, so the round that follows does not have to switch it.
+    SR.start({
+      lang: 'tr-TR', interimResults: true, continuous: false, maxAlternatives: 1, requiresOnDeviceRecognition: onDevice,
+      ...RECOGNITION_OPTIONS, iosCategory: sessionCategory(),
+    });
+  };
   (async () => {
     const ready = await prepareMic();
     if (done) return;
@@ -117,12 +156,26 @@ export function testMic(update: (t: MicTest) => void, settleMs = SETTLE_MS, maxM
         if (settle) clearTimeout(settle);
         settle = setTimeout(() => finish({ state: 'ok', text: heard }), e.isFinal ? 0 : settleMs);
       }),
-      SR.addListener('error', (e) => { if (!heard) finish({ state: 'error', text: explainMicError(e.error) }); }),
-      SR.addListener('end', () => finish(heard ? { state: 'ok', text: heard } : { state: 'error', text: explainMicError('no-speech') })),
+      SR.addListener('error', (e) => {
+        if (heard) return;
+        if (e.error === 'service-not-allowed' && onDevice) {
+          onDevice = false;
+          retrying = true;
+          return;
+        }
+        finish({ state: 'error', text: explainMicError(e.error) });
+      }),
+      SR.addListener('end', () => {
+        if (retrying) {
+          retrying = false;
+          try { start(); } catch (e) { finish({ state: 'error', text: `Mikrofon başlatılamadı: ${String((e as Error)?.message ?? e)}` }); }
+          return;
+        }
+        finish(heard ? { state: 'ok', text: heard } : { state: 'error', text: explainMicError('no-speech') });
+      }),
     );
     try {
-      // The game's own session, so the round that follows does not have to switch it.
-      SR.start({ lang: 'tr-TR', interimResults: true, continuous: false, maxAlternatives: 1, ...RECOGNITION_OPTIONS, iosCategory: sessionCategory() });
+      start();
       update({ state: 'listening', text: '' });
     } catch (e) {
       finish({ state: 'error', text: `Mikrofon başlatılamadı: ${String((e as Error)?.message ?? e)}` });

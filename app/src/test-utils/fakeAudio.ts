@@ -17,6 +17,7 @@ export class FakePlayer {
   constructor(public source: unknown, public options: Record<string, unknown> = {}) {}
   play() {
     audio.plays++;
+    audio.log.push({ e: `play#${audio.players.indexOf(this)}`, t: Date.now() });
     this.playing = true;
     if (this.timer) clearTimeout(this.timer);
     if (!this.loop) {
@@ -41,7 +42,8 @@ export class FakePlayer {
     await Promise.resolve();
     this.currentTime = t;
   }
-  remove() { this.pause(); }
+  removed = false;
+  remove() { this.pause(); this.removed = true; }
   addListener(_: string, f: (s: Status) => void) {
     this.subs.add(f);
     return { remove: () => this.subs.delete(f) };
@@ -56,16 +58,27 @@ export const audio = {
   plays: 0,
   /** Every change made to the iOS audio session, in order. */
   sessionCalls: [] as string[],
+  /**
+   * The order things happened in, with Date.now(): 'mode', 'active',
+   * 'create#<player index>', 'play#<player index>', and from the recognizer
+   * 'category', 'rec:start' (start() called) and 'rec:up' (its 'start' event).
+   */
+  log: [] as { e: string; t: number }[],
 };
 
 export const mockAudio = {
   createAudioPlayer: (source: unknown, options?: Record<string, unknown>) => {
     const p = new FakePlayer(source, options);
     audio.players.push(p);
+    audio.log.push({ e: `create#${audio.players.length - 1}`, t: Date.now() });
     return p;
   },
-  setAudioModeAsync: async (m: unknown) => { audio.mode = m; audio.sessionCalls.push('mode'); },
-  setIsAudioActiveAsync: async (on: boolean) => { audio.active = on; audio.sessionCalls.push(on ? 'active' : 'inactive'); },
+  setAudioModeAsync: async (m: unknown) => { audio.mode = m; audio.sessionCalls.push('mode'); audio.log.push({ e: 'mode', t: Date.now() }); },
+  setIsAudioActiveAsync: async (on: boolean) => {
+    audio.active = on;
+    audio.sessionCalls.push(on ? 'active' : 'inactive');
+    audio.log.push({ e: on ? 'active' : 'inactive', t: Date.now() });
+  },
 };
 
 type SpeechOpts = { onDone?: () => void; onStopped?: () => void; onError?: (e: unknown) => void; language?: string };

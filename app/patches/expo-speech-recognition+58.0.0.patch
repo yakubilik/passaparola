@@ -1,0 +1,20 @@
+diff --git a/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognizer.swift b/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognizer.swift
+index b278425..cb773b8 100644
+--- a/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognizer.swift
++++ b/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognizer.swift
+@@ -364,6 +364,15 @@ actor ExpoSpeechRecognizer: ObservableObject {
+       do {
+         try audioEngine.inputNode.setVoiceProcessingEnabled(true)
+         try audioEngine.outputNode.setVoiceProcessingEnabled(true)
++        // Harfiyen: voice processing ducks every other sound in the app (the host's
++        // clips and the cues play through expo-audio, outside this engine) while it
++        // runs, so the game went quiet as the call-style volume went up. Keep the echo
++        // cancellation, switch the ducking off.
++        if #available(iOS 17.0, *) {
++          audioEngine.inputNode.voiceProcessingOtherAudioDuckingConfiguration =
++            AVAudioVoiceProcessingOtherAudioDuckingConfiguration(
++              enableAdvancedDucking: false, duckingLevel: .min)
++        }
+       } catch {
+         print(
+           "expo-speech-recognition: WARNING - Failed to set voice processing: \(error)"

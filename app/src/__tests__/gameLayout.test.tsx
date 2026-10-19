@@ -1,9 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { act, fireEvent, renderRouter, screen, within } from 'expo-router/testing-library';
-import { StyleSheet, type Animated } from 'react-native';
+import { Keyboard, StyleSheet, type Animated } from 'react-native';
 
 import { CATEGORIES } from '../data/questions';
 import { SETTINGS_KEY } from '../store/settings';
+import { F } from '../ui/theme';
 import { visionCamera } from '../test-utils/visionCamera';
 
 // The game screen must hold still: clock ticks (every 200 ms) and the active
@@ -39,6 +40,7 @@ beforeEach(async () => {
 });
 afterEach(() => {
   jest.useRealTimers();
+  jest.restoreAllMocks();
 });
 
 function answerFor(clue: string): string {
@@ -150,35 +152,43 @@ function cameraView() {
   };
 }
 
-test('keyboard up and down, camera on: the ring, the question block, the camera circle and its face crop do not move', async () => {
-  visionCamera.device = { id: 'front', position: 'front' };
-  visionCamera.status = 'authorized';
-  await renderRouter('./src/app', { initialUrl: '/game?cats=tarih&level=1&seed=7' });
-  // The keyboard comes up under the "Hazır mısın?" cover (the answer field is focused on mount).
-  await layoutStage(KEYBOARD_DOWN);
-  await layoutStage(KEYBOARD_UP);
-  await fireEvent.press(await screen.findByText('Başla'));
-
-  // A steady face in view, then let the crop settle.
-  for (let i = 0; i < 30; i++) {
+async function faceInView(frames: number) {
+  for (let i = 0; i < frames; i++) {
     await act(() => {
       visionCamera.onObjectsScanned!([{ type: 'face', boundingBox: { x: 80, y: 60, width: 90, height: 90 } }]);
       jest.advanceTimersByTime(33);
     });
   }
   await act(() => jest.advanceTimersByTime(600));
+}
+
+test('keyboard up and down, camera on: the keyboard-down layout comes back exactly, ring, camera square, face crop and question block', async () => {
+  visionCamera.device = { id: 'front', position: 'front' };
+  visionCamera.status = 'authorized';
+  await renderRouter('./src/app', { initialUrl: '/game?cats=tarih&level=1&seed=7' });
+  await layoutStage(KEYBOARD_DOWN);
+  await fireEvent.press(await screen.findByText('Başla'));
+
+  // A steady face in view, then let the crop settle.
+  await faceInView(30);
   expect(screen.queryByTestId('face-placeholder')).toBeNull();
-  const ring = sizes();
+  const down = sizes();
   const cam = cameraView();
   expect(cam.crop.scale).toBeGreaterThan(1);
 
-  for (let i = 0; i < 5; i++) {
+  await layoutStage(KEYBOARD_UP);
+  await faceInView(30);
+  const up = sizes();
+  // The keyboard takes room: the ring and the square get smaller, the block keeps a fixed height.
+  expect(up.ring[0]).toBeLessThan(down.ring[0] as number);
+  expect(up.square).toEqual(up.ring);
+
+  for (let i = 0; i < 4; i++) {
     await layoutStage(i % 2 ? KEYBOARD_UP : KEYBOARD_DOWN);
-    await act(() => {
-      visionCamera.onObjectsScanned!([{ type: 'face', boundingBox: { x: 80, y: 60, width: 90, height: 90 } }]);
-      jest.advanceTimersByTime(200);
-    });
-    expect(sizes()).toEqual(ring);
+    await faceInView(30);
+    expect(sizes()).toEqual(i % 2 ? up : down);
+    if (i % 2) continue;
+    // Keyboard down again: the camera square and its face crop are back as they were.
     const now = cameraView();
     expect(now.face).toEqual(cam.face);
     expect(now.preview).toEqual(cam.preview);
@@ -186,6 +196,60 @@ test('keyboard up and down, camera on: the ring, the question block, the camera 
     expect(Math.abs(now.crop.y - cam.crop.y)).toBeLessThan(0.5);
     expect(Math.abs(now.crop.scale - cam.crop.scale)).toBeLessThan(0.01);
   }
+});
+
+// The iOS keyboard events, driven by the test (the KeyboardAvoidingView listens to them).
+const keyboard = new Map<string, Set<(e: unknown) => void>>();
+function emitKeyboard(name: string, e: unknown) {
+  return act(async () => {
+    keyboard.get(name)?.forEach((h) => h(e));
+    await Promise.resolve();
+  });
+}
+const SCREEN_H = 956;
+const keyboardEvent = (height: number) => ({
+  duration: 250, easing: 'keyboard',
+  startCoordinates: { screenX: 0, screenY: SCREEN_H, width: 440, height },
+  endCoordinates: { screenX: 0, screenY: SCREEN_H - height, width: 440, height },
+});
+const padding = () => StyleSheet.flatten(screen.getByTestId('game-keyboard').props.style).paddingBottom;
+
+test('keyboard show -> hide: the keyboard height is dropped on hide and the measured keyboard-down sizes come back', async () => {
+  keyboard.clear();
+  jest.spyOn(Keyboard, 'addListener').mockImplementation(((name: string, h: (e: unknown) => void) => {
+    if (!keyboard.has(name)) keyboard.set(name, new Set());
+    keyboard.get(name)!.add(h);
+    return { remove: () => keyboard.get(name)?.delete(h) };
+  }) as unknown as typeof Keyboard.addListener);
+  await startGame();
+  // The avoiding view spans the screen under the status bar; the stage reports the space left.
+  await act(() => fireEvent(screen.getByTestId('game-keyboard'), 'layout', { persist() {}, nativeEvent: { layout: { x: 0, y: 0, width: 440, height: SCREEN_H } } }));
+  await layoutStage(KEYBOARD_DOWN);
+  const down = sizes();
+  expect(padding()).toBe(0);
+
+  for (const height of [336, 290]) {
+    await emitKeyboard('keyboardWillShow', keyboardEvent(height));
+    // This keyboard's own height, never the one before it.
+    expect(padding()).toBe(height);
+    await layoutStage({ width: 440, height: KEYBOARD_DOWN.height - height });
+    const up = sizes();
+    expect(up.ring[0]).toBeLessThan(down.ring[0] as number);
+
+    await emitKeyboard('keyboardWillHide', keyboardEvent(height));
+    expect(padding()).toBe(0);
+    await layoutStage(KEYBOARD_DOWN);
+    expect(sizes()).toEqual(down);
+  }
+  // After submitting an answer the layout stays where the keyboard puts it.
+  await emitKeyboard('keyboardWillShow', keyboardEvent(336));
+  await layoutStage({ width: 440, height: KEYBOARD_DOWN.height - 336 });
+  await fireEvent(screen.getByTestId('answer'), 'changeText', answerFor(clueText()));
+  await fireEvent(screen.getByTestId('answer'), 'submitEditing');
+  await emitKeyboard('keyboardWillHide', keyboardEvent(336));
+  expect(padding()).toBe(0);
+  await layoutStage(KEYBOARD_DOWN);
+  expect({ ...sizes(), active: null }).toEqual({ ...down, active: null });
 });
 
 test('the letters are drawn over the camera square, each with a dark halo', async () => {
@@ -208,24 +272,52 @@ test('the letters are drawn over the camera square, each with a dark halo', asyn
   for (const t of tops) expect(t / size).toBeGreaterThan(0.75);
 });
 
-test('multiplayer: every turn shows the same square and ring, keyboard up or down', async () => {
+test('multiplayer: every turn shows the same square and ring, and the keyboard-down layout comes back', async () => {
   await renderRouter('./src/app', { initialUrl: `/match?names=${encodeURIComponent(JSON.stringify(['Ayşe', 'Bora']))}&cats=tarih&level=1&seed=7` });
-  let first: ReturnType<typeof sizes> | null = null;
+  let first: { down: ReturnType<typeof sizes>; up: ReturnType<typeof sizes> } | null = null;
+  const plain = (s: ReturnType<typeof sizes>) => ({ ...s, active: null });
   for (const name of ['Ayşe', 'Bora', 'Ayşe']) {
     expect(await screen.findByTestId('handover')).toHaveTextContent(`Sıra: ${name}`);
     await fireEvent.press(screen.getByText('Başla'));
     await layoutStage(KEYBOARD_DOWN);
+    const down = sizes();
     await layoutStage(KEYBOARD_UP);
-    const now = sizes();
-    expect(now.square).toEqual(now.ring);
-    if (first) expect({ ...now, active: null }).toEqual({ ...first, active: null });
-    else first = now;
+    const up = sizes();
+    expect(up.ring[0]).toBeLessThan(down.ring[0] as number);
+    expect(down.square).toEqual(down.ring);
+    expect(up.square).toEqual(up.ring);
+    if (first) {
+      expect(plain(down)).toEqual(plain(first.down));
+      expect(plain(up)).toEqual(plain(first.up));
+    } else first = { down, up };
     for (let i = 0; i < 3; i++) {
       await layoutStage(i % 2 ? KEYBOARD_UP : KEYBOARD_DOWN);
       await act(() => jest.advanceTimersByTime(200));
-      expect({ ...sizes(), active: null }).toEqual({ ...first, active: null });
+      expect(plain(sizes())).toEqual(plain(i % 2 ? first.up : first.down));
     }
     await fireEvent.press(screen.getByLabelText('Pas'));
     await fireEvent.press(await screen.findByTestId('next-player'));
+  }
+});
+
+test('a big letter in the display font starts the clue block, follows each question and leaves the block height alone', async () => {
+  await startGame();
+  for (const stage of [KEYBOARD_DOWN, KEYBOARD_UP]) {
+    await layoutStage(stage);
+    const height = sizes().question;
+    for (let i = 0; i < 3; i++) {
+      const letter = screen.getByTestId('clue-letter');
+      const active = screen.getByLabelText(/harfi, sırada$/).props.accessibilityLabel.split(' ')[0];
+      expect(letter).toHaveTextContent(active);
+      const big = StyleSheet.flatten(letter.props.style);
+      const clue = StyleSheet.flatten(screen.getByTestId('clue').props.style);
+      expect(big.fontFamily).toBe(F.display);
+      expect(big.fontSize).toBeGreaterThanOrEqual(2.5 * (clue.fontSize as number));
+      // Inside the question block, in front of the clue.
+      expect(within(screen.getByTestId('question')).getByTestId('clue-letter')).toBe(letter);
+      expect(sizes().question).toBe(height);
+      await fireEvent(screen.getByTestId('answer'), 'changeText', answerFor(clueText()));
+      await fireEvent(screen.getByTestId('answer'), 'submitEditing');
+    }
   }
 });

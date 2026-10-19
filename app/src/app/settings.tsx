@@ -4,13 +4,14 @@ import { Linking, Pressable, ScrollView, Switch, Text, View } from 'react-native
 import { useCameraPermission } from 'react-native-vision-camera';
 
 import { useProgress } from '../store/ProgressContext';
-import { MUSIC_LEVELS } from '../store/settings';
+import { MUSIC_LEVELS, VOLUME_STEP } from '../store/settings';
 import { useSettings } from '../store/SettingsContext';
 import { BackLink } from '../ui/BackLink';
 import { Screen } from '../ui/Screen';
+import { Slider } from '../ui/Slider';
 import { C, F } from '../ui/theme';
 
-// Settings: the voice game, the music under the round, the front camera inside
+// Settings: the voice game, the game's loudness (Ses), the music under the round, the front camera inside
 // the ring, and wiping the career saved on the phone.
 export default function SettingsScreen() {
   const { settings, update } = useSettings();
@@ -42,9 +43,25 @@ export default function SettingsScreen() {
               trackColor={{ true: C.accent, false: '#2a3256' }}
             />
           </View>
-          <Pressable accessibilityRole="button" onPress={() => router.push('/mic')} hitSlop={8}>
+          {/* A long press opens the speech test (Ses tanıma testi), a debug screen. */}
+          <Pressable testID="mic-try" accessibilityRole="button" onPress={() => router.push('/mic')}
+            onLongPress={() => router.push('/speech-test')} delayLongPress={800} hitSlop={8}>
             <Text style={{ fontFamily: F.bodySemi, fontSize: 14, color: C.accentSoft }}>Mikrofonu dene ›</Text>
           </Pressable>
+        </View>
+
+        <View style={{ borderRadius: 20, padding: 16, gap: 12, backgroundColor: C.card, borderWidth: 1, borderColor: C.cardBorder }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+            <View style={{ flex: 1, gap: 2 }}>
+              <Text style={{ fontFamily: F.bodyBold, fontSize: 17, color: C.text }}>Ses</Text>
+              <Text style={{ fontFamily: F.body, fontSize: 13, color: C.dim, lineHeight: 18 }}>
+                Sunucu, efektler ve müzik birlikte. Telefonun ses tuşlarıyla da ayarlanır.
+              </Text>
+            </View>
+            <Text testID="volume-value" style={{ fontFamily: F.bodyBold, fontSize: 17, color: C.accentSoft }}>%{settings.volume}</Text>
+          </View>
+          <Slider testID="setting-volume" label="Ses" value={settings.volume} step={VOLUME_STEP}
+            onChange={(volume) => { update({ volume }); }} />
         </View>
 
         <View style={{ borderRadius: 20, padding: 16, gap: 12, backgroundColor: C.card, borderWidth: 1, borderColor: C.cardBorder }}>

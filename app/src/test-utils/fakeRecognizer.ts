@@ -2,7 +2,9 @@ import { audio } from './fakeAudio';
 
 // A speech recognizer that behaves like iOS: once started it keeps one result
 // that grows with everything heard and is never marked final. Stands in for
-// expo-speech-recognition in tests (see jest.setup.js).
+// expo-speech-recognition in tests (see jest.setup.js). Like the native module,
+// start() reports 'start' and 'audiostart' and abort() reports an 'aborted'
+// error and 'end', each a moment later (a microtask), not inside the call.
 type Handler = (e: any) => void;
 
 export class FakeRecognizer {
@@ -18,6 +20,14 @@ export class FakeRecognizer {
   transcript = '';
   granted = true;
   available = true;
+  /** What supportsOnDeviceRecognition() answers. */
+  onDevice = true;
+  /** Every start's options, and when it was made (Date.now()), in order. */
+  startOptions: any[] = [];
+  startTimes: number[] = [];
+  /** The epoch time reported with 'audiostart'; Date.now() when null. */
+  audioStartAt: number | null = null;
+  private gen = 0;
   private listeners: Record<string, Set<Handler>> = {};
 
   reset() {
@@ -25,8 +35,27 @@ export class FakeRecognizer {
     this.running = false;
     this.transcript = '';
     this.lastOptions = null;
-    this.granted = this.available = true;
+    this.granted = this.available = this.onDevice = true;
+    this.startOptions = [];
+    this.startTimes = [];
+    this.audioStartAt = null;
     this.listeners = {};
+    this.gen++;
+  }
+
+  // Emitted a moment later, like the native events; dropped after reset().
+  private later(event: string, payload: any = null) {
+    const gen = this.gen;
+    Promise.resolve().then(() => { if (gen === this.gen) this.emit(event, payload); });
+  }
+
+  // A final result for what was heard, with Apple's segment timings: the
+  // words end `speechEndMs` after the audio started.
+  final(transcript: string, speechEndMs: number) {
+    if (!this.running) return;
+    this.transcript = '';
+    const segments = [{ startTimeMillis: Math.max(0, speechEndMs - 300), endTimeMillis: speechEndMs, segment: transcript, confidence: 0.9 }];
+    this.emit('result', { isFinal: true, results: [{ transcript, confidence: 0.9, segments }] });
   }
 
   // What the mic heard next: appended to the one growing result.
@@ -44,6 +73,7 @@ export class FakeRecognizer {
   }
 
   emit(event: string, payload: any = null) {
+    if (event === 'start') audio.log.push({ e: 'rec:up', t: Date.now() });
     this.listeners[event]?.forEach((h) => h(payload));
   }
 
@@ -58,19 +88,31 @@ export class FakeRecognizer {
       this.running = true;
       this.transcript = '';
       this.lastOptions = options;
+      this.startOptions.push(options);
+      this.startTimes.push(Date.now());
+      audio.log.push({ e: 'rec:start', t: Date.now() });
+      this.later('start');
+      this.later('audiostart', { uri: null, timestamp: this.audioStartAt ?? Date.now() });
     },
     stop: () => { this.running = false; },
-    abort: () => { this.aborts++; this.running = false; },
+    abort: () => {
+      this.aborts++;
+      this.running = false;
+      this.later('error', { error: 'aborted', message: 'Speech recognition aborted.' });
+      this.later('end');
+    },
     addListener: (event: string, h: Handler) => {
       (this.listeners[event] ??= new Set()).add(h);
       return { remove: () => this.listeners[event]?.delete(h) };
     },
     requestPermissionsAsync: async () => ({ granted: this.granted, status: this.granted ? 'granted' : 'denied', canAskAgain: true, expires: 'never' }),
     isRecognitionAvailable: () => this.available,
+    supportsOnDeviceRecognition: () => this.onDevice,
     setCategoryIOS: (options: any) => {
       this.categories.push(options);
       this.categoryAfterPlays.push(audio.plays);
       this.events.push('category');
+      audio.log.push({ e: 'category', t: Date.now() });
     },
   };
 }

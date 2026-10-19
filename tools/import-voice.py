@@ -7,7 +7,8 @@ inside zips, and test files whose names are not lines. For every line of the rec
 list (ses-ornekleri/seslendirilecek-satirlar.csv: dosya_adi, metin, tur) the newest
 recording wins: highest batch number, then highest _vN, then the latest timestamp (a
 date in the path, else the file's own time), then mp3 over wav. Winners are re-encoded
-to mono 44.1 kHz 64 kbps mp3. Names that are not in the list are skipped and listed.
+to mono 44.1 kHz 64 kbps mp3 and brought to -18 LUFS (tools/normalize-loudness.py).
+Names that are not in the list are skipped and listed.
 
 Clips already in app/assets/voice that are not a recording (the synthetic placeholders)
 are removed, so those lines fall back to the phone's voice; recordings from an earlier
@@ -225,6 +226,9 @@ def main(argv=None):
             print(f'FAILED {n} <- {label}: {err}', file=sys.stderr)
         if args.index:
             subprocess.run(['node', args.index], check=True)
+        if os.path.abspath(args.out) == OUT:
+            # The new clips at the app's common loudness, and assets/loudness.json up to date.
+            subprocess.run([sys.executable, os.path.join(ROOT, 'tools', 'normalize-loudness.py')], check=True)
         print(coverage(names, set(manifest)))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

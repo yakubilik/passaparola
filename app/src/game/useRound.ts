@@ -4,6 +4,8 @@ import type { Verdict } from './normalize';
 import { answer as answerRound, current, settle, tick, type Round, type RoundLetter } from './round';
 
 export const REVEAL_MS = 1700;
+/** The longest a wrong answer's reveal waits for the host, whatever happens to the host's lines. */
+export const REVEAL_MAX_MS = 12_000;
 
 export type Phase = 'ready' | 'playing' | 'reveal' | 'over';
 
@@ -32,6 +34,7 @@ export function useRound(initial: Round | null, onOver: (r: Round) => void, onAn
   const answerRef = useRef(onAnswer);
   answerRef.current = onAnswer;
   const revealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const revealCap = useRef<ReturnType<typeof setTimeout> | null>(null);
   const revealHolds = useRef(0);
   const revealTimeUp = useRef(false);
 
@@ -61,11 +64,15 @@ export function useRound(initial: Round | null, onOver: (r: Round) => void, onAn
     return () => clearInterval(id);
   }, [phase, held, paused, finish]);
 
-  useEffect(() => () => { if (revealTimer.current) clearTimeout(revealTimer.current); }, []);
+  useEffect(() => () => {
+    if (revealTimer.current) clearTimeout(revealTimer.current);
+    if (revealCap.current) clearTimeout(revealCap.current);
+  }, []);
 
   const endReveal = useCallback(() => {
     if (revealTimer.current) clearTimeout(revealTimer.current);
-    revealTimer.current = null;
+    if (revealCap.current) clearTimeout(revealCap.current);
+    revealTimer.current = revealCap.current = null;
     revealHolds.current = 0;
     revealTimeUp.current = false;
     setReveal(null);
@@ -99,6 +106,9 @@ export function useRound(initial: Round | null, onOver: (r: Round) => void, onAn
         revealTimeUp.current = true;
         if (!revealHolds.current) endReveal();
       }, REVEAL_MS);
+      // A hold that is never released (the host's lines lost somewhere) must not stop the round.
+      if (revealCap.current) clearTimeout(revealCap.current);
+      revealCap.current = setTimeout(endReveal, REVEAL_MAX_MS);
     } else if (next.done) {
       finish(next);
     }

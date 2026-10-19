@@ -26,6 +26,8 @@ const STATUS_TEXT = { correct: 'doğru', wrong: 'yanlış', passed: 'pas', pendi
 // The question block has a fixed height per mode, so neither its text nor the
 // ring size can push the other around.
 const QUESTION_H = { full: 144, compact: 96 };
+// The big letter in front of the clue (Barlow Condensed, as the design's 120 px "İ").
+const LETTER_SIZE = { full: 92, compact: 64 };
 const GAP = 6;
 const RING_MAX = 400;
 const RING_MIN = 160;
@@ -39,6 +41,16 @@ function stageLayout(w: number, h: number) {
   const questionH = compact ? QUESTION_H.compact : QUESTION_H.full;
   const size = Math.max(RING_MIN, Math.min(w - GAP, h - questionH - 2 * GAP, RING_MAX));
   return { compact, questionH, size };
+}
+
+// The big letter in front of the clue.
+function letterStyle(compact: boolean) {
+  const size = LETTER_SIZE[compact ? 'compact' : 'full'];
+  return {
+    fontFamily: F.display, fontSize: size, lineHeight: size,
+    color: C.text, textShadowColor: 'rgba(120,160,255,0.8)', textShadowRadius: 18,
+    minWidth: Math.round(size * 0.55), textAlign: 'center' as const,
+  };
 }
 
 function kindOf(l: RoundLetter, active: boolean): BubbleKind {
@@ -120,8 +132,9 @@ export function GameView({ game, voice, player }: { game: ReturnType<typeof useR
   const { round, phase, reveal } = game;
   const r = round!;
   const { width } = useWindowDimensions();
-  // h is the smallest stage seen (the keyboard up): the ring and the camera
-  // keep one size whether the keyboard is up or down. 0 = not measured yet.
+  // The stage as last measured: the keyboard going up shrinks it, going down
+  // gives the whole height back, so the ring, the camera square and the
+  // question block return to the keyboard-down layout. 0 = not measured yet.
   const [stage, setStage] = useState({ w: width, h: 0 });
   const [text, setText] = useState('');
   const input = useRef<ComponentRef<typeof TextInput>>(null);
@@ -129,22 +142,21 @@ export function GameView({ game, voice, player }: { game: ReturnType<typeof useR
   const now = current(r);
   const shown = reveal?.letter ?? now;
   const live = phase === 'playing';
+  // With the host reading, the clue and the active letter wait for the moment its reading starts.
+  const clueShown = voice.clueShown(game.asked);
 
   // Clock ticks keep the same letters array, so the ring is not rebuilt on a tick.
   const items: RingItem[] = useMemo(() => r.letters.map((l, i) => {
-    const kind = kindOf(l, live && i === r.idx);
+    const kind = kindOf(l, live && clueShown && i === r.idx);
     const label = kind === 'active' ? 'sırada' : STATUS_TEXT[kind as keyof typeof STATUS_TEXT];
     return { label: l.letter, kind, testID: `letter-${l.letter}`, accessibilityLabel: `${l.letter} harfi, ${label}` };
-  }), [r.letters, r.idx, live]);
+  }), [r.letters, r.idx, live, clueShown]);
 
   const stageH = stage.h || 520;
   const { compact, questionH, size } = stageLayout(stage.w, stageH);
   const onStage = (e: LayoutChangeEvent) => {
     const { width: w, height: h } = e.nativeEvent.layout;
-    setStage((s) => {
-      if (s.w !== w) return { w, h };
-      return s.h && s.h <= h ? s : { w, h };
-    });
+    setStage((s) => (s.w === w && s.h === h ? s : { w, h }));
   };
 
   const send = () => {
@@ -162,7 +174,7 @@ export function GameView({ game, voice, player }: { game: ReturnType<typeof useR
 
   return (
     <Screen light="game" bottomInset={false}>
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <KeyboardAvoidingView testID="game-keyboard" style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         {/* A tap anywhere off the answer field and the buttons puts the keyboard away. */}
         <Pressable testID="game-body" accessible={false} onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: 6 }}>
@@ -203,13 +215,33 @@ export function GameView({ game, voice, player }: { game: ReturnType<typeof useR
                 Doğru cevap: <Text style={{ fontFamily: F.bodyBold, color: C.greenSoft }}>{shown.question.answers[0]}</Text>
               </Text>
             </Pressable>
+          ) : !clueShown ? (
+            <View testID="clue-waiting" style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-start', gap: compact ? 12 : 16 }}>
+              {/* The big letter's place, empty until the host starts reading the clue. */}
+              <Text style={[letterStyle(compact), { color: C.dim, textShadowRadius: 0 }]}>?</Text>
+              <View style={{ flex: 1, gap: compact ? 4 : 8 }}>
+                <Text style={{ fontFamily: F.bodySemi, fontSize: compact ? 19 : 23, lineHeight: compact ? 24 : 29, color: C.dim }}>
+                  {game.asked === 0 ? 'Hazır olun…' : 'Sıradaki soru geliyor…'}
+                </Text>
+              </View>
+            </View>
           ) : (
-            <>
-              <Text testID="prompt" style={{ fontFamily: F.bodyBold, fontSize: 12, letterSpacing: 1.9, color: C.accentSoft }}>{promptLine(now)}</Text>
-              <Text testID="clue" numberOfLines={compact ? 3 : 4} style={{ fontFamily: F.bodySemi, fontSize: compact ? 19 : 23, lineHeight: compact ? 24 : 29, color: C.text }}>
-                {now.question.clue}
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-start', gap: compact ? 12 : 16 }}>
+              {/* The letter the answer starts with, large in front of the clue, as in the design. */}
+              <Text
+                testID="clue-letter"
+                accessibilityLabel={`${now.letter} harfi`}
+                style={letterStyle(compact)}
+              >
+                {now.letter}
               </Text>
-            </>
+              <View style={{ flex: 1, gap: compact ? 4 : 8 }}>
+                <Text testID="prompt" style={{ fontFamily: F.bodyBold, fontSize: 12, letterSpacing: 1.9, color: C.accentSoft }}>{promptLine(now)}</Text>
+                <Text testID="clue" numberOfLines={compact ? 3 : 4} style={{ fontFamily: F.bodySemi, fontSize: compact ? 19 : 23, lineHeight: compact ? 24 : 29, color: C.text }}>
+                  {now.question.clue}
+                </Text>
+              </View>
+            </View>
           )}
         </View>
         </View>
