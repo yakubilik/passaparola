@@ -19,6 +19,7 @@ import { MicCheck } from '../ui/MicCheck';
 import { Ring, type RingItem } from '../ui/Ring';
 import { Screen } from '../ui/Screen';
 import { C, F, type BubbleKind } from '../ui/theme';
+import { selfTestOn, useSelfTestRound } from '../voice/selfTest';
 import { useVoiceEffects, useVoiceRound } from '../voice/useVoiceRound';
 
 const STATUS_TEXT = { correct: 'doğru', wrong: 'yanlış', passed: 'pas', pending: 'bekliyor', active: 'sırada' };
@@ -79,7 +80,7 @@ export default function Game() {
 }
 
 function GameRound({ voice }: { voice: boolean }) {
-  const params = useLocalSearchParams<{ cats?: string; level?: string; quick?: string; seed?: string }>();
+  const params = useLocalSearchParams<{ cats?: string; level?: string; quick?: string; seed?: string; selftest?: string }>();
   const level = Number(params.level) || 1;
   const quick = params.quick === '1';
   const cats = parseCats(params.cats);
@@ -106,6 +107,7 @@ function GameRound({ voice }: { voice: boolean }) {
 
   const game = useRound(initial, onOver, v.onAnswer);
   useVoiceEffects(v, game);
+  useSelfTestRound(params.selftest === '1' && selfTestOn(), game, v);
 
   if (!initial || locked) {
     return (

@@ -10,11 +10,13 @@ import { ProgressProvider } from '../store/ProgressContext';
 import { SettingsProvider, useSettings } from '../store/SettingsContext';
 import { C } from '../ui/theme';
 import { sounds } from '../voice/engine';
+import { useSelfTestLaunch } from '../voice/selfTest';
 import { setMasterVolume } from '../voice/sounds';
 
 // The Müzik and Ses choices from Ayarlar, applied wherever the game plays.
 function MusicSetting() {
-  const { settings } = useSettings();
+  const { settings, ready, update } = useSettings();
+  useSelfTestLaunch(ready, update);  // only when launched with -harfiyenSelfTest 1
   useEffect(() => { sounds.setMusic(settings.music, settings.musicLevel); }, [settings.music, settings.musicLevel]);
   useEffect(() => { setMasterVolume(settings.volume); }, [settings.volume]);
   return null;

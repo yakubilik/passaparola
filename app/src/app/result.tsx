@@ -11,11 +11,13 @@ import { Ring } from '../ui/Ring';
 import { Screen } from '../ui/Screen';
 import { C, F, type BubbleKind } from '../ui/theme';
 import { roundAudio } from '../voice/roundAudio';
+import { useSelfTestResult } from '../voice/selfTest';
 
 // Round end: the ring as it finished, the score, what unlocked, the answers missed.
 export default function RoundEnd() {
   const res = lastResult();
   const { width } = useWindowDimensions();
+  useSelfTestResult(res?.level ?? 0);
   if (!res) return <Redirect href="/menu" />;
   const { round, level, quick, passed, unlockedNext, catsParam } = res;
   const c = counts(round);

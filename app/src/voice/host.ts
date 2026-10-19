@@ -40,6 +40,11 @@ export class Host {
     this.player = null;
   }
 
+  /** The clip player's volume and whether it plays, for the self-test log. */
+  playerState(): { name: string; volume: number; playing: boolean } | null {
+    return this.player ? { name: 'host', volume: this.player.volume, playing: this.player.playing } : null;
+  }
+
   hasClip(key: string): boolean {
     return key in this.clips;
   }

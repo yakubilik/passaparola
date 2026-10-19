@@ -249,6 +249,11 @@ export class Sounds {
     }
   }
 
+  /** Each player's volume and whether it plays, for the self-test log. */
+  playerStates(): { name: string; volume: number; playing: boolean }[] {
+    return Object.entries(this.players).map(([name, p]) => ({ name, volume: p?.volume ?? 0, playing: !!p?.playing }));
+  }
+
   /** A cue (or the theme) is sounding; the bed does not count. */
   get cuePlaying(): boolean {
     return Object.entries(this.players).some(([name, p]) => name !== 'bg' && !!p?.playing);

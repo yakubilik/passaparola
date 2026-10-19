@@ -8,6 +8,7 @@ import { audioSettled, host, listener, prepareAudio, settleAudio, sounds } from 
 import { answerLine, clueLine, host as hostLine, type HostKey, type Line } from './lines';
 import { contextFor, type Heard, type MicState, type Pace } from './listener';
 import { noteRoundAudio } from './roundAudio';
+import { logAudio, selfTestOn } from './selfTest';
 import { CUE_LEAD_MS } from './sounds';
 
 type Game = ReturnType<typeof useRound>;
@@ -149,7 +150,10 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     // The round's audio as its mic came up, for SES OTURUMU (one line per round).
     const settled = () => {
       if (!live()) return;
-      if (voice) noteRoundAudio();
+      if (voice) {
+        const r = noteRoundAudio();
+        if (selfTestOn()) logAudio('round-start', r.round);
+      }
       sounds.startBg();
     };
     // A match's next turn: the mic is open, the session long set.
