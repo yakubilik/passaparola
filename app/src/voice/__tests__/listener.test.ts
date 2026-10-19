@@ -1,7 +1,7 @@
 import { judgeSpoken, spokenPace } from '../../game/normalize';
 import { FakeRecognizer } from '../../test-utils/fakeRecognizer';
 import {
-  AnswerListener, contextFor, ECHO_TAIL_MS, LATE_MS, LIMIT_SEEN_MS, PARTIAL_MS, QUIET_MS, QUIET_POLL_MS, REQUEST_MAX_MS, REQUEST_REFRESH_MS, SETTLE_MS, type Recognizer,
+  AnswerListener, contextFor, ECHO_TAIL_MS, LIMIT_SEEN_MS, PARTIAL_MS, QUIET_MS, QUIET_POLL_MS, REQUEST_MAX_MS, REQUEST_REFRESH_MS, SETTLE_MS, type Recognizer,
 } from '../listener';
 
 // The listener on a recognizer that behaves like iOS: one result that keeps
@@ -60,14 +60,11 @@ test('the same words again do not restart the wait', () => {
   expect(heard).toEqual([['ankara']]);
 });
 
-// After a verdict the same result's late words are part of it for LATE_MS
-// (#358): the next answer is said after that, as in a round, where the next
-// clue is read first.
 test('words already handled are cut off the growing result', () => {
   fake.hear('ankara');
-  wait(SETTLE_MS + LATE_MS);
+  wait(SETTLE_MS + 10);
   fake.hear('cevap izmir');
-  wait(SETTLE_MS + LATE_MS);
+  wait(SETTLE_MS + 10);
   fake.hear('pas');
   wait(SETTLE_MS + 10);
   expect(fake.transcript).toBe('ankara cevap izmir pas');
@@ -106,7 +103,7 @@ test('a near echo is dropped, but "hazırım" is not swallowed by "Hazır mısı
 });
 
 test("pas, geç and bilmiyorum pass; 'cevap Ankara' matches", () => {
-  const said = (w: string) => { fake.hear(w); wait(SETTLE_MS + LATE_MS); return heard[heard.length - 1]; };
+  const said = (w: string) => { fake.hear(w); wait(SETTLE_MS + 10); return heard[heard.length - 1]; };
   expect(judgeSpoken(said('pas'), ['Ankara'])).toBe('pass');
   expect(judgeSpoken(said('geç'), ['Ankara'])).toBe('pass');
   expect(judgeSpoken(said('bilmiyorum'), ['Ankara'])).toBe('pass');
@@ -160,12 +157,12 @@ test('a word a slip away from what the host says is the host too', () => {
 test('an answer says whether it was heard while the host talked or just after', () => {
   l.hostSpeaking(['Başkenti olan şehir.']);
   fake.hear('izmir');
-  wait(SETTLE_MS + LATE_MS);
+  wait(SETTLE_MS + 10);
   l.hostDone();
   wait(ECHO_TAIL_MS - 500);
   fake.hear('bursa');
   wait(SETTLE_MS + 10);
-  wait(LATE_MS);
+  wait(ECHO_TAIL_MS);
   fake.hear('ankara');
   wait(SETTLE_MS + 10);
   expect(heard).toEqual([['izmir'], ['bursa'], ['ankara']]);
@@ -183,10 +180,10 @@ describe('judged at once', () => {
   test('a right answer and a Pas do not wait; a wrong one waits SETTLE_MS', () => {
     fake.hear('jimnastik');
     expect(heard).toEqual([['jimnastik']]);
-    wait(LATE_MS + 10);
+    wait(SETTLE_MS + 10);
     fake.hear('pas');
     expect(heard).toEqual([['jimnastik'], ['pas']]);
-    wait(LATE_MS + 10);
+    wait(SETTLE_MS + 10);
     fake.hear('izmir');
     expect(heard.length).toBe(2);
     wait(SETTLE_MS);
@@ -248,7 +245,7 @@ describe('short answers (Ay, Su, Un, Ok)', () => {
     l.listen((alts) => heard.push(alts), pace(['Ay']));
     fake.hear('ay');
     expect(heard).toEqual([['ay']]);
-    wait(LATE_MS + 10);
+    wait(SETTLE_MS + 10);
     l.listen((alts) => heard.push(alts), pace(['Su']));
     l.hostSpeaking(['İçmeden yaşanmaz... Se ile başlıyor.']);
     fake.hear('su');
@@ -260,7 +257,6 @@ describe('short answers (Ay, Su, Un, Ok)', () => {
     fake.hear('izmir');
     wait(SETTLE_MS + 10);  // judged (wrong) and handled
     expect(heard).toEqual([['izmir']]);
-    wait(LATE_MS);
     l.listen((alts) => heard.push(alts), pace(['Un']));
     fake.rewrite('izmirun');  // "un" said, no new word: the last one grew
     expect(heard).toEqual([['izmir'], ['izmirun', 'un', 'run']]);

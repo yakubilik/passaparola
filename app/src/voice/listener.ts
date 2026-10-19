@@ -25,10 +25,12 @@ import { fold, isPassWord, norm } from '../game/normalize';
 // answer or a Pas does not wait at all (the round tells, see `Pace`), and the
 // start of a longer answer ("Reşat" of Reşat Nuri Güntekin) waits PARTIAL_MS.
 // After a verdict the same result goes on growing and being revised ("Sezen"
-// → "Sezen Aksu" → a final "Sezen Aksu", its guesses not all the same length):
-// whatever it adds for LATE_MS after the verdict (longer while it keeps
-// changing), and its final whenever it comes, belong to the judged answer and
-// are dropped (#358). So is anything heard before the next clue starts
+// → "Sezen Aksu" → a final "Sezen Aksu", its guesses not all the same length).
+// For LATE_MS after the verdict, words that carry on without a pause of
+// SETTLE_MS, or that are already in the judged guesses ("aksu" of "sezen
+// aksu"), belong to the judged answer and are dropped; so is its final,
+// whenever it comes (#358). Words after a pause are a new utterance: the next
+// answer. Anything heard before the next clue starts is dropped too
 // (clueStarts): only what is said after it is an answer to it.
 // Words the host is saying (and for ECHO_TAIL_MS after) are the game's own
 // voice heard by the mic and are dropped, except a pass word the host is not
@@ -135,6 +137,8 @@ export class AnswerListener {
   private swallowUntil = 0;   // the rest of an utterance already judged (LATE_MS)
   private tailOpen = false;   // an utterance was judged and its final has not come yet
   private seenCount = 0;      // words in the current result as last heard
+  private judged: string[] = [];  // the guesses of the last verdict, folded
+  private wordsAt = 0;        // when the player's words last changed
   private renewing = false;   // the request was dropped on purpose; the next starts on its 'end'
   private closing = false;    // stop() came while something played: the request is aborted at the next silence
   private closeTimer: ReturnType<typeof setTimeout> | null = null;
@@ -449,19 +453,23 @@ export class AnswerListener {
     const rewritten = this.rewritten(words(e.results[0]?.transcript ?? ''), skip);
     this.prevWords = e.isFinal ? [] : words(e.results[0]?.transcript ?? '');
     this.seenCount = e.isFinal ? 0 : count;
+    const pause = this.now() - this.wordsAt >= SETTLE_MS;
+    if (alts.length) this.wordsAt = this.now();
     // The judged utterance growing or being revised after its verdict ("Sezen
     // Aksu" after "Sezen", "pas geçiyorum" after "pas"), or its final: already
-    // handled, whatever the word count of each guess. It goes on while new
-    // words keep coming; a final ends it.
-    if (!this.lastAlts && (this.now() < this.swallowUntil || (e.isFinal && this.tailOpen))) {
+    // handled, whatever the word count of each guess. A final ends it.
+    const window = this.now() < this.swallowUntil;
+    const late = window && alts.length > 0 && (!pause || this.revises(alts[0]));
+    if (!this.lastAlts && (late || (e.isFinal && this.tailOpen))) {
       this.used = e.isFinal ? 0 : Math.max(skip, count);
       if (e.isFinal) {
         this.swallowUntil = 0;
         this.tailOpen = false;
-      } else if (alts.length) this.swallowUntil = Math.max(this.swallowUntil, this.now() + SETTLE_MS);
+      }
       return;
     }
-    if (!alts.length && rewritten.length && !this.lastAlts && this.pace?.(rewritten) === 'now') {
+    if (!alts.length && rewritten.length && !this.lastAlts && (pause || !window) && this.pace?.(rewritten) === 'now') {
+      this.wordsAt = this.now();
       this.lastAlts = rewritten;
       this.lastCount = count;
       this.lastDuringHost = this.echoActive;
@@ -469,8 +477,9 @@ export class AnswerListener {
       return;
     }
     if (!alts.length) {
-      // Only the game's own voice so far: mark it handled so it never prefixes an answer.
-      if (!this.lastAlts && this.echoActive) this.used = Math.max(skip, count);
+      // Only the game's own voice so far, or the judged words again: mark it
+      // handled so it never prefixes an answer.
+      if (!this.lastAlts && (this.echoActive || window)) this.used = Math.max(skip, count);
       if (e.isFinal) this.used = 0;
       return;
     }
@@ -489,6 +498,12 @@ export class AnswerListener {
     if (e.isFinal) this.deliver(true);
     else if (pace === 'now') this.deliver(false);
     else this.settleTimer = setTimeout(() => this.deliver(false), pace === 'partial' ? PARTIAL_MS : SETTLE_MS);
+  }
+
+  // Heard words that are already in the judged guesses, however iOS split them.
+  private revises(alt: string): boolean {
+    const f = fold(alt);
+    return !!f && this.judged.some((j) => j.includes(f));
   }
 
   // iOS re-splits words it already gave ("ankara" → "an kara"): the handled
@@ -539,6 +554,7 @@ export class AnswerListener {
     this.used = final ? 0 : Math.max(this.used, this.lastCount);
     this.swallowUntil = final ? 0 : this.now() + LATE_MS;
     this.tailOpen = !final;
+    this.judged = alts.map(fold);
     this.handler?.(alts, { alts, duringHost });
   }
 

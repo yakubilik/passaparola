@@ -130,28 +130,43 @@ describe('a two-word answer does not leak into the next question (#358)', () => 
     expect(judged.map((j) => [j.id, j.verdict])).toEqual([[sezen, 'correct'], [next, 'correct']]);
   });
 
-  test('a wrong answer: its late growth is not judged again on the next question', () => {
+  test('a wrong answer: its late revision and its final are not judged again on the next question', () => {
     round(sezen, next);
-    interim('ajda');
+    interim('ajda', 'ajda pekkan');
     wait(SETTLE_MS + 10);
-    expect(judged).toEqual([{ id: sezen, text: 'ajda', verdict: 'wrong' }]);
-    wait(300);
-    interim('ajda pekkan');  // iOS adds the rest of the same utterance late
+    expect(judged.map((j) => [j.id, j.text, j.verdict])).toEqual([[sezen, 'ajda', 'wrong']]);
+    wait(250);
+    nextClue();
+    wait(500);
+    interim('ajda pekkan');  // the best guess catches up with the other one
     wait(SETTLE_MS * 3);
     expect(judged.slice(1)).toEqual([]);
-    nextClue();
+    wait(1500);
+    final('ajda pekkan', 'ajda pek kan');
+    wait(SETTLE_MS * 3);
+    expect(judged.slice(1)).toEqual([]);
     l.hostDone();
     wait(1000);
-    interim('ajda pekkan sinema');
-    wait(SETTLE_MS + 10);
+    interim('sinema');
     expect(judged.map((j) => [j.id, j.text, j.verdict])).toEqual([[sezen, 'ajda', 'wrong'], [next, 'sinema', 'correct']]);
+  });
+
+  test('a new word after a pause is the next answer, even within LATE_MS of the verdict', () => {
+    round(sezen, next);
+    interim('pas');
+    expect(judged.map((j) => j.verdict)).toEqual(['pass']);
+    wait(250);
+    nextClue();
+    wait(SETTLE_MS + 50);
+    interim('pas sinema');
+    expect(judged.map((j) => [j.id, j.text, j.verdict])).toEqual([[sezen, 'pas', 'pass'], [next, 'sinema', 'correct']]);
   });
 
   test("a Pas: 'pas geçiyorum' and its revisions are one Pas", () => {
     round(sezen, next);
     interim('pas');
     expect(judged.map((j) => j.verdict)).toEqual(['pass']);
-    wait(900);
+    wait(400);
     interim('pas geçiyorum');
     wait(400);
     final('pas geçiyorum', 'pas geç iyorum');
