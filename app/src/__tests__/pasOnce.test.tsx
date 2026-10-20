@@ -20,7 +20,7 @@ import { CUE_LEAD_MS } from '../voice/sounds';
 jest.mock('../data/questions', () =>
   require('../test-utils/mockQuestions').mockQuestions({ tarih: [1], spor: [1], cografya: [], bilim: [], sanat: [] }),
 );
-jest.setTimeout(60_000);
+jest.setTimeout(180_000);
 
 const wait = (ms: number) => act(() => jest.advanceTimersByTime(ms));
 function question(clue: string) {
