@@ -24,3 +24,8 @@ the ring.
 dashed circle; design 1b) and the placeholder in the square.
 
     maestro --device <simulator> test e2e/ring-light.yaml
+
+`flat-discs.yaml` shows a round with correct, wrong, passed, active and
+pending letters as flat discs over that light (#389).
+
+    maestro --device <simulator> test e2e/flat-discs.yaml

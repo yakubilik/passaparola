@@ -34,15 +34,14 @@ export function spotlight(strength: 'game' | 'menu' | 'intro' = 'game'): string 
 
 export type BubbleKind = 'pending' | 'correct' | 'wrong' | 'passed' | 'active' | 'locked' | 'soon';
 
-// Letter (and level) bubble colours: background, ink, glow.
-export const BUBBLE: Record<BubbleKind, { bg: string; fg: string; glow: string }> = {
-  pending: { bg: '#3a5ef0', fg: '#ffffff', glow: '0 2px 8px rgba(20,40,160,0.5)' },
-  correct: { bg: C.green, fg: '#ffffff', glow: '0 0 14px rgba(34,180,94,0.45)' },
-  passed: { bg: C.yellow, fg: C.yellowInk, glow: '0 0 14px rgba(242,189,44,0.45)' },
-  wrong: { bg: C.red, fg: '#ffffff', glow: '0 0 14px rgba(229,72,77,0.45)' },
-  active: { bg: '#ffffff', fg: C.bg, glow: '0 0 0 4px rgba(255,255,255,0.25), 0 0 26px rgba(160,190,255,0.95)' },
-  locked: { bg: '#1d2546', fg: '#8d96bb', glow: '0 0 0 0 transparent' },
-  soon: { bg: '#141a33', fg: '#5c6587', glow: '0 0 0 0 transparent' },
+// Letter (and level) bubble colours: background and ink. Discs are flat: no
+// gradient, no glow.
+export const BUBBLE: Record<BubbleKind, { bg: string; fg: string }> = {
+  pending: { bg: '#3a5ef0', fg: '#ffffff' },
+  correct: { bg: C.green, fg: '#ffffff' },
+  passed: { bg: C.yellow, fg: C.yellowInk },
+  wrong: { bg: C.red, fg: '#ffffff' },
+  active: { bg: '#ffffff', fg: C.bg },
+  locked: { bg: '#1d2546', fg: '#8d96bb' },
+  soon: { bg: '#141a33', fg: '#5c6587' },
 };
-
-export const PENDING_GRADIENT = 'linear-gradient(180deg, #4f78ff, #2643d1)';
