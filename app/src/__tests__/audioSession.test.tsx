@@ -79,7 +79,7 @@ test('launch, menu, Ayarlar, categories and the level map: no sound and no audio
   expect(host.speaking).toBe(true);
   expect(host.volume).toBeCloseTo(HOST_VOLUME * DEFAULT_GAIN);
   await fireEvent.press(screen.getByLabelText('Pas'));
-  const pas = (sounds as any).players.pas;
+  const pas = sounds.player('pas')!;
   expect(pas.playing).toBe(true);
   expect(pas.volume).toBeCloseTo(CUE_VOLUME * DEFAULT_GAIN);
   await wait(3000);

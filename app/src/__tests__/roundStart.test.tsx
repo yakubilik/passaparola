@@ -66,7 +66,7 @@ test('the first host line of a round plays only after the session is set and the
   expect(timeOf(`play#${hostIndex}`) - timeOf('rec:up')).toBeGreaterThanOrEqual(SESSION_SETTLE_MS);
   // No sound at all is playing while the recognizer's audio engine comes up.
   expect(audio.log.slice(at('rec:start'), at('rec:up')).filter((l) => l.e.startsWith('play#'))).toEqual([]);
-  expect(audio.players.filter((p, i) => p.playing && i !== hostIndex && p !== (sounds as any).players.bg)).toEqual([]);
+  expect(audio.players.filter((p, i) => p.playing && i !== hostIndex && p !== (sounds.player('bg') as unknown))).toEqual([]);
 
   // The line fades in to the host's level under the Ses gain.
   const go = audio.players[hostIndex];

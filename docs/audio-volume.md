@@ -165,6 +165,12 @@ had (voice processing on/off, ducking, rebuild count).
   round start are removed only after a newer player has started, so expo-audio
   always has a player keeping the session active. The session set up by the
   first round stays configured and active for the life of the app.
+- Cues (#415): every `Sounds.play()` makes a player of its own, plays it at
+  once (no `seekTo` rewind of a player that has played) and removes it when it
+  reports `didJustFinish` or is stopped. While the bed's player or another cue
+  still keeps the session active it is removed at once; otherwise it is
+  retired like the rest, so this never takes away the last keeper either
+  (`src/voice/__tests__/freshPlayers.test.ts`).
 
 ## Diagnostic: one line per round
 

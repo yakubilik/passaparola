@@ -108,7 +108,7 @@ test('ten questions: every verdict plays exactly one cue, at full level and from
     await act(() => rec.hear(verdict === 'correct' ? q.answers[0] : verdict === 'pas' ? 'pas' : 'bambaşka'));
     await wait(SETTLE_MS + 20);
     // The cue is sounding now, the recognizer left alone.
-    const cuePlayer = (sounds as any).players[verdict];
+    const cuePlayer = sounds.player(verdict)!;
     expect(cuePlayer.playing).toBe(true);
     await wait(verdict === 'wrong' ? REVEAL_MS + 3000 : 1500);
     expect(sounds.played.slice(played).filter((c) => CUES.has(c))).toEqual([verdict]);
@@ -146,7 +146,7 @@ test("iOS ends the request on its own while a cue plays: the new one starts only
   await wait(3000);  // well past the opening, so this 'end' is the request's own
   const q = question(clueText());
   await act(() => rec.hear(q.answers[0]));
-  expect((sounds as any).players.correct.playing).toBe(true);
+  expect(sounds.player('correct')!.playing).toBe(true);
   // The request ends (the server's minute, an interruption) right then.
   await act(async () => { rec.running = false; rec.emit('end'); });
   await wait(400);
