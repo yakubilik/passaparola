@@ -56,6 +56,52 @@ ran with `SKIP_BUNDLING` set), so the bundle was embedded afterwards:
     npx expo export:embed --platform ios --dev false --entry-file node_modules/expo-router/entry.js \
       --bundle-output <Harfiyen.app>/main.jsbundle --assets-dest <Harfiyen.app>
 
+## A clue with its recording, silent (20 Oct 2026, #394)
+
+On the build installed 20 Oct 10:33 (all 3397 clips, `sanat-2-C-2.mp3`
+identical to the repo) the C clue sanat-2-C-2 ("Otuz Beş Yaş şiirinin şairi")
+was not read at all; the answer line after it ("Cahit Sıtkı Tarancı olacaktı")
+was. #362's fix covered only the phone voice (`tts()`); the clip path had no
+check that a clip really sounded. `app/src/voice/host.ts` on main (fa30073):
+
+- line 164: `this.player.replace(clip)` — one AVQueuePlayer for every host
+  line, its item swapped. expo-audio's `replaceCurrentSource`
+  (`AudioPlayer.swift`) pauses the player, which is sitting paused at the end
+  of the last item (the clip before just reported `didJustFinish`), and puts a
+  new AVPlayerItem in; that item is not `readyToPlay` yet.
+- lines 169-170: `seekTo(0)` (an AsyncFunction, run later on another queue) and
+  `play()` (`playImmediately`) are sent at once to that item.
+- lines 172-173: the line counts as said, and the clue is shown, as soon as
+  `play()` was called, whether or not anything sounded.
+- line 175 and 186-188: the only check is `end(!p.isLoaded)` after 4 s, which
+  `watchLength` replaces as soon as `isLoaded && duration > 0` with an
+  `end(false)` at the clip's length + 1.5 s. A clip that loaded but never
+  started (isLoaded true, no sound, no end) therefore ended silently on that
+  timer, never fell back to the phone voice, and the round went on: the clock
+  started and the next line (the answer, after a wrong) played on the next
+  `replace()`.
+
+Not reproduced on a device here (no native run in this ticket), so which of the
+two native steps swallowed the play is not proven; what is proven is that main
+had no path out of "loaded, never sounding" except silence. Fixed at that
+point, `host.ts` `playClip`:
+
+- every clip gets a player of its own (`createAudioPlayer`); the one before is
+  retired and removed once the new one has started, so the session always keeps
+  a player that holds it active (#361, `retire()` in `sounds.ts`);
+- `watchStart`: a clip that is neither playing nor moving `CLIP_START_MS`
+  (1 s) after `play()` is tried once more on a new player, and after
+  `CLIP_ATTEMPTS` (2) read by the phone voice. Each miss is in
+  `host.clipFailures`.
+
+`src/__tests__/regressions/audio.test.tsx` ("#362 (20 Oct, sanat-2-C-2)")
+plays three rounds with that clue: round 1 with every play after a
+`replace()` swallowed by the fake player (`audio.stalls.afterReplace`), round 2
+with the C clip's first play swallowed, round 3 with two in a row. On main the
+B and C clues are silent in round 1 and the test fails; with the fix every clue
+sounds, from its clip or the phone voice, before the wrong answer and its
+answer line.
+
 ## Clues still without a recording
 
 Each also lacks its `-cevap` answer clip; both are read by the phone voice:
