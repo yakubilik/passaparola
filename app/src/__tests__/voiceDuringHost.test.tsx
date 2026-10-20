@@ -10,6 +10,7 @@ import { pressStart } from '../test-utils/round';
 import { host, listener, sounds } from '../voice/engine';
 import { clueLine, type Line } from '../voice/lines';
 import { SETTLE_MS, ECHO_TAIL_MS } from '../voice/listener';
+import { HELD_POLL_MS } from '../voice/useVoiceRound';
 import { CUE_LEAD_MS, CUE_VOLUME, DEFAULT_GAIN } from '../voice/sounds';
 
 /** A cue at its full level: CUE_VOLUME under the default Ses gain. */
@@ -84,7 +85,7 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-test('"Merkür" said over the Mars clue waits for the host; said after it, it is judged wrong once with its cue; the host\'s words never are', async () => {
+test('"Merkür" said over the Mars clue is judged wrong once, the moment the host is quiet, with its cue; the host\'s words never are', async () => {
   echoHostIntoMic();
   await renderRouter('./src/app', { initialUrl: '/game?cats=bilim&level=1&seed=3' });
   await pressStart();
@@ -106,16 +107,21 @@ test('"Merkür" said over the Mars clue waits for the host; said after it, it is
   expect(screen.getByLabelText('M harfi, sırada')).toBeOnTheScreen();
   expect(screen.getByLabelText('0 yanlış')).toBeOnTheScreen();
 
-  // "Merkür" while the host is still reading Mars: shown at once, but with voice processing off the
-  // mic also hears the loudspeaker, so no 'wrong' is judged while the host talks (19 Oct 2026).
+  // "Merkür" while the host is still reading Mars: shown at once and, with voice processing off
+  // (the mic hears the loudspeaker too, 19 Oct 2026), held while the host talks (judgeHeard)...
   expect(host.speaking).toBe(true);
   await act(() => rec.hear('Merkür'));
   expect(screen.getByTestId('voice-status')).toHaveTextContent('Duydum: Merkür…');
   await wait(SETTLE_MS + 20);
   expect(screen.getByLabelText('M harfi, sırada')).toBeOnTheScreen();
   expect(screen.getByLabelText('0 yanlış')).toBeOnTheScreen();
-  // A wrong answer said once the host is quiet: judged.
-  for (let i = 0; i < 40 && host.speaking; i++) await wait(250);
+  expect(screen.getByTestId('voice-status')).toHaveTextContent('Duydum: Merkür…');
+  // ...and judged wrong the moment the host is quiet (#342), not lost.
+  for (let i = 0; i < 400 && host.speaking; i++) await wait(25);
+  expect(host.speaking).toBe(false);
+  await wait(HELD_POLL_MS + 10);
+  expect(screen.getByLabelText('M harfi, yanlış')).toBeOnTheScreen();
+  // Said again (he did, on the phone): the reveal is up, nothing more is judged.
   await wait(ECHO_TAIL_MS + 100);
   await act(() => rec.hear('Merkür Venüs'));
   await wait(SETTLE_MS + 20);
