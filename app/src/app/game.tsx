@@ -252,7 +252,10 @@ export function GameView({ game, voice, player, speechState = false }: { game: R
         </View>
         </View>
 
-        {voice.voice && live && (
+        {/* With the voice on the status row is always there, before Başla and through a
+            wrong answer's reveal too: a row coming and going would resize the stage, and
+            with it the ring and the camera square (#329). */}
+        {voice.voice && (
           <View testID="voice-status" style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 24, paddingTop: 8 }}>
             <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: voice.reading ? C.accentSoft : voice.mic === 'listening' ? C.greenSoft : C.redSoft }} />
             <Text numberOfLines={1} style={{ flex: 1, fontFamily: F.bodySemi, fontSize: 14, color: C.dim }}>
