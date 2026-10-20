@@ -211,6 +211,32 @@ export function judgeSpoken(alts: readonly string[], answers: readonly string[])
   return 'wrong';
 }
 
+/** What the listener knows about heard words: see Heard in voice/listener.ts. */
+export type HeardHow = { duringHost: boolean; hostLike?: boolean; hostNear?: boolean };
+
+/**
+ * The verdict on spoken words, or none. With iOS voice processing off (19 Oct
+ * 2026) the mic hears the loudspeaker, so words heard while the host talks (or
+ * just after) may be the host's, misheard so the echo filter kept them:
+ * - words like the host's (hostLike) are no verdict at all;
+ * - a right answer or a Pas is judged at once;
+ * - a wrong answer is 'hold': judged once the host is quiet (#342, "Merkür"
+ *   said over the Mars clue), but only when it looks like the player's attempt
+ *   at this letter: one to three words, the first starting with the letter
+ *   (every answer does, #339), none of them a slip away from a host word
+ *   (hostNear). Anything else heard over the host is dropped.
+ */
+export function judgeHeard(alts: readonly string[], answers: readonly string[], letter: string, how: HeardHow): Verdict | 'hold' | null {
+  const verdict = judgeSpoken(alts, answers);
+  if (!how.duringHost) return verdict;
+  if (verdict === 'pass') return verdict;
+  if (how.hostLike) return null;
+  if (verdict === 'correct') return verdict;
+  const first = norm(alts[0] ?? '').split(' ').filter(Boolean);
+  const attempt = first.length >= 1 && first.length <= 3 && first[0].length >= 2 && fold(first[0])[0] === fold(letter)[0];
+  return attempt && !how.hostNear ? 'hold' : null;
+}
+
 /**
  * How soon heard words can be judged. 'now': a right answer or a Pas, no need
  * to wait (unless the Pas could still grow into the answer, "pas" → "Pasifik").
