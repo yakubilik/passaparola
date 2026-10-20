@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 
-import { judgeSpoken, spokenPace, type Verdict } from '../game/normalize';
+import { judgeHeard, spokenPace, type Verdict } from '../game/normalize';
 import { current, type Round } from '../game/round';
 import type { Answered, useRound } from '../game/useRound';
 import { audioSettled, host, listener, prepareAudio, settleAudio, sounds } from './engine';
@@ -31,6 +31,8 @@ const CORRECT: HostKey[] = ['correct1', 'correct2', 'correct3'];
 /** The last spoken answer and how it was judged, shown under the answer field for a moment. */
 export type Judged = { text: string; verdict: Verdict };
 const JUDGED_MS = 3000;
+/** A wrong answer heard over the host is judged this soon after the host stops (#342: within 300 ms). */
+export const HELD_POLL_MS = 100;
 
 export type VoiceOptions = { open?: boolean; theme?: boolean; keepMic?: boolean; missEndsTurn?: boolean; rng?: () => number };
 
@@ -57,6 +59,12 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
   const missed = useRef(false);  // a wrong answer ended this match turn: no next clue
   const lastSec = useRef(Infinity);
   const readGen = useRef(0);  // a newer read() (or none at all) drops a line still waiting for settleAudio
+  // A wrong answer heard over the host, judged once the host is quiet (judgeHeard's 'hold').
+  const held = useRef<{ text: string; asked: number; timer: ReturnType<typeof setInterval> } | null>(null);
+  const dropHeld = useCallback(() => {
+    if (held.current) clearInterval(held.current.timer);
+    held.current = null;
+  }, []);
 
   const stopReading = useCallback(() => {
     if (!readingRef.current) return;
@@ -94,10 +102,17 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
       if (answerTimer.current) clearTimeout(answerTimer.current);
       if (speakTimer.current) clearTimeout(speakTimer.current);
       if (judgedTimer.current) clearTimeout(judgedTimer.current);
+      if (held.current) clearInterval(held.current.timer);
       if (!keepMicRef.current) listener.stop();
       sounds.stopBg();
       if (!ended.current) host.cancel();
     };
+  }, []);
+
+  const verdictShown = useCallback((text: string, verdict: Verdict) => {
+    if (judgedTimer.current) clearTimeout(judgedTimer.current);
+    setJudged({ text, verdict });
+    judgedTimer.current = setTimeout(() => setJudged(null), JUDGED_MS);
   }, []);
 
   const onHeard = useCallback((alts: string[], heard?: Heard) => {
@@ -107,21 +122,37 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     // The self-test answers by itself; what the mic hears there (on the simulator,
     // the Mac's own speakers) is not judged, the mic stays open all the same.
     if (selfTestOn()) return;
-    const verdict = judgeSpoken(alts, current(r).question.answers);
-    // Words heard while the host talks (or just after) may be the host itself:
-    // a wrong answer is dropped only when its words are the host's, or close to
-    // them. Anything else is the player's and is judged at once, reading or not.
-    const hostTime = readingRef.current || host.speaking || listener.hostRecent || !!heard?.duringHost;
+    const q = current(r).question;
+    // With iOS voice processing off (19 Oct 2026) the mic hears the loudspeaker:
+    // words heard while the host talks (or just after) may be the host itself,
+    // misheard so the listener's echo filter kept them. judgeHeard decides.
+    const duringHost = readingRef.current || host.speaking || listener.hostRecent || !!heard?.duringHost;
+    const verdict = judgeHeard(alts, q.answers, q.letter, { duringHost, hostLike: heard?.hostLike, hostNear: heard?.hostNear });
+    dropHeld();
+    if (verdict === null) {
+      setHeard('');
+      return;
+    }
+    if (verdict === 'hold') {
+      // Shown as heard ("Duydum: Merkür…") and judged the moment the host is quiet.
+      const asked = g.asked;
+      const text = alts[0];
+      const timer = setInterval(() => {
+        const cur = game.current;
+        if (!cur || cur.phase !== 'playing' || cur.asked !== asked || away.current) return dropHeld();
+        if (host.speaking) return;
+        dropHeld();
+        setHeard('');
+        cur.judge('wrong', text);
+        verdictShown(text, 'wrong');
+      }, HELD_POLL_MS);
+      held.current = { text, asked, timer };
+      return;
+    }
     setHeard('');
-    // With iOS voice processing off (19 Oct 2026) the mic hears the loudspeaker; recognised
-    // host speech rarely matches the clue text closely enough for hostLike, so while the host
-    // talks (and just after) a 'wrong' is never judged: only a right answer or Pas counts then.
-    if (verdict === 'wrong' && (host.speaking || listener.hostRecent)) return;
     g.judge(verdict, alts[0]);
-    if (judgedTimer.current) clearTimeout(judgedTimer.current);
-    setJudged({ text: alts[0], verdict });
-    judgedTimer.current = setTimeout(() => setJudged(null), JUDGED_MS);
-  }, []);
+    verdictShown(alts[0], verdict);
+  }, [dropHeld, verdictShown]);
 
   // Words being heard: shown at once, and the last verdict gives way to them.
   const onInterim = useCallback((text: string) => {

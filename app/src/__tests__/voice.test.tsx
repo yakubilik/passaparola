@@ -257,7 +257,8 @@ test("the host's own voice in the mic never gives a wrong answer; echo cancellat
   expect(screen.getByLabelText('A harfi, sırada')).toBeOnTheScreen();
   expect(screen.getByLabelText('0 yanlış')).toBeOnTheScreen();
 
-  // Words that are not the host's are the player's.
+  // Words that are not the host's, said once the room is quiet, are the player's.
+  await wait(ECHO_TAIL_MS);
   await say('bambaşka');
   expect(screen.getByLabelText('A harfi, yanlış')).toBeOnTheScreen();
   expect(screen.getByLabelText('1 yanlış')).toBeOnTheScreen();
@@ -513,6 +514,14 @@ test('"pas" passes at once while the host is reading', async () => {
   expect(screen.getByLabelText('B harfi, pas')).toBeOnTheScreen();
   await wait(SETTLE_MS + 50);
   expect(host.speaking).toBe(true);
+  // "bas" alone is how iOS often writes a short "pas", but while the host reads it is
+  // also the start of the "... ile başlıyor" every clue ends with (#391): the host's.
+  await act(() => rec.hear('bas'));
+  await wait(SETTLE_MS + 50);
+  expect(screen.getByLabelText('C harfi, sırada')).toBeOnTheScreen();
+  // Once the host is quiet it is a Pas again.
+  for (let i = 0; i < 40 && host.speaking; i++) await wait(250);
+  await wait(ECHO_TAIL_MS + 100);
   await act(() => rec.hear('bas'));
   expect(screen.getByLabelText('C harfi, pas')).toBeOnTheScreen();
   expect(screen.getByLabelText('3 pas')).toBeOnTheScreen();
