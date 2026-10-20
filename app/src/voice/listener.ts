@@ -334,6 +334,9 @@ export class AnswerListener {
     const f = fold(w);
     // A pass word is the player's unless the host says it, or a word it is the start or end of.
     if (isPassWord(f)) return this.echo.some((e) => e.startsWith(f) || e.endsWith(f) || (PAS_SOUNDS.includes(f) && PAS_SOUNDS.includes(e)));
+    // A piece of a longer host word: iOS split it ("kırmızı" → "kır mızı"). Left in,
+    // the pieces would also read as the player still talking (the #358 tail rule).
+    if (f.length >= 3 && this.echo.some((e) => e.length > f.length && e.includes(f))) return true;
     // "Hazır mısınız?" must not swallow the player's "hazırım", so only a slip counts as near:
     // one letter in a word of four or more, two in a long word.
     return this.echo.some((e) => e === f
