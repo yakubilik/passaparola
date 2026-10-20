@@ -1,0 +1,44 @@
+# #389: the round's letters as flat discs (no gradient, no glow) over the
+# ring light, on a simulator with the camera off: a seeded round with one
+# correct, one wrong and one passed letter, then the level map.
+appId: com.skolalabs.harfiyen
+---
+- launchApp
+- tapOn:
+    text: "Vazgeç"
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: "intro-start"
+    timeout: 300000
+- tapOn:
+    id: "intro-start"
+- extendedWaitUntil:
+    visible: ".*Hızlı oyun.*"
+    timeout: 20000
+- openLink: "harfiyen://game?cats=tarih&level=1&seed=7"
+- tapOn:
+    text: "Aç"
+    optional: true
+# A fresh install asks for the mic check first: play typed.
+- tapOn:
+    text: "Sesi kapat, yazarak oyna"
+    optional: true
+- extendedWaitUntil:
+    visible: ".*Hazır mısın.*"
+    timeout: 20000
+- tapOn: "^Başla$"
+- inputText: "Ataturk"
+- pressKey: Enter
+- inputText: "Kale"
+- pressKey: Enter
+- tapOn:
+    id: "reveal"
+    optional: true
+- tapOn:
+    id: "pass"
+- assertVisible:
+    id: "ring-dash"
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: game-flat-discs

@@ -76,7 +76,7 @@ function sizes() {
     area: area.height,
     question: question.height,
     questionMin: question.minHeight,
-    active: [a.width, a.height, a.boxShadow],
+    active: [a.width, a.height, a.backgroundColor, a.borderColor],
   };
 }
 
@@ -106,11 +106,11 @@ test.each([
   expect(mockBubbleRenders).toBe(renders);
 });
 
-test('the active letter moving on keeps the ring and the question block the same size, and keeps its glow', async () => {
+test('the active letter moving on keeps the ring and the question block the same size, and stays a white disc with a dark rim', async () => {
   await startGame();
   await layoutStage(KEYBOARD_UP);
   const before = sizes();
-  expect(before.active[2]).toContain('rgba(160,190,255,0.95)');
+  expect(before.active.slice(2)).toEqual(['#ffffff', '#0a0d1f']);
 
   for (let i = 0; i < 5; i++) {
     await fireEvent(screen.getByTestId('answer'), 'changeText', answerFor(clueText()));
@@ -252,7 +252,7 @@ test('keyboard show -> hide: the keyboard height is dropped on hide and the meas
   expect({ ...sizes(), active: null }).toEqual({ ...down, active: null });
 });
 
-test('the letters are drawn over the camera square, each with a dark halo', async () => {
+test('the letters are drawn over the camera square as flat discs, without a shadow', async () => {
   await startGame();
   await layoutStage(KEYBOARD_UP);
   const ring = screen.getByTestId('ring');
@@ -263,8 +263,9 @@ test('the letters are drawn over the camera square, each with a dark halo', asyn
   expect(over.map((c) => (typeof c === 'string' ? c : c.props.testID))).toContain('letter-A');
   expect(over).toHaveLength(screen.getAllByLabelText(/ harfi, /).length);
   for (const l of ['A', 'B', 'Z']) {
-    const shadow = StyleSheet.flatten(screen.getByTestId(`letter-${l}`).props.style).boxShadow as string;
-    expect(shadow).toContain('rgba(0,0,0,0.6)');
+    const st = StyleSheet.flatten(screen.getByTestId(`letter-${l}`).props.style);
+    expect(st.boxShadow).toBeUndefined();
+    expect(st.backgroundImage).toBeUndefined();
   }
   // Letters along the bottom sit over the lower part of the square (the shoulders).
   const size = sizes().ring[0] as number;

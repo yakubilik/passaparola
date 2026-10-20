@@ -367,7 +367,7 @@ const bubbleFor = (size: number) => Math.round(size * 0.079);
 const Board = memo(function Board({ items, size }: { items: RingItem[]; size: number }) {
   const bubble = bubbleFor(size);
   return (
-    <Ring testID="ring" items={items} size={size} bubble={bubble} halo>
+    <Ring testID="ring" items={items} size={size} bubble={bubble}>
       <Face size={size} />
       <RingGlow size={size} radius={ringRadius(size, bubble)} />
     </Ring>
