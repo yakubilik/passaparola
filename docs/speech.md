@@ -146,11 +146,26 @@ settle and into the utterance's final), like the host's words (`hostLike`:
 mostly near host words, joined they are in the host's text, or a single
 word that is the start of one), or with a word a slip away from or a piece
 of a host word (`hostNear`). Over the host: a Pas counts, a right answer
-counts unless `hostLike`, a wrong answer is held and judged the moment the
-host stops (#342), but only for one to three words starting with the
-question's letter and none of them `hostNear`; anything else is dropped. In
-the listener a pass word that starts or ends a host word is echo, and so is
-any piece (three letters or more) of a longer host word.
+word for word counts unless the host is saying those very words (`hostSays`:
+the host's words from the start of one, in a row, "zagor" of "Za-Gor-Te-Nay"
+or "ay" of "aydınlık"), a right answer a slip away counts unless `hostLike`,
+a wrong answer is held and judged the moment the host stops (#342), but only
+for one to three words starting with the question's letter and none of them
+`hostNear`; anything else is dropped. In the listener a pass word that starts
+or ends a host word is echo, and so is any piece (three letters or more) of a
+longer host word, except the words of a right answer to the clue being asked
+the host is not saying itself; the start of a longer answer ("harf" of Harf
+Devrimi) is not marked handled, so the answer is whole when the rest comes.
+
+**#405: a right answer over the host was dropped again.** Until then the
+echo rules ran before the answer: "Aşk-ı Memnu" said over its own clue
+("...yasak aşkını anlatan romanı") reached the round as "ı memnu" ("aşk" is a
+piece of "aşkını", `isEcho`), "Anı" not at all ("anı" of "tanık"), and
+"Dörtlük" over "dört dizeden" was `hostLike` and dropped by `judgeHeard`.
+The #342 audio test caught it in the rounds that draw Aşk-ı Memnu.
+`regressions/voice.test.tsx` now says the right answer over the reading of
+every clue of every level, alone and after half the clue in the mic: all are
+judged correct except Zagor, whose clue says "Za-Gor".
 
 **Checked by** `app/src/__tests__/regressions/voiceEcho.test.ts`: every
 HOST_LINES entry (with every question's answers), every "-cevap" line (with

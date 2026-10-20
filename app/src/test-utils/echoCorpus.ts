@@ -72,8 +72,8 @@ export function hearHost(line: string, heard: string[], when: 'during' | 'after'
   const l = new AnswerListener(rec);
   let speaking = false;
   l.listen((alts, h) => {
-    out.push({ alts, how: { duringHost: speaking || l.hostRecent || h.duringHost, hostLike: h.hostLike, hostNear: h.hostNear } });
-  }, (alts) => spokenPace(alts, answers));
+    out.push({ alts, how: { duringHost: speaking || l.hostRecent || h.duringHost, hostLike: h.hostLike, hostNear: h.hostNear, hostWords: h.hostWords } });
+  }, (alts) => spokenPace(alts, answers), undefined, () => answers);
   l.clueStarts();
   l.hostSpeaking([line]);
   speaking = true;

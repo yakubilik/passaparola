@@ -437,12 +437,10 @@ test('#337/#342: the host volume is never lowered by anything else (cues, the be
 
 test('#342: sometimes there is no correct/wrong sound', async () => {
   await openRound();
-  // A right answer said over the host may be taken for the host's own words
-  // (judgeHeard, #393), so the right answer comes after the reading; the Pas is
-  // said over the host, which always counts.
-  const rounds = await playRounds(['correct', 'pas-during', 'wrong', 'pas']);
+  const rounds = await playRounds(['correct-during', 'pas-during', 'wrong', 'pas']);
   for (const r of rounds) {
     // Said while the host read: judged, and its cue at the full cue level (never ducked under the host).
+    expect(r.steps[0].hostSpeaking).toBe(true);
     expect(r.steps[1].hostSpeaking).toBe(true);
     const want = ['correct', 'pas', 'wrong', 'pas'];
     // Exactly one cue per verdict, at full level, from its start (a replayed 'pas' is rewound first).
