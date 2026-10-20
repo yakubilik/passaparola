@@ -97,7 +97,6 @@ export function regain(p: AudioPlayer | null | undefined, volume: number) {
 
 /** The host starts a line this long after an answer's cue, so the two never overlap. */
 export const CUE_LEAD_MS = 250;
-const SEEK_MAX_MS = 150;
 
 // keepAudioSessionActive: expo-audio otherwise deactivates the iOS audio
 // session ~100 ms after any clip ends or pauses while no other player is
@@ -131,13 +130,19 @@ export function retiredCount(): number {
   return retired.length;
 }
 
+// Every cue gets a player of its own, made for it and removed when it reports
+// its end or is stopped. A player is never rewound and replayed: on the device
+// a seekTo(0) on a player that has played sometimes never completes, and the
+// play() after it is then lost (the same failure as replace() in host.ts).
+type Live = { cue: Cue; player: AudioPlayer; sub: { remove(): void } | null };
+
 export class Sounds {
-  private players: Partial<Record<keyof typeof FILES, AudioPlayer>> = {};
+  private bg: AudioPlayer | null = null;
+  private live = new Set<Live>();
   private bgOn = false;
   private ducked = false;
   private musicOn = true;
   private level = DEFAULT_MUSIC_LEVEL;
-  private gen = 0;  // stopAll() bumps it: a cue still waiting for its seek stays quiet
   /** Every cue played, for tests and logs. */
   readonly played: string[] = [];
   /** Every cue as it really started: its volume and whether from its beginning. */
@@ -145,54 +150,67 @@ export class Sounds {
 
   constructor() {
     onGainChange(() => {
-      for (const [name, p] of Object.entries(this.players)) {
-        if (name === 'bg') { if (p) p.volume = this.bedVolume; }
-        else regain(p, CUE_VOLUME);
-      }
+      if (this.bg) this.bg.volume = this.bedVolume;
+      for (const l of this.live) regain(l.player, CUE_VOLUME);
     });
   }
 
   /**
    * Players made before the round's audio session settled are let go (those
-   * still sounding are kept): the next cue gets a player made on the session
-   * as it now is. Called by settleAudio (engine.ts).
+   * still sounding are kept): the next sound gets a player made on the
+   * session as it now is. Called by settleAudio (engine.ts).
    */
   renew() {
-    for (const [name, p] of Object.entries(this.players) as [keyof typeof FILES, AudioPlayer][]) {
-      if (p.playing) continue;
-      retire(p);
-      delete this.players[name];
+    if (this.bg && !this.bg.playing) {
+      retire(this.bg);
+      this.bg = null;
     }
+    for (const l of [...this.live]) if (!l.player.playing) this.end(l);
   }
 
-  private get(name: keyof typeof FILES): AudioPlayer | null {
-    try {
-      return (this.players[name] ??= createAudioPlayer(FILES[name], PLAYER_OPTIONS));
-    } catch {
-      return null;
+  // A cue's player is done (it ended or was stopped). It is removed at once
+  // while another player here still keeps the audio session active (the bed,
+  // another cue); otherwise it is retired, i.e. removed once a newer player
+  // has started, so expo-audio is never left without one (see retire).
+  private end(l: Live) {
+    if (!this.live.delete(l)) return;
+    l.sub?.remove();
+    try { l.player.pause(); } catch { /* not loaded */ }
+    if (this.bg || this.live.size) {
+      try { l.player.remove(); } catch { /* gone */ }
+    } else {
+      retire(l.player);
     }
   }
 
   // Always at CUE_VOLUME, whoever is speaking (the host waits for the cue
-  // instead, see CUE_LEAD_MS). A replayed cue is rewound first and only then
-  // started: on iOS a play() racing the seek can be skipped.
-  play(cue: Cue) {
-    const p = this.get(cue);
+  // instead, see CUE_LEAD_MS), on a new player started at once. `loop`: it
+  // plays over and over until stop() (or stopAll/hushCues).
+  play(cue: Cue, loop = false) {
     this.played.push(cue);
-    if (!p) return;
-    const gen = this.gen;
-    const start = () => {
-      if (gen !== this.gen) return;
-      const fromStart = !p.currentTime;
-      this.started.push({ cue, volume: startAt(p, CUE_VOLUME), fromStart });
-      p.play();
-      startedPlaying();
-    };
-    if (!p.currentTime) { start(); return; }
-    let go = true;
-    const once = () => { if (go) { go = false; start(); } };
-    p.seekTo(0).then(once, once);
-    setTimeout(once, SEEK_MAX_MS);  // a seek that never answers must not swallow the cue
+    let p: AudioPlayer;
+    try {
+      p = createAudioPlayer(FILES[cue], PLAYER_OPTIONS);
+    } catch {
+      return;
+    }
+    const l: Live = { cue, player: p, sub: null };
+    this.live.add(l);
+    p.loop = loop;
+    if (!loop) l.sub = p.addListener('playbackStatusUpdate', (st) => { if (st.didJustFinish) this.end(l); });
+    this.started.push({ cue, volume: startAt(p, CUE_VOLUME), fromStart: !p.currentTime });
+    p.play();
+    startedPlaying();
+  }
+
+  /** A cue (a looping one included) stops now and its players go. */
+  stop(cue: Cue) {
+    for (const l of [...this.live]) if (l.cue === cue) this.end(l);
+  }
+
+  /** Players of cues not yet ended or stopped, for tests. */
+  get livePlayers(): AudioPlayer[] {
+    return [...this.live].map((l) => l.player);
   }
 
   // The round wants the bed; it plays only with the music on in Ayarlar.
@@ -200,8 +218,14 @@ export class Sounds {
     const was = this.bgOn;
     this.bgOn = true;
     if (!this.musicOn) return;
-    const p = this.get('bg');
-    if (!p) return;
+    let p = this.bg;
+    if (!p) {
+      try {
+        p = this.bg = createAudioPlayer(FILES.bg, PLAYER_OPTIONS);
+      } catch {
+        return;
+      }
+    }
     if (!was) this.played.push('bg');
     p.loop = true;
     p.volume = this.bedVolume;
@@ -211,38 +235,31 @@ export class Sounds {
 
   stopBg() {
     this.bgOn = false;
-    try { this.players.bg?.pause(); } catch { /* not loaded */ }
+    try { this.bg?.pause(); } catch { /* not loaded */ }
   }
 
   // Silence: the bed and any cue still sounding (the app went to the background).
   stopAll() {
-    this.gen++;
     this.stopBg();
-    for (const p of Object.values(this.players)) {
-      try { p?.pause(); } catch { /* not loaded */ }
-    }
+    for (const l of [...this.live]) this.end(l);
   }
 
   // A cue (the theme) still sounding stops: the mic is about to start and
   // nothing may play across that (see settleAudio in engine.ts).
   hushCues() {
-    for (const [name, p] of Object.entries(this.players)) {
-      if (name === 'bg' || !p?.playing) continue;
-      try { p.pause(); } catch { /* not loaded */ }
-    }
+    for (const l of [...this.live]) if (l.player.playing) this.end(l);
   }
 
   // From Ayarlar: the bed on or off and how loud (1 to MUSIC_LEVELS).
   setMusic(on: boolean, level: number) {
     this.level = level;
     if (on === this.musicOn) {
-      const p = this.players.bg;
-      if (p) p.volume = this.bedVolume;
+      if (this.bg) this.bg.volume = this.bedVolume;
       return;
     }
     this.musicOn = on;
     if (!on) {
-      try { this.players.bg?.pause(); } catch { /* not loaded */ }
+      try { this.bg?.pause(); } catch { /* not loaded */ }
     } else if (this.bgOn) {
       this.bgOn = false;
       this.startBg();
@@ -251,12 +268,14 @@ export class Sounds {
 
   /** Each player's volume and whether it plays, for the self-test log. */
   playerStates(): { name: string; volume: number; playing: boolean }[] {
-    return Object.entries(this.players).map(([name, p]) => ({ name, volume: p?.volume ?? 0, playing: !!p?.playing }));
+    const all = [...(this.bg ? [{ name: 'bg', p: this.bg }] : []), ...[...this.live].map((l) => ({ name: l.cue, p: l.player }))];
+    return all.map(({ name, p }) => ({ name, volume: p.volume, playing: p.playing }));
   }
 
-  /** A cue (or the theme) is sounding; the bed does not count. */
+  /** A cue (or the theme) is sounding; the bed does not count. The mic listener's busy check. */
   get cuePlaying(): boolean {
-    return Object.entries(this.players).some(([name, p]) => name !== 'bg' && !!p?.playing);
+    for (const l of this.live) if (l.player.playing) return true;
+    return false;
   }
 
   get bgPlaying() {
@@ -264,7 +283,7 @@ export class Sounds {
   }
 
   get bgVolume() {
-    return this.bgPlaying ? this.players.bg?.volume ?? 0 : 0;
+    return this.bgPlaying ? this.bg?.volume ?? 0 : 0;
   }
 
   private get bedVolume() {
@@ -274,7 +293,6 @@ export class Sounds {
   // While the host speaks the bed is lowered; the cues stay at CUE_VOLUME.
   duck(on: boolean) {
     this.ducked = on;
-    const p = this.players.bg;
-    if (p) p.volume = this.bedVolume;
+    if (this.bg) this.bg.volume = this.bedVolume;
   }
 }
