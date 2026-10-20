@@ -8,7 +8,11 @@ type Status = { didJustFinish: boolean };
 export class FakePlayer {
   playing = false;
   loop = false;
-  volume = 1;
+  private vol = 1;
+  /** Every volume set on the player, in order. */
+  readonly volumes: number[] = [];
+  get volume() { return this.vol; }
+  set volume(v: number) { this.vol = v; this.volumes.push(v); }
   isLoaded = true;
   duration = CLIP_MS / 1000;
   currentTime = 0;
@@ -17,9 +21,22 @@ export class FakePlayer {
   constructor(public source: unknown, public options: Record<string, unknown> = {}) {}
   play() {
     audio.plays++;
+    // A play() iOS swallows (see audio.stalls): loaded, never playing, never ending.
+    const afterReplace = this.replaced;
+    this.replaced = false;
+    const bySource = audio.stalls.sources?.get(this.source) ?? 0;
+    if ((afterReplace && audio.stalls.afterReplace > 0) || audio.stalls.any > 0 || bySource > 0) {
+      if (afterReplace && audio.stalls.afterReplace > 0) audio.stalls.afterReplace--;
+      else if (bySource > 0) audio.stalls.sources!.set(this.source, bySource - 1);
+      else audio.stalls.any--;
+      audio.stalled.push(this.source);
+      audio.log.push({ e: `stalled#${audio.players.indexOf(this)}`, t: Date.now() });
+      return;
+    }
     if (this.options.keepAudioSessionActive) audio.keepers.add(this);
-    audio.log.push({ e: `play#${audio.players.indexOf(this)}`, t: Date.now() });
+    audio.log.push({ e: `play#${audio.players.indexOf(this)}`, t: Date.now(), src: this.source, v: this.volume });
     this.playing = true;
+    audio.sounded.push(this.source);
     if (this.timer) clearTimeout(this.timer);
     if (!this.loop) {
       this.timer = setTimeout(() => {
@@ -34,7 +51,9 @@ export class FakePlayer {
     if (this.timer) clearTimeout(this.timer);
     if (!this.options.keepAudioSessionActive) deactivateLater();
   }
+  private replaced = false;
   replace(source: unknown) {
+    this.replaced = true;
     this.pause();
     this.source = source;
     this.currentTime = 0;
@@ -84,14 +103,27 @@ export const audio = {
   active: false,
   /** How many times any sound was started. */
   plays: 0,
+  /**
+   * play() calls iOS takes and never sounds (20 Oct 2026, a clue clip present
+   * in the build and silent): the item is loaded (isLoaded true), the player
+   * never plays and never reports an end. `afterReplace`: the next plays of a
+   * player reused with replace(); `any`: the next plays of any player;
+   * `sources`: the next plays of the given source, so many times each.
+   */
+  stalls: { afterReplace: 0, any: 0 } as { afterReplace: number; any: number; sources?: Map<unknown, number> },
+  /** The sources of the plays that were swallowed (see stalls). */
+  stalled: [] as unknown[],
+  /** The source of every play() that really started sounding, in order. */
+  sounded: [] as unknown[],
   /** Every change made to the iOS audio session, in order. */
   sessionCalls: [] as string[],
   /**
    * The order things happened in, with Date.now(): 'mode', 'active',
    * 'create#<player index>', 'play#<player index>', and from the recognizer
    * 'category', 'rec:start' (start() called) and 'rec:up' (its 'start' event).
+   * A play carries the source it played and the player's volume at that moment.
    */
-  log: [] as { e: string; t: number }[],
+  log: [] as { e: string; t: number; src?: unknown; v?: number }[],
 };
 
 export const mockAudio = {

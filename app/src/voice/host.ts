@@ -9,6 +9,13 @@ import { HOST_VOLUME, masterGain, onGainChange, PLAYER_OPTIONS, regain, retire, 
 export const TTS_START_MS = 1500;
 /** Times a line is asked of the phone voice before the host gives up on it. */
 export const TTS_ATTEMPTS = 3;
+/** How long a clip may take to start sounding after play() before it is tried again (20 Oct 2026). */
+export const CLIP_START_MS = 1000;
+const START_POLL_MS = 100;
+/** Players a clip is tried on before the phone voice reads the line instead. */
+export const CLIP_ATTEMPTS = 2;
+/** The longest a started clip that never reports its end or its length may hold the game. */
+const CLIP_MAX_MS = 15_000;
 
 /**
  * What the phone voice did with a line (#362), for the self-test log, the
@@ -46,6 +53,8 @@ export class Host {
   readonly speechLog: SpeechEvent[] = [];
   /** Called with every new SpeechEvent. */
   onSpeech: (e: SpeechEvent) => void = () => {};
+  /** Clips that did not start sounding in time, for tests and logs (see playClip). */
+  readonly clipFailures: { key?: string; attempt: number }[] = [];
   private ttsLive = false;  // one of our utterances may be sounding: halt() must stop it
 
   constructor(private clips: Record<string, number> = CLIPS) {
@@ -148,7 +157,16 @@ export class Host {
     }
   }
 
-  private playClip(my: number, line: Line, clip: number, next: () => void, begin: () => void) {
+  // Every clip gets a player of its own. A player reused with replace() could
+  // load the new clip (isLoaded true) and never sound it (20 Oct 2026,
+  // sanat-2-C-2: the clip was in the build, the clue was silent and the
+  // answer line after it played): replace() swaps the AVPlayerItem of a player
+  // just paused at its last item's end, and the seek and play() sent right
+  // after it reach an item that is not ready yet. The old player is removed
+  // once the new one has started (retire). A clip that has not started
+  // sounding CLIP_START_MS after play() is tried once more on a new player and
+  // then read by the phone voice: a line is never left silent.
+  private playClip(my: number, line: Line, clip: number, next: () => void, begin: () => void, attempt = 1) {
     let over = false;
     const end = (fallback: boolean) => {
       if (over || my !== this.token) return;
@@ -159,24 +177,48 @@ export class Host {
       if (fallback) this.tts(my, line, next, begin);
       else next();
     };
+    const gone = () => over || my !== this.token;
     try {
-      if (!this.player) this.player = createAudioPlayer(clip, PLAYER_OPTIONS);
-      else this.player.replace(clip);
-      const p = this.player;
+      const p = createAudioPlayer(clip, PLAYER_OPTIONS);
+      if (this.player) retire(this.player);
+      this.player = p;
       // Always HOST_VOLUME under the Ses gain: nothing else in the app may lower the host (the bed and cues sit under it).
       startAt(p, HOST_VOLUME);
       this.sub = p.addListener('playbackStatusUpdate', (s) => { if (s.didJustFinish) end(false); });
-      p.seekTo(0).catch(() => {});
       p.play();
       startedPlaying();
       this.said.push(`clip:${line.key}`);
       begin();
-      // A clip that never loads is read aloud instead; one that never reports its end must not hang the game.
-      this.safety = setTimeout(() => end(!p.isLoaded), 4000);
-      this.watchLength(p, () => over || my !== this.token, () => end(false));
+      // A clip that started but never reports its end (nor its length) must not hang the game.
+      this.safety = setTimeout(() => end(false), CLIP_MAX_MS);
+      this.watchStart(p, gone, () => {
+        if (gone()) return;
+        over = true;
+        if (this.safety) clearTimeout(this.safety);
+        this.sub?.remove();
+        this.sub = null;
+        try { p.pause(); } catch { /* not loaded */ }
+        this.clipFailures.push({ key: line.key, attempt });
+        if (attempt < CLIP_ATTEMPTS) this.playClip(my, line, clip, next, begin, attempt + 1);
+        else this.tts(my, line, next, begin);
+      });
+      this.watchLength(p, gone, () => end(false));
     } catch {
       end(true);
     }
+  }
+
+  // The clip has started when the player reports it playing or its position
+  // has moved; `failed` runs if neither happens within CLIP_START_MS.
+  private watchStart(p: AudioPlayer, gone: () => boolean, failed: () => void) {
+    const t0 = Date.now();
+    const poll = () => {
+      if (gone()) return;
+      if (p.playing || p.currentTime > 0) return;
+      if (Date.now() - t0 >= CLIP_START_MS) failed();
+      else setTimeout(poll, START_POLL_MS);
+    };
+    setTimeout(poll, START_POLL_MS);
   }
 
   // Once the clip's length is known, end it a little after that at the latest.
