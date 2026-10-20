@@ -12,8 +12,6 @@ type Props = {
   bubble: number;
   children?: ReactNode;
   testID?: string;
-  // Letters drawn over a picture (the game's camera square) get a dark halo.
-  halo?: boolean;
 };
 
 // Radius of the circle the letters' centres sit on.
@@ -23,7 +21,7 @@ export function ringRadius(size: number, bubble: number): number {
 
 // Letters on a circle, A at twelve o'clock, clockwise; children sit in the
 // middle, under the letters.
-export function Ring({ items, size, bubble, children, testID, halo }: Props) {
+export function Ring({ items, size, bubble, children, testID }: Props) {
   const r = ringRadius(size, bubble);
   const c = size / 2;
   return (
@@ -39,7 +37,6 @@ export function Ring({ items, size, bubble, children, testID, halo }: Props) {
             kind={it.kind}
             size={s}
             testID={it.testID}
-            halo={halo}
             accessibilityLabel={it.accessibilityLabel}
             style={{ position: 'absolute', left: c + r * Math.cos(a) - s / 2, top: c + r * Math.sin(a) - s / 2 }}
           />
