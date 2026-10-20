@@ -217,3 +217,17 @@ On the iPhone (after the delivery installed the build):
 
 On the simulator: `app/e2e/rounds.sh <Harfiyen.app> <udid> <out dir>` (inside the
 simulator lock) runs it with Maestro (`e2e/rounds.yaml`) and screenshots.
+
+# Every sound complaint, tested together (#394)
+
+`app/src/__tests__/regressions/audio.test.tsx` holds one test per sound or
+volume complaint from #318 to #362, titled with its ticket and Yakup's words,
+each over three rounds in a row (round, result screen, "Tekrar oyna") on the
+fake player and recognizer, all in one app life: launch blast (#350), phone
+volume ignored and the loud first line (#355), louder every question and lost
+cues (#357), broken from round 2 (#361), music too loud and the Müzik setting,
+quieter after question 1 and the host never lowered (#337), missing cues
+(#342), sound in the background (#318), silent clues without and with a
+recording (#362, 20 Oct). A change that brings one of them back fails there,
+whichever ticket made it. The silent clue with its recording present is in
+`docs/voice-fallback.md`.

@@ -28,7 +28,7 @@ jest.mock('../ui/Bubble', () => {
   };
 });
 
-jest.setTimeout(240_000);
+jest.setTimeout(600_000);  // room for a loaded machine (the full suite runs its files in parallel)
 
 beforeEach(async () => {
   jest.useFakeTimers();

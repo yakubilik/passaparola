@@ -1,7 +1,7 @@
 import { CATEGORIES } from '../../data/questions';
 import { audio, CLIP_MS, speech, ttsMs } from '../../test-utils/fakeAudio';
 import { CLIPS } from '../clips.generated';
-import { Host, TTS_ATTEMPTS, TTS_START_MS } from '../host';
+import { CLIP_ATTEMPTS, CLIP_START_MS, Host, TTS_ATTEMPTS, TTS_START_MS } from '../host';
 import { answerLine, clueLine, host as hostLine, HOST_LINES } from '../lines';
 
 // Node's fs and path, without Node's type definitions in the app.
@@ -16,6 +16,7 @@ beforeEach(() => {
   jest.useFakeTimers();
   speech.reset();
   audio.players.length = 0;
+  audio.stalls = { afterReplace: 0, any: 0 };
 });
 
 // The native speech events come a moment after the call (a microtask): let them through, then move the clock.
@@ -47,7 +48,8 @@ test('a line with a clip plays app/assets/voice/<key>.mp3, then calls done', () 
   expect(h.speaking).toBe(true);
   expect(audio.players[0].source).toBe(102);
   jest.advanceTimersByTime(CLIP_MS + 10);
-  expect(audio.players[0].source).toBe(101);
+  // A player of its own for every clip (no replace(), see Host.playClip).
+  expect(audio.players[1].source).toBe(101);
   expect(done).not.toHaveBeenCalled();
   jest.advanceTimersByTime(CLIP_MS + 10);
   expect(done).toHaveBeenCalledTimes(1);
@@ -67,14 +69,16 @@ test('a missing clip is read with expo-speech in tr-TR', async () => {
   expect(h.said).toEqual(['clip:wrong', 'tts:Bursa olacaktı.']);
 });
 
-test('a clip that never loads is read aloud instead', async () => {
+test('a clip that never starts sounding is tried once more on a new player, then read aloud instead', async () => {
   const h = new Host({ wrong: 102 });
   const done = jest.fn();
+  audio.stalls.any = CLIP_ATTEMPTS;
   h.speak([hostLine('wrong')], done);
-  const p = audio.players[0];
-  p.isLoaded = false;
-  p.pause(); // never reports an end
-  jest.advanceTimersByTime(4100);
+  jest.advanceTimersByTime(CLIP_START_MS + 150);
+  expect(audio.players).toHaveLength(2);
+  expect(speech.spoken).toEqual([]);
+  jest.advanceTimersByTime(CLIP_START_MS + 150);
+  expect(h.clipFailures).toEqual([{ key: 'wrong', attempt: 1 }, { key: 'wrong', attempt: 2 }]);
   expect(speech.spoken.map((s) => s.text)).toEqual(['Değil, olmadı.']);
   await advance(ttsMs('Değil, olmadı.') + 10);
   expect(done).toHaveBeenCalledTimes(1);

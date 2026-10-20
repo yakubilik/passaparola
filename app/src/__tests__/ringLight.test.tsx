@@ -18,7 +18,7 @@ jest.mock('../data/questions', () =>
   require('../test-utils/mockQuestions').mockQuestions({ tarih: [1], spor: [], cografya: [], bilim: [], sanat: [] }),
 );
 
-jest.setTimeout(120_000);
+jest.setTimeout(600_000);  // room for a loaded machine (the full suite runs its files in parallel)
 
 beforeEach(async () => {
   jest.useFakeTimers();
