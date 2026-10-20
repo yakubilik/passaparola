@@ -16,7 +16,7 @@ jest.mock('../data/questions', () =>
   require('../test-utils/mockQuestions').mockQuestions({ tarih: [1], spor: [1], cografya: [], bilim: [], sanat: [] }),
 );
 
-jest.setTimeout(120_000);
+jest.setTimeout(600_000);  // room for a loaded machine (the full suite runs its files in parallel)
 
 const wait = (ms: number) => act(async () => { jest.advanceTimersByTime(ms); });
 const themePlayer = () => audio.players.find((p) => p.source === require('../../assets/sounds/theme.mp3'));

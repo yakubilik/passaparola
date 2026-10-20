@@ -40,7 +40,7 @@ async function say(words: string) {
   await wait(SETTLE_MS + 20);
 }
 
-jest.setTimeout(180_000);
+jest.setTimeout(600_000);  // room for a loaded machine (the full suite runs its files in parallel)
 
 // AppState, driven by the tests: background / inactive / active.
 const appState = new Set<(s: AppStateStatus) => void>();

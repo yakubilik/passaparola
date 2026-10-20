@@ -20,7 +20,7 @@ jest.mock('../data/questions', () =>
   require('../test-utils/mockQuestions').mockQuestions({ tarih: [1], spor: [1], cografya: [], bilim: [], sanat: [] }),
 );
 
-jest.setTimeout(120_000);
+jest.setTimeout(600_000);  // room for a loaded machine (the full suite runs its files in parallel)
 
 function question(clue: string) {
   for (const c of CATEGORIES) for (const l of c.levels) for (const q of l.questions) if (q.clue === clue) return q;

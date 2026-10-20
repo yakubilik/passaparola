@@ -26,7 +26,7 @@ jest.mock('../voice/sessionInfo', () => ({
   },
 }));
 
-jest.setTimeout(300_000);
+jest.setTimeout(600_000);  // room for a loaded machine (the full suite runs its files in parallel)
 
 const wait = (ms: number) => act(() => jest.advanceTimersByTime(ms));
 

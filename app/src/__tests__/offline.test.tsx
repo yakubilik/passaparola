@@ -18,7 +18,7 @@ jest.mock('../data/questions', () =>
   require('../test-utils/mockQuestions').mockQuestions({ tarih: [1, 2], spor: [1], cografya: [], bilim: [], sanat: [] }),
 );
 
-jest.setTimeout(120_000);
+jest.setTimeout(600_000);  // room for a loaded machine (the full suite runs its files in parallel)
 
 // What would suggest an account or online play.
 const ACCOUNT = /apple|google|giriş|misafir|hesap|profil|oda|kodunu|günün turu|login|sign.?in/i;

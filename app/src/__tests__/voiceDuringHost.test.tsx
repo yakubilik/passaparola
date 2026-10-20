@@ -63,7 +63,7 @@ function cueStarts(cue: 'correct' | 'wrong' | 'pas') {
   return sounds.started.filter((s) => s.cue === cue);
 }
 
-jest.setTimeout(120_000);
+jest.setTimeout(600_000);  // room for a loaded machine (the full suite runs its files in parallel)
 
 beforeEach(async () => {
   jest.useFakeTimers();
