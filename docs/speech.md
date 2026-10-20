@@ -97,3 +97,94 @@ cue and the next clue. Unit tests in `src/voice/__tests__/listener.test.ts`
 
 The Ses tanıma testi screen still opens one request per word: it measures
 the recognizer, it is not the game.
+
+## The host's voice in the mic (tickets #391, #393)
+
+Reported on the phone with main fa30073 (20 Oct 2026), and many times
+before (#318, #337, #342, #362): the host's own speech, heard through the
+loudspeaker, is judged as the player's answer. Since voice processing was
+turned off (ea5bc9c, 19 Oct) the mic hears everything the phone plays, and
+only text filters keep the host out of the answers.
+
+**Root cause, on main fa30073.** Three holes, found by the echo corpus
+(below) run against main's rule:
+
+1. `app/src/voice/useVoiceRound.ts:119` (fa30073) dropped a `wrong` only
+   when `host.speaking || listener.hostRecent` held *when the answer was
+   delivered*. Host words heard during the reading or in the 800 ms tail
+   settle `SETTLE_MS` (or `PARTIAL_MS`) later, often after the tail: they
+   were judged wrong. `heard.duringHost`, which the listener sets for
+   exactly this, was computed (`hostTime`) and never used. A sample of the
+   corpus (every 40th question) gave 587 such wrong verdicts.
+2. `correct` and `pass` were never gated at all (same line). Host words iOS
+   splits are not caught by the echo filter: "Atatürk olacaktı" heard as
+   "ata türk olacaktı" is a right answer (60 in the sample).
+3. `app/src/voice/listener.ts:321` (fa30073) let every pass word through
+   unless the host said that exact word, so a piece of a host word is a Pas:
+   "bas" of "basket", "geç" of "geçildi", "gec" of "geceyi", and the "baş"
+   of the "... ile başlıyor" every clue ends with, when iOS writes it ahead
+   of the rest (8 in the sample).
+
+A fourth, found while fixing: host words heard while a player's answer was
+settling were not marked handled (`listener.ts:496` and `:563`), so the
+utterance's final replayed them after the tail as new words ("yen geç
+bulutsusu olacaktı" → a Pas).
+
+**Did #362 make it worse?** Not the verdicts above: none of the corpus
+hits came from #362's long-run rule in `saidPass` (a run of four or more
+words ending in "pas"); every Pas from host speech was a short "bas" or
+"geç" piece, through the pass-word exemption from #337. The carried final
+(b9870db) can deliver a right answer or a Pas from a final, ungated like the
+rest. What did get worse in the same days is #342: c41363d (19 Oct) drops
+every wrong answer said over the host, so "Merkür" said over the Mars clue
+was lost again, exactly the #342 complaint.
+
+**Fix.** `judgeHeard` in `app/src/game/normalize.ts` makes the verdict for
+the round, from what the listener tells it about the words (`Heard`):
+heard while the host talks or in the tail (`duringHost`, kept through the
+settle and into the utterance's final), like the host's words (`hostLike`:
+mostly near host words, joined they are in the host's text, or a single
+word that is the start of one), or with a word a slip away from or a piece
+of a host word (`hostNear`). Over the host: a Pas counts, a right answer
+counts unless `hostLike`, a wrong answer is held and judged the moment the
+host stops (#342), but only for one to three words starting with the
+question's letter and none of them `hostNear`; anything else is dropped. In
+the listener a pass word that starts or ends a host word is echo, and so is
+any piece (three letters or more) of a longer host word.
+
+**Checked by** `app/src/__tests__/regressions/voiceEcho.test.ts`: every
+HOST_LINES entry (with every question's answers), every "-cevap" line (with
+its own and the next question), every clue line whole and cut in half, and
+every word of every eighth clue of each level misheard (its first sound
+swapped for a near one) and split in two, each heard while the host speaks
+and inside the tail after it: no verdict. `regressions/voice.test.tsx`
+holds one test per voice complaint in #318-#391, all green together.
+
+**What text cannot do.** The filter only knows what the words are, not who
+said them. A host word iOS mishears into a player's word is the player's to
+any text rule: "baş" heard as "paş" is a Pas, an answer's slip in its
+"-cevap" line still sounds like the answer, a garbled host word that starts
+with the question's letter and is near no host word is held as a wrong
+answer. The corpus counts these and they stay few, but they are not zero,
+and they cannot be: making them zero would drop the player's own "pas" and
+"Merkür" said over the host, which #337, #342 and #362 require. A
+recognizer that gives the host's words more than the tail late (800 ms) is
+also out of the filter's reach. A "bas" said alone over the reading is now
+the host's (every clue ends in "başlıyor"); "pas" still passes.
+
+**Proposal (not implemented): voice processing back on, with another fix
+for the volume.** Echo cancellation removes the host from the mic before
+recognition, which no text rule can. It was turned off because, on the
+phone (docs/selftest/2026-10-19-1826-phone.json), with it on iOS put the
+session in `voiceChat`, raised `outputVolume` 0.55 → 1.0 step by step and
+rebuilt the recognizer's audio engine every second (7 engines in 5 s). Those
+are separate faults with their own fixes: set the session to
+`playAndRecord` / `videoChat` once, before the first sound of the app, so
+voice processing never switches the mode under a playing sound; patch
+expo-speech-recognition (app/patches) so one engine with voice processing
+lives for the whole round and a configuration change caused by voice
+processing itself does not rebuild it; keep the ducking off as e9eb352 did;
+then measure on the phone with the existing self-test (one engine per
+round, `outputVolume` steady) before relying on it. The text filters stay
+as the second line. This belongs to the harfiyen-audio lane (#394), which
+owns the audio session.

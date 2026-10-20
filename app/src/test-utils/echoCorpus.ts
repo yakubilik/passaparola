@@ -1,5 +1,5 @@
 import { CATEGORIES, type Question } from '../data/questions';
-import { judgeHeard, norm, spokenPace, type HeardHow, type Verdict } from '../game/normalize';
+import { judgeHeard, judgeSpoken, norm, spokenPace, type HeardHow, type Verdict } from '../game/normalize';
 import { AnswerListener, ECHO_TAIL_MS, LATE_MS, PARTIAL_MS, type Recognizer } from '../voice/listener';
 import { FakeRecognizer } from './fakeRecognizer';
 
@@ -102,3 +102,35 @@ export function verdicts(ds: Delivery[], answers: readonly string[], letter: str
   return ds.map((d) => judgeHeard(d.alts, answers, letter, d.how)).filter((v): v is Verdict | 'hold' => v !== null);
 }
 
+
+export const show = (hits: Hit[]) => hits.slice(0, 20).map((h) => `${h.when} ${h.verdict}: [${h.alts}] <= "${h.heard}"`).join('\n');
+
+export type Line = { text: string; asked: Question[] };
+
+// A misheard host word can become exactly what a player says ("baş" → "paş",
+// a Pas; an answer's slip that still sounds like it). Text alone cannot tell
+// that from the player: such verdicts are counted, kept few, and named in the
+// report, the rest must be none.
+export function corpus(lines: Line[], every = 1) {
+  const hits: Hit[] = [];
+  const indistinguishable: Hit[] = [];
+  let runs = 0;
+  for (const { text, asked } of lines) {
+    const vs = variants(text, every);
+    for (const v of vs) {
+      const changed = v.kind === 'misheard' ? v.words.filter((w, i) => w !== vs[0].words[i]) : [];
+      for (const when of ['during', 'after'] as const) {
+        runs++;
+        const ds = hearHost(text, v.words, when, asked[0].answers);
+        if (!ds.length) continue;
+        for (const q of asked) {
+          for (const verdict of verdicts(ds, q.answers, q.letter)) {
+            const hit = { line: text, heard: v.words.join(' '), when, verdict, alts: ds.map((d) => d.alts[0]).join(' / ') };
+            (changed.some((w) => judgeSpoken([w], q.answers) !== 'wrong') ? indistinguishable : hits).push(hit);
+          }
+        }
+      }
+    }
+  }
+  return { hits, runs, indistinguishable };
+}
