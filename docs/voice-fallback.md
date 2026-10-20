@@ -34,6 +34,28 @@ game screen. On a simulator (inside the simulator lock):
 runs `e2e/speech.yaml` (waits for "başladı" on the first clue, screenshots it
 and a few clues later) and prints the phone-voice events from the log.
 
+### Simulator result (20 Oct 2026)
+
+Debug simulator build of this branch (with main's ea5bc9c: voice processing off),
+JS bundle embedded, on "Harfiyen iPhone 8fee1d5d" (iPhone 17 Pro, iOS 26.3):
+`e2e/speech.yaml` passed. The first clue, tarih-2-A-1 (its recording withheld),
+was on screen while the phone voice read it, and the line said
+`TELEFON SESİ · tarih-2-A-1: başladı (1. deneme) · başlayan 1 · sessiz 0`
+(`docs/shots/362/speech-first-clue.png`). Eight clues later it said
+`başlayan 8 · sessiz 0` (`speech-later-clue.png`). The log: every clue was asked,
+started and finished on the first attempt, with no retry and no silence.
+An earlier run on the same build, across 17 clues, gave the same result.
+
+The status line also shows "Duydum: Millet…": with voice processing off, the
+mic hears the phone voice reading the clue. The self-test does not judge what
+the mic hears; in a real round the listener's echo filter drops the host's words.
+
+The Debug build skips bundling the JS even with `FORCE_BUNDLING=1` (the build
+ran with `SKIP_BUNDLING` set), so the bundle was embedded afterwards:
+
+    npx expo export:embed --platform ios --dev false --entry-file node_modules/expo-router/entry.js \
+      --bundle-output <Harfiyen.app>/main.jsbundle --assets-dest <Harfiyen.app>
+
 ## Clues still without a recording
 
 Each also lacks its `-cevap` answer clip; both are read by the phone voice:

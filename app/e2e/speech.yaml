@@ -1,16 +1,17 @@
 # #362: a clue without a recording is read by the phone voice. e2e/speech.sh
-# launches the app with -harfiyenSelfTest speech (tarih level 2, every clue
-# recording of the level withheld, the mic open, voice processing on) and runs
-# this: it waits until the speech-state diagnostic says the phone voice started
-# reading the first clue, with the clue on screen, and photographs it.
+# installs the app and runs this: it launches the app with -harfiyenSelfTest
+# speech (tarih level 2, every clue recording of the level withheld, the mic
+# open), waits until the speech-state diagnostic says the phone voice started
+# reading the first clue (A), with the clue on screen, and photographs it. The
+# app is launched here, not by the script, so the first clue is not over before
+# Maestro's driver is up.
 appId: com.skolalabs.harfiyen
 ---
-- repeat:
-    times: 3
-    commands:
-      - tapOn:
-          text: "(Allow|OK|İzin Ver|Tamam)"
-          optional: true
+- launchApp:
+    stopApp: true
+    arguments:
+      harfiyenSelfTest: speech
+# No permission taps: speech.sh grants the mic, and each optional tap waits long enough for the first clue to pass.
 - extendedWaitUntil:
     visible:
       id: "speech-state"

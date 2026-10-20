@@ -2,8 +2,8 @@
 # #362: the phone-voice check on one simulator. Run inside the simulator lock
 # with a built app:
 #   e2e/speech.sh <path/to/Harfiyen.app> <simulator udid> <output dir>
-# Installs and launches the app with -harfiyenSelfTest speech, runs
-# e2e/speech.yaml (screenshots once the phone voice has started reading the
+# Installs the app and runs e2e/speech.yaml (which launches it with
+# -harfiyenSelfTest speech) (screenshots once the phone voice has started reading the
 # first clue, and a few clues later), then copies the app's self-test log
 # (its "speech" list: every phone-voice event) next to the screenshots.
 set -euo pipefail
@@ -17,7 +17,6 @@ xcrun simctl install "$UDID" "$APP"
 xcrun simctl privacy "$UDID" grant microphone "$BUNDLE" || true
 xcrun simctl privacy "$UDID" grant speech-recognition "$BUNDLE" 2>/dev/null || true
 rm -f "$(xcrun simctl get_app_container "$UDID" "$BUNDLE" data)/Documents/harfiyen-selftest.json"
-xcrun simctl launch --terminate-running-process "$UDID" "$BUNDLE" -harfiyenSelfTest speech
 LOG="$(xcrun simctl get_app_container "$UDID" "$BUNDLE" data)/Documents/harfiyen-selftest.json"
 set +e
 (cd "$OUT" && maestro --device "$UDID" test "$HERE/speech.yaml")
