@@ -208,6 +208,12 @@ export class Sounds {
     for (const l of [...this.live]) if (l.cue === cue) this.end(l);
   }
 
+  /** The bed's player, or the newest player of a cue not yet ended or stopped, for tests. */
+  player(name: keyof typeof FILES): AudioPlayer | undefined {
+    if (name === 'bg') return this.bg ?? undefined;
+    return [...this.live].reverse().find((l) => l.cue === name)?.player;
+  }
+
   /** Players of cues not yet ended or stopped, for tests. */
   get livePlayers(): AudioPlayer[] {
     return [...this.live].map((l) => l.player);

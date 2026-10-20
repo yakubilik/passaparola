@@ -1,6 +1,3 @@
-import { readFileSync } from 'fs';
-import { join } from 'path';
-
 import { act } from '@testing-library/react-native';
 
 import { audio, CLIP_MS, type FakePlayer } from '../../test-utils/fakeAudio';
@@ -10,6 +7,10 @@ import { CUE_VOLUME, DEFAULT_GAIN, retiredCount, Sounds } from '../sounds';
 // Every cue plays on a player made for it and removed once it has ended or
 // been stopped (#415). Rewinding a player that has played (seekTo) sometimes
 // never completes on the device and the cue after it is lost.
+
+// Node's fs, typed here: the app has no Node type definitions.
+declare const __dirname: string;
+const { readFileSync } = jest.requireActual<{ readFileSync: (file: string, enc: 'utf8') => string }>('fs');
 
 const wait = (ms: number) => act(() => jest.advanceTimersByTime(ms));
 const made = (from: number) => audio.players.slice(from) as FakePlayer[];
@@ -21,7 +22,7 @@ afterEach(() => {
 });
 
 test('sounds.ts never rewinds a player', () => {
-  const src = readFileSync(join(__dirname, '..', 'sounds.ts'), 'utf8');
+  const src = readFileSync(`${__dirname}/../sounds.ts`, 'utf8');
   expect(src).not.toMatch(/\.seekTo\s*\(/);
 });
 
