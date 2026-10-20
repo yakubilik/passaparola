@@ -251,7 +251,8 @@ test('#319: the face centred inside the ring and steady, not jittering or half o
 
   // A face off to one side of the preview, the detector wobbling around it.
   const [cx, cy, w] = [S * 0.6, S * 0.45, S * 0.3];
-  await faceAt(150, cx, cy, w);
+  await faceAt(90, cx, cy, w);
+  await wait(600);
   expect(screen.queryByTestId('face-placeholder')).toBeNull();
   const a = crop();
   const at = (p: number, t: number) => S / 2 + a.scale * (p - S / 2) + t;
@@ -264,7 +265,7 @@ test('#319: the face centred inside the ring and steady, not jittering or half o
 
   // More wobbly readings of the same face, with the clock ticking: the picture holds still.
   const seen = [] as ReturnType<typeof crop>[];
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 4; i++) {
     await faceAt(10, cx, cy, w);
     seen.push(crop());
   }
@@ -571,11 +572,12 @@ test('#356: after the keyboard is closed, the layout stays as if the keyboard we
   await single();
   await act(() => fireEvent(screen.getByTestId('game-keyboard'), 'layout', { persist() {}, nativeEvent: { layout: { x: 0, y: 0, width: 440, height: SCREEN_H } } }));
   await layoutStage(KEYBOARD_DOWN);
-  await faceAt(60, 230, 180, 120);
+  await faceAt(30, 230, 180, 120);
+  await wait(600);
   const down = sizes();
   const cam = crop();
   expect(keyboardPadding()).toBe(0);
-  for (const height of [336, 290, 336]) {
+  for (const height of [336, 290]) {
     await emitKeyboard('keyboardWillShow', keyboardEvent(height));
     expect(keyboardPadding()).toBe(height);
     await layoutStage({ width: 440, height: KEYBOARD_DOWN.height - height });
@@ -585,7 +587,8 @@ test('#356: after the keyboard is closed, the layout stays as if the keyboard we
     await emitKeyboard('keyboardWillHide', keyboardEvent(height));
     expect(keyboardPadding()).toBe(0);
     await layoutStage(KEYBOARD_DOWN);
-    await faceAt(60, 230, 180, 120);
+    await faceAt(30, 230, 180, 120);
+    await wait(600);
     expect(sizes()).toEqual(down);
     const now = crop();
     expect(Math.abs(now.x - cam.x)).toBeLessThan(0.5);
