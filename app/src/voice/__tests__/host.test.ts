@@ -1,12 +1,12 @@
 import { CATEGORIES } from '../../data/questions';
 import { audio, CLIP_MS, speech, ttsMs } from '../../test-utils/fakeAudio';
 import { CLIPS } from '../clips.generated';
-import { Host } from '../host';
+import { Host, TTS_ATTEMPTS, TTS_START_MS } from '../host';
 import { answerLine, clueLine, host as hostLine, HOST_LINES } from '../lines';
 
 // Node's fs and path, without Node's type definitions in the app.
 declare const __dirname: string;
-const { existsSync } = jest.requireActual<{ existsSync(p: string): boolean }>('fs');
+const { existsSync, readdirSync } = jest.requireActual<{ existsSync(p: string): boolean; readdirSync(p: string): string[] }>('fs');
 const { join } = jest.requireActual<{ join(...p: string[]): string }>('path');
 
 const q = { id: 'tarih-1-B-1', letter: 'B', type: 'starts' as const, clue: 'Bir şehir.', answers: ['Bursa'] };
@@ -14,9 +14,17 @@ const qo = { id: 'tarih-1-Ö-1', letter: 'Ö', type: 'starts' as const, clue: 'B
 
 beforeEach(() => {
   jest.useFakeTimers();
-  speech.spoken.length = 0;
+  speech.reset();
   audio.players.length = 0;
 });
+
+// The native speech events come a moment after the call (a microtask): let them through, then move the clock.
+async function advance(ms: number) {
+  await Promise.resolve();
+  await Promise.resolve();
+  jest.advanceTimersByTime(ms);
+  await Promise.resolve();
+}
 afterEach(() => jest.useRealTimers());
 
 test('lines read the way the recordings do', () => {
@@ -47,19 +55,19 @@ test('a line with a clip plays app/assets/voice/<key>.mp3, then calls done', () 
   expect(speech.spoken).toEqual([]);
 });
 
-test('a missing clip is read with expo-speech in tr-TR', () => {
+test('a missing clip is read with expo-speech in tr-TR', async () => {
   const h = new Host({ wrong: 102 });
   const done = jest.fn();
   h.speak([hostLine('wrong'), answerLine(q)], done);
   jest.advanceTimersByTime(CLIP_MS + 10);
-  expect(speech.spoken).toEqual([{ text: 'Bursa olacaktı.', language: 'tr-TR' }]);
+  expect(speech.spoken).toEqual([{ text: 'Bursa olacaktı.', language: 'tr-TR', useApplicationAudioSession: true }]);
   expect(done).not.toHaveBeenCalled();
-  jest.advanceTimersByTime(ttsMs('Bursa olacaktı.') + 10);
+  await advance(ttsMs('Bursa olacaktı.') + 10);
   expect(done).toHaveBeenCalledTimes(1);
   expect(h.said).toEqual(['clip:wrong', 'tts:Bursa olacaktı.']);
 });
 
-test('a clip that never loads is read aloud instead', () => {
+test('a clip that never loads is read aloud instead', async () => {
   const h = new Host({ wrong: 102 });
   const done = jest.fn();
   h.speak([hostLine('wrong')], done);
@@ -68,8 +76,91 @@ test('a clip that never loads is read aloud instead', () => {
   p.pause(); // never reports an end
   jest.advanceTimersByTime(4100);
   expect(speech.spoken.map((s) => s.text)).toEqual(['Değil, olmadı.']);
-  jest.advanceTimersByTime(ttsMs('Değil, olmadı.') + 10);
+  await advance(ttsMs('Değil, olmadı.') + 10);
   expect(done).toHaveBeenCalledTimes(1);
+});
+
+// #362: a clue without a clip was not read at all on the iPhone.
+describe('the phone voice for a line without a clip', () => {
+  const states = (h: Host) => h.speechLog.map((e) => `${e.state}#${e.attempt}`);
+
+  test('the line counts as started when iOS says the speech started, not when it was asked for', async () => {
+    const h = new Host({});
+    const starts = jest.fn();
+    const done = jest.fn();
+    h.speak([clueLine(q)], done, undefined, starts);
+    expect(starts).not.toHaveBeenCalled();
+    await advance(0);
+    expect(starts).toHaveBeenCalledWith(0);
+    expect(speech.started).toEqual([clueLine(q).text]);
+    await advance(ttsMs(clueLine(q).text) + 10);
+    expect(done).toHaveBeenCalledTimes(1);
+    expect(states(h)).toEqual(['asked#1', 'started#1', 'done#1']);
+  });
+
+  test('expo-speech is not stopped before a line when none of its speech can be sounding', async () => {
+    const h = new Host({ wrong: 102 });
+    h.speak([hostLine('wrong')]);
+    h.speak([clueLine(q)]);
+    h.cancel();
+    h.speak([clueLine(q)]);
+    expect(speech.stops).toBe(1);  // only the cancel(), with the first clue's speech asked for
+    await advance(0);
+    expect(speech.started).toEqual([clueLine(q).text]);
+  });
+
+  test('an utterance iOS never starts is asked again on the synthesizer\'s own session, and then read', async () => {
+    speech.mode = 'never';
+    speech.failures = 1;
+    const h = new Host({});
+    const starts = jest.fn();
+    const done = jest.fn();
+    h.speak([clueLine(q)], done, undefined, starts);
+    await advance(TTS_START_MS - 10);
+    expect(starts).not.toHaveBeenCalled();
+    await advance(20);
+    expect(speech.spoken.map((s) => s.useApplicationAudioSession)).toEqual([true, false]);
+    expect(starts).toHaveBeenCalledTimes(1);
+    await advance(ttsMs(clueLine(q).text) + 10);
+    expect(done).toHaveBeenCalledTimes(1);
+    expect(states(h)).toEqual(['asked#1', 'nostart#1', 'asked#2', 'started#2', 'done#2']);
+  });
+
+  test('an utterance iOS cancels by itself before it starts is asked again at once', async () => {
+    speech.mode = 'dropped';
+    speech.failures = 1;
+    const h = new Host({});
+    const starts = jest.fn();
+    h.speak([clueLine(q)], undefined, undefined, starts);
+    await advance(0);
+    await advance(0);
+    expect(starts).toHaveBeenCalledTimes(1);
+    expect(states(h)).toEqual(['asked#1', 'stopped#1', 'asked#2', 'started#2']);
+  });
+
+  test('if the phone voice never speaks, the clue is shown anyway and the host moves on (never stuck)', async () => {
+    speech.mode = 'never';
+    const h = new Host({});
+    const starts = jest.fn();
+    const done = jest.fn();
+    h.speak([clueLine(q), hostLine('listen')], done, undefined, starts);
+    for (let i = 0; i < TTS_ATTEMPTS; i++) await advance(TTS_START_MS + 10);
+    expect(starts).toHaveBeenCalledWith(0);
+    expect(speech.spoken).toHaveLength(TTS_ATTEMPTS);
+    expect(states(h).at(-1)).toBe(`silent#${TTS_ATTEMPTS}`);
+    await advance(10_000);
+    expect(starts).toHaveBeenCalledWith(1);
+  });
+
+  test('a newer line cuts the speech off without a retry', async () => {
+    const h = new Host({ wrong: 102 });
+    h.speak([clueLine(q)]);
+    await advance(0);
+    h.speak([hostLine('wrong')]);
+    await advance(TTS_START_MS * 3);
+    expect(speech.spoken).toHaveLength(1);
+    expect(states(h)).toEqual(['asked#1', 'started#1']);
+  });
 });
 
 test('cancel cuts the host off without calling done, and reports quiet', () => {
@@ -83,6 +174,17 @@ test('cancel cuts the host off without calling done, and reports quiet', () => {
   expect(done).not.toHaveBeenCalled();
   expect(states).toEqual([['Bir şehir... Be ile başlıyor.'], null]);
   expect(h.speaking).toBe(false);
+});
+
+// The device builds (the delivery, install-iphone.sh) bundle the committed
+// index as it is: a recording missing from it is never in the app and its line
+// falls back to the phone voice (#362: 116 clue and 116 answer recordings of
+// 76d8f60 were not indexed). Run `node scripts/gen-voice-index.mjs` after adding clips.
+test('the committed clip index lists every recording in assets/voice', () => {
+  const dir = join(__dirname, '../../../assets/voice');
+  const files = readdirSync(dir).filter((f) => f.endsWith('.mp3')).map((f) => f.slice(0, -4)).sort();
+  expect(files.filter((k) => !(k in CLIPS))).toEqual([]);
+  expect(Object.keys(CLIPS).sort()).toEqual(files);
 });
 
 test('the clip index points at files that exist, under the contract names', () => {
