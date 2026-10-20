@@ -127,7 +127,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     // words heard while the host talks (or just after) may be the host itself,
     // misheard so the listener's echo filter kept them. judgeHeard decides.
     const duringHost = readingRef.current || host.speaking || listener.hostRecent || !!heard?.duringHost;
-    const verdict = judgeHeard(alts, q.answers, q.letter, { duringHost, hostLike: heard?.hostLike, hostNear: heard?.hostNear });
+    const verdict = judgeHeard(alts, q.answers, q.letter, { duringHost, hostLike: heard?.hostLike, hostNear: heard?.hostNear, hostWords: heard?.hostWords });
     dropHeld();
     if (verdict === null) {
       setHeard('');
@@ -167,6 +167,12 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     return spokenPace(alts, current(r).question.answers);
   }, []);
 
+  // The answers to the clue being asked: the listener never drops them as the host's words.
+  const answers = useCallback(() => {
+    const r = game.current?.round;
+    return r && game.current?.phase === 'playing' ? current(r).question.answers : [];
+  }, []);
+
   // Every answer of the round (and the pass words), for the recognizer to
   // expect: one request serves the whole round (see listener.ts).
   const context = useCallback(() => contextFor(game.current?.round?.letters.flatMap((l) => l.question.answers) ?? []), []);
@@ -182,7 +188,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
       if (!voice) return;
       listener.onState = setMic;
       listener.onInterim = onInterim;
-      listener.listen(onHeard, pace, context());
+      listener.listen(onHeard, pace, context(), answers);
     };
     // The round's audio as its mic came up, for SES OTURUMU (one line per round).
     const settled = () => {
@@ -206,7 +212,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
       open();
       return settleAudio().then(settled);
     });
-  }, [voice, onHeard, onInterim, pace, context]);
+  }, [voice, onHeard, onInterim, pace, context, answers]);
 
   // The app went to the background (or a call, Control Centre): silence
   // everything, close the mic and stop the clock. Back in front: the bed and
@@ -224,7 +230,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
         g?.pause(false);
         if (!started.current || ended.current || !g || g.phase === 'over') return;
         if (voice) {
-          listener.listen(onHeard, pace, context());
+          listener.listen(onHeard, pace, context(), answers);
           readFor.current = -1;  // read the current clue again, once the mic has settled
         }
         settleAudio().then(() => { if (alive.current && !away.current && !ended.current) sounds.startBg(); });
@@ -246,7 +252,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
       }
     });
     return () => sub.remove();
-  }, [voice, onHeard, pace, context, dropAnswer]);
+  }, [voice, onHeard, pace, context, answers, dropAnswer]);
 
   const read = useCallback((r: Round) => {
     const g = game.current;

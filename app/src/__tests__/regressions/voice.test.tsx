@@ -5,9 +5,11 @@ import { AppState } from 'react-native';
 import { CATEGORIES } from '../../data/questions';
 import { judgeSpoken, norm } from '../../game/normalize';
 import { SETTINGS_KEY } from '../../store/settings';
+import { hearHost, verdicts as heardVerdicts } from '../../test-utils/echoCorpus';
 import { fakeRecognizer as rec } from '../../test-utils/fakeRecognizer';
 import { pressStart, untilClue } from '../../test-utils/round';
 import { host, listener, sounds } from '../../voice/engine';
+import { clueLine } from '../../voice/lines';
 import { ECHO_TAIL_MS, LATE_MS, SETTLE_MS } from '../../voice/listener';
 import { CUE_LEAD_MS } from '../../voice/sounds';
 
@@ -386,4 +388,36 @@ test('#357: volume jumps on every new question and the correct/pas cues are gone
   expect(rec.starts).toBe(1);
   expect(rec.aborts).toBe(0);
   expect(listener.renewals).toBe(0);
+});
+
+// #405 (#342 again, through #393's host-echo rules): a right answer said over
+// the host was taken for the host's own words, "Anı" as the "anı" of the
+// clue's "tanık", "Dörtlük" as its "dört" garbled, and dropped without a
+// verdict or a cue. Every question of every level of every category, the
+// answer said while the host reads its clue, through the real listener and the
+// round's verdict rule: alone, and after the first half of the clue heard
+// through the loudspeaker in the same result. Only the host's own words may be
+// dropped: where the answer is what the host is saying (hostSays), text cannot
+// tell the player from the host, and those are listed here with why.
+const ALL = (jest.requireActual('../../data/questions') as typeof import('../../data/questions')).CATEGORIES;
+const HOST_SAYS_IT: Record<string, string> = {
+  // The clue says the answer: "'Za-Gor-Te-Nay' dediği" is "za gor te nay" in the mic, "zagor" the host's own words.
+  'spor-2-Z-4': 'the host reads "Za-Gor" in the clue',
+};
+test('#342/#405: the right answer said over the host reading its clue is judged correct, every question of every level', () => {
+  const missed: string[] = [];
+  let n = 0;
+  for (const c of ALL) for (const lv of c.levels) for (const q of lv.questions) {
+    const line = clueLine(q).text;
+    const said = norm(q.answers[0]).split(' ');
+    const before = norm(line).split(' ').slice(0, Math.ceil(norm(line).split(' ').length / 2));
+    for (const heard of [said, [...before, ...said]]) {
+      n++;
+      const vs = heardVerdicts(hearHost(line, heard, 'during', q.answers), q.answers, q.letter);
+      if (vs.join() !== 'correct') missed.push(`${q.id} "${q.answers[0]}" ${heard === said ? 'alone' : 'after the host'}: [${vs}] over "${line}"`);
+    }
+  }
+  expect(n).toBeGreaterThan(3000);
+  expect(missed.filter((m) => !(m.split(' ')[0] in HOST_SAYS_IT)).join('\n')).toBe('');
+  expect(Object.keys(HOST_SAYS_IT).filter((id) => !missed.some((m) => m.startsWith(id + ' ')))).toEqual([]);
 });

@@ -212,14 +212,30 @@ export function judgeSpoken(alts: readonly string[], answers: readonly string[])
 }
 
 /** What the listener knows about heard words: see Heard in voice/listener.ts. */
-export type HeardHow = { duringHost: boolean; hostLike?: boolean; hostNear?: boolean };
+export type HeardHow = { duringHost: boolean; hostLike?: boolean; hostNear?: boolean; hostWords?: readonly string[] };
+
+/**
+ * `heard` is what the host is saying: its words from the start of one of them,
+ * in a row, however iOS split or joined them ("ay" of "aydınlık", a word only
+ * begun, or "istanbul u üç"). `hostWords` are the host's words, folded.
+ */
+export function hostSays(heard: string, hostWords: readonly string[]): boolean {
+  const said = fold(heard);
+  if (!said) return false;
+  return hostWords.some((_, i) => hostWords.slice(i).join('').startsWith(said));
+}
 
 /**
  * The verdict on spoken words, or none. With iOS voice processing off (19 Oct
  * 2026) the mic hears the loudspeaker, so words heard while the host talks (or
  * just after) may be the host's, misheard so the echo filter kept them:
- * - words like the host's (hostLike) are no verdict at all;
- * - a right answer or a Pas is judged at once;
+ * - a Pas is judged at once;
+ * - so is the right answer word for word, unless the host is saying those very
+ *   words (hostSays): the player's answer said over the reading is never the
+ *   host's because it looks like a host word ("Dörtlük" over "dört dizeden",
+ *   #342 again after #393, #405);
+ * - other words like the host's (hostLike) are no verdict at all;
+ * - a right answer a dictation slip away is judged at once;
  * - a wrong answer is 'hold': judged once the host is quiet (#342, "Merkür"
  *   said over the Mars clue), but only when it looks like the player's attempt
  *   at this letter: one to three words, the first starting with the letter
@@ -230,6 +246,7 @@ export function judgeHeard(alts: readonly string[], answers: readonly string[], 
   const verdict = judgeSpoken(alts, answers);
   if (!how.duringHost) return verdict;
   if (verdict === 'pass') return verdict;
+  if (verdict === 'correct' && spokenPieces(alts).some((p) => isCorrect(p, answers) && !hostSays(p, how.hostWords ?? []))) return verdict;
   if (how.hostLike) return null;
   if (verdict === 'correct') return verdict;
   const first = norm(alts[0] ?? '').split(' ').filter(Boolean);

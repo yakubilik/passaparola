@@ -1,4 +1,4 @@
-import { fold, isPassWord, norm } from '../game/normalize';
+import { fold, hostSays, isCorrect, isPassWord, norm } from '../game/normalize';
 
 // Spoken answers, ported from js/voice.js (the web game). The microphone is
 // opened when the round starts and kept open, so the player can also answer
@@ -36,7 +36,10 @@ import { fold, isPassWord, norm } from '../game/normalize';
 // voice heard by the mic and are dropped, except a pass word the host is not
 // saying: "pas" always gets through. A pass word that is only the start or the
 // end of a host word ("bas" of "basket", "geç" of "geçildi" or "yengeç": iOS
-// splits words it is unsure of) is the host's. What is left is delivered with `duringHost` and
+// splits words it is unsure of) is the host's. So is a right answer only when
+// the host is saying those very words (hostSays): the player's "Anı" is not the
+// "anı" of the host's "tanık" (#405; `answers`, given by the round). What is
+// left is delivered with `duringHost`, the host's words and
 // how much it looks like the host's words (`hostLike`, `hostNear`): the round
 // decides from these whether it is a verdict (judgeHeard in normalize.ts).
 
@@ -123,8 +126,9 @@ function distance(a: string, b: string): number {
  * (or just after). hostLike: the best guess is the host's words, or garbled
  * close to them, or the start of one of them (see hostLike). hostNear: one of
  * its words is a slip away from, or the start of, a host word, however short.
+ * hostWords: what the host last said, folded word by word.
  */
-export type Heard = { alts: string[]; duringHost: boolean; hostLike?: boolean; hostNear?: boolean };
+export type Heard = { alts: string[]; duringHost: boolean; hostLike?: boolean; hostNear?: boolean; hostWords?: string[] };
 
 // The ways a Pas sounds: when the host says one of them, the mic hearing any of them is the host.
 const PAS_SOUNDS = ['pas', 'pass', 'paso', 'bas', 'bass'];
@@ -146,6 +150,7 @@ export class AnswerListener {
   private echo: string[] = [];
   private echoUntil = 0;
   private pace: Pace | null = null;
+  private answers: (() => readonly string[]) | null = null;
   private context: string[] = [];
   private prevWords: string[] = [];  // the first guess as last heard, for rewritten words
   private swallowUntil = 0;   // the rest of an utterance already judged (LATE_MS)
@@ -184,9 +189,11 @@ export class AnswerListener {
   // Opens the mic for a round; while it is open a new handler just replaces the old one.
   // `context`: the words to expect, for the next request that starts. A
   // running request keeps its own: it is never restarted for new words.
-  listen(handler: (alts: string[], heard: Heard) => void, pace?: Pace, context?: string[]) {
+  // `answers`: the right answers to the question being asked, never taken for the host's words.
+  listen(handler: (alts: string[], heard: Heard) => void, pace?: Pace, context?: string[], answers?: () => readonly string[]) {
     this.handler = handler;
     this.pace = pace ?? null;
+    this.answers = answers ?? null;
     if (!this.wanted) this.openings++;
     this.wanted = true;
     if (context) this.context = context;
@@ -217,6 +224,7 @@ export class AnswerListener {
     this.wanted = false;
     this.handler = null;
     this.pace = null;
+    this.answers = null;
     this.swallowUntil = 0;
     this.tailOpen = false;
     this.renewing = false;
@@ -342,6 +350,41 @@ export class AnswerListener {
     return this.echo.some((e) => e === f
       || (f.length >= 5 && Math.abs(e.length - f.length) <= 1 && e.slice(0, 4) === f.slice(0, 4))
       || (f.length >= 4 && Math.abs(e.length - f.length) <= 2 && distance(e, f) <= (f.length >= 8 ? 2 : 1)));
+  }
+
+  /**
+   * Heard words without the game's own voice (isEcho), except the words of a
+   * right answer the host is not saying itself: a word near a host word is
+   * dropped as its echo, but the player's answer to this clue may well be near
+   * one ("Anı" said over "tanık olduklarını", "Zile" over "Ze ile başlıyor").
+   */
+  private withoutEcho(ws: string[]): string[] {
+    const answers = this.answers?.() ?? [];
+    const keep = new Set<number>();
+    if (answers.length && this.echoActive) {
+      const most = Math.max(...answers.map((a) => words(a).length));
+      for (let i = 0; i < ws.length; i++) {
+        for (let j = i + 1; j <= Math.min(ws.length, i + most); j++) {
+          const run = ws.slice(i, j).join(' ');
+          if (isCorrect(run, answers) && !hostSays(run, this.echo)) for (let k = i; k < j; k++) keep.add(k);
+        }
+      }
+    }
+    return ws.filter((w, i) => keep.has(i) || !this.isEcho(w));
+  }
+
+  /**
+   * How many of the last heard words are the start of a right answer of more
+   * words ("harf" of "Harf Devrimi", near the host's "harfleri"): dropped as the
+   * host's for now, but not handled, so the answer is whole once the rest comes.
+   */
+  private answerBegun(ws: string[]): number {
+    const answers = (this.answers?.() ?? []).map((a) => words(a).map(fold));
+    for (let k = Math.min(ws.length, Math.max(0, ...answers.map((a) => a.length - 1))); k > 0; k--) {
+      const tail = ws.slice(-k).map(fold);
+      if (answers.some((a) => a.length > k && tail.every((w, i) => a[i] === w))) return k;
+    }
+    return 0;
   }
 
   /**
@@ -484,7 +527,7 @@ export class AnswerListener {
     e.results.forEach((r, i) => {
       let w = words(r.transcript);
       if (i === 0) count = w.length;
-      w = w.slice(skip).filter((x) => !this.isEcho(x));
+      w = this.withoutEcho(w.slice(skip));
       if (w.length) alts.push(w.join(' '));
     });
     const rewritten = this.rewritten(words(e.results[0]?.transcript ?? ''), skip);
@@ -526,7 +569,7 @@ export class AnswerListener {
     if (!alts.length) {
       // Only the game's own voice so far, or the judged words again: mark it
       // handled so it never prefixes an answer.
-      if (!this.lastAlts && (this.echoActive || window)) this.used = Math.max(skip, count);
+      if (!this.lastAlts && (this.echoActive || window)) this.used = Math.max(skip, count - this.answerBegun(words(e.results[0]?.transcript ?? '').slice(skip)));
       // ...and while an answer is settling, once it is delivered (#391: "Yengeç
       // bulutsusu olacaktı" after a misheard "yen", replayed by its final).
       else if (this.lastAlts && this.echoActive) this.echoSeen = Math.max(this.echoSeen, count);
@@ -596,7 +639,7 @@ export class AnswerListener {
     const a = fold(prev[p] ?? '');
     const b = fold(cur[p]);
     if (a && b.length > a.length && b.startsWith(a)) out.push(b.slice(a.length), b.slice(a.length - 1));
-    return out.filter((t) => t && !t.split(' ').every((w) => this.isEcho(w)));
+    return out.filter((t) => t && this.withoutEcho(t.split(' ')).length > 0);
   }
 
   private deliver(final: boolean) {
@@ -616,7 +659,7 @@ export class AnswerListener {
     this.tailOpen = !final;
     const best = fold(alts[0]);
     this.judged = alts.slice(1).map((a) => { const f = fold(a); return f.startsWith(best) ? f.slice(best.length) : f; }).filter(Boolean);
-    this.handler?.(alts, { alts, duringHost, hostLike: this.hostLike(alts[0]), hostNear: this.hostNear(alts[0]) });
+    this.handler?.(alts, { alts, duringHost, hostLike: this.hostLike(alts[0]), hostNear: this.hostNear(alts[0]), hostWords: this.echo });
   }
 
   private onError(e: RecError) {
