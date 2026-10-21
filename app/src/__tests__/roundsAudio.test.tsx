@@ -114,7 +114,7 @@ test('round 1 -> result -> round 2 -> result -> round 3: the same session and re
   }
   // One line per round in SES OTURUMU, identical for the three rounds.
   const lines = rounds.map(roundLine);
-  expect(lines[0]).toBe('playAndRecord (allowBluetooth, defaultToSpeaker, mixWithOthers), mod default, telefon sesi %50; yankı önleme kapalı, kısma -');
+  expect(lines[0]).toBe('playAndRecord (allowBluetooth, defaultToSpeaker, mixWithOthers), mod voiceChat, telefon sesi %50; yankı önleme açık, kısma min');
   expect(lines).toEqual([lines[0], lines[0], lines[0]]);
   expect(screen.getByTestId('diag-tur-3')).toHaveTextContent(`Tur 3: ${lines[0]}`);
 });
