@@ -239,7 +239,7 @@ async function startVoiceGame() {
 test("the host's own voice in the mic never gives a wrong answer; echo cancellation is on", async () => {
   await startVoiceGame();
   // iOS voice processing takes the phone's own sound out of the mic.
-  expect(rec.lastOptions).toMatchObject({ iosVoiceProcessingEnabled: false, iosCategory: { category: 'playAndRecord', mode: 'default' } });
+  expect(rec.lastOptions).toMatchObject({ iosVoiceProcessingEnabled: true, iosCategory: { category: 'playAndRecord', mode: 'voiceChat' } });
 
   // While the host reads, the mic picks up a garbled bit of it (the endings
   // misheard): not an answer, and nothing judged.
@@ -407,11 +407,11 @@ test('speaker and mic: one session with echo cancellation, set before the mic op
   expect(rec.categories).toEqual([RECOGNITION_OPTIONS.iosCategory]);
 
   await pressStart();
-  // The mic: iOS voice processing (echo cancellation) in the 'default' mode (not
-  // voiceChat, which drives the loudspeaker to call loudness), the very category
-  // already in place, so opening it switches nothing.
-  expect(rec.lastOptions).toMatchObject({ iosVoiceProcessingEnabled: false, iosCategory: RECOGNITION_OPTIONS.iosCategory });
-  expect(RECOGNITION_OPTIONS.iosCategory).toEqual({ category: 'playAndRecord', categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'], mode: 'default' });
+  // The mic: iOS voice processing (echo cancellation) in voiceChat, the mode it
+  // puts the session in anyway, already in place with the very category, so
+  // opening it switches nothing (#438).
+  expect(rec.lastOptions).toMatchObject({ iosVoiceProcessingEnabled: true, iosCategory: RECOGNITION_OPTIONS.iosCategory });
+  expect(RECOGNITION_OPTIONS.iosCategory).toEqual({ category: 'playAndRecord', categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'], mode: 'voiceChat' });
 
   // The host reads: the bed is ducked, a cue that sounds now is not.
   expect(host.speaking).toBe(true);

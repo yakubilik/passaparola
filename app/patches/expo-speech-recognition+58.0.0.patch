@@ -16,10 +16,10 @@ index 9dc9082..76f1bea 100644
        let instance = AVAudioSession.sharedInstance()
  
 diff --git a/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognizer.swift b/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognizer.swift
-index b278425..88d8598 100644
+index b278425..d4f9ad5 100644
 --- a/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognizer.swift
 +++ b/node_modules/expo-speech-recognition/ios/ExpoSpeechRecognizer.swift
-@@ -29,6 +29,29 @@ enum RecognizerError: Error {
+@@ -29,6 +29,32 @@ enum RecognizerError: Error {
    }
  }
  
@@ -31,6 +31,9 @@ index b278425..88d8598 100644
 +  private static var state: [String: Any] = [
 +    "running": false, "enabled": false, "advancedDucking": NSNull(), "duckingLevel": NSNull(),
 +    "engines": 0, "rebuilds": 0,
++    "routeChanges": 0, "routeChangesIgnored": 0, "engineRestarts": 0, "lastRouteChange": NSNull(),
++    // Which version of this patch the build carries, for the evidence file.
++    "patch": "harfiyen-438-route",
 +  ]
 +
 +  static func snapshot() -> [String: Any] {
@@ -49,7 +52,7 @@ index b278425..88d8598 100644
  actor ExpoSpeechRecognizer: ObservableObject {
    private var options: SpeechRecognitionOptions?
    private var audioEngine: AVAudioEngine?
-@@ -360,16 +383,7 @@ actor ExpoSpeechRecognizer: ObservableObject {
+@@ -360,16 +386,7 @@ actor ExpoSpeechRecognizer: ObservableObject {
      audioEngine.connect(inputNode, to: mixerNode, format: audioFormat)
  
      // Configure voice processing if enabled
@@ -67,7 +70,7 @@ index b278425..88d8598 100644
  
      if options.recordingOptions?.persist == true {
        guard let fileAudioFormat = Self.getFileAudioFormat(options: options, engine: audioEngine)
-@@ -398,6 +412,8 @@ actor ExpoSpeechRecognizer: ObservableObject {
+@@ -398,6 +415,8 @@ actor ExpoSpeechRecognizer: ObservableObject {
          }
        }
      )
@@ -76,7 +79,7 @@ index b278425..88d8598 100644
  
      if !options.continuous {
        invalidateAndScheduleTimer()
-@@ -517,6 +533,7 @@ actor ExpoSpeechRecognizer: ObservableObject {
+@@ -517,6 +536,7 @@ actor ExpoSpeechRecognizer: ObservableObject {
        audioEngine?.inputNode.removeTap(onBus: 0)
        audioEngine?.inputNode.reset()
        audioEngine?.reset()
@@ -84,7 +87,7 @@ index b278425..88d8598 100644
        audioEngine = nil
      }
  
-@@ -542,6 +559,7 @@ actor ExpoSpeechRecognizer: ObservableObject {
+@@ -542,6 +562,7 @@ actor ExpoSpeechRecognizer: ObservableObject {
      audioEngine?.inputNode.removeTap(onBus: 0)
      audioEngine?.inputNode.reset()
      audioEngine?.reset()
@@ -92,7 +95,7 @@ index b278425..88d8598 100644
      audioEngine = nil
      for observer in [audioSessionInterruptionObserver, audioSessionRouteChangeObserver].compactMap({
        $0
-@@ -727,6 +745,75 @@ actor ExpoSpeechRecognizer: ObservableObject {
+@@ -727,6 +748,75 @@ actor ExpoSpeechRecognizer: ObservableObject {
      try audioEngine.start()
    }
  
@@ -168,7 +171,101 @@ index b278425..88d8598 100644
    private func registerAudioSessionObservers() {
      guard audioSessionInterruptionObserver == nil else {
        return
-@@ -798,6 +885,7 @@ actor ExpoSpeechRecognizer: ObservableObject {
+@@ -753,11 +843,20 @@ actor ExpoSpeechRecognizer: ObservableObject {
+       forName: AVAudioSession.routeChangeNotification,
+       object: AVAudioSession.sharedInstance(),
+       queue: .main
+-    ) { [weak self] _ in
++    ) { [weak self] notification in
+       let appState = UIApplication.shared.applicationState
++      // Harfiyen: why the route changed and what it was before, read on the posting thread.
++      let reasonValue = notification.userInfo?[AVAudioSessionRouteChangeReasonKey] as? UInt
++      let previousRoute =
++        notification.userInfo?[AVAudioSessionRouteChangePreviousRouteKey]
++        as? AVAudioSessionRouteDescription
++      let portsChanged = Self.portsChanged(
++        from: previousRoute, to: AVAudioSession.sharedInstance().currentRoute)
+       Task { [weak self] in
+         let taskState = await self?.task?.state
+-        await self?.handleAudioRouteChange(taskState: taskState, appState: appState)
++        await self?.handleAudioRouteChange(
++          taskState: taskState, appState: appState, reason: reasonValue ?? 0,
++          portsChanged: portsChanged)
+       }
+     }
+ 
+@@ -765,8 +864,14 @@ actor ExpoSpeechRecognizer: ObservableObject {
+ 
+   private func handleAudioRouteChange(
+     taskState: SFSpeechRecognitionTaskState?,
+-    appState: UIApplication.State
++    appState: UIApplication.State,
++    reason: UInt,
++    portsChanged: Bool
+   ) {
++    HarfiyenVoiceProcessing.update { state in
++      state["routeChanges"] = ((state["routeChanges"] as? Int) ?? 0) + 1
++      state["lastRouteChange"] = "reason \(reason), ports \(portsChanged ? "changed" : "same")"
++    }
+     // We only care about route changes when the recognizer is active
+     if taskState == .running || taskState == .starting {
+       // App deactivation can emit a route change while the audio session is
+@@ -778,6 +883,15 @@ actor ExpoSpeechRecognizer: ObservableObject {
+         reset(andEmitEnd: true)
+         return
+       }
++      // Harfiyen: the same microphone and speaker as before (voice processing switching
++      // the session's mode or configuration, a category set again) need no new engine.
++      // Building one switches voice processing off and on again, which changes the
++      // session once more and posts the next route change: an engine every second and
++      // the output level stepping up with each (docs/selftest/2026-10-19-1826-phone.json).
++      // The running engine is kept; one that the change stopped is started again.
++      if !portsChanged && keepEngineForRouteChange() {
++        return
++      }
+       guard !restartAudioEngineForRouteChange() else {
+         return
+       }
+@@ -787,6 +901,38 @@ actor ExpoSpeechRecognizer: ObservableObject {
+     }
+   }
+ 
++  // Harfiyen: true when the request's engine runs on after a route change that kept the ports.
++  private func keepEngineForRouteChange() -> Bool {
++    guard let engine = audioEngine else { return false }
++    if !engine.isRunning {
++      do {
++        engine.prepare()
++        try engine.start()
++      } catch {
++        return false
++      }
++      HarfiyenVoiceProcessing.update { state in
++        state["engineRestarts"] = ((state["engineRestarts"] as? Int) ?? 0) + 1
++      }
++    }
++    HarfiyenVoiceProcessing.update { state in
++      state["routeChangesIgnored"] = ((state["routeChangesIgnored"] as? Int) ?? 0) + 1
++      state["running"] = engine.isRunning
++    }
++    return true
++  }
++
++  // Harfiyen: whether a route change replaced the microphone or the speaker (headphones,
++  // Bluetooth, the receiver), by port, not by what iOS calls the change.
++  private static func portsChanged(
++    from previous: AVAudioSessionRouteDescription?, to current: AVAudioSessionRouteDescription
++  ) -> Bool {
++    guard let previous else { return true }
++    let ids = { (ports: [AVAudioSessionPortDescription]) in ports.map { $0.uid } }
++    return ids(previous.inputs) != ids(current.inputs)
++      || ids(previous.outputs) != ids(current.outputs)
++  }
++
+   private func restartAudioEngineForRouteChange() -> Bool {
+     guard let request = request, let options = options else {
+       return false
+@@ -798,6 +944,7 @@ actor ExpoSpeechRecognizer: ObservableObject {
        oldEngine.inputNode.removeTap(onBus: 0)
        oldEngine.inputNode.reset()
        oldEngine.reset()
@@ -176,7 +273,7 @@ index b278425..88d8598 100644
      }
  
      let newEngine = AVAudioEngine()
-@@ -811,6 +899,11 @@ actor ExpoSpeechRecognizer: ObservableObject {
+@@ -811,6 +958,11 @@ actor ExpoSpeechRecognizer: ObservableObject {
      let mixerNode = AVAudioMixerNode()
      newEngine.attach(mixerNode)
      newEngine.connect(inputNode, to: mixerNode, format: audioFormat)
@@ -188,7 +285,7 @@ index b278425..88d8598 100644
  
      do {
        try Self.prepareEngine(
-@@ -826,6 +919,8 @@ actor ExpoSpeechRecognizer: ObservableObject {
+@@ -826,6 +978,8 @@ actor ExpoSpeechRecognizer: ObservableObject {
          }
        )
        self.audioEngine = newEngine

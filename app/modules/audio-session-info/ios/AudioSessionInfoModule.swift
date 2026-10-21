@@ -23,6 +23,17 @@ public class AudioSessionInfoModule: Module {
       ]
     }
 
+    // Which build this is, for the voice evidence file (src/voice/trace.ts): the
+    // version and build number the app was signed with.
+    Function("build") { () -> [String: String] in
+      let info = Bundle.main.infoDictionary ?? [:]
+      return [
+        "version": info["CFBundleShortVersionString"] as? String ?? "",
+        "build": info["CFBundleVersion"] as? String ?? "",
+        "bundle": Bundle.main.bundleIdentifier ?? "",
+      ]
+    }
+
     // The self-test mode (src/voice/selfTest.ts): on when the app was launched
     // with the argument `-harfiyenSelfTest 1` (launch arguments land in the
     // user defaults' argument domain).

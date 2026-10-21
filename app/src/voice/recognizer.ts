@@ -8,19 +8,25 @@ import { SETTLE_MS, type RecOptions, type Recognizer } from './listener';
 // (iOS echo cancellation, iosVoiceProcessingEnabled) takes the phone's own
 // sound out of what the mic hears, so the host does not answer for the player.
 //
-// The session mode is 'default', not 'voiceChat': voiceChat puts the whole
-// session on the phone-call output path, which drives the loudspeaker to call
-// loudness the moment it is set. Echo cancellation does not need that mode:
-// the recognizer turns voice processing on in its own audio engine (the input
-// node, and the output node with it; the library does both) whatever the mode.
+// The session mode is 'voiceChat', set once before the round's first sound
+// (setVoiceSession, from prepareAudio) and passed with every start: it is the
+// mode iOS itself switches the session to the moment voice processing comes up
+// (docs/selftest/2026-10-19-1826-phone.json: 'default' became 'voiceChat' with
+// the first engine). Left at 'default', every voice-processing start and stop
+// (a round, a renewed request) switched the mode, and with it the output
+// path and level, under whatever was playing. Set up front, the round plays on
+// one path from its first sound to its last; the volume buttons move it.
 //
 // The session must not change while the mic is open: on an iOS route change
-// (a new category or mode is one) expo-speech-recognition rebuilds its audio
-// engine (upstream without voice processing; app/patches gives the rebuilt
-// engine the same voice processing and ducking, #361), and an interruption
-// ends recognition. So
-// the very same category is set once before the round (setVoiceSession, from
-// prepareAudio) and by the mic check, and every start finds it in place.
+// expo-speech-recognition rebuilds its audio engine (upstream without voice
+// processing). app/patches gives a rebuilt engine the same voice processing
+// and ducking (#361), and rebuilds only when the microphone or the speaker
+// really changed: a route change that keeps the ports (voice processing's own
+// mode switch is one) keeps the running engine, so building an engine can no
+// longer set off the next route change (#438, one engine a second on the
+// phone). An interruption ends recognition. The very same category is set once
+// before the round (setVoiceSession) and by the mic check, and every start
+// finds it in place.
 //
 // The answers are one word or a short name, so the request carries the
 // 'search' task hint (short phrases), not 'dictation' (long free speech) or
@@ -29,15 +35,16 @@ import { SETTLE_MS, type RecOptions, type Recognizer } from './listener';
 export const RECOGNITION_OPTIONS = {
   addsPunctuation: false,
   iosTaskHint: 'search',
-  // Off (19 Oct 2026, phone self-test docs/selftest/2026-10-19-1826-phone.json): with voice
-  // processing on, iOS switched the session to voiceChat, drove outputVolume 0.55 -> 1.0 step
-  // by step and rebuilt the recognizer's engine every second (7 engines in 5 s). The host's
-  // own words are kept out of the answers by the listener's text filter instead.
-  iosVoiceProcessingEnabled: false,
+  // Echo cancellation: the phone's own sound (the host, the cues) is taken out of
+  // what the mic hears before recognition, which no text rule can do (#438, after
+  // it was off from 19 Oct 2026 for the engine loop and volume steps it set off;
+  // see the mode below and app/patches). The listener's text filter stays as the
+  // second line.
+  iosVoiceProcessingEnabled: true,
   iosCategory: {
     category: 'playAndRecord',
     categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'],
-    mode: 'default',
+    mode: 'voiceChat',
   },
 } as const;
 
@@ -79,6 +86,15 @@ export type VoiceProcessingInfo = {
   /** Engines built so far, and how many of them were rebuilt after a route change. */
   engines: number;
   rebuilds: number;
+  /** Route changes seen while a request was open, and how many of them kept the engine (same ports). */
+  routeChanges?: number;
+  routeChangesIgnored?: number;
+  /** Engines a route change stopped and that were started again rather than rebuilt. */
+  engineRestarts?: number;
+  /** The last route change: iOS's reason code and whether the ports changed. */
+  lastRouteChange?: string | null;
+  /** Which version of app/patches/expo-speech-recognition the build carries. */
+  patch?: string;
 };
 
 type PatchedModule = { getVoiceProcessingStateIOS?: () => VoiceProcessingInfo };

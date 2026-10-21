@@ -83,7 +83,7 @@ test('round 1 -> result -> round 2 -> result -> round 3: the same session and re
 
   // Every round found the session as the first one set it up: in the
   // recognizer's category and mode, and active.
-  const first: FakeSession = { category: 'playAndRecord', mode: 'default', options: ['allowBluetooth', 'defaultToSpeaker', 'mixWithOthers'], active: true };
+  const first: FakeSession = { category: 'playAndRecord', mode: 'voiceChat', options: ['allowBluetooth', 'defaultToSpeaker', 'mixWithOthers'], active: true };
   expect(found).toEqual([first, first, first]);
 
   // The recognizer was started with the first round's options every round
@@ -93,7 +93,7 @@ test('round 1 -> result -> round 2 -> result -> round 3: the same session and re
   const [o1, o2, o3] = rec.startOptions.map(audioOptions);
   expect(o2).toEqual(o1);
   expect(o3).toEqual(o1);
-  expect(o1).toMatchObject({ ...RECOGNITION_OPTIONS, iosVoiceProcessingEnabled: false, iosCategory: RECOGNITION_OPTIONS.iosCategory });
+  expect(o1).toMatchObject({ ...RECOGNITION_OPTIONS, iosVoiceProcessingEnabled: true, iosCategory: RECOGNITION_OPTIONS.iosCategory });
 
   // Nothing made the session inactive: not the app (setIsAudioActiveAsync(false)),
   // not expo-audio letting players go; and it was set up once, in round 1.
@@ -108,9 +108,9 @@ test('round 1 -> result -> round 2 -> result -> round 3: the same session and re
   const rounds = roundAudio();
   expect(rounds.map((r) => r.round)).toEqual([1, 2, 3]);
   for (const r of rounds) {
-    expect(r.session).toMatchObject({ category: 'playAndRecord', mode: 'default', options: first.options, outputVolume: 0.5 });
-    expect(r.vp).toMatchObject({ running: true, enabled: false, rebuilds: 0 });
-    expect(r.asked).toEqual({ voiceProcessing: false, category: RECOGNITION_OPTIONS.iosCategory });
+    expect(r.session).toMatchObject({ category: 'playAndRecord', mode: 'voiceChat', options: first.options, outputVolume: 0.5 });
+    expect(r.vp).toMatchObject({ running: true, enabled: true, advancedDucking: false, duckingLevel: 'min', rebuilds: 0 });
+    expect(r.asked).toEqual({ voiceProcessing: true, category: RECOGNITION_OPTIONS.iosCategory });
   }
   // One line per round in SES OTURUMU, identical for the three rounds.
   const lines = rounds.map(roundLine);

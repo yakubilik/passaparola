@@ -277,15 +277,19 @@ test("#355: game audio ignores the phone volume and is too loud during the round
   for (const p of hostPlayers(r3)) for (const v of p.volumes) expect(v).toBeLessThanOrEqual(HOST_VOLUME * 0.4 + 1e-9);
   for (const p of cuePlayers(r3)) for (const v of p.volumes) expect(v).toBeLessThanOrEqual(CUE_VOLUME * 0.4 + 1e-9);
   expect(sounds.bgVolume).toBeLessThanOrEqual(BG_VOLUME * 0.4 + 1e-9);
-  // The cause (#355): iOS voice processing put the output on the call-volume path.
-  // Every round's recognizer runs without it, in mode 'default' (never voiceChat),
-  // so the phone's volume buttons drive the game's sound.
+  // The cause (#355): iOS voice processing switched the output to the call-volume
+  // path under a sound already playing. Since #438 voice processing is on (echo
+  // cancellation) and the session is put in the mode it uses, voiceChat, once,
+  // before the first sound: every round's recognizer finds that mode in place, so
+  // nothing moves the output path while the game sounds and the volume buttons
+  // drive it the whole time.
   expect(rec.startOptions).toHaveLength(3);
   for (const o of rec.startOptions) {
-    expect(o.iosVoiceProcessingEnabled).toBe(false);
-    expect(o.iosCategory).toEqual({ category: 'playAndRecord', categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'], mode: 'default' });
+    expect(o.iosVoiceProcessingEnabled).toBe(true);
+    expect(o.iosCategory).toEqual({ category: 'playAndRecord', categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'], mode: 'voiceChat' });
   }
-  for (const s of found) expect(s.mode).toBe('default');
+  for (const s of found) expect(s.mode).toBe('voiceChat');
+  expect(rec.categoryAfterPlays).toEqual([0]);
 });
 
 test('#355: o ilk cümle sadece yüksek çalışıyor ve o cümlenin sesi değişmiyor', async () => {
@@ -346,7 +350,7 @@ test("#361: I finished level 1, the sound was great; when I moved on to level 2 
   const rounds = await playRounds(['pas', 'correct']);
   expect(rounds).toHaveLength(3);
   // Every round found the session as the first round set it up, active.
-  const first: FakeSession = { category: 'playAndRecord', mode: 'default', options: ['allowBluetooth', 'defaultToSpeaker', 'mixWithOthers'], active: true };
+  const first: FakeSession = { category: 'playAndRecord', mode: 'voiceChat', options: ['allowBluetooth', 'defaultToSpeaker', 'mixWithOthers'], active: true };
   expect(found).toEqual([first, first, first]);
   // The recognizer started with the same audio options every round.
   const audioOptions = (o: any) => { const { contextualStrings, ...rest } = o; return rest; };

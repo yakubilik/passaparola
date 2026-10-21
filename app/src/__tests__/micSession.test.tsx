@@ -34,6 +34,6 @@ test('the mic check sets the session up on the tap, not when its screen opens', 
   await act(async () => {});
   expect(audio.sessionCalls).toEqual(['mode', 'active']);
   expect(rec.events).toEqual(['category', 'start']);
-  expect(rec.lastOptions).toMatchObject({ iosVoiceProcessingEnabled: false, iosCategory: RECOGNITION_OPTIONS.iosCategory });
+  expect(rec.lastOptions).toMatchObject({ iosVoiceProcessingEnabled: true, iosCategory: RECOGNITION_OPTIONS.iosCategory });
   expect(audio.plays).toBe(0);
 });
