@@ -24,11 +24,11 @@ short words ("Ay") were missed.
 | 3a | **"Keep the session and engine running"** | The recognizer is started once per round (once per match) and replaced only when iOS forces it (rows 7, 10). No start, stop or abort happens while a host clip or a cue is sounding (`listener.busy`, set in `engine.ts`: `host.speaking` or `sounds.cuePlaying`): it is retried every `QUIET_POLL_MS` (100 ms) until the game is silent. Closing the mic (round over, screen left) waits the same way; the mic check and the test screen take the recognizer at once (`listener.release()`). `SFSpeechRecognizer` and the library play no sound on iOS (the chime is Android's / Safari's). | — | The library cannot keep its `AVAudioEngine` across requests: every `start()` runs `reset()` (engine stopped and released, its voice-processing I/O unit with it), then `setupAudioSession` (`setCategory` + `setActive(true)`) and a new `AVAudioEngine` with `setVoiceProcessingEnabled(true)` on the input **and output** nodes. That reconfigures the output path and its ducking of the app's other sound under whatever is playing. #351 did this at every verdict, while the cue played (`CUE_LEAD_MS`): the cue was cut or swallowed and the level jumped each question (#357). → Once per round, and only in silence. | `ios/ExpoSpeechRecognizer.swift` (`startRecognizer`, `reset`, `prepareMicrophoneRecognition`, `setupAudioSession`) |
 | 4 | **addsPunctuation** | `false`. | iOS 16+: adds punctuation to the transcription. Answers are compared as words; punctuation would only need stripping. | None (was already off). | [addsPunctuation](https://developer.apple.com/documentation/speech/sfspeechrecognitionrequest/addspunctuation) |
 | 5 | **maxAlternatives** | Game: 5 (all are judged, `judgeSpoken`); mic check: 1 (only shows what was heard); test screen: 5. | `SFSpeechRecognitionResult.transcriptions` is the n-best list, best first; the library truncates it to `maxAlternatives` (default 5). | None. | [transcriptions](https://developer.apple.com/documentation/speech/sfspeechrecognitionresult/transcriptions), README `maxAlternatives` |
-| 6 | **Continuous mode, interim results** | Game and test: `continuous: true`, `interimResults: true` (`shouldReportPartialResults`). Answers are judged on interim results: a right answer or a Pas at once, others after `SETTLE_MS` (700 ms) without change. On iOS 18+ the library marks a result final when `speechRecognitionMetadata.speechDuration > 0` (Apple's end of an utterance) and the next transcript starts empty; the listener then starts counting words from zero (`used = 0`). Mic check: `continuous: false` (the library stops after 3 s of no results). | Partial results arrive while speaking; `isFinal` only when the task finishes. iOS 18 changed continuous recognition to finish utterances inside one task (library "iOS 18 hack", Apple forum thread). | None. | [shouldReportPartialResults](https://developer.apple.com/documentation/speech/sfspeechrecognitionrequest/shouldreportpartialresults), [forum 762952](https://forums.developer.apple.com/forums/thread/762952) |
+| 6 | **Continuous mode, interim results** | Game and test: `continuous: true`, `interimResults: true` (`shouldReportPartialResults`). Answers are judged on interim results: a right answer or a Pas at once, others after `SETTLE_MS` (700 ms) without change; lone letters are incomplete and never judged (#438, "Utterance states" below). On iOS 18+ the library marks a result final when `speechRecognitionMetadata.speechDuration > 0` (Apple's end of an utterance), not only when the task finishes, and the next transcript starts empty; the listener then starts counting words from zero (`used = 0`). Such a final may hold only the first letter of the word (after a long silence) and is not waited for: nothing depends on a final arriving. Mic check: `continuous: false` (the library stops after 3 s of no results). | Partial results arrive while speaking; `isFinal` when the task finishes. iOS 18 changed continuous recognition to finish utterances inside one task (library "iOS 18 hack", Apple forum thread). | A final or settled lone letter was judged wrong (#438). → Incomplete state. | [shouldReportPartialResults](https://developer.apple.com/documentation/speech/sfspeechrecognitionrequest/shouldreportpartialresults), [forum 762952](https://forums.developer.apple.com/forums/thread/762952) |
 | 7 | **Apple's ~1-minute limit per request (server)** | Only for server recognition (after the on-device fallback, row 1): a request is renewed after `REQUEST_REFRESH_MS` (45 s) at the first quiet moment (no result for `QUIET_MS` = 1 s, nothing settling) and at `REQUEST_MAX_MS` (55 s) regardless of the player (`checkAge`), never while a host clip or a cue sounds (row 3a). An on-device request is never renewed; if iOS ends one on its own after `LIMIT_SEEN_MS` (50 s) anyway, the tr-TR recognizer was not on-device after all and the time limit applies from then on. | "Plan for a one-minute limit on audio duration" for server recognition; at the limit the task ends with an error / final result and the library emits `end`. On-device has no such limit (WWDC19 256). | Was **after the fact**: iOS cut the request at about a minute, possibly mid-answer, and the listener reopened it 250 ms later. → Renewed before the limit, in silence. | [SFSpeechRecognizer — Create a great user experience](https://developer.apple.com/documentation/speech/sfspeechrecognizer) |
-| 8 | **iosVoiceProcessingEnabled** | `true` (game, mic check; switchable on the test screen). The library calls `setVoiceProcessingEnabled(true)` on the engine's input and output nodes: Apple's echo cancellation, so the host and cues coming out of the loudspeaker are not heard as answers (#337). | Voice processing on the I/O unit does echo cancellation, noise suppression and automatic gain; it can lower other playback (README note). | None; kept for #337. Its effect on quiet short words can be measured with the test screen (switch "Yankı engelleme"). | [setVoiceProcessingEnabled](https://developer.apple.com/documentation/avfaudio/avaudioionode/setvoiceprocessingenabled(_:)), README "feedback from the speakers" |
-| 9 | **Audio session category / mode** | `playAndRecord`, mode `default`, options `defaultToSpeaker`, `allowBluetooth`, `mixWithOthers`; set once when a round or the mic check starts (`prepareAudio` → `setVoiceSession`), the same values passed with every `start()` so the library's own `setCategory` changes nothing (#350). | `playAndRecord` for simultaneous input and output; `defaultToSpeaker` routes to the loudspeaker instead of the receiver. A category / mode change is a route change; the library rebuilds the engine on a route change (without voice processing) and stops on an interruption. The library's default mode `measurement` (and `voiceChat`) would change loudness. | None. | [playAndRecord](https://developer.apple.com/documentation/avfaudio/avaudiosession/category-swift.struct/playandrecord), [defaultToSpeaker](https://developer.apple.com/documentation/avfaudio/avaudiosession/categoryoptions-swift.struct/defaulttospeaker) |
-| 10 | **'end' / 'error' events and restart policy** | `abort()` → `error: aborted` then `end`. A planned renewal (row 7) ignores both and starts the next request at its `end`; a late `end` of a dropped or closed request is not taken for the new one's. An `end` iOS sends on its own (interruption, limit, long silence) delivers what was pending and reopens the mic after 250 ms, or once the game is silent (row 3a). `no-speech` and `aborted` are not shown; `not-allowed` / `service-not-allowed` (after the server fallback) stop the mic and say why. | Library: every task end goes through `reset()` → one `end`; errors map kAFAssistantErrorDomain / kLSRErrorDomain codes to `no-speech` (1110), `network` (1101/1107), `busy` (1100), `service-not-allowed` (102/201), `not-allowed` (1700). | Restarts were only reactive. → Planned renewals (7), stale-`end` guard; none while the game sounds. | `ios/ExpoSpeechRecognitionModule.swift` (`handleRecognitionError`, `abort`) |
+| 8 | **iosVoiceProcessingEnabled** | `true` (game, mic check; switchable on the test screen). The library calls `setVoiceProcessingEnabled(true)` on the engine's input and output nodes: Apple's echo cancellation, so the host and cues coming out of the loudspeaker are not heard as answers (#337). The patch (app/patches) gives a rebuilt engine the same voice processing, switches its ducking of other audio to the minimum, and keeps the engine when a route change leaves the ports as they were. | Voice processing on the I/O unit does echo cancellation, noise suppression and automatic gain; it can lower other playback (README note), and it puts a session in mode `default` into `voiceChat` (seen on the phone, row 9). | It was **off** from 19 Oct 2026 (ea5bc9c) to #438: on the phone it set off an engine rebuild every second and stepping volume (docs/selftest/2026-10-19-1826-phone.json). → On again, with the cause of the loop fixed ("Echo cancellation and a steady volume" below). Its effect on quiet short words can be measured with the test screen (switch "Yankı engelleme"). | [setVoiceProcessingEnabled](https://developer.apple.com/documentation/avfaudio/avaudioionode/setvoiceprocessingenabled(_:)), README "feedback from the speakers" |
+| 9 | **Audio session category / mode** | `playAndRecord`, mode `voiceChat`, options `defaultToSpeaker`, `allowBluetooth`, `mixWithOthers`; set once when a round or the mic check starts (`prepareAudio` → `setVoiceSession`), before the round's first sound, the same values passed with every `start()` so the library's own `setCategory` changes nothing (#350). | `playAndRecord` for simultaneous input and output; `defaultToSpeaker` routes to the loudspeaker instead of the receiver. A category / mode change is a route change; upstream, the library rebuilds the engine on every route change (without voice processing) and stops on an interruption. The library's default mode `measurement` would change loudness; `voiceChat` puts the output on the call-volume path. | Was `default` (#350, #355), which voice processing switched to `voiceChat` at every engine start and back at every release, under whatever was playing. → `voiceChat` from the start (#438): one output path for the whole round. | [playAndRecord](https://developer.apple.com/documentation/avfaudio/avaudiosession/category-swift.struct/playandrecord), [defaultToSpeaker](https://developer.apple.com/documentation/avfaudio/avaudiosession/categoryoptions-swift.struct/defaulttospeaker) |
+| 10 | **'end' / 'error' events and restart policy** | `abort()` → `error: aborted` then `end`. A planned renewal (row 7) ignores both and starts the next request at its `end`; a late `end` of a dropped or closed request is not taken for the new one's. An `end` iOS sends on its own (interruption, limit, long silence) delivers what was pending and reopens the mic after 250 ms, or once the game is silent (row 3a). `no-speech` and `aborted` are not shown; `not-allowed` / `service-not-allowed` (after the server fallback) stop the mic and say why. | Library: every task end goes through `reset()` → one `end`; errors map kAFAssistantErrorDomain / kLSRErrorDomain codes to `no-speech` (1110), `network` (1101/1107), `busy` (1100), `service-not-allowed` (102/201), `not-allowed` (1700). | Restarts were only reactive. → Planned renewals (7), stale-`end` guard; none while the game sounds. A route change that keeps the input and output ports no longer rebuilds the engine (patch, #438). | `ios/ExpoSpeechRecognitionModule.swift` (`handleRecognitionError`, `abort`) |
 | 11 | **Permissions: microphone, speech recognition, Siri & Dictation** | `prepareMic()` asks for both (`requestPermissionsAsync`); refused → "Mikrofon ya da konuşma tanıma izni kapalı…". `isRecognitionAvailable()` false, or error `service-not-allowed` from the server too → "Siri ve Dikte kapalı…" (Ayarlar > Genel > Klavye > Dikte). | `SFSpeechRecognizer.requestAuthorization` states: notDetermined / denied / restricted / authorized; `NSSpeechRecognitionUsageDescription` and `NSMicrophoneUsageDescription` required. When Siri and Dictation are disabled the recognizer is unavailable / fails with kLSRErrorDomain 201. | None besides the on-device fallback (1). | [Asking permission to use speech recognition](https://developer.apple.com/documentation/speech/asking-permission-to-use-speech-recognition), [requestAuthorization](https://developer.apple.com/documentation/speech/sfspeechrecognizer/requestauthorization(_:)) |
 | 12 | **Locale** | `lang: 'tr-TR'`; the library builds the recognizer once per locale and reports `language-not-supported` if tr-TR is missing from `supportedLocales()`. | `SFSpeechRecognizer(locale:)` returns nil for unsupported locales. | None. | [supportedLocales](https://developer.apple.com/documentation/speech/sfspeechrecognizer/supportedlocales()) |
 
@@ -102,9 +102,10 @@ the recognizer, it is not the game.
 
 Reported on the phone with main fa30073 (20 Oct 2026), and many times
 before (#318, #337, #342, #362): the host's own speech, heard through the
-loudspeaker, is judged as the player's answer. Since voice processing was
-turned off (ea5bc9c, 19 Oct) the mic hears everything the phone plays, and
-only text filters keep the host out of the answers.
+loudspeaker, is judged as the player's answer. With voice processing
+turned off (ea5bc9c, 19 Oct, until #438 turned it on again) the mic heard
+everything the phone played, and only text filters kept the host out of the
+answers. They stay as the second line behind echo cancellation.
 
 **Root cause, on main fa30073.** Three holes, found by the echo corpus
 (below) run against main's rule:
@@ -187,19 +188,143 @@ recognizer that gives the host's words more than the tail late (800 ms) is
 also out of the filter's reach. A "bas" said alone over the reading is now
 the host's (every clue ends in "başlıyor"); "pas" still passes.
 
-**Proposal (not implemented): voice processing back on, with another fix
-for the volume.** Echo cancellation removes the host from the mic before
-recognition, which no text rule can. It was turned off because, on the
-phone (docs/selftest/2026-10-19-1826-phone.json), with it on iOS put the
-session in `voiceChat`, raised `outputVolume` 0.55 → 1.0 step by step and
-rebuilt the recognizer's audio engine every second (7 engines in 5 s). Those
-are separate faults with their own fixes: set the session to
-`playAndRecord` / `videoChat` once, before the first sound of the app, so
-voice processing never switches the mode under a playing sound; patch
-expo-speech-recognition (app/patches) so one engine with voice processing
-lives for the whole round and a configuration change caused by voice
-processing itself does not rebuild it; keep the ducking off as e9eb352 did;
-then measure on the phone with the existing self-test (one engine per
-round, `outputVolume` steady) before relying on it. The text filters stay
-as the second line. This belongs to the harfiyen-audio lane (#394), which
-owns the audio session.
+**Voice processing back on (#438).** The proposal that stood here (echo
+cancellation on, the session in a chat mode once before the first sound,
+the engine not rebuilt for voice processing's own configuration changes,
+the ducking kept off) is implemented: see "Echo cancellation and a steady
+volume" below. The text filters stay as the second line.
+
+## Utterance states (#438)
+
+**Report (Yakup, 21 Oct 2026):** after a long wait a spoken word can be
+reduced to its first letter and graded wrong; "Ay" and other two-letter
+words are hard to get recognised; host speech still now and then becomes an
+answer.
+
+**Reproduction, before the fix (main e59de5c).** After a quiet spell iOS
+writes the start of a word alone: the interim "a", and often the
+utterance's final (iOS 18's `speechDuration` final, row 6) with just "a",
+before the word or instead of it. `listener.ts` delivered both: the interim
+after `SETTLE_MS` (700 ms) without change, the final at once
+(`onResult` → `deliver`), and `judgeHeard` passed it to `judgeSpoken` with
+no guard when the host was quiet: "a" for Ay is wrong. The word that came
+next ("ay") then belonged to the next question. Driven tests, red on that
+tree: `regressions/voice.test.tsx` "#438: after a long wait a spoken word is
+reduced to its first letter and graded wrong" (20 s of silence, "a" interim,
+its final, then "ay": `yanlış` instead of `sırada` then `doğru`) and 50 of
+the 63 cases of `src/voice/__tests__/utterance.test.ts` (Ay, Su, El, Un, Ok
+after 1, 20, 45 and 65 s of silence, on-device and on the servers with the
+request renewed or ended by iOS; evolving, delayed and revised results;
+isolation, two words, numbers, Pas).
+
+A second hole found with it: whether an utterance's final counts as "over
+the host" (`uttDuringHost`) was kept from the first word of the growing
+result until a final came. With no final for a long while, a wrong answer
+said long after the host stopped, whose final came at once, was taken for
+the host's and held or dropped.
+
+**What is heard is in one of three states** (listener.ts):
+
+| State | What it is | Becomes |
+|---|---|---|
+| incomplete | Lone letters (`isFragment` in normalize.ts: every word one letter, not a digit) that are neither a right answer nor a Pas | an attempt, when words that complete it come (an interim letter is in the same growing result; a final letter is put in front of every result until its attempt is delivered: "a" + "y" is "a y", right for Ay); dropped without a verdict after `FRAGMENT_MS` (3 s) with nothing after it, its words then handled; dropped at `clueStarts` (never the next question's) |
+| attempt | Words that settle (`SETTLE_MS`, `PARTIAL_MS` for the start of a longer answer), a right answer or a Pas (at once), or a final | delivered once to the round (`judgeHeard`): a verdict, a held wrong over the host, or none |
+| consumed | The delivered utterance's later words and revisions (`LATE_MS`), its final whenever it comes, and anything before the next clue | dropped; new words after a pause start a new utterance (and reset "over the host" for its final) |
+
+A lone letter never waits for anything else: the words after it are judged
+as soon as they would be without it (a right answer at once, a wrong one
+after `SETTLE_MS`), so short answers are not delayed and nothing guesses
+the expected answer. Nothing waits for a final either: in continuous mode
+it may never come. `judgeHeard` also refuses a lone letter as a wrong
+answer on its own (defence in depth), and for the "held wrong over the host"
+check ignores lone letters before the word ("a armut"). Two-letter answers
+(Ay, Su, Öd, Pi, Ud, Uç) and digits ("3" for Üç, "F1", "U2", "ilk 11") are
+complete words and judged as before.
+
+**Checked by** (fake recognizer, not the phone's recognizer):
+`src/voice/__tests__/utterance.test.ts` (63 cases) and the two #438 tests in
+`regressions/voice.test.tsx`; every earlier complaint test and the echo
+corpus (`voiceEcho*.test.ts`) unchanged and green.
+
+## Echo cancellation and a steady volume (#438, scope of #439)
+
+**Cause of the loop, read from the library.** On the phone (docs/selftest/
+2026-10-19-1826-phone.json) voice processing switched the session from
+`default` to `voiceChat`, `rebuilds` rose by one a second and
+`outputVolume` stepped 0.8 → 0.9 → 1.0. In expo-speech-recognition every
+`AVAudioSession.routeChangeNotification` while a request runs calls
+`restartAudioEngineForRouteChange`, whatever the change: the old engine is
+let go (the #361 patch turns its voice processing off), a new one is built
+with voice processing on. Turning voice processing off and on switches the
+session's mode, which is a route change of its own: the next rebuild.
+
+**Fix.**
+
+1. app/patches/expo-speech-recognition: the route-change observer reads the
+   previous route from the notification. When the input and output ports
+   are the same (by port UID), the running engine is kept (and started
+   again if the change stopped it); only a real change of microphone or
+   speaker (headphones, Bluetooth, the receiver) rebuilds it, with voice
+   processing as before. The native state (`getVoiceProcessingStateIOS`)
+   now also counts `routeChanges`, `routeChangesIgnored`, `engineRestarts`,
+   the `lastRouteChange` (iOS's reason and whether the ports changed) and
+   names the patch (`patch: harfiyen-438-route`).
+2. `RECOGNITION_OPTIONS`: `iosVoiceProcessingEnabled: true`, session mode
+   `voiceChat`, the mode voice processing puts the session in anyway. It is
+   set once, before the round's first sound (`prepareAudio`), and passed
+   with every start, so no engine start, release or renewal changes the mode
+   under a playing sound. The output is on the call-volume path for the
+   whole round; the volume buttons and the Ses setting move it.
+3. Ducking stays at the minimum, not advanced (e9eb352); a rebuilt engine
+   gets the same voice processing (#361); fresh players per cue (#415) and
+   the round's settle order (#355) are unchanged.
+
+**The playback path.** The host's clips and the cues play through
+expo-audio's `AVPlayer`s, not through the recognizer's `AVAudioEngine`,
+whose output node renders nothing. Whether iOS's voice-processing echo
+canceller takes that playback as its reference is not stated in Apple's
+documentation; the phone gave no host-echo complaint while voice processing
+was on (#337 to 19 Oct), and the echo complaints #391 / #393 came after it
+was turned off. Routing the host and the cues through the recognizer's
+engine would be the next, larger step if the phone shows the host in the
+mic with voice processing on.
+
+**Delivery.** The delivery script regenerates `ios/` (`npm ci`, which
+applies app/patches, then `expo prebuild`) only when app.json, the package
+files, `assets/`, `plugins/` or `modules/` change, not `patches/`. #438
+changes `modules/audio-session-info` (a `build()` call for the evidence
+file), so the first delivery after it regenerates `ios/` and compiles the
+new patch; derived data is kept. A later change to `patches/` alone would
+not reach the phone without such a change.
+
+**Evidence file.** Launched with `-harfiyenSelfTest trace` the app writes
+Documents/harfiyen-voicetrace.json (`src/voice/trace.ts`): build and patch
+identity, every raw result (all alternatives, interim or final, with
+times), the listener's decisions (incomplete, attempt, consumed, dropped),
+the round's verdicts by source, the host's lines and the cues (the game's
+own sound), and the native audio state once a second (session mode, route,
+`outputVolume`, voice processing, engines, route changes). The self-test
+modes write it too, their own answers marked `selftest`: those are audio
+state evidence only, not recognition.
+
+**Checked by** (fake recognizer and fake audio: what the JS side asks for
+and when, not what iOS does): `src/__tests__/voiceProcessing.test.tsx`
+(three rounds, many questions, route changes, an interruption, server
+renewals: one start per round plus what iOS forces, never while the game
+sounds, the same options with voice processing every time, the session's
+category and mode set once before any sound; the evidence file's
+contents), `roundsAudio.test.tsx`, `regressions/audio.test.tsx`. The Swift
+was typechecked against stand-ins for the Expo module types
+(`swiftc -typecheck`, iOS 26.2 SDK); it is compiled for real only by the
+delivery build.
+
+**Not physically verified.** None of this has run on an iPhone yet. To
+measure there, with the delivered build and the evidence file: at least 40
+host-only passages over three rounds at about 30 %, 60 % and 85 % volume
+with no verdict; voice processing reported on, `outputVolume` steady, no
+engine-rebuild loop (`engines` one per round, `routeChangesIgnored` rising
+instead of `rebuilds`); 30 spoken short words (Ay, Su, El, Un, Ok) with host
+overlap and 20 / 45 / 65 s idle periods, at least 29 right once, no
+lone-letter wrong verdict, no double grading or leak; normal answers, Pas,
+two-word answers and wrong words; speech end to verdict p50 / p95 over at
+least 30 recognised attempts (target p95 ≤ 1000 ms).
