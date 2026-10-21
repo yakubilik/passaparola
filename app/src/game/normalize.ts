@@ -211,6 +211,17 @@ export function judgeSpoken(alts: readonly string[], answers: readonly string[])
   return 'wrong';
 }
 
+/**
+ * Lone letters: the start of a word iOS has only begun ("a" of "Ay", after a
+ * long silence often its utterance's final too), or one it spelled out ("a
+ * a"), not an attempt. No answer is a single letter; a digit is a number ("3"
+ * for Üç) and counts.
+ */
+export function isFragment(text: string): boolean {
+  const ws = norm(text).split(' ').filter(Boolean);
+  return ws.length > 0 && ws.every((w) => /^[a-z]$/.test(fold(w)));
+}
+
 /** What the listener knows about heard words: see Heard in voice/listener.ts. */
 export type HeardHow = { duringHost: boolean; hostLike?: boolean; hostNear?: boolean; hostWords?: readonly string[] };
 
@@ -236,6 +247,7 @@ export function hostSays(heard: string, hostWords: readonly string[]): boolean {
  *   #342 again after #393, #405);
  * - other words like the host's (hostLike) are no verdict at all;
  * - a right answer a dictation slip away is judged at once;
+ * - a lone letter (isFragment) is no verdict, with or without the host;
  * - a wrong answer is 'hold': judged once the host is quiet (#342, "Merkür"
  *   said over the Mars clue), but only when it looks like the player's attempt
  *   at this letter: one to three words, the first starting with the letter
@@ -244,12 +256,16 @@ export function hostSays(heard: string, hostWords: readonly string[]): boolean {
  */
 export function judgeHeard(alts: readonly string[], answers: readonly string[], letter: string, how: HeardHow): Verdict | 'hold' | null {
   const verdict = judgeSpoken(alts, answers);
+  // A lone letter is never a wrong answer, over the host or not (#438).
+  if (verdict === 'wrong' && isFragment(alts[0] ?? '')) return null;
   if (!how.duringHost) return verdict;
   if (verdict === 'pass') return verdict;
   if (verdict === 'correct' && spokenPieces(alts).some((p) => isCorrect(p, answers) && !hostSays(p, how.hostWords ?? []))) return verdict;
   if (how.hostLike) return null;
   if (verdict === 'correct') return verdict;
   const first = norm(alts[0] ?? '').split(' ').filter(Boolean);
+  // The word's own first letter, heard alone before it ("a armut"), is not a word of its own.
+  while (first.length > 1 && isFragment(first[0])) first.shift();
   const attempt = first.length >= 1 && first.length <= 3 && first[0].length >= 2 && fold(first[0])[0] === fold(letter)[0];
   return attempt && !how.hostNear ? 'hold' : null;
 }

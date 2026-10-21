@@ -1,4 +1,4 @@
-import { fold, hostSays, isCorrect, isPassWord, norm } from '../game/normalize';
+import { fold, hostSays, isCorrect, isFragment, isPassWord, norm } from '../game/normalize';
 
 // Spoken answers, ported from js/voice.js (the web game). The microphone is
 // opened when the round starts and kept open, so the player can also answer
@@ -19,11 +19,22 @@ import { fold, hostSays, isCorrect, isPassWord, norm } from '../game/normalize';
 // Nothing starts or stops the recognizer while a host clip or a cue plays
 // (`busy`): it waits for the silence after it (QUIET_POLL_MS).
 //
-// iOS keeps growing one result for everything said and never marks it final,
-// so interim results are used: words already handled are cut off the front,
-// and an answer counts once the words stop changing for SETTLE_MS. A right
-// answer or a Pas does not wait at all (the round tells, see `Pace`), and the
-// start of a longer answer ("Reşat" of Reşat Nuri Güntekin) waits PARTIAL_MS.
+// iOS keeps growing one result for everything said (on iOS 18 and later it
+// also ends each utterance with a final-like result, not always), so interim
+// results are used: words already handled are cut off the front, and an
+// answer counts once the words stop changing for SETTLE_MS. A right answer or
+// a Pas does not wait at all (the round tells, see `Pace`), and the start of
+// a longer answer ("Reşat" of Reşat Nuri Güntekin) waits PARTIAL_MS.
+// What is heard is in one of three states (docs/speech.md, "Utterance
+// states"): incomplete, a completed attempt, or consumed. A lone letter
+// (isFragment: "a" of "Ay", which iOS gives after a long silence, as an
+// interim and often as its utterance's final) is incomplete: no verdict, and
+// not handled either, so the word it begins is judged whole when it comes
+// (the letter's final is put in front of it). Nothing waits for it: an
+// incomplete letter is dropped unjudged after FRAGMENT_MS, and words after it
+// are judged as soon as they would be without it. Words that settle, a right
+// answer, a Pas or a final are a completed attempt, delivered once; from then
+// on they are consumed (the tail rules below).
 // After a verdict the same result goes on growing and being revised ("Sezen"
 // → "Sezen Aksu" → a final "Sezen Aksu", its guesses not all the same length).
 // For LATE_MS after the verdict, words that carry on without a pause of
@@ -48,6 +59,8 @@ export const PARTIAL_MS = 1500;
 /** After a verdict, the same utterance's late words and revisions are part of it for this long. */
 export const LATE_MS = 1500;
 export const ECHO_TAIL_MS = 800;
+/** A lone letter (incomplete) waits this long for the word it begins, then is dropped without a verdict. */
+export const FRAGMENT_MS = 3000;
 /** A request this old is renewed at the next quiet moment (no words for QUIET_MS, nothing pending). */
 export const REQUEST_REFRESH_MS = 45_000;
 /** ...and renewed regardless at this age, ahead of the iOS one-minute limit. */
@@ -144,6 +157,11 @@ export class AnswerListener {
   private lastCount = 0;
   private lastDuringHost = false;
   private uttDuringHost = false;  // the utterance a final ends had words while the host talked
+  // An incomplete lone letter: its text, whether its result was final (then the
+  // next result does not hold it and it is put in front of the next words), and
+  // whether it came while the host talked.
+  private fragment: { text: string; final: boolean; duringHost: boolean } | null = null;
+  private fragmentTimer: ReturnType<typeof setTimeout> | null = null;
   private echoSeen = 0;       // words of the current result heard as the host's while an answer settles
   private settleTimer: ReturnType<typeof setTimeout> | null = null;
   private restartTimer: ReturnType<typeof setTimeout> | null = null;
@@ -231,6 +249,7 @@ export class AnswerListener {
     this.staleEnds = 0;
     this.clearTimers();
     this.lastAlts = null;
+    this.fragment = null;
     this.up = false;
     this.wakeUpWaiters();
     if (this.running && !this.closing) this.close();
@@ -312,6 +331,7 @@ export class AnswerListener {
   clueStarts() {
     if (this.settleTimer) clearTimeout(this.settleTimer);
     this.settleTimer = null;
+    this.dropFragment();
     if (this.lastAlts) {
       this.lastAlts = null;
       this.lastKey = '';
@@ -431,7 +451,8 @@ export class AnswerListener {
     if (this.restartTimer) clearTimeout(this.restartTimer);
     if (this.ageTimer) clearTimeout(this.ageTimer);
     if (this.renewTimer) clearTimeout(this.renewTimer);
-    this.settleTimer = this.restartTimer = this.ageTimer = this.renewTimer = null;
+    if (this.fragmentTimer) clearTimeout(this.fragmentTimer);
+    this.settleTimer = this.restartTimer = this.ageTimer = this.renewTimer = this.fragmentTimer = null;
   }
 
   // Drops the running request on purpose (the time limit); renewed() starts the next one.
@@ -443,6 +464,7 @@ export class AnswerListener {
     if (this.ageTimer) clearTimeout(this.ageTimer);
     this.settleTimer = this.ageTimer = null;
     this.lastAlts = null;
+    this.dropFragment(false);
     this.renewTimer = setTimeout(() => this.renewed(true), RESTART_WAIT_MS);
     try { this.rec.abort(); } catch { this.renewed(); }
   }
@@ -466,7 +488,7 @@ export class AnswerListener {
     this.ageTimer = null;
     if (!this.running || this.renewing || this.closing) return;
     const now = this.now();
-    const quiet = !this.lastAlts && now - this.lastResultAt >= QUIET_MS;
+    const quiet = !this.lastAlts && !this.fragment && now - this.lastResultAt >= QUIET_MS;
     if (!this.busy() && (quiet || now - this.startedAt >= REQUEST_MAX_MS)) this.renew();
     else this.ageTimer = setTimeout(() => this.checkAge(), 250);
   }
@@ -489,6 +511,8 @@ export class AnswerListener {
     this.prevWords = [];
     this.swallowUntil = 0;
     this.tailOpen = false;
+    // A letter heard just before the request ended is not in the new one's results.
+    if (this.fragment) this.fragment.final = true;
     if (!this.unsub) {
       this.unsub = this.rec.subscribe({
         result: (e) => this.onResult(e),
@@ -523,18 +547,26 @@ export class AnswerListener {
     const skip = this.realign(words(e.results[0]?.transcript ?? ''));
     this.used = skip;
     let count = 0;
-    const alts: string[] = [];
+    let alts: string[] = [];
     e.results.forEach((r, i) => {
       let w = words(r.transcript);
       if (i === 0) count = w.length;
       w = this.withoutEcho(w.slice(skip));
       if (w.length) alts.push(w.join(' '));
     });
+    // An incomplete letter whose result was final begins these words: one utterance.
+    const frag = this.fragment;
+    if (frag?.final && alts.length) alts = alts.map((a) => `${frag.text} ${a}`);
     const rewritten = this.rewritten(words(e.results[0]?.transcript ?? ''), skip);
     this.prevWords = e.isFinal ? [] : words(e.results[0]?.transcript ?? '');
+    const grew = count > this.seenCount;
     this.seenCount = e.isFinal ? 0 : count;
     const pause = this.now() - this.wordsAt >= SETTLE_MS;
     if (alts.length) this.wordsAt = this.now();
+    // New words after a pause, with nothing pending, start a new utterance:
+    // earlier words heard over the host no longer make its final the host's
+    // (#438). A final that only repeats words already heard is not new.
+    if (pause && grew && alts.length && !this.lastAlts && !frag) this.uttDuringHost = false;
     // A final repeats (and may revise) the whole utterance: if any of it came
     // while the host talked, so did the final.
     const uttHost = this.uttDuringHost || this.echoActive;
@@ -574,6 +606,7 @@ export class AnswerListener {
       // bulutsusu olacaktı" after a misheard "yen", replayed by its final).
       else if (this.lastAlts && this.echoActive) this.echoSeen = Math.max(this.echoSeen, count);
       if (e.isFinal) this.used = this.echoSeen = 0;
+      if (e.isFinal && this.fragment) this.fragment.final = true;
       return;
     }
     if (this.echoActive) this.lastDuringHost = true;
@@ -586,17 +619,63 @@ export class AnswerListener {
       return;
     }
     this.lastKey = key;
+    const pace = this.pace?.(alts) ?? 'settle';
+    // Incomplete: lone letters that are neither a right answer nor a Pas.
+    if (pace !== 'now' && isFragment(alts[0])) return this.holdFragment(alts[0], e.isFinal);
+    // The word an incomplete letter began: it is part of this attempt (a final
+    // letter is put in front of each of its results until it is delivered).
+    if (this.fragment?.duringHost) this.lastDuringHost = true;
+    if (this.fragment?.final) this.keepFragment();
+    else this.dropFragment(false);
     this.lastAlts = alts;
     this.lastCount = count;
     this.tailOpen = false;
     this.onInterim(alts[0]);
     if (this.settleTimer) clearTimeout(this.settleTimer);
-    const pace = this.pace?.(alts) ?? 'settle';
     if (e.isFinal) {
       if (uttHost) this.lastDuringHost = true;
       this.deliver(true);
     } else if (pace === 'now') this.deliver(false);
     else this.settleTimer = setTimeout(() => this.deliver(false), pace === 'partial' ? PARTIAL_MS : SETTLE_MS);
+  }
+
+  // Lone letters heard (incomplete): not judged and not handled, so the word
+  // they begin is whole when it comes. Dropped, unjudged, after FRAGMENT_MS.
+  private holdFragment(text: string, final: boolean) {
+    if (this.settleTimer) clearTimeout(this.settleTimer);
+    this.settleTimer = null;
+    const prev = this.fragment;
+    const duringHost = this.lastDuringHost || !!prev?.duringHost;
+    // An interim after a final letter holds only its own letters: the final's text stays in front.
+    this.fragment = prev?.final && !final ? { ...prev, duringHost } : { text, final, duringHost };
+    this.lastAlts = null;
+    this.lastDuringHost = false;
+    this.tailOpen = false;
+    // Its final ends the result: the next one starts afresh, the letter put in front of it.
+    if (final) this.used = this.echoSeen = 0;
+    this.onInterim(text);
+    if (this.fragmentTimer) clearTimeout(this.fragmentTimer);
+    this.fragmentTimer = setTimeout(() => {
+      this.fragmentTimer = null;
+      if (!this.fragment) return;
+      this.dropFragment();
+      this.onInterim('');
+    }, FRAGMENT_MS);
+  }
+
+  // A final letter whose word has begun: it waits for the word, not for FRAGMENT_MS.
+  private keepFragment() {
+    if (this.fragmentTimer) clearTimeout(this.fragmentTimer);
+    this.fragmentTimer = null;
+  }
+
+  // The incomplete letter is done with: continued (`consumed` false: its words
+  // belong to the attempt now pending) or dropped, its words then handled.
+  private dropFragment(consumed = true) {
+    if (this.fragmentTimer) clearTimeout(this.fragmentTimer);
+    this.fragmentTimer = null;
+    if (consumed && this.fragment && !this.fragment.final && !this.lastAlts) this.used = Math.max(this.used, this.seenCount);
+    this.fragment = null;
   }
 
   // Heard words that a judged guess already had and its best guess did not yet
@@ -651,6 +730,7 @@ export class AnswerListener {
     this.lastAlts = null;
     this.lastKey = '';
     this.lastDuringHost = false;
+    this.dropFragment(false);
     // The next answer starts after these words; a final result starts a fresh one.
     // Until then, what the same result still adds is part of this answer.
     this.used = final ? 0 : Math.max(this.used, this.lastCount, this.echoSeen);

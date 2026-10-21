@@ -421,3 +421,62 @@ test('#342/#405: the right answer said over the host reading its clue is judged 
   expect(missed.filter((m) => !(m.split(' ')[0] in HOST_SAYS_IT)).join('\n')).toBe('');
   expect(Object.keys(HOST_SAYS_IT).filter((id) => !missed.some((m) => m.startsWith(id + ' ')))).toEqual([]);
 });
+
+// #438: after a long wait iOS gives the first letter of a spoken word alone,
+// as an interim and as its utterance's final, before (or instead of) the word.
+// The letter is not an attempt: no verdict, no score, no turn change, and the
+// word that completes it is judged once.
+describe('a word cut to its first letter', () => {
+  // Through A and B with a Pas each: C is "Ay", Ç is "Su".
+  async function toC() {
+    await sanat();
+    for (let i = 0; i < 2; i++) {
+      await act(() => rec.hear('pas'));
+      await untilClue();
+      await wait(SETTLE_MS + 50);
+    }
+    expect(question(clueText()).answers).toEqual(['Ay']);
+    await quietRoom();
+  }
+
+  test("#438: after a long wait a spoken word is reduced to its first letter and graded wrong", async () => {
+    await toC();
+    await wait(20_000);
+    await act(() => rec.hear('a'));
+    await wait(SETTLE_MS * 3);
+    await act(() => rec.endUtterance());
+    await wait(500);
+    expect(status('C')).toBe('sırada');
+    expect(question(clueText()).answers).toEqual(['Ay']);
+    expect(verdicts()).toEqual({ doğru: 0, yanlış: 0, pas: 2 });
+    expect(sounds.played.filter((c) => c === 'wrong')).toEqual([]);
+    // The word itself, a moment later: judged once, right.
+    await act(() => rec.hear('ay'));
+    expect(status('C')).toBe('doğru');
+    await act(() => rec.endUtterance());
+    await untilClue();
+    await quietRoom();
+    await wait(2000);
+    expect(status('Ç')).toBe('sırada');
+    expect(verdicts()).toEqual({ doğru: 1, yanlış: 0, pas: 2 });
+    expect(sounds.played.filter((c) => c === 'correct')).toEqual(['correct']);
+  });
+
+  test('#438: a completed wrong word after its first letter is still graded wrong, once', async () => {
+    await toC();
+    await wait(45_000);
+    await act(() => rec.hear('a'));
+    await act(() => rec.endUtterance());
+    await wait(SETTLE_MS * 2);
+    expect(count('yanlış')).toBe(0);
+    await act(() => rec.hear('armut'));
+    await wait(SETTLE_MS + 20);
+    expect(status('C')).toBe('yanlış');
+    await act(() => rec.endUtterance());
+    await untilClue();
+    await quietRoom();
+    await wait(2000);
+    expect(status('Ç')).toBe('sırada');
+    expect(verdicts()).toEqual({ doğru: 0, yanlış: 1, pas: 2 });
+  });
+});
