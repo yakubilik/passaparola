@@ -10,6 +10,7 @@ import { contextFor, type Heard, type MicState, type Pace } from './listener';
 import { noteRoundAudio } from './roundAudio';
 import { logAudio, selfTestOn } from './selfTest';
 import { CUE_LEAD_MS } from './sounds';
+import { trace } from './trace';
 
 type Game = ReturnType<typeof useRound>;
 
@@ -128,6 +129,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     // misheard so the listener's echo filter kept them. judgeHeard decides.
     const duringHost = readingRef.current || host.speaking || listener.hostRecent || !!heard?.duringHost;
     const verdict = judgeHeard(alts, q.answers, q.letter, { duringHost, hostLike: heard?.hostLike, hostNear: heard?.hostNear, hostWords: heard?.hostWords });
+    trace('verdict', { source: 'voice', q: q.id, letter: q.letter, verdict: verdict ?? 'none', alts, duringHost, hostLike: !!heard?.hostLike, hostNear: !!heard?.hostNear });
     dropHeld();
     if (verdict === null) {
       setHeard('');
@@ -143,6 +145,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
         if (host.speaking) return;
         dropHeld();
         setHeard('');
+        trace('verdict', { source: 'voice-held', q: cur.round ? current(cur.round).question.id : null, verdict: 'wrong', alts: [text] });
         cur.judge('wrong', text);
         verdictShown(text, 'wrong');
       }, HELD_POLL_MS);
@@ -297,6 +300,8 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
   const onAnswer = useCallback(({ verdict, was }: Answered) => {
     stopReading();
     setHeard('');
+    trace('judged', { q: was.question.id, verdict });
+    trace('cue', { name: verdict === 'pass' ? 'pas' : verdict });
     sounds.play(verdict === 'pass' ? 'pas' : verdict);
     cueAt.current = Date.now();
     if (!voice) return;

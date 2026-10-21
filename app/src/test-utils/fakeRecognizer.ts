@@ -31,7 +31,10 @@ export class FakeRecognizer {
    * start builds an engine with voice processing when asked for, and the
    * ducking switched off on it; abort lets the engine go.
    */
-  vp = { running: false, enabled: false, advancedDucking: null as boolean | null, duckingLevel: null as string | null, engines: 0, rebuilds: 0 };
+  vp = {
+    running: false, enabled: false, advancedDucking: null as boolean | null, duckingLevel: null as string | null, engines: 0, rebuilds: 0,
+    routeChanges: 0, routeChangesIgnored: 0, engineRestarts: 0, lastRouteChange: null as string | null, patch: 'harfiyen-438-route',
+  };
   /** The epoch time reported with 'audiostart'; Date.now() when null. */
   audioStartAt: number | null = null;
   /**
@@ -97,6 +100,29 @@ export class FakeRecognizer {
     this.transcript = '';
     this.seenFinal = true;
     this.emit('result', { isFinal: true, results: [{ transcript, confidence: 0.9, segments: [] }] });
+  }
+
+  /**
+   * An iOS route change while a request runs, as the patched native module
+   * handles it (app/patches, handleAudioRouteChange): the same ports keep the
+   * running engine; new ones (headphones, Bluetooth) get a rebuilt engine with
+   * the request's voice processing. Neither reaches JS. A model of the native
+   * code, not the native code: it is only compiled on a real build.
+   */
+  routeChange(portsChanged: boolean, reason = 3) {
+    this.vp = { ...this.vp, routeChanges: this.vp.routeChanges + 1, lastRouteChange: `reason ${reason}, ports ${portsChanged ? 'changed' : 'same'}` };
+    if (!this.running) return;
+    if (!portsChanged) this.vp = { ...this.vp, routeChangesIgnored: this.vp.routeChangesIgnored + 1 };
+    else this.vp = { ...this.vp, engines: this.vp.engines + 1, rebuilds: this.vp.rebuilds + 1 };
+  }
+
+  /** A call, Siri or an alarm: iOS interrupts the session and the library ends the request. */
+  interrupt() {
+    if (!this.running) return;
+    this.running = false;
+    this.vp = { ...this.vp, running: false };
+    this.emit('error', { error: 'interrupted', message: 'Audio session interrupted.' });
+    this.emit('end');
   }
 
   // iOS rewrote what it heard so far (e.g. glued a short word onto the last one).

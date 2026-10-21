@@ -8,6 +8,7 @@ import { host, listener, sounds } from './engine';
 import { readVoiceProcessing } from './recognizer';
 import { readAudioSession } from './sessionInfo';
 import { masterGain } from './sounds';
+import { startTrace, trace } from './trace';
 import type { useVoiceRound } from './useVoiceRound';
 
 // The hidden self-test (#361): launched with `-harfiyenSelfTest 1`, the app
@@ -32,6 +33,11 @@ import type { useVoiceRound } from './useVoiceRound';
 // open, voice processing on). The game screen then shows what the phone
 // voice did (testID speech-state) and the log carries host.speechLog:
 // e2e/speech.sh and e2e/speech.yaml.
+//
+// `-harfiyenSelfTest trace` (#438) plays nothing by itself: it only turns on
+// the voice evidence file (trace.ts) for a person or an external speaker
+// answering for real. The self-test modes write it too, their own answers
+// marked `selftest`.
 
 export const SELF_TEST_LOG = 'harfiyen-selftest.json';
 export const SELF_TEST_LEVELS = 3;
@@ -55,18 +61,26 @@ function native(): Native | null {
 }
 
 export type SelfTestMode = 'rounds' | 'speech';
-let mode: SelfTestMode | null | undefined;
-/** How the app was launched for the self-test: `-harfiyenSelfTest 1` (rounds) or `speech`; null when not. */
-export function selfTestMode(): SelfTestMode | null {
-  if (mode === undefined) {
+let arg: string | null | undefined;
+function launchArg(): string | null {
+  if (arg === undefined) {
     try {
-      const arg = native()?.selfTest?.();
-      mode = arg === '1' ? 'rounds' : arg === 'speech' ? 'speech' : null;
+      arg = native()?.selfTest?.() ?? null;
     } catch {
-      mode = null;
+      arg = null;
     }
   }
-  return mode;
+  return arg;
+}
+/** How the app was launched for the self-test: `-harfiyenSelfTest 1` (rounds) or `speech`; null when not. */
+export function selfTestMode(): SelfTestMode | null {
+  const a = launchArg();
+  return a === '1' ? 'rounds' : a === 'speech' ? 'speech' : null;
+}
+
+/** Launched with `-harfiyenSelfTest trace` (or a self-test mode): the voice evidence file is written. */
+export function traceRequested(): boolean {
+  return launchArg() === 'trace' || selfTestOn();
 }
 
 /** The app was launched for the self-test. */
@@ -145,6 +159,7 @@ let launched = false;
  * off left Yakup's game without a camera (19 Oct 2026). */
 export function useSelfTestLaunch(ready: boolean, update: (p: { voice: boolean; micChecked: boolean }) => Promise<void>) {
   useEffect(() => {
+    if (ready && traceRequested()) startTrace(launchArg() ?? '');
     if (!ready || launched || !selfTestOn()) return;
     launched = true;
     if (selfTestMode() === 'speech') host.withholdClips(speechTestClue);
@@ -176,6 +191,8 @@ export function useSelfTestRound(enabled: boolean, game: Game, voice: Voice) {
     const t = setTimeout(() => {
       const cur = g.current;
       if (cur.phase !== 'playing' || !cur.round || cur.asked !== asked) return;
+      // Not heard: the self-test answers by itself (the evidence file marks it so).
+      trace('selftest-answer', { q: current(cur.round).question.id });
       cur.judge('correct', current(cur.round).question.answers[0]);
     }, ANSWER_AFTER_MS);
     return () => clearTimeout(t);

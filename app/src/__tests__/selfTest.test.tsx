@@ -59,7 +59,7 @@ test('plays three levels back to back by itself and logs the audio every second 
   const starts = samples.filter((s) => s.event === 'round-start');
   for (const s of starts) {
     expect(s.session).toMatchObject({ category: 'playAndRecord', mode: 'default', outputVolume: 0.5 });
-    expect(s.vp).toMatchObject({ running: true, enabled: false });
+    expect(s.vp).toMatchObject({ running: true, enabled: true, rebuilds: 0, patch: 'harfiyen-438-route' });
     expect(s.micOpen).toBe(true);
   }
   expect(starts[1].session).toEqual(starts[0].session);

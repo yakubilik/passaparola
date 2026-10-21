@@ -1,5 +1,10 @@
 # The loud first host line (ticket #355)
 
+> Since #438 (21 Oct 2026) voice processing is on again and the session mode
+> is `voiceChat`, set once before the round's first sound; the statements
+> below about mode `default` and voice processing off describe the builds
+> before it. See docs/speech.md, "Echo cancellation and a steady volume".
+
 **Report (iPhone 17 Pro Max, 19 Oct 2026):** at round start the host's
 "İşte sağ cepten sorular çıkıyor efendim" (clip `go`) is very loud and the
 volume buttons do not change it. After that, during the round, the buttons

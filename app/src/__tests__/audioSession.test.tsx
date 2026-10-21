@@ -88,11 +88,15 @@ test('launch, menu, Ayarlar, categories and the level map: no sound and no audio
   expect(sounds.played).toContain('pas');
 });
 
-test('the session mode is not voiceChat: the loudspeaker is not driven to call loudness, echo cancellation stays on', () => {
+// #438: echo cancellation on, and the session in voiceChat, the mode voice
+// processing switches it to anyway, from the start: switching it later, under
+// a playing sound, is what moved the output level (#355). Set once, before any
+// sound, it is not switched again (roundsAudio.test.tsx, regressions/audio.test.tsx).
+test('echo cancellation is on, in the mode it needs from the start: voice processing never switches the session under a sound', () => {
   expect(RECOGNITION_OPTIONS.iosCategory).toEqual({
     category: 'playAndRecord',
     categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'],
-    mode: 'default',
+    mode: 'voiceChat',
   });
-  expect(RECOGNITION_OPTIONS.iosVoiceProcessingEnabled).toBe(false);
+  expect(RECOGNITION_OPTIONS.iosVoiceProcessingEnabled).toBe(true);
 });

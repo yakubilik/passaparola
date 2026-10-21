@@ -4,6 +4,7 @@ import { Host } from './host';
 import { AnswerListener } from './listener';
 import { nativeRecognizer, setVoiceSession } from './recognizer';
 import { fadeInNext, Sounds } from './sounds';
+import { setTraceState, trace } from './trace';
 
 // One host, one mic and one set of cues for the whole app, so the host can
 // finish a line after the game screen has gone. While the host speaks the
@@ -17,7 +18,12 @@ export const sounds = new Sounds();
 // processing, which changes the level of what is playing (see listener.ts).
 listener.busy = () => host.speaking || sounds.cuePlaying;
 
+// The voice evidence file (trace.ts): what the mic heard and decided, and the game's own sound.
+listener.onTrace = trace;
+setTraceState(() => ({ micOpen: listener.listening, hostSpeaking: host.speaking }));
+
 host.onSpeaking = (texts) => {
+  trace(texts ? 'host' : 'host-done', texts ? { texts } : {});
   if (texts) listener.hostSpeaking(texts);
   else listener.hostDone();
   sounds.duck(!!texts);
