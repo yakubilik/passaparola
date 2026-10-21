@@ -199,6 +199,8 @@ export class AnswerListener {
   onDevice = true;
   onState: (s: MicState, detail?: string) => void = () => {};
   onInterim: (text: string) => void = () => {};
+  /** Every result and decision, for the voice evidence file (trace.ts, set by engine.ts). */
+  onTrace: (e: string, data?: Record<string, unknown>) => void = () => {};
   /** A host clip or a cue is sounding: the recognizer is not started or stopped now (set by engine.ts). */
   busy: () => boolean = () => false;
 
@@ -329,6 +331,7 @@ export class AnswerListener {
    * before it, judged or not, is not an answer to it.
    */
   clueStarts() {
+    this.onTrace('clue-starts');
     if (this.settleTimer) clearTimeout(this.settleTimer);
     this.settleTimer = null;
     this.dropFragment();
@@ -523,6 +526,7 @@ export class AnswerListener {
     }
     this.running = true;
     this.starts++;
+    this.onTrace('request', { starts: this.starts, mode: this.mode });
     this.startedAt = this.lastResultAt = this.now();
     this.heardThisRequest = false;
     if (this.ageTimer) clearTimeout(this.ageTimer);
@@ -542,6 +546,7 @@ export class AnswerListener {
 
   private onResult(e: RecResult) {
     if (!this.running || this.renewing || this.closing) return;
+    this.onTrace('result', { final: e.isFinal, alts: e.results.map((r) => r.transcript) });
     this.lastResultAt = this.now();
     this.heardThisRequest = true;
     const skip = this.realign(words(e.results[0]?.transcript ?? ''));
@@ -583,6 +588,7 @@ export class AnswerListener {
     // in it still counts; anything else in it is dropped with the tail.
     const carried = e.isFinal && this.tailOpen && !late && fresh && this.pace?.(alts) === 'now';
     if (!this.lastAlts && !carried && (late || (e.isFinal && this.tailOpen))) {
+      this.onTrace('consumed', { alts, final: e.isFinal });
       this.used = e.isFinal ? 0 : Math.max(skip, count);
       if (e.isFinal) {
         this.swallowUntil = 0;
@@ -653,11 +659,13 @@ export class AnswerListener {
     this.tailOpen = false;
     // Its final ends the result: the next one starts afresh, the letter put in front of it.
     if (final) this.used = this.echoSeen = 0;
+    this.onTrace('incomplete', { text: this.fragment.text, final });
     this.onInterim(text);
     if (this.fragmentTimer) clearTimeout(this.fragmentTimer);
     this.fragmentTimer = setTimeout(() => {
       this.fragmentTimer = null;
       if (!this.fragment) return;
+      this.onTrace('dropped', { text: this.fragment.text });
       this.dropFragment();
       this.onInterim('');
     }, FRAGMENT_MS);
@@ -739,10 +747,12 @@ export class AnswerListener {
     this.tailOpen = !final;
     const best = fold(alts[0]);
     this.judged = alts.slice(1).map((a) => { const f = fold(a); return f.startsWith(best) ? f.slice(best.length) : f; }).filter(Boolean);
+    this.onTrace('attempt', { alts, final, duringHost });
     this.handler?.(alts, { alts, duringHost, hostLike: this.hostLike(alts[0]), hostNear: this.hostNear(alts[0]), hostWords: this.echo });
   }
 
   private onError(e: RecError) {
+    this.onTrace('error', { error: e.error });
     if (this.renewing || this.closing) return;  // the 'aborted' of a request dropped on purpose
     if (e.error === 'service-not-allowed' && this.onDevice && this.running) {
       // On-device recognition failed (its model missing, or not for tr-TR
@@ -770,6 +780,7 @@ export class AnswerListener {
   // silence, the server's minute): what was said is delivered and the mic
   // opens again, once nothing is playing (startRec).
   private onEnd() {
+    this.onTrace('request-end', { renewing: this.renewing });
     if (this.renewing) return this.renewed();
     if (this.staleEnds > 0) {
       this.staleEnds--;
