@@ -1,7 +1,7 @@
 # #438 voice repair: real-iPhone acceptance status
 
 Status (22 Oct 2026, 18:00): **build and installation established; host-only
-measured at ≈ 95 % and ≈ 45–50 %; 11 natural spoken answers measured (9
+measured at ≈ 95 % and ≈ 45–50 %, with one phantom wrong verdict found; 11 natural spoken answers measured (9
 right, 2 judged wrong); short-word, ≈ 30 %, Pas/two-word and latency trials
 not performed.**
 The blue-light removal (criterion 6) is on the ticket branch, not yet on the phone.
@@ -63,8 +63,21 @@ at ≈ 265 s (Yakup lowered it then and heard the game get quieter: the
 buttons drive this path), round 3 0.50. So the host-only data now covers
 ≈ 95 % (two runs) and ≈ 45–50 %; **≈ 30 % was not reached**. Voice
 processing on, `voiceChat`, Speaker / built-in mic, 2 engines per round, no
-rebuild loop. The recognizer results of this run are listed in the traces
-(5 over ≈ 9 min) and have not yet been checked one by one against the rule.
+rebuild loop. The recognizer gave 5 results in ≈ 9 min, all finals with no interim
+before them, each at the start of a request or right after the host's
+opening line: iOS's no-speech guesses (`Evet / Hayır / Siri / Gönder /
+Tamam`, `Kapan / Kapat`, `Aç / Murat / Çık`, `İşte / Ara / Kapat / İsterim /
+Evet`). Run through the round's rule with the host's words of the moment,
+four get no verdict. **One fails:** at 362.8 s (round 3, question
+tarih-3-A-1, volume 0.45, host reading its opening line, source main
+`929c66e`), `İşte / Ara / Kapat / İsterim / Evet` loses `İşte` as the host's
+word, and `ara` is a one-word attempt starting with the question's letter A,
+near no host word: `judgeHeard` returns `hold`, i.e. a **wrong verdict from
+no player speech** once the host stops. (Self-test rounds skip the verdict,
+so the phone did not show it; the trace and the offline rule do.) The same
+kind of final in run 1 (16:29) got no verdict only because its words did not
+start with the letter. Implementation to resume on: a final with no interim
+before it, holding iOS's no-speech vocabulary, must not be an attempt.
 
 **Trace mode, Bilim level 1 (seed 11), 17:38 and 17:44.** Yakup reads this
 chat on the same phone: each time he switched to it, Harfiyen went to the
