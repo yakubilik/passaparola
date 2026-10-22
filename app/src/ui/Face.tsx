@@ -34,7 +34,8 @@ export function Face({ size }: { size: number }) {
         borderRadius: Math.round(size * 0.04),
         overflow: 'hidden',
         backgroundColor: '#161d3c',
-        boxShadow: '0 0 0 1px rgba(255,255,255,0.12), 0 0 40px rgba(61,107,255,0.3)',
+        // A thin edge only: no blue glow around the square (#438).
+        boxShadow: '0 0 0 1px rgba(255,255,255,0.12)',
       }}
     >
       {wanted && permission.hasPermission ? <FaceCam size={size} device={device!} /> : <Placeholder size={size} />}
