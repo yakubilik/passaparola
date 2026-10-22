@@ -137,3 +137,5 @@ changes, delete both clips so the phone's voice reads the new text, then run
 It writes `ses-ornekleri/seslendirilecek-satirlar.csv` (every line) and
 `ses-ornekleri/yeniden-seslendirilecek.csv` (only the lines without a clip,
 the ones to record again). `tools/import-voice.py` brings the new takes in.
+A whole new voice goes in with `--replace --backup <folder outside the app>`:
+every clip then comes from the new pack and no earlier take stays (#449).
