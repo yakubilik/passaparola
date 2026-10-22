@@ -117,3 +117,68 @@ test('import-voice: newest batch wins, wav-only lines converted, unknown names s
     fs.rmSync(tmp, { recursive: true, force: true });
   }
 });
+
+test('import-voice --replace: a new voice keeps no earlier take, and a failed encode replaces nothing', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'import-voice-test-'));
+  try {
+    const csv = path.join(tmp, 'lines.csv');
+    fs.writeFileSync(
+      csv,
+      '﻿dosya_adi,metin,tur\n' +
+        'welcome,Başarılar diliyorum.,sunucu\n' +
+        'tarih-1-A-1,Bir ipucu... A ile başlıyor.,soru tarih 1\n' +
+        'tarih-1-A-1-cevap,Arı olacaktı.,yanlışta doğru cevap\n',
+    );
+    const out = path.join(tmp, 'voice');
+    const backup = path.join(tmp, 'before');
+    // The earlier voice, imported the ordinary way: all three lines.
+    const old = path.join(tmp, 'old', 'parti_005');
+    tone(path.join(old, 'welcome.mp3'), 1);
+    tone(path.join(old, 'tarih-1-A-1.mp3'), 1);
+    tone(path.join(old, 'tarih-1-A-1-cevap.mp3'), 1);
+    const run = (...args) =>
+      spawnSync('python3', ['-I', TOOL, '--csv', csv, '--out', out, '--index', '', ...args], { encoding: 'utf8' });
+    assert.strictEqual(run(old).status, 0);
+
+    // The new voice: a line missing, a name not in the list.
+    const fresh = path.join(tmp, 'new', 'parti_001');
+    tone(path.join(fresh, 'welcome.mp3'), 2);
+    tone(path.join(fresh, 'tarih-1-A-1.wav'), 2.5);
+    tone(path.join(fresh, 'wrong_next.mp3'), 1);
+    fs.writeFileSync(path.join(fresh, 'tarih-1-A-1-cevap.mp3'), 'not audio');
+
+    // One take does not decode: the app keeps its clips and nothing goes to the backup.
+    const broken = run(path.join(tmp, 'new'), '--replace', '--backup', backup);
+    assert.strictEqual(broken.status, 1, broken.stdout + broken.stderr);
+    assert.match(broken.stderr, /nothing replaced: 1 clip\(s\) failed/);
+    assert.ok(!fs.existsSync(backup));
+    assert.strictEqual(fs.readdirSync(out).filter((f) => f.endsWith('.mp3')).length, 3);
+
+    fs.rmSync(path.join(fresh, 'tarih-1-A-1-cevap.mp3'));
+    const r = run(path.join(tmp, 'new'), '--replace', '--backup', backup);
+    const log = r.stdout + r.stderr;
+    assert.strictEqual(r.status, 0, log);
+    const dur = (dir, n) => Number(probe(path.join(dir, `${n}.mp3`)).format.duration);
+    assert.ok(Math.abs(dur(out, 'welcome') - 2) < 0.15, `welcome is the new take: ${dur(out, 'welcome')}`);
+    assert.ok(Math.abs(dur(out, 'tarih-1-A-1') - 2.5) < 0.15, 'the new wav');
+    // The line the new voice lacks keeps no old take (a plain import would keep it): listed, left to the phone.
+    assert.deepStrictEqual(fs.readdirSync(out).sort(), ['imported.json', 'tarih-1-A-1.mp3', 'welcome.mp3']);
+    assert.match(log, /skipped, not in the list \(1\): wrong_next/);
+    assert.match(log, /missing \(1\): tarih-1-A-1-cevap/);
+    assert.deepStrictEqual(Object.keys(JSON.parse(fs.readFileSync(path.join(out, 'imported.json'), 'utf8'))).sort(), [
+      'tarih-1-A-1', 'welcome',
+    ]);
+    // Every earlier clip and its manifest are kept outside the app, untouched.
+    assert.deepStrictEqual(fs.readdirSync(backup).sort(), [
+      'imported.json', 'tarih-1-A-1-cevap.mp3', 'tarih-1-A-1.mp3', 'welcome.mp3',
+    ]);
+    assert.ok(Math.abs(dur(backup, 'welcome') - 1) < 0.15);
+    // The given sources are never deleted without --delete-sources.
+    assert.ok(fs.existsSync(path.join(fresh, 'welcome.mp3')));
+
+    // A backup folder that already holds something is refused.
+    assert.strictEqual(run(path.join(tmp, 'new'), '--replace', '--backup', backup).status, 2);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});

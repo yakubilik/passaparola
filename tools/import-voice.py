@@ -17,7 +17,14 @@ app's clip index (app/src/voice/clips.generated.ts) is regenerated and a coverag
 report is printed. Temporary files are always removed; --delete-sources also deletes
 the zips and folders it was given once the import succeeded.
 
+A whole new voice is --replace: every clip comes from the given sources and nothing from
+an earlier import stays. The new clips are encoded into a staging folder first; only when
+all of them encoded are the clips in app/assets/voice (and imported.json) moved to the
+--backup folder, outside the app, and the new ones moved in. A failed encode leaves the
+app's clips as they were. Lines the new sources lack are listed and left to the phone.
+
     python3 tools/import-voice.py ~/projects/passaparola/.work/inbox/*.zip --delete-sources
+    python3 tools/import-voice.py new-pack/ --replace --backup ~/voice-before-new-pack
 """
 import argparse, collections, csv, datetime as dt, json, os, re, shutil, subprocess, sys, tempfile, unicodedata
 import zipfile
@@ -179,8 +186,19 @@ def main(argv=None):
     ap.add_argument('--index', default=os.path.join(ROOT, 'app', 'scripts', 'gen-voice-index.mjs'),
                     help="the app's clip index generator, '' to skip")
     ap.add_argument('--delete-sources', action='store_true', help='delete the given zips/folders after a clean import')
+    ap.add_argument('--replace', action='store_true',
+                    help='a whole new voice: earlier clips are moved to --backup, none is kept')
+    ap.add_argument('--backup', help='with --replace: where the earlier clips go (outside the app)')
     ap.add_argument('--dry-run', action='store_true')
     args = ap.parse_args(argv)
+    if args.replace:
+        if not args.backup:
+            ap.error('--replace needs --backup')
+        out, backup = os.path.realpath(args.out), os.path.realpath(args.backup)
+        if backup == out or backup.startswith(out + os.sep):
+            ap.error('--backup must be outside --out')
+        if os.path.exists(backup) and os.listdir(backup):
+            ap.error(f'--backup {args.backup} is not empty')
 
     names = read_lines(args.csv)
     os.makedirs(args.out, exist_ok=True)
@@ -198,10 +216,15 @@ def main(argv=None):
                 print(f'  {n} <- {label}')
             return 0
         mpath = os.path.join(args.out, MANIFEST)
-        manifest = json.load(open(mpath, encoding='utf-8')) if os.path.exists(mpath) else {}
+        if args.replace:
+            manifest, dest = {}, os.path.join(tmp, 'staged')
+            os.makedirs(dest)
+        else:
+            manifest = json.load(open(mpath, encoding='utf-8')) if os.path.exists(mpath) else {}
+            dest = args.out
         for i, (n, (r, label, opener)) in enumerate(sorted(scan.best.items()), 1):
             src = opener()
-            err = encode(src, os.path.join(args.out, n + '.mp3'))
+            err = encode(src, os.path.join(dest, n + '.mp3'))
             if src.startswith(tmp):
                 os.remove(src)
             if err:
@@ -210,6 +233,21 @@ def main(argv=None):
                 manifest[n] = label.split('/')[-1] if '!/' in label else os.path.basename(label)
             if i % 200 == 0:
                 print(f'{i}/{len(scan.best)}', flush=True)
+        if args.replace:
+            if failed:
+                for n, label, err in failed:
+                    print(f'FAILED {n} <- {label}: {err}', file=sys.stderr)
+                print(f'nothing replaced: {len(failed)} clip(s) failed to encode', file=sys.stderr)
+                return 1
+            os.makedirs(args.backup, exist_ok=True)
+            moved = 0
+            for f in os.listdir(args.out):
+                if f.endswith('.mp3') or f == MANIFEST:
+                    shutil.move(os.path.join(args.out, f), os.path.join(args.backup, f))
+                    moved += f != MANIFEST
+            for f in os.listdir(dest):
+                shutil.move(os.path.join(dest, f), os.path.join(args.out, f))
+            print(f'replaced: {moved} earlier clips moved to {args.backup}')
         # Anything else is a placeholder or a line that left the list: the phone reads it.
         removed = 0
         for f in os.listdir(args.out):

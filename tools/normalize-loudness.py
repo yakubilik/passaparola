@@ -12,8 +12,11 @@ clip (silence is gated out, and clips under 400 ms otherwise give no reading).
     bed         bg                          -24 LUFS  in the file; it plays at a few
                                                        percent volume (sounds.ts), far below
 
-A gain that would push the true peak over -1 dBTP is held there instead. Files already
-within 0.5 LU of their target are left alone, so running it again changes nothing.
+A gain that would push the true peak over -1 dBTP is held there instead. A clip that the
+held gain would leave more than 1 LU under its target (a short line with one hard
+consonant, typical of a synthetic voice) gets its full gain and a fast peak limiter
+instead, which only touches those few milliseconds. Files already within 0.5 LU of
+their target are left alone, so running it again changes nothing.
 The re-encode keeps each file's channels, rate and bitrate. The measured loudness of
 every file lands in app/assets/loudness.json, which the app's tests check.
 
@@ -33,6 +36,9 @@ BED_LUFS = -24.0
 TARGETS = {'theme': THEME_LUFS, 'bg': BED_LUFS, 'correct': CUE_LUFS, 'wrong': CUE_LUFS, 'pas': CUE_LUFS, 'warn': CUE_LUFS}
 MAX_TP = -1.0
 TOLERANCE = 0.5
+MISS = 1.0  # a held gain that misses the target by more than this is limited instead
+# Sample-peak ceiling of the limiter, under MAX_TP: true peak and the mp3 encode overshoot it.
+LIMIT_DB = MAX_TP - 2.0
 
 
 def measure(path):
@@ -55,17 +61,30 @@ def stream(path):
 def normalise(path, target, check):
     lufs, tp = measure(path)
     gain = target - lufs
+    limit = False
     if tp + gain > MAX_TP:
-        gain = MAX_TP - tp
+        limit = target - (lufs + MAX_TP - tp) > MISS
+        if not limit:
+            gain = MAX_TP - tp
     if check or abs(gain) < TOLERANCE:
         return path, lufs, tp, 0.0
     s = stream(path)
     fd, tmp = tempfile.mkstemp(suffix='.mp3', dir=os.path.dirname(path))
     os.close(fd)
     try:
-        subprocess.run(['ffmpeg', '-y', '-nostdin', '-loglevel', 'error', '-i', path, '-map', '0:a:0', '-map_metadata', '-1',
-                        '-af', f'volume={gain:.2f}dB', '-ac', str(s['channels']), '-ar', str(s['sample_rate']),
-                        '-c:a', 'libmp3lame', '-b:a', str(int(s['bit_rate']) // 1000) + 'k', tmp], check=True)
+        # A limited clip loses some loudness to the limiter: encode it again from the
+        # original with the shortfall added, until it lands within the tolerance.
+        for _ in range(4 if limit else 1):
+            af = f'volume={gain:.2f}dB'
+            if limit:
+                af += f',alimiter=limit={10 ** (LIMIT_DB / 20):.4f}:attack=1:release=40:level=0'
+            subprocess.run(['ffmpeg', '-y', '-nostdin', '-loglevel', 'error', '-i', path, '-map', '0:a:0', '-map_metadata', '-1',
+                            '-af', af, '-ac', str(s['channels']), '-ar', str(s['sample_rate']),
+                            '-c:a', 'libmp3lame', '-b:a', str(int(s['bit_rate']) // 1000) + 'k', tmp], check=True)
+            got, _ = measure(tmp)
+            if abs(got - target) < TOLERANCE:
+                break
+            gain += target - got
         os.replace(tmp, path)
     finally:
         if os.path.exists(tmp):
