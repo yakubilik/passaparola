@@ -341,3 +341,74 @@ describe('Pas', () => {
     expect(judged).toEqual([{ q: 'Ay', text: 'p pas', verdict: 'pass' }]);
   });
 });
+
+// The phone, 22 Oct 17:28 (main 929c66e, trace harfiyen-voicetrace, 362.8 s):
+// round 3, question tarih-3-A-1 (Avar), the host reading its opening line,
+// nobody talking. iOS gave a final with no interim before it, its five
+// guesses unrelated words, the best one the host's: "İşte / Ara / Kapat /
+// İsterim / Evet". The echo filter dropped "İşte", "ara" moved up to best
+// guess, and as a one-word attempt starting with A it was held and graded
+// wrong once the host stopped: a wrong answer from silence.
+describe('a no-speech final from iOS is no attempt', () => {
+  const AVAR = { letter: 'A', answers: ['Avarlar', 'Avar'], clue: "Orta Asya'dan gelip Avrupa'ya yerleşen boy... A ile başlıyor." };
+  const opening = () => {
+    l.clueStarts();
+    host = true;
+    l.hostSpeaking(['İşte sağ cepten sorular çıkıyor efendim.', AVAR.clue]);
+  };
+
+  test('the captured bundle: its best guess the host\'s, the rest promoted: no verdict, before or after the host stops', () => {
+    round(AVAR, NEXT);
+    opening();
+    wait(1200);
+    final('İşte', 'Ara', 'Kapat', 'İsterim', 'Evet');
+    wait(1500);
+    host = false;
+    l.hostDone();
+    wait(5000);
+    expect(judged).toEqual([]);
+    expect(at).toBe(0);
+  });
+
+  test('a final with no interim whose guesses share no word (iOS guessing at noise): no wrong verdict', () => {
+    round(Q('E', ['El']), NEXT);
+    readClue();
+    final('Evet', 'Hayır', 'Gönder', 'Tamam');
+    wait(3000);
+    expect(judged).toEqual([]);
+  });
+
+  test('but a right answer among those guesses still counts ("Ara" is the answer)', () => {
+    round(Q('A', ['Ara']), NEXT);
+    opening();
+    wait(1200);
+    final('İşte', 'Ara', 'Kapat', 'İsterim', 'Evet');
+    expect(judged).toEqual([{ q: 'Ara', text: 'ara', verdict: 'correct' }]);
+  });
+
+  test('and so does Pas said once, as a final with no interim and varied guesses', () => {
+    round(AY, NEXT);
+    readClue();
+    final('Pas', 'Bas', 'Paşa', 'Bass');
+    expect(judged).toEqual([{ q: 'Ay', text: 'pas', verdict: 'pass' }]);
+  });
+
+  test.each([['ay', AY], ['su', SU], ['el', EL], ['un', UN], ['ok', OK]] as const)('a final-only short answer: "%s" is right', (word, q) => {
+    round(q, NEXT);
+    readClue();
+    final(word, `${word}h`, 'hey');
+    expect(judged).toEqual([{ q: q.answers[0], text: word, verdict: 'correct' }]);
+  });
+
+  test('a real wrong word heard only as a final is still wrong (its guesses agree)', () => {
+    round(AY, NEXT);
+    readClue();
+    final('armut');
+    wait(100);
+    expect(judged).toEqual([{ q: 'Ay', text: 'armut', verdict: 'wrong' }]);
+    round(Q('K', ['Kayak']), NEXT);
+    readClue();
+    final('kale', 'kaleler', 'kalem');
+    expect(judged).toEqual([{ q: 'Kayak', text: 'kale', verdict: 'wrong' }]);
+  });
+});

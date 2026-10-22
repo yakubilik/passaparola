@@ -38,7 +38,7 @@ appId: com.skolalabs.harfiyen
 - tapOn:
     id: "pass"
 - assertVisible:
-    id: "ring-dash"
+    id: "ring"
 - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: game-flat-discs

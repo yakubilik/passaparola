@@ -4,14 +4,14 @@ import { Linking, Pressable, ScrollView, Switch, Text, View } from 'react-native
 import { useCameraPermission } from 'react-native-vision-camera';
 
 import { useProgress } from '../store/ProgressContext';
-import { MUSIC_LEVELS, VOLUME_STEP } from '../store/settings';
+import { VOLUME_STEP } from '../store/settings';
 import { useSettings } from '../store/SettingsContext';
 import { BackLink } from '../ui/BackLink';
 import { Screen } from '../ui/Screen';
 import { Slider } from '../ui/Slider';
 import { C, F } from '../ui/theme';
 
-// Settings: the voice game, the game's loudness (Ses), the music under the round, the front camera inside
+// Settings: the voice game, the game's loudness (Ses), the front camera inside
 // the ring, and wiping the career saved on the phone.
 export default function SettingsScreen() {
   const { settings, update } = useSettings();
@@ -62,37 +62,6 @@ export default function SettingsScreen() {
           </View>
           <Slider testID="setting-volume" label="Ses" value={settings.volume} step={VOLUME_STEP}
             onChange={(volume) => { update({ volume }); }} />
-        </View>
-
-        <View style={{ borderRadius: 20, padding: 16, gap: 12, backgroundColor: C.card, borderWidth: 1, borderColor: C.cardBorder }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-            <View style={{ flex: 1, gap: 2 }}>
-              <Text style={{ fontFamily: F.bodyBold, fontSize: 17, color: C.text }}>Müzik</Text>
-              <Text style={{ fontFamily: F.body, fontSize: 13, color: C.dim, lineHeight: 18 }}>
-                Oyun boyunca arkada çalan hafif müzik. Sunucu konuşurken kısılır.
-              </Text>
-            </View>
-            <Switch
-              testID="setting-music"
-              accessibilityLabel="Müzik"
-              value={settings.music}
-              onValueChange={(music) => { update({ music }); }}
-              trackColor={{ true: C.accent, false: '#2a3256' }}
-            />
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, opacity: settings.music ? 1 : 0.4 }}>
-            <Text style={{ fontFamily: F.bodySemi, fontSize: 14, color: C.dim, flex: 1 }}>Ses</Text>
-            <LevelButton label="−" a11y="Müziği kıs" testID="music-down" disabled={!settings.music || settings.musicLevel <= 1}
-              onPress={() => update({ musicLevel: settings.musicLevel - 1 })} />
-            <View testID="music-level" accessibilityLabel={`Müzik sesi ${settings.musicLevel} / ${MUSIC_LEVELS}`}
-              style={{ flexDirection: 'row', gap: 3, alignItems: 'flex-end' }}>
-              {Array.from({ length: MUSIC_LEVELS }, (_, i) => (
-                <View key={i} style={{ width: 6, height: 8 + i * 1.6, borderRadius: 2, backgroundColor: i < settings.musicLevel ? C.accent : '#2a3256' }} />
-              ))}
-            </View>
-            <LevelButton label="+" a11y="Müziği aç" testID="music-up" disabled={!settings.music || settings.musicLevel >= MUSIC_LEVELS}
-              onPress={() => update({ musicLevel: settings.musicLevel + 1 })} />
-          </View>
         </View>
 
         <View style={{ borderRadius: 20, padding: 16, gap: 10, backgroundColor: C.card, borderWidth: 1, borderColor: C.cardBorder }}>
@@ -155,12 +124,3 @@ export default function SettingsScreen() {
   );
 }
 
-function LevelButton({ label, a11y, testID, disabled, onPress }: { label: string; a11y: string; testID: string; disabled: boolean; onPress: () => void }) {
-  return (
-    <Pressable testID={testID} accessibilityRole="button" accessibilityLabel={a11y} accessibilityState={{ disabled }}
-      disabled={disabled} onPress={onPress} hitSlop={6}
-      style={{ width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: '#2a3256', opacity: disabled ? 0.4 : 1 }}>
-      <Text style={{ fontFamily: F.bodyBold, fontSize: 20, color: C.text, lineHeight: 22 }}>{label}</Text>
-    </Pressable>
-  );
-}

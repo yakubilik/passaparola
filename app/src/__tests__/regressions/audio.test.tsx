@@ -14,7 +14,7 @@ import { host, listener, SESSION_SETTLE_MS, sounds } from '../../voice/engine';
 import { answerLine, clueLine } from '../../voice/lines';
 import { ECHO_TAIL_MS, SETTLE_MS } from '../../voice/listener';
 import { RECOGNITION_OPTIONS } from '../../voice/recognizer';
-import { BG_VOLUME, CUE_VOLUME, DEFAULT_GAIN, DUCK, HOST_VOLUME, masterGain, musicVolume, setMasterVolume } from '../../voice/sounds';
+import { BG_VOLUME, CUE_VOLUME, DEFAULT_GAIN, HOST_VOLUME, masterGain, setMasterVolume } from '../../voice/sounds';
 
 // Every sound / volume complaint Yakup made about Harfiyen (#312-#391), one
 // test each, titled with its ticket and his words. Fixes since 18 Oct 2026
@@ -226,7 +226,7 @@ test('#350: when the app opens the sound jumps to full and blasts', async () => 
   await fireEvent.press(screen.getByTestId('intro-start'));
   expect(await screen.findByText('Hızlı oyun')).toBeOnTheScreen();
   await fireEvent.press(screen.getByText('Ayarlar'));
-  expect(await screen.findByText('Müzik')).toBeOnTheScreen();
+  expect(await screen.findByTestId('setting-volume')).toBeOnTheScreen();
   await act(() => router.back());
   expect(await screen.findByText('Hızlı oyun')).toBeOnTheScreen();
   await wait(2000);
@@ -244,15 +244,15 @@ test('#350: when the app opens the sound jumps to full and blasts', async () => 
   // it was made active, and never again over three rounds.
   expect(audio.sessionCalls).toEqual(['mode', 'active']);
   expect(rec.categories).toEqual([RECOGNITION_OPTIONS.iosCategory]);
-  // The very first sound (the theme) rose from silence.
-  const theme = audio.players[0];  // the first player of the app's life: the theme, as the round opened
-  expect(theme.loop).toBe(false);
-  expect(theme.volumes[0]).toBe(0);
-  // No sound ever went above its level: the host at HOST_VOLUME, cues at CUE_VOLUME, the bed at its Müzik step, all under the Ses gain.
+  // The very first sound (the host's first line; there is no theme) rose from silence.
+  const first = audio.players[0];
+  expect(CLIP_SOURCES.has(first.source)).toBe(true);
+  expect(first.volumes[0]).toBe(0);
+  expect(bedPlayers()).toEqual([]);
+  // No sound ever went above its level: the host at HOST_VOLUME, cues at CUE_VOLUME, all under the Ses gain.
   const gain = DEFAULT_GAIN;
   for (const p of hostPlayers()) expect(Math.max(...p.volumes)).toBeLessThanOrEqual(HOST_VOLUME * gain + 1e-9);
   for (const p of cuePlayers()) expect(Math.max(...p.volumes)).toBeLessThanOrEqual(CUE_VOLUME * gain + 1e-9);
-  for (const p of bedPlayers()) expect(Math.max(...p.volumes)).toBeLessThanOrEqual(BG_VOLUME * gain + 1e-9);
   // And in the files: no cue nor the theme is louder than the quietest host clip (assets/loudness.json).
   const loud: { sounds: Record<string, { lufs: number }>; voice: Record<string, { lufs: number }> } = require('../../../assets/loudness.json');
   const quietestHost = Math.min(...Object.values(loud.voice).map((v) => v.lufs));
@@ -362,46 +362,18 @@ test("#361: I finished level 1, the sound was great; when I moved on to level 2 
   expect(audio.sessionCalls).toEqual(['mode', 'active']);
 });
 
-test('#337: the background music is still far too loud', async () => {
+test('22 Oct 2026: no music in the game: no theme and no bed in any round, even with the old Müzik setting saved on', async () => {
+  await settings({ music: true, musicLevel: 10 });
   await openRound();
-  const bedWhileHost: number[] = [];
-  const bedQuiet: number[] = [];
   const rounds = await playRounds(['correct', 'pas', 'wrong'], 3, async () => {
-    if (host.speaking) bedWhileHost.push(sounds.bgVolume);
+    expect(sounds.bgPlaying).toBe(false);
     await untilHostQuiet();
-    bedQuiet.push(sounds.bgVolume);
+    expect(sounds.bgVolume).toBe(0);
   });
   expect(rounds).toHaveLength(3);
-  // The bed plays under every round: a quarter of the 0.17 it was, lowered further while the host speaks.
-  expect(BG_VOLUME).toBeLessThanOrEqual(0.17 / 4 + 1e-9);
-  expect(bedPlayers().length).toBeGreaterThan(0);
-  expect(bedQuiet.length).toBeGreaterThanOrEqual(9);
-  for (const v of bedQuiet) expect(v).toBeCloseTo(BG_VOLUME * DEFAULT_GAIN);
-  expect(bedWhileHost.length).toBeGreaterThanOrEqual(3);
-  for (const v of bedWhileHost) expect(v).toBeCloseTo(BG_VOLUME * DUCK * DEFAULT_GAIN);
-  for (const p of bedPlayers()) expect(Math.max(...p.volumes)).toBeLessThanOrEqual(BG_VOLUME * DEFAULT_GAIN + 1e-9);
-});
-
-test("#337: a 'Müzik' on/off + volume control in Ayarlar", async () => {
-  // Off: no bed in any of three rounds.
-  await settings({ music: false });
-  await openRound();
-  const log = audio.log.length;
-  const off = await playRounds(['pas', 'correct']);
-  expect(off).toHaveLength(3);
-  const bedPlays = audio.log.slice(log).filter((e) => e.e.startsWith('play#') && audio.players[Number(e.e.slice(5))].loop);
-  expect(bedPlays).toEqual([]);
-  expect(sounds.bgVolume).toBe(0);
-  // On at step 2 of 10: three rounds with the bed at that step.
-  await settings({ music: true, musicLevel: 2 });
-  await openRound();
-  const levels: number[] = [];
-  await playRounds(['pas'], 3, async () => {
-    await untilHostQuiet();
-    levels.push(sounds.bgVolume);
-  });
-  expect(levels).toHaveLength(6);  // at each round's start and after its answer
-  for (const v of levels) expect(v).toBeCloseTo(musicVolume(2) * DEFAULT_GAIN);
+  expect(bedPlayers()).toEqual([]);
+  expect(sounds.played).not.toContain('theme');
+  expect(sounds.played).not.toContain('bg');
 });
 
 test('#337: 1. sorudan sonra belki mikrofon açıldığı için oyunun sesi kısılıyor', async () => {
@@ -456,7 +428,7 @@ test('#318: uygulamayı alta alsam da ses çalmaya devam ediyor', async () => {
   await openRound();
   const rounds = await playRounds(['pas'], 3, async (_r, phase) => {
     if (phase !== 'start') return;
-    // The host is reading the first clue, the bed is on: the app goes to the background.
+    // The host is reading the first clue: the app goes to the background.
     expect(host.speaking).toBe(true);
     await goTo('background');
     const plays = audio.plays;
@@ -466,11 +438,11 @@ test('#318: uygulamayı alta alsam da ses çalmaya devam ediyor', async () => {
     expect(audio.plays).toBe(plays);
     expect(speech.current).toBeNull();
     expect(listener.listening).toBe(false);
-    // Back in front: the bed again and the clue read anew.
+    // Back in front: the clue read anew, and still no bed.
     await goTo('active');
     for (let i = 0; i < 40 && !host.speaking; i++) await wait(100);
     expect(host.speaking).toBe(true);
-    expect(sounds.bgPlaying).toBe(true);
+    expect(sounds.bgPlaying).toBe(false);
   });
   expect(rounds).toHaveLength(3);
 });

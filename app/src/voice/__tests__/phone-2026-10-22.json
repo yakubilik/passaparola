@@ -1,0 +1,2225 @@
+{
+"source": "Yakup iPhone, main 929c66e (patch harfiyen-438-route), 22 Oct 2026; recognizer results and host lines only, times in ms",
+"silent": {
+"started": "17:28:42, self-test, nobody speaking",
+"events": [
+{
+"t": 4113,
+"e": "request"
+},
+{
+"t": 5522,
+"e": "host",
+"texts": [
+"İşte sağ cepten sorular çıkıyor efendim.",
+"Türkiye Cumhuriyeti'nin kurucusu ve ilk cumhurbaşkanı... A ile başlıyor."
+],
+"q": "tarih-1-A-1"
+},
+{
+"t": 10310,
+"e": "host-done"
+},
+{
+"t": 11295,
+"e": "host",
+"texts": [
+"Kırmızı zemin üzerinde beyaz ay ve yıldızdan oluşan millî simgemiz... Be ile başlıyor."
+],
+"q": "tarih-1-B-3"
+},
+{
+"t": 11831,
+"e": "result",
+"final": true,
+"alts": [
+"Evet",
+"Hayır",
+"Siri",
+"Gönder",
+"Tamam"
+]
+},
+{
+"t": 15163,
+"e": "host-done"
+},
+{
+"t": 16146,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"13. yüzyılın başında Moğol İmparatorluğu'nu kuran hükümdar... Ce ile başlıyor."
+],
+"q": "tarih-1-C-2"
+},
+{
+"t": 20730,
+"e": "host-done"
+},
+{
+"t": 21713,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"1915'te İtilaf donanmasının geçemediği boğaz... Çe ile başlıyor."
+],
+"q": "tarih-1-Ç-1"
+},
+{
+"t": 26030,
+"e": "host-done"
+},
+{
+"t": 27013,
+"e": "host",
+"texts": [
+"Doğru efendim.",
+"Osmanlı'da sadrazamın başkanlığında devlet işlerinin görüşüldüğü kurul... De ile başlıyor."
+],
+"q": "tarih-1-D-3"
+},
+{
+"t": 31080,
+"e": "host-done"
+},
+{
+"t": 32064,
+"e": "host",
+"texts": [
+"23 Temmuz 1919'da Doğu illerinin temsilcileriyle toplanan kongre... E ile başlıyor."
+],
+"q": "tarih-1-E-1"
+},
+{
+"t": 36116,
+"e": "host-done"
+},
+{
+"t": 37097,
+"e": "host",
+"texts": [
+"1789'da büyük bir devrimle monarşinin yıkıldığı Avrupa ülkesi... Fe ile başlıyor."
+],
+"q": "tarih-1-F-3"
+},
+{
+"t": 41429,
+"e": "host-done"
+},
+{
+"t": 42415,
+"e": "host",
+"texts": [
+"Doğru.",
+"Çanakkale Savaşı'nda kara muharebelerinin yapıldığı yarımada... Ge ile başlıyor."
+],
+"q": "tarih-1-G-2"
+},
+{
+"t": 46007,
+"e": "host-done"
+},
+{
+"t": 46982,
+"e": "host",
+"texts": [
+"1928'de Arap harfleri yerine Latin alfabesine geçilen inkılap... He ile başlıyor."
+],
+"q": "tarih-1-H-3"
+},
+{
+"t": 51090,
+"e": "host-done"
+},
+{
+"t": 52065,
+"e": "host",
+"texts": [
+"Doğru.",
+"Mezopotamya'daki ilk uygarlıkların kıyısında kurulduğu Dicle ile Fırat'ın her biri... I ile başlıyor."
+],
+"q": "tarih-1-I-4"
+},
+{
+"t": 56587,
+"e": "host-done"
+},
+{
+"t": 57566,
+"e": "host",
+"texts": [
+"Doğru efendim.",
+"Çin'den Avrupa'ya uzanan tarihi ticaret yolu... İ ile başlıyor."
+],
+"q": "tarih-1-İ-4"
+},
+{
+"t": 60795,
+"e": "host-done"
+},
+{
+"t": 61766,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"1945'te Hiroşima ve Nagazaki'ye atom bombası atılan ülke... Je ile başlıyor."
+],
+"q": "tarih-1-J-1"
+},
+{
+"t": 66636,
+"e": "host-done"
+},
+{
+"t": 67617,
+"e": "host",
+"texts": [
+"Doğru.",
+"1919-1922 arasında işgallere karşı verilen bağımsızlık mücadelesi... Ke ile başlıyor."
+],
+"q": "tarih-1-K-2"
+},
+{
+"t": 73721,
+"e": "host-done"
+},
+{
+"t": 74701,
+"e": "host",
+"texts": [
+"Amerikan İç Savaşı sırasında köleliği kaldıran ABD başkanı... Le ile başlıyor."
+],
+"q": "tarih-1-L-4"
+},
+{
+"t": 77930,
+"e": "host-done"
+},
+{
+"t": 78901,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"1526'da Kanuni'nin Macar ordusunu yendiği meydan muharebesi... Me ile başlıyor."
+],
+"q": "tarih-1-M-4"
+},
+{
+"t": 83749,
+"e": "host-done"
+},
+{
+"t": 84735,
+"e": "host",
+"texts": [
+"Doğru efendim.",
+"Akşehir'de yaşadığı bilinen, fıkralarıyla ünlü halk bilgesi... Ne ile başlıyor."
+],
+"q": "tarih-1-N-3"
+},
+{
+"t": 89130,
+"e": "host-done"
+},
+{
+"t": 90102,
+"e": "host",
+"texts": [
+"Doğru.",
+"Osman Bey'in oğlu; Osmanlı'nın ikinci hükümdarı... O ile başlıyor."
+],
+"q": "tarih-1-O-4"
+},
+{
+"t": 93339,
+"e": "host-done"
+},
+{
+"t": 94319,
+"e": "host",
+"texts": [
+"Doğru.",
+"Eski Mısır'da ölünün öteki dünyadaki yolculuğu için mezara konan dua ve büyü metinleri... Ö ile başlıyor."
+],
+"q": "tarih-1-Ö-4"
+},
+{
+"t": 98974,
+"e": "host-done"
+},
+{
+"t": 99953,
+"e": "host",
+"texts": [
+"Kitab-ı Bahriye'yi yazan, Amerika'yı da gösteren ünlü haritayı çizen Osmanlı denizcisi... Pe ile başlıyor."
+],
+"q": "tarih-1-P-1"
+},
+{
+"t": 104426,
+"e": "host-done"
+},
+{
+"t": 105403,
+"e": "host",
+"texts": [
+"14. yüzyılda İtalya'da başlayan, sanat ve bilimde yeniden doğuş dönemi... Re ile başlıyor."
+],
+"q": "tarih-1-R-2"
+},
+{
+"t": 108727,
+"e": "host-done"
+},
+{
+"t": 109704,
+"e": "host",
+"texts": [
+"1921'de 22 gün 22 gece süren meydan muharebesi... Se ile başlıyor."
+],
+"q": "tarih-1-S-1"
+},
+{
+"t": 113670,
+"e": "host-done"
+},
+{
+"t": 114655,
+"e": "host",
+"texts": [
+"Doğru.",
+"Emevi Devleti'nin merkezi olan, bugün Suriye'nin başkenti olan şehir... Şe ile başlıyor."
+],
+"q": "tarih-1-Ş-4"
+},
+{
+"t": 119399,
+"e": "host-done"
+},
+{
+"t": 120371,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Tahta at hilesiyle ele geçirilen, Çanakkale'deki antik kent... Te ile başlıyor."
+],
+"q": "tarih-1-T-2"
+},
+{
+"t": 124711,
+"e": "host-done"
+},
+{
+"t": 125689,
+"e": "host",
+"texts": [
+"Doğru efendim.",
+"Doğu Anadolu'da kurulan, başkenti Tuşpa olan eski uygarlık... U ile başlıyor."
+],
+"q": "tarih-1-U-4"
+},
+{
+"t": 129909,
+"e": "host-done"
+},
+{
+"t": 130889,
+"e": "host",
+"texts": [
+"Atlı Türk göçebelerinin ok atarken ayaklarını dayadığı, eyerin iki yanından sarkan halka... Ü ile başlıyor."
+],
+"q": "tarih-1-Ü-3"
+},
+{
+"t": 134808,
+"e": "host-done"
+},
+{
+"t": 135790,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Osmanlı'da Divan üyesi devlet adamlarına verilen unvan; en büyüğü sadrazamdır... Ve ile başlıyor."
+],
+"q": "tarih-1-V-2"
+},
+{
+"t": 140443,
+"e": "host-done"
+},
+{
+"t": 141423,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Mısır'ı alarak halifeliği Osmanlı'ya getiren padişah I. Selim'in lakabı... Ye ile başlıyor."
+],
+"q": "tarih-1-Y-1"
+},
+{
+"t": 146376,
+"e": "host-done"
+},
+{
+"t": 147357,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Antik Yunan mitolojisinde Olimpos'taki tanrıların başı... Ze ile başlıyor."
+],
+"q": "tarih-1-Z-2"
+},
+{
+"t": 151782,
+"e": "host-done"
+},
+{
+"t": 152491,
+"e": "host",
+"texts": [
+"Bravo! Bütün harfleri bildiniz. Harfiyen!"
+],
+"q": null
+},
+{
+"t": 154495,
+"e": "host-done"
+},
+{
+"t": 175099,
+"e": "request"
+},
+{
+"t": 176761,
+"e": "host",
+"texts": [
+"İşte sağ cepten sorular çıkıyor efendim.",
+"22 Haziran 1919'da yayımlanan, \"Milletin istiklalini yine milletin azim ve kararı kurtaracaktır\" diyen bildiri... A ile başlıyor."
+],
+"q": "tarih-2-A-1"
+},
+{
+"t": 182886,
+"e": "result",
+"final": true,
+"alts": [
+"Evet",
+"Hayır",
+"Siri",
+"Gönder",
+"Tamam"
+]
+},
+{
+"t": 184581,
+"e": "host-done"
+},
+{
+"t": 185561,
+"e": "host",
+"texts": [
+"Kardeşi Kül Tigin ile birlikte adına Orhun Yazıtları dikilen Göktürk hükümdarı... Be ile başlıyor."
+],
+"q": "tarih-2-B-3"
+},
+{
+"t": 189709,
+"e": "host-done"
+},
+{
+"t": 190694,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Ağabeyi II. Bayezid'le taht kavgasına girip ömrünün sonunu Avrupa'da esir olarak geçiren şehzade... Ce ile başlıyor."
+],
+"q": "tarih-2-C-2"
+},
+{
+"t": 196288,
+"e": "host-done"
+},
+{
+"t": 197262,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"1514'te Yavuz Sultan Selim'in Safevi ordusunu yendiği savaş... Çe ile başlıyor."
+],
+"q": "tarih-2-Ç-1"
+},
+{
+"t": 201831,
+"e": "host-done"
+},
+{
+"t": 202812,
+"e": "host",
+"texts": [
+"Osmanlı'da Hristiyan ailelerin çocuklarının toplanıp yetiştirilerek Kapıkulu yapıldığı sistem... De ile başlıyor."
+],
+"q": "tarih-2-D-3"
+},
+{
+"t": 208018,
+"e": "host-done"
+},
+{
+"t": 208996,
+"e": "host",
+"texts": [
+"Birinci Dünya Savaşı'nda Osmanlı ordusunun Başkomutan Vekili olan, 1922'de Buhara yakınlarında ölen paşa... E ile başlıyor."
+],
+"q": "tarih-2-E-1"
+},
+{
+"t": 214597,
+"e": "host-done"
+},
+{
+"t": 215580,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Alfabeyi geliştiren, Akdeniz'de ticaret kolonileri kuran antik denizci kavim... Fe ile başlıyor."
+],
+"q": "tarih-2-F-3"
+},
+{
+"t": 220784,
+"e": "host-done"
+},
+{
+"t": 221764,
+"e": "host",
+"texts": [
+"Doğru efendim.",
+"1839'da Tanzimat Fermanı'nın okunduğu, Topkapı Sarayı'nın dış bahçesindeki yer... Ge ile başlıyor."
+],
+"q": "tarih-2-G-2"
+},
+{
+"t": 227567,
+"e": "host-done"
+},
+{
+"t": 228548,
+"e": "host",
+"texts": [
+"\"Göze göz, dişe diş\" ilkesiyle bilinen yasaları taşa kazıtan eski çağ kralı... He ile başlıyor."
+],
+"q": "tarih-2-H-3"
+},
+{
+"t": 232627,
+"e": "host-done"
+},
+{
+"t": 233598,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"1856'da gayrimüslimlere yeni haklar tanıyan Osmanlı fermanı... I ile başlıyor."
+],
+"q": "tarih-2-I-4"
+},
+{
+"t": 238446,
+"e": "host-done"
+},
+{
+"t": 239432,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Hülagü'nün İran'da kurduğu Moğol devleti... İ ile başlıyor."
+],
+"q": "tarih-2-İ-4"
+},
+{
+"t": 242562,
+"e": "host-done"
+},
+{
+"t": 243532,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"İngilizlere karşı Fransız ordusuna önderlik eden, 1431'de yakılarak öldürülen genç kız... Je ile başlıyor."
+],
+"q": "tarih-2-J-1"
+},
+{
+"t": 250042,
+"e": "host-done"
+},
+{
+"t": 251018,
+"e": "host",
+"texts": [
+"1243'te Anadolu Selçuklularının Moğollara yenildiği savaş... Ke ile başlıyor."
+],
+"q": "tarih-2-K-2"
+},
+{
+"t": 254729,
+"e": "host-done"
+},
+{
+"t": 255700,
+"e": "host",
+"texts": [
+"1937'de anayasaya giren, din ve devlet işlerinin ayrılması ilkesi... Le ile başlıyor."
+],
+"q": "tarih-2-L-4"
+},
+{
+"t": 259928,
+"e": "host-done"
+},
+{
+"t": 260900,
+"e": "host",
+"texts": [
+"Doğru.",
+"Dicle ile Fırat arasında kalan, ilk şehirlerin ve yazının doğduğu bölge... Me ile başlıyor."
+],
+"q": "tarih-2-M-4"
+},
+{
+"t": 264896,
+"e": "host-done"
+},
+{
+"t": 265868,
+"e": "host",
+"texts": [
+"Doğru efendim.",
+"Hitler'in önderliğindeki Nasyonal Sosyalist partiye ve yandaşlarına verilen ad... Ne ile başlıyor."
+],
+"q": "tarih-2-N-3"
+},
+{
+"t": 270026,
+"e": "host-done"
+},
+{
+"t": 271001,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"1054 ayrılığıyla Katoliklerden kopan Doğu Hristiyanlığı mezhebi... O ile başlıyor."
+],
+"q": "tarih-2-O-4"
+},
+{
+"t": 275130,
+"e": "host-done"
+},
+{
+"t": 276102,
+"e": "host",
+"texts": [
+"1931'de metre, kilogram ve litreyi resmî birim yapan Cumhuriyet dönemi yasası... Ö ile başlıyor."
+],
+"q": "tarih-2-Ö-4"
+},
+{
+"t": 281041,
+"e": "host-done"
+},
+{
+"t": 282019,
+"e": "host",
+"texts": [
+"Kiros'un kurduğu, Yunan şehir devletleriyle savaşan İran imparatorluğu... Pe ile başlıyor."
+],
+"q": "tarih-2-P-1"
+},
+{
+"t": 285457,
+"e": "host-done"
+},
+{
+"t": 286436,
+"e": "host",
+"texts": [
+"Doğru.",
+"16. yüzyılda Katolik Kilisesi'ne karşı başlayıp Protestanlığı doğuran dinî hareket... Re ile başlıyor."
+],
+"q": "tarih-2-R-2"
+},
+{
+"t": 291230,
+"e": "host-done"
+},
+{
+"t": 292203,
+"e": "host",
+"texts": [
+"10 Ağustos 1920'de Osmanlı'ya imzalatılan, hiç yürürlüğe girmeyen antlaşma... Se ile başlıyor."
+],
+"q": "tarih-2-S-1"
+},
+{
+"t": 296750,
+"e": "host-done"
+},
+{
+"t": 297737,
+"e": "host",
+"texts": [
+"800'de Papa tarafından imparator tacı giydirilen Frank kralı... Şe ile başlıyor."
+],
+"q": "tarih-2-Ş-4"
+},
+{
+"t": 301374,
+"e": "host-done"
+},
+{
+"t": 302354,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Sakarya Savaşı öncesinde ordunun ihtiyaçları için halktan yardım toplatan 1921 emirleri... Te ile başlıyor."
+],
+"q": "tarih-2-T-2"
+},
+{
+"t": 307881,
+"e": "host-done"
+},
+{
+"t": 308855,
+"e": "host",
+"texts": [
+"Selçuklu ve ilk Osmanlı döneminde düşmana komşu sınır bölgelerine verilen ad... U ile başlıyor."
+],
+"q": "tarih-2-U-4"
+},
+{
+"t": 312988,
+"e": "host-done"
+},
+{
+"t": 313972,
+"e": "host",
+"texts": [
+"Birinci Dünya Savaşı öncesinde İngiltere, Fransa ve Rusya'nın oluşturduğu blok... Ü ile başlıyor."
+],
+"q": "tarih-2-Ü-3"
+},
+{
+"t": 317749,
+"e": "host-done"
+},
+{
+"t": 318722,
+"e": "host",
+"texts": [
+"1498'de Ümit Burnu'nu dolaşarak Hindistan'a ulaşan Portekizli denizci... Ve ile başlıyor."
+],
+"q": "tarih-2-V-2"
+},
+{
+"t": 320925,
+"e": "result",
+"final": true,
+"alts": [
+" Kapan",
+" Kapat",
+" Kapan Siri",
+" Kapan kapan",
+" Kapan Siri kapan"
+]
+},
+{
+"t": 322785,
+"e": "host-done"
+},
+{
+"t": 323756,
+"e": "host",
+"texts": [
+"II. Abdülhamid'in otuz yılı aşkın süre yaşayıp devleti yönettiği İstanbul sarayı... Ye ile başlıyor."
+],
+"q": "tarih-2-Y-1"
+},
+{
+"t": 327408,
+"e": "host-done"
+},
+{
+"t": 328390,
+"e": "host",
+"texts": [
+"Eski Irak uygarlıklarının basamaklı kule biçimindeki tapınağı... Ze ile başlıyor."
+],
+"q": "tarih-2-Z-2"
+},
+{
+"t": 331617,
+"e": "host-done"
+},
+{
+"t": 332324,
+"e": "host",
+"texts": [
+"Bravo! Bütün harfleri bildiniz. Harfiyen!"
+],
+"q": null
+},
+{
+"t": 334331,
+"e": "host-done"
+},
+{
+"t": 354910,
+"e": "request"
+},
+{
+"t": 356723,
+"e": "host",
+"texts": [
+"İşte sağ cepten sorular çıkıyor efendim.",
+"6. yüzyılda Orta Avrupa'da kağanlık kuran, 626'da İstanbul'u kuşatan bozkır topluluğu... A ile başlıyor."
+],
+"q": "tarih-3-A-1"
+},
+{
+"t": 362834,
+"e": "result",
+"final": true,
+"alts": [
+"İşte",
+"Ara",
+"Kapat",
+"İsterim",
+"Evet"
+]
+},
+{
+"t": 363369,
+"e": "host-done"
+},
+{
+"t": 364343,
+"e": "host",
+"texts": [
+"1526'da Panipat'ta kazanıp Hindistan'da büyük bir Türk-Moğol imparatorluğu kuran hükümdar... Be ile başlıyor."
+],
+"q": "tarih-3-B-3"
+},
+{
+"t": 369970,
+"e": "host-done"
+},
+{
+"t": 370943,
+"e": "host",
+"texts": [
+"Doğru efendim.",
+"Cengiz Han'a karşı İndus kıyısına kadar direnen, 1230'da Yassıçemen'de Alaaddin Keykubat'a yenilen sultan... Ce ile başlıyor."
+],
+"q": "tarih-3-C-2"
+},
+{
+"t": 376987,
+"e": "host-done"
+},
+{
+"t": 377961,
+"e": "host",
+"texts": [
+"İstanbul'un fethine karşı çıktığı için fetihten sonra idam edilen sadrazam... Çe ile başlıyor."
+],
+"q": "tarih-3-Ç-1"
+},
+{
+"t": 381493,
+"e": "host-done"
+},
+{
+"t": 382478,
+"e": "host",
+"texts": [
+"Osmanlı'da maliyeden sorumlu Divan üyesi... De ile başlıyor."
+],
+"q": "tarih-3-D-3"
+},
+{
+"t": 385357,
+"e": "host-done"
+},
+{
+"t": 386328,
+"e": "host",
+"texts": [
+"Doğru.",
+"On ciltlik Seyahatname'sinde Osmanlı ülkelerini anlatan 17. yüzyıl gezgini... E ile başlıyor."
+],
+"q": "tarih-3-E-1"
+},
+{
+"t": 391430,
+"e": "host-done"
+},
+{
+"t": 392412,
+"e": "host",
+"texts": [
+"Orta Çağ Avrupası'nda toprak karşılığı bağlılığa dayanan senyör ve vasal düzeni... Fe ile başlıyor."
+],
+"q": "tarih-3-F-3"
+},
+{
+"t": 396375,
+"e": "host-done"
+},
+{
+"t": 397346,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"İskender'in efsanevi düğümü kılıçla kestiği, Polatlı yakınlarındaki antik başkent... Ge ile başlıyor."
+],
+"q": "tarih-3-G-2"
+},
+{
+"t": 402586,
+"e": "host-done"
+},
+{
+"t": 403563,
+"e": "host",
+"texts": [
+"Doğru.",
+"Galata Kulesi'nden Üsküdar'a uçtuğu anlatılan 17. yüzyıl Osmanlı bilgini... He ile başlıyor."
+],
+"q": "tarih-3-H-3"
+},
+{
+"t": 404867,
+"e": "result",
+"final": true,
+"alts": [
+" Aç",
+" Murat",
+" <",
+" Çık",
+" Burak"
+]
+},
+{
+"t": 408795,
+"e": "host-done"
+},
+{
+"t": 409781,
+"e": "host",
+"texts": [
+"Bizans döneminde keşişlerin kayalara oyduğu kiliseleriyle bilinen, Aksaray'daki vadi... I ile başlıyor."
+],
+"q": "tarih-3-I-4"
+},
+{
+"t": 413763,
+"e": "host-done"
+},
+{
+"t": 414747,
+"e": "host",
+"texts": [
+"Doğru.",
+"1331'de Orhan Gazi'nin fethettiği, 325'te ilk Hristiyan konsilinin toplandığı antik kent... İ ile başlıyor."
+],
+"q": "tarih-3-İ-4"
+},
+{
+"t": 420318,
+"e": "host-done"
+},
+{
+"t": 421298,
+"e": "host",
+"texts": [
+"Doğru efendim.",
+"Fransız Devrimi'nde adını Paris'teki bir manastırdan alan radikal siyasi kulüp... Je ile başlıyor."
+],
+"q": "tarih-3-J-1"
+},
+{
+"t": 426159,
+"e": "host-done"
+},
+{
+"t": 427132,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"1277'de divanda ve mecliste Türkçeden başka dil konuşulmamasını buyuran bey... Ke ile başlıyor."
+],
+"q": "tarih-3-K-2"
+},
+{
+"t": 432760,
+"e": "host-done"
+},
+{
+"t": 433732,
+"e": "host",
+"texts": [
+"Doğru.",
+"Edirne'nin fethinde rol oynayan, ilk Rumeli beylerbeyi olan Osmanlı komutanı... Le ile başlıyor."
+],
+"q": "tarih-3-L-4"
+},
+{
+"t": 438372,
+"e": "host-done"
+},
+{
+"t": 439349,
+"e": "host",
+"texts": [
+"Doğru.",
+"Tanzimat Fermanı'nı 1839'da Gülhane'de okuyan Hariciye Nazırı... Me ile başlıyor."
+],
+"q": "tarih-3-M-4"
+},
+{
+"t": 444075,
+"e": "host-done"
+},
+{
+"t": 445050,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Lale Devri boyunca III. Ahmet'in sadrazamı olan, 1730 isyanında öldürülen devlet adamı... Ne ile başlıyor."
+],
+"q": "tarih-3-N-3"
+},
+{
+"t": 450655,
+"e": "host-done"
+},
+{
+"t": 451635,
+"e": "host",
+"texts": [
+"Büyük Teoderik önderliğinde İtalya'da krallık kuran Doğu Got halkı... O ile başlıyor."
+],
+"q": "tarih-3-O-4"
+},
+{
+"t": 455415,
+"e": "host-done"
+},
+{
+"t": 456401,
+"e": "host",
+"texts": [
+"Doğru efendim.",
+"Osmanlı'da ve Cumhuriyet'in ilk yıllarında sıkıyönetimin eski adı... Ö ile başlıyor."
+],
+"q": "tarih-3-Ö-4"
+},
+{
+"t": 460152,
+"e": "host-done"
+},
+{
+"t": 461135,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"1730'da Lale Devri'ni sona erdiren isyanın Arnavut asıllı elebaşı... Pe ile başlıyor."
+],
+"q": "tarih-3-P-1"
+},
+{
+"t": 466384,
+"e": "host-done"
+},
+{
+"t": 467369,
+"e": "host",
+"texts": [
+"Mondros Mütarekesi'ni Osmanlı adına imzalayan Bahriye Nazırı... Re ile başlıyor."
+],
+"q": "tarih-3-R-2"
+},
+{
+"t": 470479,
+"e": "host-done"
+},
+{
+"t": 471452,
+"e": "host",
+"texts": [
+"Doğru.",
+"1501'de Tebriz'de kurulan, Osmanlı'yla Çaldıran'da savaşan İran devleti... Se ile başlıyor."
+],
+"q": "tarih-3-S-1"
+},
+{
+"t": 476347,
+"e": "host-done"
+},
+{
+"t": 477319,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Kanuni'nin büyük oğlu; 1553'te Nahçıvan Seferi sırasında babasının emriyle boğduruldu... Şe ile başlıyor."
+],
+"q": "tarih-3-Ş-4"
+},
+{
+"t": 483294,
+"e": "host-done"
+},
+{
+"t": 484288,
+"e": "host",
+"texts": [
+"Yanya merkezli bölgede bağımsızlaşmaya çalışıp 1822'de öldürülen ayan... Te ile başlıyor."
+],
+"q": "tarih-3-T-2"
+},
+{
+"t": 488419,
+"e": "host-done"
+},
+{
+"t": 489406,
+"e": "host",
+"texts": [
+"Doğru.",
+"1663'te Köprülüzade Fazıl Ahmet Paşa'nın fethettiği, bugün Slovakya'da kalan kale... U ile başlıyor."
+],
+"q": "tarih-3-U-4"
+},
+{
+"t": 495618,
+"e": "host-done"
+},
+{
+"t": 496605,
+"e": "host",
+"texts": [
+"Doğru efendim.",
+"Altay Türklerinin inancında iyiliği temsil eden, Erlik'in karşıtı olan gök tanrısı... Ü ile başlıyor."
+],
+"q": "tarih-3-Ü-3"
+},
+{
+"t": 501367,
+"e": "host-done"
+},
+{
+"t": 502338,
+"e": "host",
+"texts": [
+"Osmanlı'da devletin önemli olaylarını resmî olarak kaydetmekle görevli tarihçi... Ve ile başlıyor."
+],
+"q": "tarih-3-V-2"
+},
+{
+"t": 506220,
+"e": "host-done"
+},
+{
+"t": 507206,
+"e": "host",
+"texts": [
+"Doğru.",
+"1904'te Üç Tarz-ı Siyaset makalesini yazan düşünür... Ye ile başlıyor."
+],
+"q": "tarih-3-Y-1"
+},
+{
+"t": 511095,
+"e": "host-done"
+},
+{
+"t": 512072,
+"e": "host",
+"texts": [
+"Doğru efendim.",
+"İslam devletlerinde cizye ödeyerek can ve mal güvencesi alan gayrimüslim tebaa... Ze ile başlıyor."
+],
+"q": "tarih-3-Z-2"
+},
+{
+"t": 516322,
+"e": "host-done"
+},
+{
+"t": 517040,
+"e": "host",
+"texts": [
+"Bravo! Bütün harfleri bildiniz. Harfiyen!"
+],
+"q": null
+},
+{
+"t": 519053,
+"e": "host-done"
+}
+],
+"questions": {
+"tarih-3-H-3": {
+"letter": "H",
+"answers": [
+"Hezarfen Ahmet Çelebi",
+"Hezarfen",
+"Hezarfen Ahmed Çelebi"
+]
+},
+"tarih-3-T-2": {
+"letter": "T",
+"answers": [
+"Tepedelenli Ali Paşa",
+"Tepedelenli"
+]
+},
+"tarih-3-M-4": {
+"letter": "M",
+"answers": [
+"Mustafa Reşit Paşa",
+"Mustafa Reşid Paşa"
+]
+},
+"tarih-3-Ü-3": {
+"letter": "Ü",
+"answers": [
+"Ülgen"
+]
+},
+"tarih-1-Ü-3": {
+"letter": "Ü",
+"answers": [
+"Üzengi"
+]
+},
+"tarih-3-Ş-4": {
+"letter": "Ş",
+"answers": [
+"Şehzade Mustafa"
+]
+},
+"tarih-3-İ-4": {
+"letter": "İ",
+"answers": [
+"İznik"
+]
+},
+"tarih-1-I-4": {
+"letter": "I",
+"answers": [
+"Irmak"
+]
+},
+"tarih-2-M-4": {
+"letter": "M",
+"answers": [
+"Mezopotamya"
+]
+},
+"tarih-2-Y-1": {
+"letter": "Y",
+"answers": [
+"Yıldız Sarayı",
+"Yıldız"
+]
+},
+"tarih-2-B-3": {
+"letter": "B",
+"answers": [
+"Bilge Kağan",
+"Bilge Han"
+]
+},
+"tarih-3-E-1": {
+"letter": "E",
+"answers": [
+"Evliya Çelebi"
+]
+},
+"tarih-2-T-2": {
+"letter": "T",
+"answers": [
+"Tekalif-i Milliye",
+"Tekâlif-i Milliye",
+"Tekalifimilliye"
+]
+},
+"tarih-2-N-3": {
+"letter": "N",
+"answers": [
+"Nazi",
+"Naziler",
+"Nazi Partisi"
+]
+},
+"tarih-1-B-3": {
+"letter": "B",
+"answers": [
+"Bayrak"
+]
+},
+"tarih-3-L-4": {
+"letter": "L",
+"answers": [
+"Lala Şahin Paşa",
+"Lala Şahin"
+]
+},
+"tarih-1-O-4": {
+"letter": "O",
+"answers": [
+"Orhan Gazi",
+"Orhan Bey",
+"Orhan"
+]
+},
+"tarih-1-T-2": {
+"letter": "T",
+"answers": [
+"Truva",
+"Troya",
+"Troia"
+]
+},
+"tarih-1-C-2": {
+"letter": "C",
+"answers": [
+"Cengiz Han",
+"Cengiz"
+]
+},
+"tarih-3-O-4": {
+"letter": "O",
+"answers": [
+"Ostrogotlar",
+"Ostrogot"
+]
+},
+"tarih-3-Y-1": {
+"letter": "Y",
+"answers": [
+"Yusuf Akçura"
+]
+},
+"tarih-1-H-3": {
+"letter": "H",
+"answers": [
+"Harf Devrimi",
+"Harf İnkılabı"
+]
+},
+"tarih-2-D-3": {
+"letter": "D",
+"answers": [
+"Devşirme",
+"Devşirme sistemi"
+]
+},
+"tarih-1-Y-1": {
+"letter": "Y",
+"answers": [
+"Yavuz",
+"Yavuz Sultan Selim"
+]
+},
+"tarih-1-L-4": {
+"letter": "L",
+"answers": [
+"Lincoln"
+]
+},
+"tarih-1-Z-2": {
+"letter": "Z",
+"answers": [
+"Zeus"
+]
+},
+"tarih-1-G-2": {
+"letter": "G",
+"answers": [
+"Gelibolu",
+"Gelibolu Yarımadası"
+]
+},
+"tarih-3-Ö-4": {
+"letter": "Ö",
+"answers": [
+"Örfi İdare"
+]
+},
+"tarih-2-Ö-4": {
+"letter": "Ö",
+"answers": [
+"Ölçüler Kanunu"
+]
+},
+"tarih-1-V-2": {
+"letter": "V",
+"answers": [
+"Vezir"
+]
+},
+"tarih-2-K-2": {
+"letter": "K",
+"answers": [
+"Kösedağ",
+"Kösedağ Savaşı"
+]
+},
+"tarih-3-V-2": {
+"letter": "V",
+"answers": [
+"Vakanüvis"
+]
+},
+"tarih-3-F-3": {
+"letter": "F",
+"answers": [
+"Feodalite",
+"Feodalizm"
+]
+},
+"tarih-2-Ç-1": {
+"letter": "Ç",
+"answers": [
+"Çaldıran",
+"Çaldıran Savaşı"
+]
+},
+"tarih-1-A-1": {
+"letter": "A",
+"answers": [
+"Atatürk"
+]
+},
+"tarih-3-C-2": {
+"letter": "C",
+"answers": [
+"Celaleddin Harzemşah",
+"Celaleddin",
+"Celalettin",
+"Celaleddin Harezmşah"
+]
+},
+"tarih-1-İ-4": {
+"letter": "İ",
+"answers": [
+"İpek Yolu"
+]
+},
+"tarih-2-V-2": {
+"letter": "V",
+"answers": [
+"Vasco da Gama",
+"Vasko da Gama"
+]
+},
+"tarih-1-R-2": {
+"letter": "R",
+"answers": [
+"Rönesans"
+]
+},
+"tarih-1-Ç-1": {
+"letter": "Ç",
+"answers": [
+"Çanakkale",
+"Çanakkale Boğazı"
+]
+},
+"tarih-1-F-3": {
+"letter": "F",
+"answers": [
+"Fransa"
+]
+},
+"tarih-2-G-2": {
+"letter": "G",
+"answers": [
+"Gülhane",
+"Gülhane Parkı"
+]
+},
+"tarih-3-R-2": {
+"letter": "R",
+"answers": [
+"Rauf Orbay",
+"Rauf Bey"
+]
+},
+"tarih-3-K-2": {
+"letter": "K",
+"answers": [
+"Karamanoğlu Mehmet Bey",
+"Karamanoğlu Mehmed Bey",
+"Karamanoğlu"
+]
+},
+"tarih-2-U-4": {
+"letter": "U",
+"answers": [
+"Uç",
+"Uç bölgesi"
+]
+},
+"tarih-2-I-4": {
+"letter": "I",
+"answers": [
+"Islahat Fermanı",
+"Islahat"
+]
+},
+"tarih-2-C-2": {
+"letter": "C",
+"answers": [
+"Cem Sultan",
+"Cem"
+]
+},
+"tarih-1-U-4": {
+"letter": "U",
+"answers": [
+"Urartu",
+"Urartular"
+]
+},
+"tarih-2-R-2": {
+"letter": "R",
+"answers": [
+"Reform",
+"Reform Hareketi"
+]
+},
+"tarih-1-P-1": {
+"letter": "P",
+"answers": [
+"Piri Reis"
+]
+},
+"tarih-3-N-3": {
+"letter": "N",
+"answers": [
+"Nevşehirli Damat İbrahim Paşa",
+"Nevşehirli İbrahim Paşa",
+"Nevşehirli"
+]
+},
+"tarih-3-P-1": {
+"letter": "P",
+"answers": [
+"Patrona Halil"
+]
+},
+"tarih-2-Ş-4": {
+"letter": "Ş",
+"answers": [
+"Şarlman",
+"Şarlmanya"
+]
+},
+"tarih-2-L-4": {
+"letter": "L",
+"answers": [
+"Laiklik"
+]
+},
+"tarih-1-S-1": {
+"letter": "S",
+"answers": [
+"Sakarya",
+"Sakarya Meydan Muharebesi",
+"Sakarya Savaşı"
+]
+},
+"tarih-3-U-4": {
+"letter": "U",
+"answers": [
+"Uyvar",
+"Uyvar Kalesi"
+]
+},
+"tarih-1-E-1": {
+"letter": "E",
+"answers": [
+"Erzurum",
+"Erzurum Kongresi"
+]
+},
+"tarih-2-H-3": {
+"letter": "H",
+"answers": [
+"Hammurabi"
+]
+},
+"tarih-3-A-1": {
+"letter": "A",
+"answers": [
+"Avarlar",
+"Avar"
+]
+},
+"tarih-1-Ş-4": {
+"letter": "Ş",
+"answers": [
+"Şam"
+]
+},
+"tarih-1-D-3": {
+"letter": "D",
+"answers": [
+"Divan",
+"Divan-ı Hümayun"
+]
+},
+"tarih-1-M-4": {
+"letter": "M",
+"answers": [
+"Mohaç",
+"Mohaç Savaşı",
+"Mohaç Meydan Muharebesi"
+]
+},
+"tarih-3-I-4": {
+"letter": "I",
+"answers": [
+"Ihlara Vadisi",
+"Ihlara"
+]
+},
+"tarih-3-Z-2": {
+"letter": "Z",
+"answers": [
+"Zimmi",
+"Zimmiler"
+]
+},
+"tarih-1-J-1": {
+"letter": "J",
+"answers": [
+"Japonya"
+]
+},
+"tarih-3-D-3": {
+"letter": "D",
+"answers": [
+"Defterdar"
+]
+},
+"tarih-2-A-1": {
+"letter": "A",
+"answers": [
+"Amasya Genelgesi",
+"Amasya Tamimi"
+]
+},
+"tarih-2-Ü-3": {
+"letter": "Ü",
+"answers": [
+"Üçlü İtilaf",
+"Üçlü Anlaşma"
+]
+},
+"tarih-2-J-1": {
+"letter": "J",
+"answers": [
+"Jan Dark",
+"Jeanne d'Arc",
+"Jandark"
+]
+},
+"tarih-3-J-1": {
+"letter": "J",
+"answers": [
+"Jakobenler",
+"Jakoben"
+]
+},
+"tarih-3-G-2": {
+"letter": "G",
+"answers": [
+"Gordion",
+"Gordiyon"
+]
+},
+"tarih-2-İ-4": {
+"letter": "İ",
+"answers": [
+"İlhanlılar",
+"İlhanlı",
+"İlhanlı Devleti"
+]
+},
+"tarih-3-Ç-1": {
+"letter": "Ç",
+"answers": [
+"Çandarlı Halil Paşa",
+"Çandarlı Halil",
+"Çandarlı"
+]
+},
+"tarih-2-E-1": {
+"letter": "E",
+"answers": [
+"Enver Paşa",
+"Enver"
+]
+},
+"tarih-2-P-1": {
+"letter": "P",
+"answers": [
+"Persler",
+"Pers",
+"Pers İmparatorluğu"
+]
+},
+"tarih-2-Z-2": {
+"letter": "Z",
+"answers": [
+"Zigurat"
+]
+},
+"tarih-3-S-1": {
+"letter": "S",
+"answers": [
+"Safeviler",
+"Safevi",
+"Safevi Devleti"
+]
+},
+"tarih-2-O-4": {
+"letter": "O",
+"answers": [
+"Ortodoks",
+"Ortodoksluk"
+]
+},
+"tarih-1-N-3": {
+"letter": "N",
+"answers": [
+"Nasreddin Hoca",
+"Nasrettin Hoca"
+]
+},
+"tarih-2-F-3": {
+"letter": "F",
+"answers": [
+"Fenikeliler",
+"Fenike"
+]
+},
+"tarih-3-B-3": {
+"letter": "B",
+"answers": [
+"Babür",
+"Babür Şah",
+"Babur"
+]
+},
+"tarih-2-S-1": {
+"letter": "S",
+"answers": [
+"Sevr",
+"Sevr Antlaşması"
+]
+},
+"tarih-1-Ö-4": {
+"letter": "Ö",
+"answers": [
+"Ölüler Kitabı"
+]
+},
+"tarih-1-K-2": {
+"letter": "K",
+"answers": [
+"Kurtuluş Savaşı",
+"Kurtuluş Mücadelesi"
+]
+}
+}
+},
+"spoken": {
+"started": "about 17:57, trace mode, Yakup answering",
+"events": [
+{
+"t": 816,
+"e": "request"
+},
+{
+"t": 1486,
+"e": "host",
+"texts": [
+"Gövdesi odunlaşmış, dalları ve yapraklarıyla uzun yıllar yaşayan büyük bitki... A ile başlıyor."
+],
+"q": "bilim-1-A-3"
+},
+{
+"t": 5527,
+"e": "host-done"
+},
+{
+"t": 6237,
+"e": "result",
+"final": false,
+"alts": [
+"Aç"
+]
+},
+{
+"t": 7909,
+"e": "result",
+"final": true,
+"alts": [
+"Aç"
+]
+},
+{
+"t": 8116,
+"e": "result",
+"final": false,
+"alts": [
+" Aç"
+]
+},
+{
+"t": 9235,
+"e": "host",
+"texts": [
+"Değil, olmadı.",
+"Ağaç olacaktı."
+],
+"q": null
+},
+{
+"t": 9811,
+"e": "result",
+"final": true,
+"alts": [
+" Aç"
+]
+},
+{
+"t": 11505,
+"e": "host-done"
+},
+{
+"t": 11512,
+"e": "host",
+"texts": [
+"Kanı süzerek idrarı oluşturan, fasulye biçimli organ... Be ile başlıyor."
+],
+"q": "bilim-1-B-3"
+},
+{
+"t": 14597,
+"e": "result",
+"final": false,
+"alts": [
+" Böbrek"
+]
+},
+{
+"t": 14598,
+"e": "host-done"
+},
+{
+"t": 14853,
+"e": "host",
+"texts": [
+"Doğru.",
+"Kabuğu sert, içi beyne benzeyen kuruyemiş... Ce ile başlıyor."
+],
+"q": "bilim-1-C-3"
+},
+{
+"t": 16504,
+"e": "result",
+"final": true,
+"alts": [
+" Böbrek"
+]
+},
+{
+"t": 18241,
+"e": "host-done"
+},
+{
+"t": 18711,
+"e": "result",
+"final": false,
+"alts": [
+" Ceviz"
+]
+},
+{
+"t": 18968,
+"e": "host",
+"texts": [
+"Geceleri uluyan, kurda benzeyen ama ondan küçük yabani köpekgil... Çe ile başlıyor."
+],
+"q": "bilim-1-Ç-3"
+},
+{
+"t": 20393,
+"e": "result",
+"final": true,
+"alts": [
+" Ceviz"
+]
+},
+{
+"t": 22473,
+"e": "host-done"
+},
+{
+"t": 22807,
+"e": "result",
+"final": false,
+"alts": [
+" Çak"
+]
+},
+{
+"t": 23013,
+"e": "result",
+"final": false,
+"alts": [
+" Çakal"
+]
+},
+{
+"t": 23269,
+"e": "host",
+"texts": [
+"Doğru efendim.",
+"Yer kabuğundaki kırılmalar sonucu yerin sarsılması... De ile başlıyor."
+],
+"q": "bilim-1-D-2"
+},
+{
+"t": 24696,
+"e": "result",
+"final": true,
+"alts": [
+" Çakal"
+]
+},
+{
+"t": 26637,
+"e": "host-done"
+},
+{
+"t": 28509,
+"e": "result",
+"final": false,
+"alts": [
+" Deprem"
+]
+},
+{
+"t": 28770,
+"e": "host",
+"texts": [
+"Yalnızca ya da çoğunlukla et yiyerek beslenen hayvanlara verilen ad... E ile başlıyor."
+],
+"q": "bilim-1-E-4"
+},
+{
+"t": 30510,
+"e": "result",
+"final": true,
+"alts": [
+" Deprem"
+]
+},
+{
+"t": 32158,
+"e": "host-done"
+},
+{
+"t": 37209,
+"e": "result",
+"final": false,
+"alts": [
+" Erik"
+]
+},
+{
+"t": 38338,
+"e": "host",
+"texts": [
+"Değil, olmadı.",
+"Etobur olacaktı."
+],
+"q": null
+},
+{
+"t": 38905,
+"e": "result",
+"final": true,
+"alts": [
+" Erik",
+" Eric"
+]
+},
+{
+"t": 40644,
+"e": "host-done"
+},
+{
+"t": 40650,
+"e": "host",
+"texts": [
+"Kedilerin avladığı, peynirle anılan küçük kemirgen... Fe ile başlıyor."
+],
+"q": "bilim-1-F-3"
+},
+{
+"t": 43475,
+"e": "host-done"
+},
+{
+"t": 44444,
+"e": "result",
+"final": false,
+"alts": [
+" Far"
+]
+},
+{
+"t": 44651,
+"e": "result",
+"final": false,
+"alts": [
+" Fare"
+]
+},
+{
+"t": 44921,
+"e": "host",
+"texts": [
+"Doğru efendim.",
+"Dünya'ya ışık ve ısı veren yıldız... Ge ile başlıyor."
+],
+"q": "bilim-1-G-1"
+},
+{
+"t": 46311,
+"e": "result",
+"final": true,
+"alts": [
+" Fare"
+]
+},
+{
+"t": 48096,
+"e": "host-done"
+},
+{
+"t": 49696,
+"e": "result",
+"final": false,
+"alts": [
+" Güneş"
+]
+},
+{
+"t": 49955,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Sabahları öterek gün doğumunu haber veren erkek tavuk... He ile başlıyor."
+],
+"q": "bilim-1-H-2"
+},
+{
+"t": 51303,
+"e": "result",
+"final": true,
+"alts": [
+" Güneş"
+]
+},
+{
+"t": 53960,
+"e": "host-done"
+},
+{
+"t": 54900,
+"e": "result",
+"final": false,
+"alts": [
+" Horoz"
+]
+},
+{
+"t": 55156,
+"e": "host",
+"texts": [
+"Doğru.",
+"Çiçekleri kurutulup kış çayı olarak içilen ağaç... I ile başlıyor."
+],
+"q": "bilim-1-I-2"
+},
+{
+"t": 56892,
+"e": "result",
+"final": true,
+"alts": [
+" Horoz"
+]
+},
+{
+"t": 58698,
+"e": "host-done"
+},
+{
+"t": 60010,
+"e": "result",
+"final": false,
+"alts": [
+" Ihlamur"
+]
+},
+{
+"t": 60273,
+"e": "host",
+"texts": [
+"Doğru.",
+"Sütünü içtiğimiz, ahırda beslenen büyükbaş hayvan... İ ile başlıyor."
+],
+"q": "bilim-1-İ-1"
+},
+{
+"t": 61904,
+"e": "result",
+"final": true,
+"alts": [
+" Ihlamur"
+]
+},
+{
+"t": 64265,
+"e": "host-done"
+},
+{
+"t": 64807,
+"e": "result",
+"final": false,
+"alts": [
+" İn"
+]
+},
+{
+"t": 65015,
+"e": "result",
+"final": false,
+"alts": [
+" İnek"
+]
+},
+{
+"t": 65274,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Pervanesi olmayan, motorundan çıkan sıcak gazla hızla uçan uçak... Je ile başlıyor."
+],
+"q": "bilim-1-J-3"
+},
+{
+"t": 66590,
+"e": "host-done"
+}
+],
+"questions": {
+"bilim-1-F-3": {
+"letter": "F",
+"answers": [
+"Fare"
+]
+},
+"bilim-1-J-3": {
+"letter": "J",
+"answers": [
+"Jet",
+"Jet uçağı"
+]
+},
+"bilim-1-İ-1": {
+"letter": "İ",
+"answers": [
+"İnek"
+]
+},
+"bilim-1-I-2": {
+"letter": "I",
+"answers": [
+"Ihlamur"
+]
+},
+"bilim-1-Ç-3": {
+"letter": "Ç",
+"answers": [
+"Çakal"
+]
+},
+"bilim-1-B-3": {
+"letter": "B",
+"answers": [
+"Böbrek"
+]
+},
+"bilim-1-E-4": {
+"letter": "E",
+"answers": [
+"Etobur",
+"Etçil"
+]
+},
+"bilim-1-A-3": {
+"letter": "A",
+"answers": [
+"Ağaç"
+]
+},
+"bilim-1-G-1": {
+"letter": "G",
+"answers": [
+"Güneş"
+]
+},
+"bilim-1-H-2": {
+"letter": "H",
+"answers": [
+"Horoz"
+]
+},
+"bilim-1-D-2": {
+"letter": "D",
+"answers": [
+"Deprem"
+]
+},
+"bilim-1-C-3": {
+"letter": "C",
+"answers": [
+"Ceviz"
+]
+}
+}
+}
+}

@@ -36,7 +36,7 @@ test('launch, menu, Ayarlar, categories and the level map: no sound and no audio
   await fireEvent.press(screen.getByTestId('intro-start'));
   expect(await screen.findByText('Hızlı oyun')).toBeOnTheScreen();
   await fireEvent.press(screen.getByText('Ayarlar'));
-  expect(await screen.findByText('Müzik')).toBeOnTheScreen();
+  expect(await screen.findByTestId('setting-volume')).toBeOnTheScreen();
   await act(() => router.back());
   await fireEvent.press(await screen.findByText('Kategoriler'));
   await fireEvent.press(await screen.findByTestId('cat-tarih'));
@@ -59,25 +59,24 @@ test('launch, menu, Ayarlar, categories and the level map: no sound and no audio
   expect(rec.events.filter((e) => e === 'category')).toEqual(['category']);
   expect(rec.categories).toEqual([RECOGNITION_OPTIONS.iosCategory]);
 
-  // The first sound (the theme) rises from silence over FADE_IN_MS.
-  const theme = themePlayer()!;
-  expect(theme.playing).toBe(true);
-  expect(theme.volume).toBe(0);
-  await wait(FADE_IN_MS / 2);
-  expect(theme.volume).toBeGreaterThan(0);
-  expect(theme.volume).toBeLessThan(CUE_VOLUME);
-  await wait(FADE_IN_MS / 2);
-  expect(theme.volume).toBeCloseTo(CUE_VOLUME * DEFAULT_GAIN);
+  // No theme: nothing plays while the round waits for Başla.
+  await wait(2000);
+  expect(themePlayer()).toBeUndefined();
+  expect(audio.plays).toBe(0);
 
-  // Starting the round and the mic changes nothing more, and later sounds start at their level at once.
+  // Starting the round and the mic changes nothing more; the first sound, the
+  // host's line, rises from silence over FADE_IN_MS, and later sounds start at
+  // their level at once.
   await fireEvent.press(screen.getByText('Başla'));
   await wait(10);
   expect(rec.starts).toBe(1);  // the first question's request
   await wait(SESSION_SETTLE_MS + 10);
   await act(async () => {});
-  await wait(FADE_IN_MS);
   expect(host.speaking).toBe(true);
+  expect(host.volume).toBeLessThan(HOST_VOLUME * DEFAULT_GAIN);
+  await wait(FADE_IN_MS);
   expect(host.volume).toBeCloseTo(HOST_VOLUME * DEFAULT_GAIN);
+  expect(sounds.bgPlaying).toBe(false);
   await fireEvent.press(screen.getByLabelText('Pas'));
   const pas = sounds.player('pas')!;
   expect(pas.playing).toBe(true);

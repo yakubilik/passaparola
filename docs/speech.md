@@ -223,12 +223,13 @@ result until a final came. With no final for a long while, a wrong answer
 said long after the host stopped, whose final came at once, was taken for
 the host's and held or dropped.
 
-**What is heard is in one of three states** (listener.ts):
+**What is heard is in one of these states** (listener.ts):
 
 | State | What it is | Becomes |
 |---|---|---|
 | incomplete | Lone letters (`isFragment` in normalize.ts: every word one letter, not a digit) that are neither a right answer nor a Pas | an attempt, when words that complete it come (an interim letter is in the same growing result; a final letter is put in front of every result until its attempt is delivered: "a" + "y" is "a y", right for Ay); dropped without a verdict after `FRAGMENT_MS` (3 s) with nothing after it, its words then handled; dropped at `clueStarts` (never the next question's) |
 | attempt | Words that settle (`SETTLE_MS`, `PARTIAL_MS` for the start of a longer answer), a right answer or a Pas (at once), or a final | delivered once to the round (`judgeHeard`): a verdict, a held wrong over the host, or none |
+| uncertain | A final with no interim before it in the utterance whose best guess was all the host's words (the other guesses only moved up), or whose three or more guesses share no word: iOS guessing at noise (seen on the phone at request starts, 22 Oct) | dropped without a verdict unless it is a right answer or a Pas; a short answer said once keeps its own best guess and agreeing guesses, so it is judged |
 | consumed | The delivered utterance's later words and revisions (`LATE_MS`), its final whenever it comes, and anything before the next clue | dropped; new words after a pause start a new utterance (and reset "over the host" for its final) |
 
 A lone letter never waits for anything else: the words after it are judged
