@@ -156,7 +156,7 @@ function Placeholder({ size }: { size: number }) {
       style={{
         width: size,
         height: size,
-        backgroundImage: 'radial-gradient(circle at 50% 40%, #24305e 0%, #141a36 70%)',
+        // Flat: no blue light spot behind the silhouette (#438).
         backgroundColor: '#161d3c',
       }}
     >

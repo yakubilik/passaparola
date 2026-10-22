@@ -51,6 +51,7 @@ function expectNoLight(camera: 'face-camera' | 'face-placeholder') {
   for (const id of ['ring-rays', 'ring-glow', 'ring-dash']) expect(screen.queryByTestId(id)).toBeNull();
   // The square: a thin white edge, no blue glow.
   expect(style(screen.getByTestId('face')).boxShadow).toBe('0 0 0 1px rgba(255,255,255,0.12)');
+  if (camera === 'face-placeholder') expect(style(screen.getByTestId('face-placeholder')).backgroundImage).toBeUndefined();
 }
 
 test('camera off (placeholder): no light around or over the ring', async () => {
