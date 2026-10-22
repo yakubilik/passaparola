@@ -76,8 +76,14 @@ near no host word: `judgeHeard` returns `hold`, i.e. a **wrong verdict from
 no player speech** once the host stops. (Self-test rounds skip the verdict,
 so the phone did not show it; the trace and the offline rule do.) The same
 kind of final in run 1 (16:29) got no verdict only because its words did not
-start with the letter. Implementation to resume on: a final with no interim
-before it, holding iOS's no-speech vocabulary, must not be an attempt.
+start with the letter. **Fixed on the ticket branch** (after main `929c66e`): a
+final with no interim before it whose best guess was the host's, or whose
+guesses share no word, is *uncertain* and counts only as a right answer or a
+Pas (docs/speech.md, "Utterance states"). `src/voice/__tests__/phoneReplay.test.ts`
+replays the phone's own results of this run (and of the spoken session below)
+through the listener and the round's rule: before the fix the 362.8 s result
+is held as wrong, after it no verdict; the spoken session's 11 verdicts are
+the same before and after. Not yet on the phone.
 
 **Trace mode, Bilim level 1 (seed 11), 17:38 and 17:44.** Yakup reads this
 chat on the same phone: each time he switched to it, Harfiyen went to the
@@ -108,7 +114,14 @@ the trace records result times, not Apple's end-of-speech; so criterion 4's
 p50 / p95 is not measured. Whether `Aç` was a misrecognised "Ağaç" is not
 known yet.
 
-## Not performed
+## Session ended by the owner
+
+Yakup ended the test on 22 Oct ("it works very well; end the test, I do not
+want to finish all the questions"): natural play was very good to him. The
+fixed-count trials below were withdrawn by him and are **not measured**, not
+passed.
+
+## Not measured (withdrawn)
 
 - 30 spoken short-word trials (Ay, Su, El, Un, Ok; overlap; 20/45/65 s idle):
   none yet (the instructions reached the phone only through the chat on it).

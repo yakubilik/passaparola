@@ -123,6 +123,15 @@ function words(s: string): string[] {
   return norm(s).split(' ').filter(Boolean);
 }
 
+// Three or more guesses with no word in common, not even a shared start
+// ("kale" / "kaleler" share one): iOS had no word it was sure of.
+function unrelated(guesses: string[]): boolean {
+  const sets = guesses.map((g) => words(g).map(fold)).filter((ws) => ws.length);
+  if (sets.length < 3) return false;
+  const near = (a: string, b: string) => a === b || (Math.min(a.length, b.length) >= 3 && (a.startsWith(b) || b.startsWith(a)));
+  return sets.every((ws, i) => sets.every((other, j) => i === j || !ws.some((w) => other.some((o) => near(w, o)))));
+}
+
 // Edit distance, for heard words that are a slip away from what the host said.
 function distance(a: string, b: string): number {
   let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
@@ -162,6 +171,7 @@ export class AnswerListener {
   // whether it came while the host talked.
   private fragment: { text: string; final: boolean; duringHost: boolean } | null = null;
   private fragmentTimer: ReturnType<typeof setTimeout> | null = null;
+  private interimSeen = false;  // the current utterance had an interim result (a final ends it)
   private echoSeen = 0;       // words of the current result heard as the host's while an answer settles
   private settleTimer: ReturnType<typeof setTimeout> | null = null;
   private restartTimer: ReturnType<typeof setTimeout> | null = null;
@@ -506,6 +516,7 @@ export class AnswerListener {
     }
     this.used = 0;
     this.seenCount = 0;
+    this.interimSeen = false;
     this.lastKey = '';
     this.lastAlts = null;
     this.lastDuringHost = false;
@@ -553,12 +564,21 @@ export class AnswerListener {
     this.used = skip;
     let count = 0;
     let alts: string[] = [];
+    let bestDropped = false;  // iOS's best guess was all the host's words: the rest moved up
     e.results.forEach((r, i) => {
       let w = words(r.transcript);
       if (i === 0) count = w.length;
-      w = this.withoutEcho(w.slice(skip));
+      const heard = w.slice(skip);
+      w = this.withoutEcho(heard);
+      if (i === 0 && heard.length && !w.length) bestDropped = true;
       if (w.length) alts.push(w.join(' '));
     });
+    // A final with no interim before it in this utterance: iOS wrote nothing
+    // while it listened. With no speech at all (the host's voice cancelled, a
+    // quiet room) it still ends with a guess at the noise (the phone, 22 Oct:
+    // "Evet / Hayır / Gönder / Tamam", "İşte / Ara / Kapat / İsterim / Evet").
+    const finalOnly = e.isFinal && !this.interimSeen;
+    this.interimSeen = e.isFinal ? false : this.interimSeen || count > skip;
     // An incomplete letter whose result was final begins these words: one utterance.
     const frag = this.fragment;
     if (frag?.final && alts.length) alts = alts.map((a) => `${frag.text} ${a}`);
@@ -626,6 +646,19 @@ export class AnswerListener {
     }
     this.lastKey = key;
     const pace = this.pace?.(alts) ?? 'settle';
+    // Uncertain (#438): such a final whose best guess was the host's (the rest
+    // only moved up), or whose guesses share no word at all (unrelated words:
+    // iOS guessing, not hearing), counts only as a right answer or a Pas,
+    // never as a wrong one. A short answer said once (iOS gives no interim for
+    // "Ay" alone) keeps its best guess and its guesses agree, so it is judged.
+    if (finalOnly && pace !== 'now' && (bestDropped || unrelated(e.results.map((r) => r.transcript)))) {
+      this.onTrace('dropped', { alts, uncertain: bestDropped ? 'best-guess-host' : 'unrelated-guesses' });
+      this.lastAlts = null;
+      this.lastKey = '';
+      this.lastDuringHost = false;
+      this.used = this.echoSeen = 0;
+      return;
+    }
     // Incomplete: lone letters that are neither a right answer nor a Pas.
     if (pace !== 'now' && isFragment(alts[0])) return this.holdFragment(alts[0], e.isFinal);
     // The word an incomplete letter began: it is part of this attempt (a final
