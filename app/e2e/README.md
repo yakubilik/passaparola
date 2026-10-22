@@ -20,12 +20,7 @@ the ring.
 
     maestro --device <simulator> test e2e/camera.yaml
 
-`ring-light.yaml` shows a round with the light around the ring (rays, halo,
-dashed circle; design 1b) and the placeholder in the square.
-
-    maestro --device <simulator> test e2e/ring-light.yaml
-
 `flat-discs.yaml` shows a round with correct, wrong, passed, active and
-pending letters as flat discs over that light (#389).
+pending letters as flat discs (#389), with no light around the ring (#438).
 
     maestro --device <simulator> test e2e/flat-discs.yaml

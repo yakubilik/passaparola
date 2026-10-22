@@ -8,7 +8,6 @@ import { SETTINGS_KEY } from '../../store/settings';
 import { fakeRecognizer as rec } from '../../test-utils/fakeRecognizer';
 import { pressStart, settle } from '../../test-utils/round';
 import { visionCamera } from '../../test-utils/visionCamera';
-import { ringRadius } from '../../ui/Ring';
 import { F } from '../../ui/theme';
 import { host, listener, sounds } from '../../voice/engine';
 import { clueLine, type Line } from '../../voice/lines';
@@ -643,24 +642,22 @@ test('#359: in typed mode / voice off the clue appears immediately', async () =>
 
 // ---------------------------------------------------------------- #363
 
+// #438 (22 Oct 2026) took the #363 light away again at Yakup's request:
+// "the blue light inside the letter ring is still there". Nothing of it may
+// come back.
 test.each([['camera off', false], ['camera on', true]])(
-  '#363: soft blue light rays radiating outward from behind the ring, a blue glow halo and a thin dashed inner circle (%s)',
+  '#363 → #438: the blue light rays, halo and dashed circle around the ring are removed, and the square has no blue glow (%s)',
   async (_, on) => {
     if (on) cameraOn();
     await single();
     await layoutStage(KEYBOARD_DOWN);
-    // The rays come before the ring, so the square and the letters are painted over them.
-    expect(ids(screen.getByTestId('ring-area'))).toEqual(['ring-rays', 'ring']);
-    expect(screen.getByTestId('ring-rays').props.pointerEvents).toBe('none');
-    const size = sizes().ring[0] as number;
-    const radius = ringRadius(size, Math.round(size * 0.079));
-    expect(StyleSheet.flatten((screen.getByTestId('ring-rays').children[0] as Node).props.style).width).toBeGreaterThan(size);
-    // The halo over the picture and under the letters.
+    expect(ids(screen.getByTestId('ring-area'))).toEqual(['ring']);
     const [middle, ...letters] = screen.getByTestId('ring').children as Node[];
-    expect(ids(middle)).toEqual(['face', 'ring-glow']);
+    expect(ids(middle)).toEqual(['face']);
     expect(within(middle).getByTestId(on ? 'face-camera' : 'face-placeholder')).toBeOnTheScreen();
     expect(letters.every((l) => /^letter-/.test(l.props.testID))).toBe(true);
-    expect(style('ring-dash')).toMatchObject({ borderStyle: 'dashed', borderWidth: 2, width: Math.round(2 * 0.85 * radius) });
+    for (const id of ['ring-rays', 'ring-glow', 'ring-dash']) expect(screen.queryByTestId(id)).toBeNull();
+    expect(style('face').boxShadow).not.toMatch(/61,\s*107,\s*255/);
   },
 );
 
@@ -684,7 +681,7 @@ test('#389: remove the line/stripe and the colour glow inside the round\'s lette
   }
   expect(colours.size).toBe(5);  // right, passed, wrong, active and waiting all differ
   expect(style('letter-Ç')).toMatchObject({ backgroundColor: '#ffffff', borderColor: '#0a0d1f' });
-  // The background light of #363 stays.
-  expect(screen.getByTestId('ring-rays')).toBeOnTheScreen();
-  expect(screen.getByTestId('ring-glow')).toBeOnTheScreen();
+  // No light behind the discs either (#438 removed the #363 light).
+  expect(screen.queryByTestId('ring-rays')).toBeNull();
+  expect(screen.queryByTestId('ring-glow')).toBeNull();
 });
