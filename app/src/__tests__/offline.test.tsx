@@ -107,7 +107,7 @@ test('menu: Çok oyunculu opens the one-phone setup', async () => {
 test('progress and settings survive an app restart', async () => {
   // First run: a setting changed in Ayarlar, a level passed.
   await renderRouter('./src/app', { initialUrl: '/settings' });
-  await fireEvent(await screen.findByTestId('setting-music'), 'valueChange', false);
+  await fireEvent(await screen.findByTestId('setting-voice'), 'valueChange', false);
   await act(async () => {});
   await AsyncStorage.setItem(PROGRESS_KEY, JSON.stringify(recordRound(EMPTY_PROGRESS, ['tarih'], 1, 21)));
 
@@ -116,7 +116,7 @@ test('progress and settings survive an app restart', async () => {
   expect(await screen.findByLabelText('Bölüm 2, açık')).toBeEnabled();
   expect(screen.getByText('Kolay · En iyi: 21 / 28')).toBeOnTheScreen();
   await renderRouter('./src/app', { initialUrl: '/settings' });
-  expect((await screen.findByTestId('setting-music')).props.value).toBe(false);
+  expect((await screen.findByTestId('setting-voice')).props.value).toBe(false);
 });
 
 test('Ayarlar: İlerlemeyi sıfırla asks first, Vazgeç keeps everything, Sıfırla clears it for good', async () => {

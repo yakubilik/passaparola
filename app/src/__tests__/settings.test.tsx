@@ -5,7 +5,7 @@ import { SETTINGS_KEY } from '../store/settings';
 import { visionCamera } from '../test-utils/visionCamera';
 import { pressStart } from '../test-utils/round';
 import { host, sounds } from '../voice/engine';
-import { BG_VOLUME, CUE_VOLUME, DEFAULT_GAIN, DUCK, FADE_IN_MS, HOST_VOLUME, masterGain, musicVolume } from '../voice/sounds';
+import { CUE_VOLUME, FADE_IN_MS, HOST_VOLUME, masterGain } from '../voice/sounds';
 
 jest.mock('../data/questions', () =>
   require('../test-utils/mockQuestions').mockQuestions({ tarih: [1], spor: [1], cografya: [], bilim: [], sanat: [] }),
@@ -77,30 +77,29 @@ test('Ayarlar: the voice game is on by default and can be switched off', async (
   expect(screen.getByText('Mikrofonu dene ›')).toBeOnTheScreen();
 });
 
-test('Ayarlar: Müzik is on at a quarter of the old volume; quieter, then off, both remembered and heard in the game', async () => {
+test('Ayarlar has no Müzik; settings saved with the old music keys still load, and the game plays no theme and no bed', async () => {
+  await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ micChecked: true, music: true, musicLevel: 3, volume: 40 }));
   await renderRouter('./src/app', { initialUrl: '/menu' });
   await fireEvent.press(await screen.findByText('Ayarlar'));
-  const toggle = await screen.findByTestId('setting-music');
-  expect(toggle.props.value).toBe(true);
-  expect(screen.getByTestId('music-level').props.accessibilityLabel).toBe('Müzik sesi 5 / 10');
-  expect(BG_VOLUME).toBeCloseTo(0.17 / 4, 2);
-
-  // Two steps quieter: saved, and the bed follows.
-  await fireEvent.press(screen.getByTestId('music-down'));
-  await fireEvent.press(screen.getByTestId('music-down'));
-  await act(async () => {});
-  expect(screen.getByTestId('music-level').props.accessibilityLabel).toBe('Müzik sesi 3 / 10');
-  expect(JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY))!)).toMatchObject({ music: true, musicLevel: 3 });
+  expect(await screen.findByTestId('setting-volume')).toBeOnTheScreen();
+  expect(screen.getByTestId('volume-value')).toHaveTextContent('%40');
+  expect(screen.queryByTestId('setting-music')).toBeNull();
+  expect(screen.queryByText('Müzik')).toBeNull();
 
   await fireEvent.press(screen.getByText('‹ Geri'));
   await quickGame();
+  await act(async () => { jest.advanceTimersByTime(3000); });
   await pressStart();
-  expect(sounds.bgPlaying).toBe(true);
-  // The host is reading the first clue: the bed is at level 3, ducked under it (and under the Ses gain).
-  expect(sounds.bgVolume).toBeCloseTo(musicVolume(3) * DUCK * DEFAULT_GAIN, 5);
+  await act(async () => { jest.advanceTimersByTime(3000); });
+  expect(screen.getByTestId('clue')).toBeOnTheScreen();
+  await fireEvent.press(screen.getByLabelText('Pas'));
+  expect(sounds.played).toContain('pas');
+  expect(sounds.played).not.toContain('theme');
+  expect(sounds.played).not.toContain('bg');
+  expect(sounds.bgPlaying).toBe(false);
 });
 
-test('Ayarlar: Ses is at 70% unless changed; the slider sets it, it is remembered, and the host, the cues and the bed all follow', async () => {
+test('Ayarlar: Ses is at 70% unless changed; the slider sets it, it is remembered, and the host and the cues follow', async () => {
   await renderRouter('./src/app', { initialUrl: '/menu' });
   await fireEvent.press(await screen.findByText('Ayarlar'));
   const slider = await screen.findByTestId('setting-volume');
@@ -119,14 +118,13 @@ test('Ayarlar: Ses is at 70% unless changed; the slider sets it, it is remembere
   expect(JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY))!)).toMatchObject({ volume: 30 });
   expect(masterGain()).toBeCloseTo(0.3);
 
-  // In the game: the host's line, the bed and a cue, all at 30% of their level.
+  // In the game: the host's line and a cue, both at 30% of their level.
   await fireEvent.press(screen.getByText('‹ Geri'));
   await quickGame();
   await pressStart();
   await act(async () => { jest.advanceTimersByTime(FADE_IN_MS); });
   expect(host.speaking).toBe(true);
   expect(host.volume).toBeCloseTo(HOST_VOLUME * 0.3);
-  expect(sounds.bgVolume).toBeCloseTo(BG_VOLUME * DUCK * 0.3, 5);
   await fireEvent.press(screen.getByLabelText('Pas'));
   expect(sounds.started.at(-1)).toMatchObject({ cue: 'pas' });
   expect(sounds.started.at(-1)!.volume).toBeCloseTo(CUE_VOLUME * 0.3);
@@ -134,19 +132,4 @@ test('Ayarlar: Ses is at 70% unless changed; the slider sets it, it is remembere
   // And after a restart.
   await renderRouter('./src/app', { initialUrl: '/settings' });
   expect((await screen.findByTestId('setting-volume')).props.accessibilityValue).toMatchObject({ now: 30 });
-});
-
-test('Ayarlar: with Müzik off the round has no bed, and that is remembered', async () => {
-  await renderRouter('./src/app', { initialUrl: '/settings' });
-  await fireEvent(await screen.findByTestId('setting-music'), 'valueChange', false);
-  await act(async () => {});
-  expect(JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY))!)).toMatchObject({ music: false });
-  expect(screen.getByTestId('music-up').props.accessibilityState).toMatchObject({ disabled: true });
-
-  await renderRouter('./src/app', { initialUrl: '/menu' });
-  await quickGame();
-  await pressStart();
-  expect(sounds.bgPlaying).toBe(false);
-  expect(sounds.bgVolume).toBe(0);
-  expect(screen.getByTestId('clue')).toBeOnTheScreen();
 });

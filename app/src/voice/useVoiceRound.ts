@@ -16,16 +16,15 @@ type Game = ReturnType<typeof useRound>;
 
 const CORRECT: HostKey[] = ['correct1', 'correct2', 'correct3'];
 
-// The voice layer of a round, as in the web game (js/game.js): the theme when
-// the round opens, the bed under it, the host reading each clue with the
+// The voice layer of a round, as in the web game (js/game.js) but with no
+// theme and no music bed (Yakup, 22 Oct 2026): the host reading each clue with the
 // clock stopped until the reading ends, the mic opened once at the start and
 // kept open, spoken answers judged like typed ones, and a cue for every
 // answer and for the last ten seconds. With `voice` off only the cues remain.
 // While the app is in the background everything is silent, the mic closed and
-// the clock stopped; coming back the bed, the mic and the clue start again.
+// the clock stopped; coming back the mic and the clue start again.
 //
-// open: the round is really there (theme plays once it is). theme: false for
-// later turns of a match. keepMic: the match screen owns the mic, so leaving a
+// open: the round is really there. keepMic: the match screen owns the mic, so leaving a
 // turn does not close it (the next "Sıra" screen listens for "hazırım").
 // missEndsTurn: a wrong answer ends this match turn, so the host only says the
 // right answer here and bridges to the next player on the result card.
@@ -35,9 +34,9 @@ const JUDGED_MS = 3000;
 /** A wrong answer heard over the host is judged this soon after the host stops (#342: within 300 ms). */
 export const HELD_POLL_MS = 100;
 
-export type VoiceOptions = { open?: boolean; theme?: boolean; keepMic?: boolean; missEndsTurn?: boolean; rng?: () => number };
+export type VoiceOptions = { open?: boolean; keepMic?: boolean; missEndsTurn?: boolean; rng?: () => number };
 
-export function useVoiceRound(voice: boolean, { open = true, theme = true, keepMic = false, missEndsTurn = false, rng = Math.random }: VoiceOptions = {}) {
+export function useVoiceRound(voice: boolean, { open = true, keepMic = false, missEndsTurn = false, rng = Math.random }: VoiceOptions = {}) {
   const [reading, setReading] = useState(false);
   // Which question's clue is on screen (useRound's `asked`): a clue appears
   // when the host starts reading it, not before (see clueShown).
@@ -86,13 +85,12 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
     release?.();
   }, []);
 
-  // The round opens with the theme; leaving it closes the mic and the bed.
+  // No theme at the start and no bed under the round (Yakup, 22 Oct 2026):
+  // the round sets the audio session up and stays quiet until a clue or a cue.
   useEffect(() => {
     if (!open) return;
-    let live = true;
-    prepareAudio().then(() => { if (live && theme) sounds.play('theme'); });
-    return () => { live = false; };
-  }, [open, theme]);
+    prepareAudio();
+  }, [open]);
   const keepMicRef = useRef(keepMic);
   keepMicRef.current = keepMic;
   const alive = useRef(true);
@@ -200,7 +198,6 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
         const r = noteRoundAudio();
         if (selfTestOn()) logAudio('round-start', r.round);
       }
-      sounds.startBg();
     };
     // A match's next turn: the mic is open, the session long set.
     if (listener.open) {
@@ -236,7 +233,7 @@ export function useVoiceRound(voice: boolean, { open = true, theme = true, keepM
           listener.listen(onHeard, pace, context(), answers);
           readFor.current = -1;  // read the current clue again, once the mic has settled
         }
-        settleAudio().then(() => { if (alive.current && !away.current && !ended.current) sounds.startBg(); });
+        settleAudio();
       } else if (state === 'background' || state === 'inactive') {
         if (away.current) return;
         away.current = true;
