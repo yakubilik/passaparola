@@ -13,10 +13,10 @@ clip (silence is gated out, and clips under 400 ms otherwise give no reading).
                                                        percent volume (sounds.ts), far below
 
 A gain that would push the true peak over -1 dBTP is held there instead. A clip that the
-held gain would leave more than 1 LU under its target (a short line with one hard
-consonant, typical of a synthetic voice) gets its full gain and a fast peak limiter
-instead, which only touches those few milliseconds. Files already within 0.5 LU of
-their target are left alone, so running it again changes nothing.
+held gain would leave too far under its target (a short line with one hard consonant,
+typical of a synthetic voice) gets its full gain and a fast peak limiter instead, which
+only touches those few milliseconds. Files already within 0.5 LU of their target (a
+peaky one within 0.9 LU) are left alone, so running it again changes nothing.
 The re-encode keeps each file's channels, rate and bitrate. The measured loudness of
 every file lands in app/assets/loudness.json, which the app's tests check.
 
@@ -36,7 +36,8 @@ BED_LUFS = -24.0
 TARGETS = {'theme': THEME_LUFS, 'bg': BED_LUFS, 'correct': CUE_LUFS, 'wrong': CUE_LUFS, 'pas': CUE_LUFS, 'warn': CUE_LUFS}
 MAX_TP = -1.0
 TOLERANCE = 0.5
-MISS = 1.0  # a held gain that misses the target by more than this is limited instead
+MISS = 0.9  # a peaky clip this close to its target is done; further off it is limited
+PEAK_SLACK = 0.4  # how far over MAX_TP the mp3 encode may put a true peak
 # Sample-peak ceiling of the limiter, under MAX_TP: true peak and the mp3 encode overshoot it.
 LIMIT_DB = MAX_TP - 2.0
 
@@ -61,30 +62,37 @@ def stream(path):
 def normalise(path, target, check):
     lufs, tp = measure(path)
     gain = target - lufs
-    limit = False
-    if tp + gain > MAX_TP:
-        limit = target - (lufs + MAX_TP - tp) > MISS
-        if not limit:
-            gain = MAX_TP - tp
-    if check or abs(gain) < TOLERANCE:
+    held = tp + gain > MAX_TP
+    if held:
+        gain = MAX_TP - tp
+    # Too far under even at the ceiling: limited. A peaky clip already close enough is left
+    # alone too, so running it again changes nothing.
+    limit = held and target - (lufs + gain) > TOLERANCE
+    if check or (abs(gain) < TOLERANCE and not limit) or (held and abs(target - lufs) < MISS and tp <= MAX_TP + PEAK_SLACK):
         return path, lufs, tp, 0.0
+    if limit:
+        gain = target - lufs
     s = stream(path)
     fd, tmp = tempfile.mkstemp(suffix='.mp3', dir=os.path.dirname(path))
     os.close(fd)
     try:
-        # A limited clip loses some loudness to the limiter: encode it again from the
-        # original with the shortfall added, until it lands within the tolerance.
-        for _ in range(4 if limit else 1):
+        # Always encoded from the original. The encode moves the peak, and the limiter takes
+        # some loudness: a result that misses is done again with the limiter and the
+        # shortfall added, until it lands.
+        for _ in range(5):
             af = f'volume={gain:.2f}dB'
             if limit:
                 af += f',alimiter=limit={10 ** (LIMIT_DB / 20):.4f}:attack=1:release=40:level=0'
             subprocess.run(['ffmpeg', '-y', '-nostdin', '-loglevel', 'error', '-i', path, '-map', '0:a:0', '-map_metadata', '-1',
                             '-af', af, '-ac', str(s['channels']), '-ar', str(s['sample_rate']),
                             '-c:a', 'libmp3lame', '-b:a', str(int(s['bit_rate']) // 1000) + 'k', tmp], check=True)
-            got, _ = measure(tmp)
-            if abs(got - target) < TOLERANCE:
+            got, peak = measure(tmp)
+            if abs(got - target) < (TOLERANCE if limit else MISS) and peak <= MAX_TP + PEAK_SLACK:
                 break
-            gain += target - got
+            if limit:
+                gain += target - got
+            else:
+                limit, gain = True, target - lufs
         os.replace(tmp, path)
     finally:
         if os.path.exists(tmp):
