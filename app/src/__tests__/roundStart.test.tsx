@@ -38,24 +38,24 @@ test('the first host line of a round plays only after the session is set and the
   await renderRouter('./src/app', { initialUrl: '/game?cats=tarih&level=1' });
   expect(await screen.findByText('Hazır mısın?')).toBeOnTheScreen();
   await act(async () => {});
-  // The theme is still sounding when Başla is pressed: it stops before the mic starts.
-  const theme = themePlayer()!;
-  expect(theme.playing).toBe(true);
+  // No theme on the Hazır mısın screen, and none once Başla is pressed.
+  expect(themePlayer()).toBeUndefined();
   const before = host.said.length;
   await fireEvent.press(screen.getByText('Başla'));
   await act(async () => {});
-  expect(theme.playing).toBe(false);
+  expect(themePlayer()).toBeUndefined();
   expect(rec.starts).toBe(1);
   expect(rec.categories).toHaveLength(1);
   expect(listener.micUp).toBe(true);
 
-  // Up to SESSION_SETTLE_MS after the mic came up: nothing from the host, no bed.
+  // Up to SESSION_SETTLE_MS after the mic came up: nothing from the host; never a bed.
   await wait(SESSION_SETTLE_MS - 10);
   expect(host.said.length).toBe(before);
   expect(sounds.bgPlaying).toBe(false);
   await wait(20);
   expect(host.said.slice(before)[0]).toBe('clip:go');
-  expect(sounds.bgPlaying).toBe(true);
+  expect(sounds.bgPlaying).toBe(false);
+  expect(sounds.player('bg')).toBeUndefined();
 
   // The order: session (mode, category, active), recognizer started, it reported 'start', then the host's player is made and plays.
   const hostIndex = audio.players.indexOf((host as any).player);
@@ -66,7 +66,7 @@ test('the first host line of a round plays only after the session is set and the
   expect(timeOf(`play#${hostIndex}`) - timeOf('rec:up')).toBeGreaterThanOrEqual(SESSION_SETTLE_MS);
   // No sound at all is playing while the recognizer's audio engine comes up.
   expect(audio.log.slice(at('rec:start'), at('rec:up')).filter((l) => l.e.startsWith('play#'))).toEqual([]);
-  expect(audio.players.filter((p, i) => p.playing && i !== hostIndex && p !== (sounds.player('bg') as unknown))).toEqual([]);
+  expect(audio.players.filter((p, i) => p.playing && i !== hostIndex)).toEqual([]);
 
   // The line fades in to the host's level under the Ses gain.
   const go = audio.players[hostIndex];
@@ -75,7 +75,7 @@ test('the first host line of a round plays only after the session is set and the
   expect(go.volume).toBeCloseTo(HOST_VOLUME * DEFAULT_GAIN);
 });
 
-test('the Ses setting is the gain over the host, the cues and the bed, and moves a line already playing', async () => {
+test('the Ses setting is the gain over the host and the cues, and moves a line already playing', async () => {
   await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ voice: true, micChecked: true, volume: 30 }));
   await renderRouter('./src/app', { initialUrl: '/game?cats=tarih&level=1' });
   expect(await screen.findByText('Hazır mısın?')).toBeOnTheScreen();
@@ -86,12 +86,10 @@ test('the Ses setting is the gain over the host, the cues and the bed, and moves
   await wait(FADE_IN_MS);
   expect(host.speaking).toBe(true);
   expect(host.volume).toBeCloseTo(HOST_VOLUME * 0.3);
-  expect(sounds.bgVolume).toBeGreaterThan(0);
-  const bed = sounds.bgVolume;
-  // Changed in Ayarlar while the host talks: the line follows at once, the bed too.
+  expect(sounds.bgVolume).toBe(0);
+  // Changed in Ayarlar while the host talks: the line follows at once.
   act(() => setMasterVolume(60));
   expect(host.volume).toBeCloseTo(HOST_VOLUME * 0.6);
-  expect(sounds.bgVolume).toBeCloseTo(bed * 2);
   await fireEvent.press(screen.getByLabelText('Pas'));
   expect(sounds.started.at(-1)).toMatchObject({ cue: 'pas' });
   expect(sounds.started.at(-1)!.volume).toBeCloseTo(CUE_VOLUME * 0.6);

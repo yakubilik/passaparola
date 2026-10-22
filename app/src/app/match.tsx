@@ -14,7 +14,7 @@ import { Button } from '../ui/Button';
 import { MicCheck } from '../ui/MicCheck';
 import { Screen } from '../ui/Screen';
 import { C, F } from '../ui/theme';
-import { host, listener, prepareAudio, settleAudio, sounds } from '../voice/engine';
+import { host, listener, prepareAudio, settleAudio } from '../voice/engine';
 import { host as hostLine } from '../voice/lines';
 import { useReadyByVoice, useVoiceEffects, useVoiceRound } from '../voice/useVoiceRound';
 import { GameView } from './game';
@@ -63,11 +63,11 @@ function MatchScreen({ voice }: { voice: boolean }) {
   const ref = useRef(match);
   ref.current = match;
 
-  // The theme once for the match, after the mic the first turn opens has
-  // settled (settleAudio); the mic closes when the match screen goes.
+  // The session for the match, with no theme (Yakup, 22 Oct 2026); the mic
+  // closes when the match screen goes.
   useEffect(() => {
     if (!initial) return;
-    prepareAudio().then(settleAudio).then(() => sounds.play('theme'));
+    prepareAudio().then(settleAudio);
     return () => listener.stop();
   }, [initial]);
 
@@ -125,7 +125,7 @@ function MatchScreen({ voice }: { voice: boolean }) {
 function MatchTurn({ round, name, others, voice, onTurnEnd }: {
   round: Round; name: string; others: boolean; voice: boolean; onTurnEnd: (r: Round, why: Why, answer?: string) => void;
 }) {
-  const v = useVoiceRound(voice, { theme: false, keepMic: true, missEndsTurn: others });
+  const v = useVoiceRound(voice, { keepMic: true, missEndsTurn: others });
   const ended = useRef(false);
   const end = useCallback((r: Round, why: Why, answer?: string) => {
     if (ended.current) return;

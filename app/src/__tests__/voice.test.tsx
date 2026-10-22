@@ -13,7 +13,7 @@ import { host, listener, sounds } from '../voice/engine';
 import { answerLine, clueLine, host as hostLine, type Line } from '../voice/lines';
 import { ECHO_TAIL_MS, SETTLE_MS } from '../voice/listener';
 import { RECOGNITION_OPTIONS } from '../voice/recognizer';
-import { BG_DUCKED, BG_MAX, BG_VOLUME, CUE_LEAD_MS, DEFAULT_GAIN, DUCK } from '../voice/sounds';
+import { CUE_LEAD_MS, DEFAULT_GAIN, DUCK } from '../voice/sounds';
 
 // A spoken round, played by a recognizer that behaves like iOS (one growing
 // result, never final) and a host whose clips and speech take fixed time.
@@ -73,7 +73,7 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; one reco
   await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ voice: true, micChecked: true }));
   await renderRouter('./src/app', { initialUrl: '/game?cats=tarih&level=1&seed=7' });
   expect(await screen.findByText('Hazır mısın?')).toBeOnTheScreen();
-  expect(sounds.played).toEqual(['theme']);
+  expect(sounds.played).toEqual([]);  // no theme
   expect(screen.getByTestId('voice-toggle').props.value).toBe(true);
   // The iOS session: loudspeaker, mic open, not muted by the silent switch.
   expect(audio.active).toBe(true);
@@ -84,13 +84,12 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; one reco
   await pressStart();
   expect(rec.starts).toBe(1);
   expect(rec.lastOptions).toMatchObject({ lang: 'tr-TR', continuous: true, interimResults: true });
-  expect(sounds.bgPlaying).toBe(true);
+  expect(sounds.bgPlaying).toBe(false);  // no bed under the round
 
-  // The host reads A (after "İşte sağ cepten sorular çıkıyor"); the clock waits, the bed is lowered.
+  // The host reads A (after "İşte sağ cepten sorular çıkıyor"); the clock waits.
   const a = question(clueText());
   expect(host.speaking).toBe(true);
   expect(host.said).toEqual([said(hostLine('go')), said(clueLine(a))]);
-  expect(sounds.bgVolume).toBeCloseTo(BG_DUCKED * DEFAULT_GAIN, 6);
   expect(screen.getByTestId('voice-status')).toHaveTextContent(/Sunucu okuyor/);
   await wait(1000);
   expect(screen.getByTestId('clock')).toHaveTextContent('03:00');
@@ -110,7 +109,7 @@ test('a spoken round: answer during the reading, a wrong answer, a pas; one reco
   // The reading ends and the clock starts.
   await wait(3000);
   expect(host.speaking).toBe(false);
-  expect(sounds.bgVolume).toBeCloseTo(BG_VOLUME * DEFAULT_GAIN, 6);
+  expect(sounds.bgVolume).toBe(0);
   expect(screen.getByTestId('voice-status')).toHaveTextContent(/Dinliyorum/);
   await wait(2000);
   expect(screen.getByTestId('clock')).not.toHaveTextContent('03:00');
@@ -182,7 +181,7 @@ test('voice off: no host, no mic, the cues still play', async () => {
   expect(host.said).toEqual([]);
   expect(screen.queryByTestId('voice-status')).toBeNull();
   await fireEvent.press(screen.getByLabelText('Pas'));
-  expect(sounds.played).toEqual(['theme', 'bg', 'pas']);
+  expect(sounds.played).toEqual(['pas']);
 });
 
 describe('mic check before the first game', () => {
@@ -264,11 +263,11 @@ test("the host's own voice in the mic never gives a wrong answer; echo cancellat
   expect(screen.getByLabelText('1 yanlış')).toBeOnTheScreen();
 });
 
-test('in the background everything goes quiet, the mic closes and the clock stops; back in front it all resumes', async () => {
+test('in the background everything goes quiet, the mic closes and the clock stops; back in front it resumes, with no bed', async () => {
   await startVoiceGame();
   const a = question(clueText());
   expect(host.speaking).toBe(true);
-  expect(sounds.bgPlaying).toBe(true);
+  expect(sounds.bgPlaying).toBe(false);  // no bed, before or after
   expect(rec.starts).toBe(1);
 
   await goTo('background');
@@ -282,7 +281,8 @@ test('in the background everything goes quiet, the mic closes and the clock stop
 
   await goTo('active');
   await settle();
-  expect(sounds.bgPlaying).toBe(true);
+  expect(sounds.bgPlaying).toBe(false);
+  expect(sounds.played).not.toContain('bg');
   expect(rec.starts).toBe(2);
   // The clue is read again, then the clock runs.
   expect(host.speaking).toBe(true);
@@ -306,7 +306,7 @@ test('voice off: the background still silences the cues and stops the clock', as
   expect(screen.getByTestId('clock')).toHaveTextContent(before);
   await goTo('active');
   await settle();
-  expect(sounds.bgPlaying).toBe(true);
+  expect(sounds.bgPlaying).toBe(false);
   await wait(2000);
   expect(screen.getByTestId('clock')).not.toHaveTextContent(before);
 });
@@ -317,8 +317,9 @@ test('pass and play: "hazırım" starts each turn on the Sıra screen, and one m
   expect(await screen.findByTestId('handover')).toHaveTextContent('Sıra: Ece');
   await act(async () => {});
   expect(screen.getByTestId('say-ready')).toHaveTextContent('ya da “hazırım” de');
-  await settle();  // the theme and the host wait for the mic's start to settle
-  expect(sounds.played).toContain('theme');
+  await settle();  // the host waits for the mic's start to settle
+  expect(sounds.played).not.toContain('theme');
+  expect(sounds.bgPlaying).toBe(false);
   expect(rec.starts).toBe(1);
   expect(host.said).toEqual([said(hostLine('turn'))]);
   await wait(3000);
@@ -394,7 +395,7 @@ async function untilHostQuiet() {
   expect(host.speaking).toBe(false);
 }
 
-test('speaker and mic: one session with echo cancellation, set before the mic opens and never changed; the bed is faint and everything ducks under the host', async () => {
+test('speaker and mic: one session with echo cancellation, set before the mic opens and never changed; the bed is faint and the round has no bed', async () => {
   await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ voice: true, micChecked: true }));
   await renderRouter('./src/app', { initialUrl: '/game?cats=tarih&level=1&seed=7' });
   expect(await screen.findByText('Hazır mısın?')).toBeOnTheScreen();
@@ -413,9 +414,9 @@ test('speaker and mic: one session with echo cancellation, set before the mic op
   expect(rec.lastOptions).toMatchObject({ iosVoiceProcessingEnabled: true, iosCategory: RECOGNITION_OPTIONS.iosCategory });
   expect(RECOGNITION_OPTIONS.iosCategory).toEqual({ category: 'playAndRecord', categoryOptions: ['defaultToSpeaker', 'allowBluetooth', 'mixWithOthers'], mode: 'voiceChat' });
 
-  // The host reads: the bed is ducked, a cue that sounds now is not.
+  // The host reads: no bed under it, and a cue that sounds now is not ducked.
   expect(host.speaking).toBe(true);
-  expect(sounds.bgVolume).toBeCloseTo(BG_DUCKED * DEFAULT_GAIN, 5);
+  expect(sounds.bgPlaying).toBe(false);
   const a = question(clueText());
   await say(a.answers[0]);
   const correctCue = audio.players.find((p) => p.source === require('../../assets/sounds/correct.mp3'))!;
@@ -423,12 +424,9 @@ test('speaker and mic: one session with echo cancellation, set before the mic op
   expect(correctCue.volume).toBeCloseTo(DEFAULT_GAIN);
   expect(DUCK).toBeLessThan(1);
 
-  // The mic listening with the host quiet: only a faint bed, a quarter of the old 0.17.
+  // The mic listening with the host quiet: still no bed.
   await untilHostQuiet();
-  expect(BG_VOLUME).toBeCloseTo(0.17 / 4, 2);
-  expect(sounds.bgVolume).toBeCloseTo(BG_VOLUME * DEFAULT_GAIN, 6);
-  expect(BG_VOLUME).toBeLessThanOrEqual(BG_MAX);
-  expect(BG_MAX).toBeLessThanOrEqual(0.17 / 2);
+  expect(sounds.bgVolume).toBe(0);
 
   // A few answers on: a request per question, no change to the iOS audio session
   // since the mic opened, and every player keeps the session active (expo-audio
