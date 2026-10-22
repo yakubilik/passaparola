@@ -1,8 +1,9 @@
 # #438 voice repair: real-iPhone acceptance status
 
-Status (22 Oct 2026): **build and installation established; one host-only
-run measured at a single volume (≈ 95 %), three spoken answers recognised;
-the short-word, volume and latency trials are not performed.**
+Status (22 Oct 2026, 18:00): **build and installation established; host-only
+measured at ≈ 95 % and ≈ 45–50 %; 11 natural spoken answers measured (9
+right, 2 judged wrong); short-word, ≈ 30 %, Pas/two-word and latency trials
+not performed.**
 The blue-light removal (criterion 6) is on the ticket branch, not yet on the phone.
 
 ## Facts, kept apart
@@ -54,11 +55,54 @@ each delivered attempt with the host's words at that moment) would do with it.
 
 Not yet established: the same at ≈ 30 % and ≈ 60 % volume.
 
+## Second session, 22 Oct 17:28–18:00
+
+**Silent self-test (3 rounds, 84 passages), launched 17:28:42.** Volume as
+read from the session: round 1 0.95 (not yet lowered), round 2 0.95 → 0.45
+at ≈ 265 s (Yakup lowered it then and heard the game get quieter: the
+buttons drive this path), round 3 0.50. So the host-only data now covers
+≈ 95 % (two runs) and ≈ 45–50 %; **≈ 30 % was not reached**. Voice
+processing on, `voiceChat`, Speaker / built-in mic, 2 engines per round, no
+rebuild loop. The recognizer results of this run are listed in the traces
+(5 over ≈ 9 min) and have not yet been checked one by one against the rule.
+
+**Trace mode, Bilim level 1 (seed 11), 17:38 and 17:44.** Yakup reads this
+chat on the same phone: each time he switched to it, Harfiyen went to the
+background a few seconds after the first clue (mic closed, engine stopped,
+trace paused). No crash (the phone's crash logs have nothing after 19 Oct).
+Back in the game at ≈ 17:57 he answered 11 questions naturally:
+
+| Question | Heard (interim → final) | Over the host | Verdict |
+|---|---|---|---|
+| A (Ağaç) | `Aç`, then `Aç` again | first yes, second no | first: none (near a host word), second: **wrong** |
+| B (Böbrek) | `Böbrek` | yes | correct |
+| C (Ceviz) | `Ceviz` | yes | correct |
+| Ç (Çakal) | `Çak` → `Çakal` | yes | correct |
+| D (Deprem) | `Deprem` | no | correct |
+| E (Etobur) | `Erik` / `Eric` | no | **wrong** |
+| F (Fare) | `Far` → `Fare` | no | correct |
+| G (Güneş) | `Güneş` | no | correct |
+| H (Horoz) | `Horoz` | no | correct |
+| I (Ihlamur) | `Ihlamur` | no | correct |
+| İ (İnek) | `İn` → `İnek` | yes | correct |
+
+Every utterance's final came 1.6–2 s after its first interim and was
+consumed by the tail rule: no double grading, nothing judged for the next
+question, no lone-letter verdict. A right answer is judged on the interim
+that completes it (0–1 ms after that result); a wrong one 700 ms after its
+last interim (`SETTLE_MS`). **Speech-end → verdict cannot be computed**:
+the trace records result times, not Apple's end-of-speech; so criterion 4's
+p50 / p95 is not measured. Whether `Aç` was a misrecognised "Ağaç" is not
+known yet.
+
 ## Not performed
 
-- 30 spoken short-word trials (Ay, Su, El, Un, Ok; overlap; 20/45/65 s idle).
-- Normal answer / Pas / two-word / wrong-word trials and speech-end →
-  verdict p50 / p95 (≥ 30 attempts, p95 ≤ 1000 ms).
+- 30 spoken short-word trials (Ay, Su, El, Un, Ok; overlap; 20/45/65 s idle):
+  none yet (the instructions reached the phone only through the chat on it).
+- Pas, two-word and deliberately wrong trials; ≥ 30 recognised attempts
+  (11 so far); speech-end → verdict p50 / p95, which needs end-of-speech
+  times the trace does not record yet.
+- Host-only at ≈ 30 % volume.
 
 ## Evidence
 
