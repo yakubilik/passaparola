@@ -50,11 +50,14 @@ export type WordsEvent = { t: number; e: string } & Record<string, unknown>;
 export type WordsRun = { file: string; onDevice: boolean; events: WordsEvent[] };
 
 /** Feeds one file to the recognizer and resolves with everything it reported. */
-function runFile(uri: string, file: string, onDevice: boolean): Promise<WordsRun> {
+function runFile(run: WordsRun, uri: string, saved: () => void): Promise<void> {
+  const { onDevice } = run;
   return new Promise((resolve) => {
-    const run: WordsRun = { file, onDevice, events: [] };
     const t0 = Date.now();
-    const log = (e: string, data: Record<string, unknown> = {}) => run.events.push({ t: Date.now() - t0, e, ...data });
+    const log = (e: string, data: Record<string, unknown> = {}) => {
+      run.events.push({ t: Date.now() - t0, e, ...data });
+      saved();
+    };
     let stopTimer: ReturnType<typeof setTimeout> | null = null;
     let done = false;
     const finish = () => {
@@ -63,7 +66,7 @@ function runFile(uri: string, file: string, onDevice: boolean): Promise<WordsRun
       if (stopTimer) clearTimeout(stopTimer);
       clearTimeout(limit);
       subs.forEach((s) => s.remove());
-      resolve(run);
+      resolve();
     };
     // No file is this long: stopped, then given up on if iOS never says 'end'.
     const limit = setTimeout(() => {
@@ -77,6 +80,7 @@ function runFile(uri: string, file: string, onDevice: boolean): Promise<WordsRun
         alts: r.results.map((x) => x.transcript),
         segments: r.results[0]?.segments?.map((s) => [s.segment, s.startTimeMillis, s.endTimeMillis]) ?? [],
       })),
+      SR.addListener('start', () => log('start')),
       SR.addListener('error', (r) => log('error', { error: r.error, message: r.message })),
       SR.addListener('audioend', () => {
         log('audioend');
@@ -87,6 +91,7 @@ function runFile(uri: string, file: string, onDevice: boolean): Promise<WordsRun
         finish();
       }),
     ];
+    log('request');
     try {
       SR.start({
         lang: 'tr-TR', continuous: true, interimResults: true, maxAlternatives: 5,
@@ -108,25 +113,33 @@ let started = false;
 export async function runWordsTest() {
   if (started) return;
   started = true;
-  const write = native()?.writeDocument;
-  if (!write) return;
-  const out: { startedAt: number; context: string[]; runs: WordsRun[]; error?: string } = { startedAt: Date.now(), context: contextFor(WORDS_TEST_ANSWERS), runs: [] };
-  const save = () => write(WORDS_TEST_LOG, JSON.stringify(out));
-  // writeDocument returns the file's path: Documents is its folder.
-  const docs = save().replace(/\/[^/]*$/, '');
-  const ready = await prepareMic();
-  if (!ready.ok) {
-    out.error = ready.reason;
-    save();
-    return;
-  }
-  for (const onDevice of [true, false]) {
-    for (const file of WORDS_TEST_FILES) {
-      out.runs.push(await runFile(`file://${docs}/words/${file}.wav`, file, onDevice));
-      save();
-      await new Promise((r) => setTimeout(r, 500));
+  const mod = native();
+  if (!mod?.writeDocument) return;
+  const out: { startedAt: number; stage: string; context: string[]; runs: WordsRun[]; error?: string } = { startedAt: Date.now(), stage: 'launch', context: contextFor(WORDS_TEST_ANSWERS), runs: [] };
+  const save = () => mod.writeDocument!(WORDS_TEST_LOG, JSON.stringify(out));
+  const stage = (s: string) => { out.stage = s; save(); };
+  try {
+    // writeDocument returns the file's path: Documents is its folder.
+    const docs = save().replace(/\/[^/]*$/, '');
+    stage('permissions');
+    // The permissions were given when the game was first played; asking must not hold the test up.
+    const ready = await Promise.race([prepareMic(), new Promise<null>((r) => setTimeout(() => r(null), 5000))]);
+    if (ready && !ready.ok) {
+      out.error = ready.reason;
+      return stage('denied');
     }
+    stage(ready ? 'running' : 'running (permission check timed out)');
+    for (const onDevice of [true, false]) {
+      for (const file of WORDS_TEST_FILES) {
+        const run: WordsRun = { file, onDevice, events: [] };
+        out.runs.push(run);
+        await runFile(run, `file://${docs}/words/${file}.wav`, save);
+        await new Promise((r) => setTimeout(r, 500));
+      }
+    }
+    stage('done');
+  } catch (e) {
+    out.error = String((e as Error)?.stack ?? e);
+    stage('failed');
   }
-  out.runs.push({ file: 'done', onDevice: false, events: [] });
-  save();
 }

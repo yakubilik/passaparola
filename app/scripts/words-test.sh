@@ -59,6 +59,6 @@ for _ in $(seq 1 60); do
   sleep 10
   xcrun devicectl device copy from --device "$DEVICE" --domain-type appDataContainer \
     --domain-identifier "$BUNDLE" --source Documents/harfiyen-words.json --destination "$OUT/harfiyen-words.json" >/dev/null 2>&1 || continue
-  grep -q '"file":"done"' "$OUT/harfiyen-words.json" && break
+  grep -qE '"stage":"(done|failed|denied)"' "$OUT/harfiyen-words.json" && break
 done
 echo "$OUT/harfiyen-words.json"
