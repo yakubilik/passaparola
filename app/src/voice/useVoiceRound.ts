@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 
-import { judgeHeard, spokenPace, type Verdict } from '../game/normalize';
+import { finalRights, judgeHeard, judgeSpoken, spokenPace, type Verdict } from '../game/normalize';
 import { current, type Round } from '../game/round';
 import type { Answered, useRound } from '../game/useRound';
 import { audioSettled, host, listener, prepareAudio, settleAudio, sounds } from './engine';
 import { answerLine, clueLine, host as hostLine, type HostKey, type Line } from './lines';
-import { contextFor, type Heard, type MicState, type Pace } from './listener';
+import { contextFor, HELD_TAIL_MS, type Heard, type MicState, type Pace } from './listener';
 import { noteRoundAudio } from './roundAudio';
 import { logAudio, selfTestOn } from './selfTest';
 import { CUE_LEAD_MS } from './sounds';
@@ -59,8 +59,9 @@ export function useVoiceRound(voice: boolean, { open = true, keepMic = false, mi
   const missed = useRef(false);  // a wrong answer ended this match turn: no next clue
   const lastSec = useRef(Infinity);
   const readGen = useRef(0);  // a newer read() (or none at all) drops a line still waiting for settleAudio
-  // A wrong answer heard over the host, judged once the host is quiet (judgeHeard's 'hold').
-  const held = useRef<{ text: string; asked: number; timer: ReturnType<typeof setInterval> } | null>(null);
+  // A wrong answer heard over the host, judged once the host is quiet (judgeHeard's 'hold')
+  // and its utterance's final has come (onTail) or HELD_TAIL_MS went by without it.
+  const held = useRef<{ text: string; asked: number; at: number; hostWords?: readonly string[]; timer: ReturnType<typeof setInterval> } | null>(null);
   const dropHeld = useCallback(() => {
     if (held.current) clearInterval(held.current.timer);
     held.current = null;
@@ -137,22 +138,43 @@ export function useVoiceRound(voice: boolean, { open = true, keepMic = false, mi
       // Shown as heard ("Duydum: Merkür…") and judged the moment the host is quiet.
       const asked = g.asked;
       const text = alts[0];
+      const at = Date.now();
       const timer = setInterval(() => {
         const cur = game.current;
         if (!cur || cur.phase !== 'playing' || cur.asked !== asked || away.current) return dropHeld();
         if (host.speaking) return;
+        // Its final may still say otherwise (" Cevdet", then " Cevdet / Ceviz", #478).
+        if (listener.tailPending && Date.now() - at < HELD_TAIL_MS) return;
         dropHeld();
         setHeard('');
         trace('verdict', { source: 'voice-held', q: cur.round ? current(cur.round).question.id : null, verdict: 'wrong', alts: [text] });
         cur.judge('wrong', text);
         verdictShown(text, 'wrong');
       }, HELD_POLL_MS);
-      held.current = { text, asked, timer };
+      held.current = { text, asked, at, hostWords: heard?.hostWords, timer };
       return;
     }
     setHeard('');
     g.judge(verdict, alts[0]);
     verdictShown(alts[0], verdict);
+  }, [dropHeld, verdictShown]);
+
+  // The final of the utterance a held wrong answer came from: right after all
+  // when a right answer is among its guesses (finalRights, #478).
+  const onTail = useCallback((alts: string[]) => {
+    const g = game.current;
+    const r = g?.round;
+    const h = held.current;
+    if (!h || !g || !r || g.phase !== 'playing' || g.asked !== h.asked || away.current) return;
+    const q = current(r).question;
+    const right = finalRights(alts, q.answers, h.hostWords);
+    trace('verdict', { source: 'voice-final', q: q.id, verdict: right ? 'correct' : 'none', alts });
+    if (!right) return;
+    dropHeld();
+    setHeard('');
+    const text = alts.find((a) => judgeSpoken([a], q.answers) === 'correct') ?? alts[0];
+    g.judge('correct', text);
+    verdictShown(text, 'correct');
   }, [dropHeld, verdictShown]);
 
   // Words being heard: shown at once, and the last verdict gives way to them.
@@ -189,6 +211,7 @@ export function useVoiceRound(voice: boolean, { open = true, keepMic = false, mi
       if (!voice) return;
       listener.onState = setMic;
       listener.onInterim = onInterim;
+      listener.onTail = onTail;
       listener.listen(onHeard, pace, context(), answers);
     };
     // The round's audio as its mic came up, for SES OTURUMU (one line per round).
@@ -212,7 +235,7 @@ export function useVoiceRound(voice: boolean, { open = true, keepMic = false, mi
       open();
       return settleAudio().then(settled);
     });
-  }, [voice, onHeard, onInterim, pace, context, answers]);
+  }, [voice, onHeard, onInterim, onTail, pace, context, answers]);
 
   // The app went to the background (or a call, Control Centre): silence
   // everything, close the mic and stop the clock. Back in front: the bed and

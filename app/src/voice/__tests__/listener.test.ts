@@ -531,3 +531,15 @@ describe('on-device recognition first, Apple\'s servers as the fallback', () => 
     m.stop();
   });
 });
+
+// #478: the voice trace says what each request expected, so a phone trace
+// shows whether a misheard answer was in its contextualStrings.
+test('the request trace carries the contextualStrings the request was started with', () => {
+  const l = new AnswerListener(rec);
+  const traced: Record<string, unknown>[] = [];
+  l.onTrace = (e, d) => { if (e === 'request') traced.push(d!); };
+  l.listen(() => {}, undefined, contextFor(['Çığ', 'Çakal']));
+  expect(traced).toEqual([expect.objectContaining({ contextualStrings: ['pas', 'geç', 'pas geçiyorum', 'Çığ', 'Çakal'] })]);
+  expect(fake.lastOptions.contextualStrings).toEqual(['pas', 'geç', 'pas geçiyorum', 'Çığ', 'Çakal']);
+  l.stop();
+});

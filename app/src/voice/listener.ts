@@ -59,6 +59,11 @@ export const PARTIAL_MS = 1500;
 /** After a verdict, the same utterance's late words and revisions are part of it for this long. */
 export const LATE_MS = 1500;
 export const ECHO_TAIL_MS = 800;
+// How long a wrong answer held over the host (counted from the hold) may wait
+// for its utterance's final (onTail) once the host is quiet: iOS gave it 1.2 s after the held
+// " Cevdet" was judged, its alternatives with " Ceviz" in them (#478), and
+// a final 1.7 to 2.1 s after an interim judged at once.
+export const HELD_TAIL_MS = 2500;
 /** A lone letter (incomplete) waits this long for the word it begins, then is dropped without a verdict. */
 export const FRAGMENT_MS = 3000;
 /** A request this old is renewed at the next quiet moment (no words for QUIET_MS, nothing pending). */
@@ -183,6 +188,7 @@ export class AnswerListener {
   private prevWords: string[] = [];  // the first guess as last heard, for rewritten words
   private swallowUntil = 0;   // the rest of an utterance already judged (LATE_MS)
   private tailOpen = false;   // an utterance was judged and its final has not come yet
+  private tailFrom = 0;       // words of the result handled before the judged attempt began
   private seenCount = 0;      // words in the current result as last heard
   private judged: string[] = [];  // what the last verdict's guesses had beyond its best guess, folded
   private wordsAt = 0;        // when the player's words last changed
@@ -211,6 +217,12 @@ export class AnswerListener {
   onInterim: (text: string) => void = () => {};
   /** Every result and decision, for the voice evidence file (trace.ts, set by engine.ts). */
   onTrace: (e: string, data?: Record<string, unknown>) => void = () => {};
+  /**
+   * The final of an utterance already judged on an interim, its guesses
+   * without the host's words: a wrong answer held over the host is judged
+   * on them too (finalRights, #478). Set by useVoiceRound.
+   */
+  onTail: (alts: string[]) => void = () => {};
   /** A host clip or a cue is sounding: the recognizer is not started or stopped now (set by engine.ts). */
   busy: () => boolean = () => false;
 
@@ -456,6 +468,11 @@ export class AnswerListener {
       || (f.length >= 2 && Math.abs(e.length - f.length) <= (e.length <= 2 ? 0 : 1) && distance(e, f) <= (f.length >= 8 ? 2 : 1))));
   }
 
+  /** An utterance was judged on an interim and its final (onTail) has not come yet. */
+  get tailPending(): boolean {
+    return this.tailOpen;
+  }
+
   /** The host is talking, or stopped less than ECHO_TAIL_MS ago. */
   get hostRecent(): boolean {
     return this.echoActive;
@@ -539,7 +556,7 @@ export class AnswerListener {
     }
     this.running = true;
     this.starts++;
-    this.onTrace('request', { starts: this.starts, mode: this.mode });
+    this.onTrace('request', { starts: this.starts, mode: this.mode, contextualStrings: this.context });
     this.startedAt = this.lastResultAt = this.now();
     this.heardThisRequest = false;
     if (this.ageTimer) clearTimeout(this.ageTimer);
@@ -611,6 +628,9 @@ export class AnswerListener {
     const carried = e.isFinal && this.tailOpen && !late && fresh && this.pace?.(alts) === 'now';
     if (!this.lastAlts && !carried && (late || (e.isFinal && this.tailOpen))) {
       this.onTrace('consumed', { alts, final: e.isFinal });
+      // The judged utterance's final: a held wrong answer looks at its guesses
+      // (#478), each from where the attempt began, not cut where it was judged.
+      if (e.isFinal && this.tailOpen) this.onTail(e.results.map((r) => this.withoutEcho(words(r.transcript).slice(this.tailFrom)).join(' ')).filter(Boolean));
       this.used = e.isFinal ? 0 : Math.max(skip, count);
       if (e.isFinal) {
         this.swallowUntil = 0;
@@ -776,6 +796,7 @@ export class AnswerListener {
     this.dropFragment(false);
     // The next answer starts after these words; a final result starts a fresh one.
     // Until then, what the same result still adds is part of this answer.
+    this.tailFrom = this.used;
     this.used = final ? 0 : Math.max(this.used, this.lastCount, this.echoSeen);
     this.echoSeen = 0;
     this.swallowUntil = final ? 0 : this.now() + LATE_MS;
