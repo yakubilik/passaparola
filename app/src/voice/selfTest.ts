@@ -9,6 +9,7 @@ import { readVoiceProcessing } from './recognizer';
 import { readAudioSession } from './sessionInfo';
 import { masterGain } from './sounds';
 import { startTrace, trace } from './trace';
+import { runWordsTest } from './wordsTest';
 import type { useVoiceRound } from './useVoiceRound';
 
 // The hidden self-test (#361): launched with `-harfiyenSelfTest 1`, the app
@@ -38,6 +39,9 @@ import type { useVoiceRound } from './useVoiceRound';
 // the voice evidence file (trace.ts) for a person or an external speaker
 // answering for real. The self-test modes write it too, their own answers
 // marked `selftest`.
+//
+// `-harfiyenSelfTest words` (#455) plays nothing either: it feeds recorded
+// short words to the recognizer and logs what iOS made of them (wordsTest.ts).
 
 export const SELF_TEST_LOG = 'harfiyen-selftest.json';
 export const SELF_TEST_LEVELS = 3;
@@ -160,6 +164,7 @@ let launched = false;
 export function useSelfTestLaunch(ready: boolean, update: (p: { voice: boolean; micChecked: boolean }) => Promise<void>) {
   useEffect(() => {
     if (ready && traceRequested()) startTrace(launchArg() ?? '');
+    if (ready && launchArg() === 'words') runWordsTest();
     if (!ready || launched || !selfTestOn()) return;
     launched = true;
     if (selfTestMode() === 'speech') host.withholdClips(speechTestClue);

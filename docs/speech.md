@@ -247,6 +247,55 @@ complete words and judged as before.
 `regressions/voice.test.tsx`; every earlier complaint test and the echo
 corpus (`voiceEcho*.test.ts`) unchanged and green.
 
+## Short words on the phone (#455)
+
+**Report (Yakup, 22 Oct 2026, main 4d5c2e0c on Dilara's iPhone):** short
+spoken words (2-3 letters: "pas", short answers) are not understood.
+
+**Real results from the phone** (trace mode, `phone-2026-10-22.json` and
+`phone-2026-10-22-dilara.json` in `src/voice/__tests__`, results and host
+lines only):
+
+| Said | What iOS returned | Where it went |
+|---|---|---|
+| "Pas" (Dilara, 23:53) | one final `" Pas"`, no interim before it, 1.4 s after the host stopped | judged a Pas (the final-only path) |
+| "Aç" for Ağaç (Yakup, 17:57) | interim `"Aç"` 710 ms after "... A ile başlıyor." stopped, its final 1.7 s later, then `" Aç"` again | **no verdict**: inside `ECHO_TAIL_MS`, `hostNear` (listener.ts) took "aç" for a slip of the host's letter name "a"; judged wrong only when said again |
+| "Pas" (Yakup, 23 Oct 20:34, this branch, AirPods off) | interim `" Pas"` 1.2 s after the clue, its final 1.7 s later | a Pas |
+| "Ay" for Ay (same session) | one final `" Ay / Ay ay / I"`, no interim, 3.2 s after the clue | right (the final-only path) |
+| "Cam" for Cam, "Diş" for Diş (same session) | interim with the word twice: `" Cam cam"`, `" Diş diş"`, then the final | right |
+| "Çığ" for Çığ (same session) | interims `" ÇÇÇÇ"` → `" ÇÇÇÇÇ"` → `" ÇÇÇÇÇÇ"`, final `" ÇÇÇÇÇÇ / ÇÇÇÇCÇÇ / ÇÇÇÇÇ"` | **graded wrong**: `isFragment` (normalize.ts) took one letter written over and over for a word |
+| "Far" → "Fare", "İn" → "İnek", "Dan" → "Danimarka", "Çak" → "Çakal" | the start of the word as an interim, the whole word 4-200 ms later | judged on the whole word |
+
+**Fixed:** one letter written three or more times ("ÇÇÇÇ") is
+incomplete, like a lone letter: no verdict, never a wrong answer (no answer
+is spelt that way). And for host words of one or two letters (the letter names of "...
+ile başlıyor") only a same-length slip counts in `hostNear` ("me" → "ma" is
+the host, "aç" after "a" is the player). Replayed by
+`phoneReplay.test.ts` (red on 4d5c2e0c, green after).
+
+**Not measured:** Su, Un, Kar, Buz (Yakup's session reached J). The words
+test below measures them without a person.
+`-harfiyenSelfTest words` (`src/voice/wordsTest.ts`, run with
+`app/scripts/words-test.sh <device id>`) plays `say -v Yelda` recordings of
+them on the phone's loudspeaker into a mic request with the game's options
+and logs every result. What stopped it on 23 Oct:
+
+- Feeding the files to the recognizer directly (expo-speech-recognition's
+  `audioSource`) gave, for every file including six words in a row,
+  on-device and on the servers, only iOS's no-speech guess: an interim
+  `"Evet"` at about 0.93 s, then a final `"Evet / Hayır / Gönder"`. That path
+  hands the recognizer no speech, so the test now goes speaker → mic.
+- Launched remotely (devicectl) on a phone that is unlocked but nobody is
+  holding, every mic request failed at once with `audio-capture` ("Session
+  activation failed", `otherAudioPlaying` true): iOS starts no recording for
+  an app that is not in front. The test needs the phone's screen on, with
+  Harfiyen in front, for about five minutes.
+- 23 Oct, 10:36, with the phone unlocked: the mic opened and the first
+  recording played, but the output route was Bluetooth (AirPods connected),
+  so the recording went into the earbuds and the phone's mic heard nothing
+  (no result at all); the app then stopped running. The test needs no
+  Bluetooth audio device connected. Trace mode after it recorded no round.
+
 ## Echo cancellation and a steady volume (#438, scope of #439)
 
 **Cause of the loop, read from the library.** On the phone (docs/selftest/
