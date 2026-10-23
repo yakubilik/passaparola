@@ -269,9 +269,20 @@ the host, "aç" after "a" is the player). Replayed by
 
 **Not yet measured:** what iOS returns for Ay, Su, Un, Kar, Buz said alone.
 `-harfiyenSelfTest words` (`src/voice/wordsTest.ts`, run with
-`app/scripts/words-test.sh <device id>`) feeds `say -v Yelda` recordings of
-them to the phone's recognizer with the game's request options and logs
-every result; it needs an unlocked phone.
+`app/scripts/words-test.sh <device id>`) plays `say -v Yelda` recordings of
+them on the phone's loudspeaker into a mic request with the game's options
+and logs every result. What stopped it on 23 Oct:
+
+- Feeding the files to the recognizer directly (expo-speech-recognition's
+  `audioSource`) gave, for every file including six words in a row,
+  on-device and on the servers, only iOS's no-speech guess: an interim
+  `"Evet"` at about 0.93 s, then a final `"Evet / Hayır / Gönder"`. That path
+  hands the recognizer no speech, so the test now goes speaker → mic.
+- Launched remotely (devicectl) on a phone that is unlocked but nobody is
+  holding, every mic request failed at once with `audio-capture` ("Session
+  activation failed", `otherAudioPlaying` true): iOS starts no recording for
+  an app that is not in front. The test needs the phone's screen on, with
+  Harfiyen in front, for about five minutes.
 
 ## Echo cancellation and a steady volume (#438, scope of #439)
 
