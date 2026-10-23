@@ -1,0 +1,775 @@
+{
+"source": "Dilara iPhone, main 4d5c2e0c (delivery build 2), 22 Oct 2026 23:53, trace mode, a person playing; recognizer results, host lines and the verdicts the phone gave, times in ms",
+"events": [
+{
+"t": 1577,
+"e": "host",
+"texts": [
+"İşte sağ cepten sorular çıkıyor efendim.",
+"Bir elementin kimyasal özelliklerini taşıyan en küçük parçası... A ile başlıyor."
+],
+"q": "bilim-2-A-1"
+},
+{
+"t": 7084,
+"e": "host-done"
+},
+{
+"t": 8144,
+"e": "result",
+"final": false,
+"alts": [
+"Atom"
+]
+},
+{
+"t": 8144,
+"e": "judged",
+"q": "bilim-2-A-1",
+"verdict": "correct"
+},
+{
+"t": 8399,
+"e": "host",
+"texts": [
+"İşitme yetisini yitirdikten sonra da beste yapmayı sürdüren \"Ay Işığı Sonatı\"nın bestecisi... Be ile başlıyor."
+],
+"q": "sanat-2-B-1"
+},
+{
+"t": 10067,
+"e": "result",
+"final": true,
+"alts": [
+"Atom",
+"ATO"
+]
+},
+{
+"t": 12397,
+"e": "host-done"
+},
+{
+"t": 13658,
+"e": "result",
+"final": false,
+"alts": [
+" Beethoven"
+]
+},
+{
+"t": 13658,
+"e": "judged",
+"q": "sanat-2-B-1",
+"verdict": "correct"
+},
+{
+"t": 13917,
+"e": "host",
+"texts": [
+"Ayvalık'a köprüyle bağlı, Alibey Adası da denen Ege adası... Ce ile başlıyor."
+],
+"q": "cografya-2-C-4"
+},
+{
+"t": 15743,
+"e": "result",
+"final": true,
+"alts": [
+" Beethoven"
+]
+},
+{
+"t": 17022,
+"e": "host-done"
+},
+{
+"t": 20552,
+"e": "result",
+"final": false,
+"alts": [
+" Cunda"
+]
+},
+{
+"t": 20553,
+"e": "judged",
+"q": "cografya-2-C-4",
+"verdict": "correct"
+},
+{
+"t": 20819,
+"e": "host",
+"texts": [
+"Doğru.",
+"\"Vişne Bahçesi\" ve \"Martı\" oyunlarıyla tanınan Rus yazar... Çe ile başlıyor."
+],
+"q": "sanat-2-Ç-1"
+},
+{
+"t": 22457,
+"e": "result",
+"final": true,
+"alts": [
+" Cunda"
+]
+},
+{
+"t": 24588,
+"e": "host-done"
+},
+{
+"t": 25893,
+"e": "result",
+"final": false,
+"alts": [
+" Chike"
+]
+},
+{
+"t": 26363,
+"e": "result",
+"final": false,
+"alts": []
+},
+{
+"t": 26367,
+"e": "result",
+"final": false,
+"alts": [
+" Çaykovski"
+]
+},
+{
+"t": 27070,
+"e": "judged",
+"q": "sanat-2-Ç-1",
+"verdict": "wrong"
+},
+{
+"t": 27486,
+"e": "host",
+"texts": [
+"Değil, olmadı.",
+"Çehov olacaktı."
+],
+"q": null
+},
+{
+"t": 28255,
+"e": "result",
+"final": true,
+"alts": [
+" Çaykovski",
+" Çaykowsky"
+]
+},
+{
+"t": 29440,
+"e": "host-done"
+},
+{
+"t": 29447,
+"e": "host",
+"texts": [
+"Başkenti Kopenhag olan İskandinav ülkesi... De ile başlıyor."
+],
+"q": "cografya-2-D-2"
+},
+{
+"t": 32337,
+"e": "host-done"
+},
+{
+"t": 34775,
+"e": "result",
+"final": false,
+"alts": [
+" Dan"
+]
+},
+{
+"t": 34779,
+"e": "result",
+"final": false,
+"alts": [
+" Danimarka"
+]
+},
+{
+"t": 34779,
+"e": "judged",
+"q": "cografya-2-D-2",
+"verdict": "correct"
+},
+{
+"t": 35038,
+"e": "host",
+"texts": [
+"La Fontaine'e ilham veren hayvan masallarıyla bilinen Antik Yunan masalcısı... E ile başlıyor."
+],
+"q": "sanat-2-E-2"
+},
+{
+"t": 36858,
+"e": "result",
+"final": true,
+"alts": [
+" Danimarka"
+]
+},
+{
+"t": 38940,
+"e": "host-done"
+},
+{
+"t": 43447,
+"e": "judged",
+"q": "sanat-2-E-2",
+"verdict": "pass"
+},
+{
+"t": 43706,
+"e": "host",
+"texts": [
+"Atatürk dışında Türkiye Cumhuriyeti'nde mareşal rütbesi almış tek komutan... Fe ile başlıyor."
+],
+"q": "tarih-2-F-2"
+},
+{
+"t": 47426,
+"e": "host-done"
+},
+{
+"t": 48872,
+"e": "result",
+"final": true,
+"alts": [
+" Pas"
+]
+},
+{
+"t": 48873,
+"e": "judged",
+"q": "tarih-2-F-2",
+"verdict": "pass"
+},
+{
+"t": 49140,
+"e": "host",
+"texts": [
+"Kandiye Kuşatması'nın ardından 1669'da tamamen Osmanlı'ya geçen Akdeniz adası... Ge ile başlıyor."
+],
+"q": "tarih-2-G-4"
+},
+{
+"t": 53934,
+"e": "host-done"
+},
+{
+"t": 55868,
+"e": "result",
+"final": false,
+"alts": [
+" Girit"
+]
+},
+{
+"t": 55869,
+"e": "judged",
+"q": "tarih-2-G-4",
+"verdict": "correct"
+},
+{
+"t": 56125,
+"e": "host",
+"texts": [
+"Doğru.",
+"Balonları uçurmak için kullanılan, havadan hafif soy gaz... He ile başlıyor."
+],
+"q": "bilim-2-H-3"
+},
+{
+"t": 58061,
+"e": "result",
+"final": true,
+"alts": [
+" Girit"
+]
+},
+{
+"t": 59707,
+"e": "host-done"
+},
+{
+"t": 62876,
+"e": "result",
+"final": false,
+"alts": [
+" Hello hello"
+]
+},
+{
+"t": 63594,
+"e": "judged",
+"q": "bilim-2-H-3",
+"verdict": "wrong"
+},
+{
+"t": 64009,
+"e": "host",
+"texts": [
+"Değil, olmadı.",
+"Helyum olacaktı."
+],
+"q": null
+},
+{
+"t": 64768,
+"e": "result",
+"final": true,
+"alts": [
+" Alo",
+" Hello",
+" Alo alo",
+" Hello hello",
+" Helyum"
+]
+},
+{
+"t": 66078,
+"e": "host-done"
+},
+{
+"t": 66085,
+"e": "host",
+"texts": [
+"Kırgızistan'daki, kışın donmamasıyla bilinen büyük dağ gölü... I ile başlıyor."
+],
+"q": "cografya-2-I-4"
+},
+{
+"t": 69481,
+"e": "host-done"
+},
+{
+"t": 76056,
+"e": "result",
+"final": false,
+"alts": [
+" Iğdır"
+]
+},
+{
+"t": 76763,
+"e": "judged",
+"q": "cografya-2-I-4",
+"verdict": "wrong"
+},
+{
+"t": 77178,
+"e": "host",
+"texts": [
+"Değil, olmadı.",
+"Issık Göl olacaktı.",
+"Ne olur dikkatli dinleyin."
+],
+"q": null
+},
+{
+"t": 77956,
+"e": "result",
+"final": true,
+"alts": [
+" Iğdır"
+]
+},
+{
+"t": 80705,
+"e": "host-done"
+},
+{
+"t": 80712,
+"e": "host",
+"texts": [
+"Monet ve Renoir'ın öncüsü olduğu, ışığın anlık etkisini yakalamaya çalışan resim akımı... İ ile başlıyor."
+],
+"q": "sanat-2-İ-3"
+},
+{
+"t": 84891,
+"e": "host-done"
+},
+{
+"t": 88740,
+"e": "result",
+"final": false,
+"alts": [
+" Amerikan"
+]
+},
+{
+"t": 88956,
+"e": "result",
+"final": false,
+"alts": [
+" Amerikan Birleşik"
+]
+},
+{
+"t": 89262,
+"e": "result",
+"final": false,
+"alts": [
+" Amerika Birleşik Devletleri Birleşik"
+]
+},
+{
+"t": 89460,
+"e": "result",
+"final": false,
+"alts": [
+" Amerika Birleşik Devletleri"
+]
+},
+{
+"t": 90185,
+"e": "judged",
+"q": "sanat-2-İ-3",
+"verdict": "wrong"
+},
+{
+"t": 90597,
+"e": "host",
+"texts": [
+"Değil, olmadı.",
+"İzlenimcilik olacaktı."
+],
+"q": null
+},
+{
+"t": 90645,
+"e": "result",
+"final": false,
+"alts": [
+" Amerika Birleşik Devletleri Amerikan"
+]
+},
+{
+"t": 92360,
+"e": "result",
+"final": true,
+"alts": [
+" Amerikan Birleşik Amerikan",
+" Amerika Birleşik Devletleri Amerikan"
+]
+},
+{
+"t": 92851,
+"e": "host-done"
+},
+{
+"t": 92857,
+"e": "host",
+"texts": [
+"Fransa ile İsviçre arasında uzanan, bir jeolojik devreye adını veren sıradağlar... Je ile başlıyor."
+],
+"q": "cografya-2-J-4"
+},
+{
+"t": 96736,
+"e": "host-done"
+},
+{
+"t": 105553,
+"e": "result",
+"final": false,
+"alts": [
+" Sadece"
+]
+},
+{
+"t": 106062,
+"e": "result",
+"final": false,
+"alts": [
+" Sadece oyun"
+]
+},
+{
+"t": 106083,
+"e": "result",
+"final": false,
+"alts": [
+" Sadece oyunda"
+]
+},
+{
+"t": 106804,
+"e": "judged",
+"q": "cografya-2-J-4",
+"verdict": "wrong"
+},
+{
+"t": 107217,
+"e": "host",
+"texts": [
+"Değil, olmadı.",
+"Jura Dağları olacaktı."
+],
+"q": null
+},
+{
+"t": 107450,
+"e": "result",
+"final": false,
+"alts": [
+" Sadece oyunda oyununa bakma oyun"
+]
+},
+{
+"t": 107462,
+"e": "result",
+"final": false,
+"alts": [
+" Sadece oyun oyununa bakma oyun"
+]
+},
+{
+"t": 107649,
+"e": "result",
+"final": false,
+"alts": [
+" Sadece oyun oyununa bakma oyunun"
+]
+},
+{
+"t": 107965,
+"e": "result",
+"final": false,
+"alts": [
+" Sadece oyun oyununa bakma oyunun efekt"
+]
+},
+{
+"t": 108188,
+"e": "result",
+"final": false,
+"alts": [
+" Sadece oyun oyununa bakma oyunun efektlerine"
+]
+},
+{
+"t": 108472,
+"e": "result",
+"final": false,
+"alts": [
+" Sadece oyun oyununa bakma oyunun efektlerine bak"
+]
+},
+{
+"t": 108859,
+"e": "result",
+"final": false,
+"alts": [
+" Sadece oyun oyununa bakma oyunun efektlerine bak ana"
+]
+},
+{
+"t": 109363,
+"e": "result",
+"final": false,
+"alts": [
+" Sadece oyun oyununa bakma oyunun efektlerine bak ana sayfasına"
+]
+},
+{
+"t": 109549,
+"e": "host-done"
+},
+{
+"t": 109557,
+"e": "host",
+"texts": [
+"\"Dava\" romanı ve \"Babaya Mektup\"un Prag doğumlu yazarı... Ke ile başlıyor."
+],
+"q": "sanat-2-K-3"
+},
+{
+"t": 109657,
+"e": "result",
+"final": false,
+"alts": [
+" Sadece oyun oyununa bakma oyunun efektlerine bak ana sayfasına bak"
+]
+},
+{
+"t": 112689,
+"e": "host-done"
+},
+{
+"t": 112794,
+"e": "result",
+"final": true,
+"alts": [
+" Sadece oyunda bakma oyunun efektlerine bak ana sayfasına bak",
+" Sadece oyuna bakma oyunun efektlerine bak ana sayfasına bak",
+" Sadece oyununa bakma oyunun efektlerine bak ana sayfasına bak",
+" Sadece oyun oyununa bakma oyunun efektlerine bak ana sayfasına bak",
+" Sadece oyunda bakma oyunun Efeklerine bak ana sayfasına bak"
+]
+},
+{
+"t": 118522,
+"e": "result",
+"final": false,
+"alts": [
+" Kent"
+]
+},
+{
+"t": 119236,
+"e": "judged",
+"q": "sanat-2-K-3",
+"verdict": "wrong"
+},
+{
+"t": 119483,
+"e": "result",
+"final": false,
+"alts": [
+" Kent fazla kağıt derken bir"
+]
+},
+{
+"t": 119652,
+"e": "host",
+"texts": [
+"Değil, olmadı.",
+"Kafka olacaktı."
+],
+"q": null
+},
+{
+"t": 119705,
+"e": "result",
+"final": false,
+"alts": [
+" Çok fazla kağıt derken bir"
+]
+},
+{
+"t": 119956,
+"e": "result",
+"final": false,
+"alts": [
+" Çok fazla kağıt derken bir çok"
+]
+},
+{
+"t": 119985,
+"e": "result",
+"final": false,
+"alts": [
+" Çok fazla kağıt derken bir çok kolay"
+]
+},
+{
+"t": 120166,
+"e": "result",
+"final": false,
+"alts": [
+" Çok fazla kağıt derken çok kolay"
+]
+},
+{
+"t": 120273,
+"e": "host-done"
+}
+],
+"questions": {
+"bilim-2-A-1": {
+"letter": "A",
+"answers": [
+"Atom"
+]
+},
+"sanat-2-B-1": {
+"letter": "B",
+"answers": [
+"Beethoven"
+]
+},
+"cografya-2-C-4": {
+"letter": "C",
+"answers": [
+"Cunda",
+"Cunda Adası"
+]
+},
+"sanat-2-Ç-1": {
+"letter": "Ç",
+"answers": [
+"Çehov"
+]
+},
+"cografya-2-D-2": {
+"letter": "D",
+"answers": [
+"Danimarka"
+]
+},
+"sanat-2-E-2": {
+"letter": "E",
+"answers": [
+"Ezop"
+]
+},
+"tarih-2-F-2": {
+"letter": "F",
+"answers": [
+"Fevzi Çakmak",
+"Fevzi Paşa"
+]
+},
+"tarih-2-G-4": {
+"letter": "G",
+"answers": [
+"Girit"
+]
+},
+"bilim-2-H-3": {
+"letter": "H",
+"answers": [
+"Helyum"
+]
+},
+"cografya-2-I-4": {
+"letter": "I",
+"answers": [
+"Issık Göl",
+"Issıkgöl"
+]
+},
+"sanat-2-İ-3": {
+"letter": "İ",
+"answers": [
+"İzlenimcilik",
+"İzlenimci"
+]
+},
+"cografya-2-J-4": {
+"letter": "J",
+"answers": [
+"Jura Dağları",
+"Jura"
+]
+},
+"sanat-2-K-3": {
+"letter": "K",
+"answers": [
+"Kafka"
+]
+}
+}
+}

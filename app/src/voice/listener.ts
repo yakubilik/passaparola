@@ -451,7 +451,9 @@ export class AnswerListener {
       || (f.length >= 2 && e.startsWith(f))
       || (f.length >= 3 && e.includes(f))
       || (e.length >= 3 && f.startsWith(e) && f.length - e.length <= 3)
-      || (f.length >= 2 && Math.abs(e.length - f.length) <= 1 && distance(e, f) <= (f.length >= 8 ? 2 : 1))));
+      // A letter name ("A", "Be" of "... ile başlıyor") misheard is the same length
+      // ("me" → "ma"); the player's "Aç" said just after "A ile başlıyor" is longer (#455).
+      || (f.length >= 2 && Math.abs(e.length - f.length) <= (e.length <= 2 ? 0 : 1) && distance(e, f) <= (f.length >= 8 ? 2 : 1))));
   }
 
   /** The host is talking, or stopped less than ECHO_TAIL_MS ago. */
