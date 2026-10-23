@@ -117,3 +117,44 @@ test('#455: Dilara\'s session replays to the phone\'s own verdicts; her "Pas", a
   const voice = phone.filter((x) => x !== 'sanat-2-E-2 pass');
   expect(replay(DILARA).map((v) => `${v.q} ${v.verdict}`)).toEqual(voice);
 });
+
+// The same two real shapes with other short words in them (the words are
+// not measured on the phone, the timings and result patterns are): Yakup's
+// A question with its "Aç" results written as another word, and a question
+// whose answer is short answered by a lone final like Dilara's " Pas".
+function withWords(s: Session, q: string, answers: string[], words: Record<string, string>): Session {
+  return {
+    questions: { ...s.questions, [q]: { ...s.questions[q], answers } },
+    events: s.events.map((e) => (e.e === 'result' && e.alts ? { ...e, alts: e.alts.map((a) => words[a.trim()] != null ? a.replace(a.trim(), words[a.trim()]) : a) } : e)),
+  };
+}
+
+test.each([
+  ['Ay', ['Ay'], 'correct'],
+  ['Kar', ['Kar'], 'correct'],
+  ['Ayı', ['Ağaç'], 'wrong'],
+  ['Ak', ['Ağaç'], 'wrong'],
+  ['Pas', ['Ağaç'], 'pass'],
+])('#455: "%s" alone, as iOS gave "Aç" 710 ms after the clue (answers %j): %s, on its first result', (word, answers, verdict) => {
+  const v = replay(withWords(PHONE.spoken, 'bilim-1-A-3', answers, { Aç: word }));
+  expect(v[0]).toMatchObject({ q: 'bilim-1-A-3', verdict });
+  expect(v[0].t).toBeLessThan(6237 + 1000);
+});
+
+test.each([
+  ['Un', ['Un'], 'correct'],
+  ['Buz', ['Buz'], 'correct'],
+  ['Fil', ['Fevzi Çakmak'], 'wrong'],
+])('#455: "%s" as a lone final with no interim, as Dilara\'s " Pas" came (answers %j): %s', (word, answers, verdict) => {
+  const v = replay(withWords(DILARA, 'tarih-2-F-2', answers, { Pas: word }));
+  expect(v.find((x) => x.q === 'tarih-2-F-2')).toMatchObject({ verdict });
+});
+
+// Words heard inside the host's echo window that do not even start with the
+// clue's letter are dropped as possibly the host's (judgeHeard, #342): an
+// off-letter "Su" there is no verdict, and said again after it, wrong.
+test('#455: an off-letter short word inside the echo window is no verdict; said again after it, wrong', () => {
+  const v = replay(withWords(PHONE.spoken, 'bilim-1-A-3', ['Ağaç'], { Aç: 'Su' }));
+  expect(v[0]).toMatchObject({ q: 'bilim-1-A-3', heard: 'su', verdict: 'wrong' });
+  expect(v[0].t).toBeGreaterThan(8116);
+});
