@@ -116,6 +116,8 @@ test('"Merkür" said over the Mars clue is judged wrong once, the moment the hos
   expect(screen.getByLabelText('M harfi, sırada')).toBeOnTheScreen();
   expect(screen.getByLabelText('0 yanlış')).toBeOnTheScreen();
   expect(screen.getByTestId('voice-status')).toHaveTextContent('Duydum: Merkür…');
+  // iOS ends his utterance (its final, iOS 18) with no right answer among its guesses (#478)...
+  await act(() => rec.endUtterance());
   // ...and judged wrong the moment the host is quiet (#342), not lost.
   for (let i = 0; i < 400 && host.speaking; i++) await wait(25);
   expect(host.speaking).toBe(false);

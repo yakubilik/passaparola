@@ -10,7 +10,7 @@ import { fakeRecognizer as rec } from '../../test-utils/fakeRecognizer';
 import { pressStart, untilClue } from '../../test-utils/round';
 import { host, listener, sounds } from '../../voice/engine';
 import { clueLine } from '../../voice/lines';
-import { ECHO_TAIL_MS, LATE_MS, SETTLE_MS } from '../../voice/listener';
+import { ECHO_TAIL_MS, HELD_TAIL_MS, LATE_MS, SETTLE_MS } from '../../voice/listener';
 import { CUE_LEAD_MS } from '../../voice/sounds';
 
 // Every complaint Yakup made about speech recognition and judging in the
@@ -190,12 +190,55 @@ test("#342: I said 'Merkür' over the Mars clue; it showed under the field but n
   expect(host.speaking).toBe(true);
   await act(() => rec.hear('Merkür'));
   expect(screen.getByTestId('voice-status')).toHaveTextContent('Duydum: Merkür…');
+  // iOS ends the utterance (its final, iOS 18): no right answer in it (#478).
+  await wait(SETTLE_MS + 20);
+  await act(() => rec.endUtterance());
   // Judged once, within 300 ms of the host finishing, with its cue: never lost.
   await untilHostQuiet();
   await wait(300);
   expect(status('M')).toBe('yanlış');
   expect(count('yanlış')).toBe(1);
   expect(sounds.played.filter((c) => c === 'wrong')).toEqual(['wrong']);
+});
+
+test("#478: a held 'Merkür' whose utterance final never comes is still judged wrong, HELD_TAIL_MS after it was heard at the latest", async () => {
+  await play('/game?cats=bilim&level=1&seed=3');
+  while (question(clueText()).answers[0] !== 'Mars') {
+    await fireEvent.press(screen.getByLabelText('Pas'));
+    await wait(CUE_LEAD_MS + 10);
+    await untilClue();
+  }
+  expect(host.speaking).toBe(true);
+  const heardAt = Date.now();
+  await act(() => rec.hear('Merkür'));
+  await untilHostQuiet();
+  await wait(Math.max(300, heardAt + SETTLE_MS + HELD_TAIL_MS + 300 - Date.now()));
+  expect(status('M')).toBe('yanlış');
+  expect(count('yanlış')).toBe(1);
+  expect(sounds.played.filter((c) => c === 'wrong')).toEqual(['wrong']);
+});
+
+test("#478: 'Merkür' held over the Mars clue, its final 'Merkür / Mars' (the phone's 'Cevdet / Ceviz'): right, not wrong", async () => {
+  await play('/game?cats=bilim&level=1&seed=3');
+  while (question(clueText()).answers[0] !== 'Mars') {
+    await fireEvent.press(screen.getByLabelText('Pas'));
+    await wait(CUE_LEAD_MS + 10);
+    await untilClue();
+  }
+  // The phone's shape (23 Oct 2026) on the Mars clue: an interim over the
+  // host, held, and the final a second later with the right answer among its guesses.
+  expect(host.speaking).toBe(true);
+  await act(() => rec.hear('Merkür'));
+  await wait(SETTLE_MS + 20);
+  await untilHostQuiet();
+  expect(status('M')).toBe('sırada');
+  await wait(1000);
+  expect(status('M')).toBe('sırada');
+  await act(() => rec.emit('result', { isFinal: true, results: [{ transcript: 'Merkür' }, { transcript: 'Mars' }] }));
+  await wait(300);
+  expect(status('M')).toBe('doğru');
+  expect(count('yanlış')).toBe(0);
+  expect(sounds.played.filter((c) => c === 'wrong')).toEqual([]);
 });
 
 describe('answers heard late or not at all', () => {

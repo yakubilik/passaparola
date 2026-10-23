@@ -208,7 +208,27 @@ export function judgeSpoken(alts: readonly string[], answers: readonly string[])
   if (pieces.some((p) => isCorrect(p, answers))) return 'correct';
   if (saidPass(alts)) return 'pass';
   if (pieces.some((p) => answers.some((a) => soundsLike(p, a)))) return 'correct';
+  if (letterRun(alts[0] ?? '', answers)) return 'correct';
   return 'wrong';
+}
+
+/**
+ * A short word iOS heard but cannot spell comes as its first letter written
+ * over and over: "Çığ" said again and again was " ÇÇÇÇ" → " ÇÇÇÇÇÇ", its final
+ * " ÇÇÇÇÇÇ / ÇÇÇÇCÇÇ / ÇÇÇÇÇ" (the phone on 23 Oct 2026, #478; Çığ was in the
+ * request's contextualStrings). Such a best guess, nothing but runs of one
+ * letter three or more long, is the answer when the answer is one short word
+ * (two or three letters) starting with that very letter. A lone letter, a
+ * run of another letter, or a run on a longer answer (Çakal, Çita) is not.
+ */
+export function letterRun(alt: string, answers: readonly string[]): boolean {
+  const ws = norm(alt).split(' ').filter(Boolean);
+  const c = ws[0]?.[0] ?? '';
+  if (!/[a-zçğıöşü]/.test(c) || !ws.every((w) => w.length >= 3 && [...w].every((x) => x === c))) return false;
+  return answers.some((a) => {
+    const n = norm(a);
+    return !n.includes(' ') && n.length >= 2 && n.length <= 3 && n[0] === c;
+  });
 }
 
 /**
@@ -270,6 +290,18 @@ export function judgeHeard(alts: readonly string[], answers: readonly string[], 
   while (first.length > 1 && isFragment(first[0])) first.shift();
   const attempt = first.length >= 1 && first.length <= 3 && first[0].length >= 2 && fold(first[0])[0] === fold(letter)[0];
   return attempt && !how.hostNear ? 'hold' : null;
+}
+
+/**
+ * A wrong answer held over the host ('hold') is right after all when the final
+ * of its utterance, which iOS gives a second or two later, has a right answer
+ * among its guesses: " Cevdet" was the interim, " Cevdet / Ceviz" the final
+ * (the phone on 23 Oct 2026, #478). Words of it the host is saying
+ * (hostSays) are left out: the host's own words never make it right.
+ */
+export function finalRights(alts: readonly string[], answers: readonly string[], hostWords: readonly string[] = []): boolean {
+  const own = alts.map((a) => norm(a).split(' ').filter((w) => !hostSays(w, hostWords)).join(' ')).filter(Boolean);
+  return own.length > 0 && judgeSpoken(own, answers) === 'correct';
 }
 
 /**

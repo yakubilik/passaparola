@@ -273,6 +273,30 @@ ile başlıyor") only a same-length slip counts in `hostNear` ("me" → "ma" is
 the host, "aç" after "a" is the player). Replayed by
 `phoneReplay.test.ts` (red on 4d5c2e0c, green after).
 
+**Çığ and Ceviz (#478, Yakup, 23 Oct 2026: "ÇÇÇÇ yazmadım ki, çığ dedim 10
+kere").** After #455 the Çığ run above was ignored, so Çığ could never be
+answered by voice. Çığ *was* in the request's `contextualStrings`: one list
+per round (`contextFor`), and Bilim level 1 has at most 40 strings per round
+(the pass words and the answers), under the ~100 iOS allows; iOS still
+wrote the run. The `request` trace event now carries the request's
+`contextualStrings`. Now:
+
+- a best guess made only of runs (three letters or more) of one letter is the
+  answer when the question has a one-word answer of two or three letters
+  starting with that very letter (`letterRun`, normalize.ts): " ÇÇÇÇ" is
+  Çığ (also Çay, Çin, Çöl… in other categories), never Çakal or Çita; a lone
+  "Ç" (or "ÇÇ") is right nowhere in the bank;
+- in the same session "Ceviz" came as the interim `" Cevdet"` 540 ms after
+  the clue, held (inside the echo tail) and graded wrong 117 ms later; the
+  final 1 s after it was `" Cevdet / Ceviz"`. A held wrong answer now waits,
+  once the host is quiet, for its utterance's final (`listener.onTail`,
+  `tailPending`) at most `HELD_TAIL_MS` (2.5 s) from the hold, and is right
+  when that final has a right answer among its guesses, words the host is
+  saying left out (`finalRights`). With no final (before iOS 18) it is
+  wrong `HELD_TAIL_MS` after the hold at the latest.
+
+Replayed by `phoneReplay.test.ts` (#478 tests) and `letterRun.test.ts`.
+
 **Not measured:** Su, Un, Kar, Buz (Yakup's session reached J). The words
 test below measures them without a person.
 `-harfiyenSelfTest words` (`src/voice/wordsTest.ts`, run with
