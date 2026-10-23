@@ -219,7 +219,9 @@ export function judgeSpoken(alts: readonly string[], answers: readonly string[])
  */
 export function isFragment(text: string): boolean {
   const ws = norm(text).split(' ').filter(Boolean);
-  return ws.length > 0 && ws.every((w) => /^[a-z]$/.test(fold(w)));
+  // One letter written over and over ("ÇÇÇÇ" for Çığ, the phone on 23 Oct
+  // 2026, #455): iOS heard a word it could not spell. No answer is that.
+  return ws.length > 0 && ws.every((w) => /^([a-z])\1*$/.test(fold(w)) && (fold(w).length === 1 || fold(w).length >= 3));
 }
 
 /** What the listener knows about heard words: see Heard in voice/listener.ts. */

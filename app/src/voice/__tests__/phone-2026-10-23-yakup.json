@@ -1,0 +1,1044 @@
+{
+"source": "Yakup iPhone, branch ustabasi/455 a44cd0dc (Release), 23 Oct 2026 20:34, trace mode, Yakup playing Bilim level 1 with AirPods off; recognizer results, host lines and the verdicts the phone gave, times in ms",
+"events": [
+{
+"t": 1667,
+"e": "host",
+"texts": [
+"İşte sağ cepten sorular çıkıyor efendim.",
+"Bal ve balmumu üreten, kovanlarda yaşayan böcek... A ile başlıyor."
+],
+"q": "bilim-1-A-4"
+},
+{
+"t": 2310,
+"e": "host-done"
+},
+{
+"t": 10188,
+"e": "host",
+"texts": [
+"İşte sağ cepten sorular çıkıyor efendim.",
+"Avrupa ile Amerika kıtaları arasındaki okyanus... A ile başlıyor."
+],
+"q": "bilim-1-A-4"
+},
+{
+"t": 12097,
+"e": "host-done"
+},
+{
+"t": 22090,
+"e": "host",
+"texts": [
+"Sizdeyim efendim."
+],
+"q": null
+},
+{
+"t": 22502,
+"e": "host",
+"texts": [
+"İşte sağ cepten sorular çıkıyor efendim.",
+"Soluduğumuz havadaki oksijeni kana geçiren, göğüs kafesindeki çift organ... A ile başlıyor."
+],
+"q": "bilim-1-A-4"
+},
+{
+"t": 28311,
+"e": "host-done"
+},
+{
+"t": 29771,
+"e": "result",
+"final": false,
+"alts": [
+"Akciğer"
+]
+},
+{
+"t": 29772,
+"e": "judged",
+"q": "bilim-1-A-4",
+"verdict": "correct"
+},
+{
+"t": 30034,
+"e": "host",
+"texts": [
+"Doğru.",
+"Kafatasının içinde bulunan, vücudu yöneten organ... Be ile başlıyor."
+],
+"q": "bilim-1-B-1"
+},
+{
+"t": 31473,
+"e": "result",
+"final": true,
+"alts": [
+"Akciğer"
+]
+},
+{
+"t": 33442,
+"e": "host-done"
+},
+{
+"t": 34589,
+"e": "result",
+"final": false,
+"alts": [
+" Beyin"
+]
+},
+{
+"t": 34589,
+"e": "judged",
+"q": "bilim-1-B-1",
+"verdict": "correct"
+},
+{
+"t": 34852,
+"e": "host",
+"texts": [
+"Kumun yüksek ısıda eritilmesiyle yapılan saydam malzeme... Ce ile başlıyor."
+],
+"q": "bilim-1-C-2"
+},
+{
+"t": 36582,
+"e": "result",
+"final": true,
+"alts": [
+" Beyin"
+]
+},
+{
+"t": 37833,
+"e": "host-done"
+},
+{
+"t": 40568,
+"e": "result",
+"final": false,
+"alts": [
+" Cam cam"
+]
+},
+{
+"t": 40568,
+"e": "judged",
+"q": "bilim-1-C-2",
+"verdict": "correct"
+},
+{
+"t": 40835,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Dağ yamacından hızla aşağı kayan büyük kar kütlesi... Çe ile başlıyor."
+],
+"q": "bilim-1-Ç-4"
+},
+{
+"t": 42259,
+"e": "result",
+"final": true,
+"alts": [
+" Cam cam",
+" Cam"
+]
+},
+{
+"t": 44549,
+"e": "host-done"
+},
+{
+"t": 53404,
+"e": "result",
+"final": false,
+"alts": [
+" ÇÇÇÇ"
+]
+},
+{
+"t": 53596,
+"e": "result",
+"final": false,
+"alts": [
+" ÇÇÇÇÇ"
+]
+},
+{
+"t": 54070,
+"e": "result",
+"final": false,
+"alts": [
+" ÇÇÇÇÇÇ"
+]
+},
+{
+"t": 54786,
+"e": "judged",
+"q": "bilim-1-Ç-4",
+"verdict": "wrong"
+},
+{
+"t": 55202,
+"e": "host",
+"texts": [
+"Çığ olacaktı."
+],
+"q": null
+},
+{
+"t": 55763,
+"e": "result",
+"final": true,
+"alts": [
+" ÇÇÇÇÇÇ",
+" ÇÇÇÇCÇÇ",
+" ÇÇÇÇÇ"
+]
+},
+{
+"t": 56025,
+"e": "host-done"
+},
+{
+"t": 56516,
+"e": "host",
+"texts": [],
+"q": null
+},
+{
+"t": 56517,
+"e": "host-done"
+},
+{
+"t": 59949,
+"e": "host",
+"texts": [
+"Sizdeyim efendim."
+],
+"q": null
+},
+{
+"t": 60814,
+"e": "host",
+"texts": [
+"İşte sağ cepten sorular çıkıyor efendim.",
+"Dünya'nın tek doğal uydusu... A ile başlıyor."
+],
+"q": "bilim-1-A-2"
+},
+{
+"t": 61780,
+"e": "result",
+"final": true,
+"alts": [
+" Efendim",
+" Siz",
+" Siz efendim",
+" Efendim efendim"
+]
+},
+{
+"t": 64535,
+"e": "host-done"
+},
+{
+"t": 67780,
+"e": "result",
+"final": true,
+"alts": [
+" Ay",
+" Ay ay",
+" I"
+]
+},
+{
+"t": 67781,
+"e": "judged",
+"q": "bilim-1-A-2",
+"verdict": "correct"
+},
+{
+"t": 68037,
+"e": "host",
+"texts": [
+"Mavi türü yeryüzünde yaşamış en büyük hayvan olan deniz memelisi... Be ile başlıyor."
+],
+"q": "bilim-1-B-4"
+},
+{
+"t": 71185,
+"e": "host-done"
+},
+{
+"t": 71770,
+"e": "result",
+"final": false,
+"alts": [
+" Bal"
+]
+},
+{
+"t": 72274,
+"e": "result",
+"final": false,
+"alts": [
+" Balina"
+]
+},
+{
+"t": 72275,
+"e": "judged",
+"q": "bilim-1-B-4",
+"verdict": "correct"
+},
+{
+"t": 72537,
+"e": "host",
+"texts": [
+"Kabuğu sert, içi beyne benzeyen kuruyemiş... Ce ile başlıyor."
+],
+"q": "bilim-1-C-3"
+},
+{
+"t": 73975,
+"e": "result",
+"final": true,
+"alts": [
+" Balina"
+]
+},
+{
+"t": 75161,
+"e": "host-done"
+},
+{
+"t": 75702,
+"e": "result",
+"final": false,
+"alts": [
+" Cevdet"
+]
+},
+{
+"t": 76521,
+"e": "judged",
+"q": "bilim-1-C-3",
+"verdict": "wrong"
+},
+{
+"t": 76937,
+"e": "host",
+"texts": [
+"Ceviz olacaktı."
+],
+"q": null
+},
+{
+"t": 77564,
+"e": "result",
+"final": true,
+"alts": [
+" Cevdet",
+" Ceviz"
+]
+},
+{
+"t": 77853,
+"e": "host-done"
+},
+{
+"t": 78256,
+"e": "host",
+"texts": [],
+"q": null
+},
+{
+"t": 78256,
+"e": "host-done"
+},
+{
+"t": 79551,
+"e": "host",
+"texts": [
+"Sizdeyim efendim."
+],
+"q": null
+},
+{
+"t": 80518,
+"e": "host",
+"texts": [
+"İşte sağ cepten sorular çıkıyor efendim.",
+"Milyonlarca yıl önce yaşamış, nesli tükenmiş dev sürüngenler... De ile başlıyor."
+],
+"q": "bilim-1-D-3"
+},
+{
+"t": 85878,
+"e": "host-done"
+},
+{
+"t": 86478,
+"e": "result",
+"final": false,
+"alts": [
+" Dinozor"
+]
+},
+{
+"t": 86479,
+"e": "judged",
+"q": "bilim-1-D-3",
+"verdict": "correct"
+},
+{
+"t": 86738,
+"e": "host",
+"texts": [
+"Dünya'yı kuzey ve güney yarım kürelere ayıran hayali çizgi... E ile başlıyor."
+],
+"q": "bilim-1-E-3"
+},
+{
+"t": 88378,
+"e": "result",
+"final": true,
+"alts": [
+" Dinozor",
+" Dinazor"
+]
+},
+{
+"t": 90018,
+"e": "host-done"
+},
+{
+"t": 90582,
+"e": "result",
+"final": false,
+"alts": [
+" Ekvator"
+]
+},
+{
+"t": 90583,
+"e": "judged",
+"q": "bilim-1-E-3",
+"verdict": "correct"
+},
+{
+"t": 90839,
+"e": "host",
+"texts": [
+"Dünya üretiminin büyük kısmı Türkiye'nin Karadeniz kıyılarından gelen kabuklu yemiş... Fe ile başlıyor."
+],
+"q": "bilim-1-F-4"
+},
+{
+"t": 92673,
+"e": "result",
+"final": true,
+"alts": [
+" Ekvator"
+]
+},
+{
+"t": 94710,
+"e": "host-done"
+},
+{
+"t": 95577,
+"e": "result",
+"final": false,
+"alts": [
+" Fındık"
+]
+},
+{
+"t": 95578,
+"e": "judged",
+"q": "bilim-1-F-4",
+"verdict": "correct"
+},
+{
+"t": 95840,
+"e": "host",
+"texts": [
+"Bir yıldızın çevresinde dolanan, kendi ışığı olmayan büyük gök cismi... Ge ile başlıyor."
+],
+"q": "bilim-1-G-4"
+},
+{
+"t": 97457,
+"e": "result",
+"final": true,
+"alts": [
+" Fındık"
+]
+},
+{
+"t": 99084,
+"e": "host-done"
+},
+{
+"t": 100179,
+"e": "result",
+"final": false,
+"alts": [
+" Gez"
+]
+},
+{
+"t": 100385,
+"e": "result",
+"final": false,
+"alts": [
+" Gezegen"
+]
+},
+{
+"t": 100385,
+"e": "judged",
+"q": "bilim-1-G-4",
+"verdict": "correct"
+},
+{
+"t": 100640,
+"e": "host",
+"texts": [
+"Devenin sırtındaki, yağ depolayan tümsek... He ile başlıyor."
+],
+"q": "bilim-1-H-3"
+},
+{
+"t": 102263,
+"e": "result",
+"final": true,
+"alts": [
+" Gezegen"
+]
+},
+{
+"t": 102900,
+"e": "host-done"
+},
+{
+"t": 104002,
+"e": "result",
+"final": false,
+"alts": [
+" Örgüt"
+]
+},
+{
+"t": 104707,
+"e": "judged",
+"q": "bilim-1-H-3",
+"verdict": "wrong"
+},
+{
+"t": 105123,
+"e": "host",
+"texts": [
+"Hörgüç olacaktı."
+],
+"q": null
+},
+{
+"t": 105669,
+"e": "result",
+"final": true,
+"alts": [
+" Örgüt",
+" Örgü",
+" Örgütü"
+]
+},
+{
+"t": 106026,
+"e": "host-done"
+},
+{
+"t": 106437,
+"e": "host",
+"texts": [],
+"q": null
+},
+{
+"t": 106437,
+"e": "host-done"
+},
+{
+"t": 107536,
+"e": "host",
+"texts": [
+"Sizdeyim efendim."
+],
+"q": null
+},
+{
+"t": 108334,
+"e": "host",
+"texts": [
+"İşte sağ cepten sorular çıkıyor efendim.",
+"Bitkilerde tohum oluşturan, genellikle renkli taç yaprakları olan bölüm... Çe ile başlıyor."
+],
+"q": "bilim-1-Ç-1"
+},
+{
+"t": 113868,
+"e": "host-done"
+},
+{
+"t": 114787,
+"e": "result",
+"final": false,
+"alts": [
+" Çiçek"
+]
+},
+{
+"t": 114788,
+"e": "judged",
+"q": "bilim-1-Ç-1",
+"verdict": "correct"
+},
+{
+"t": 115057,
+"e": "host",
+"texts": [
+"Doğru efendim.",
+"Besinleri ısırıp çiğnememize yarayan, ağızdaki sert yapılar... De ile başlıyor."
+],
+"q": "bilim-1-D-4"
+},
+{
+"t": 116662,
+"e": "result",
+"final": true,
+"alts": [
+" Çiçek"
+]
+},
+{
+"t": 119066,
+"e": "host-done"
+},
+{
+"t": 121985,
+"e": "result",
+"final": false,
+"alts": [
+" Diş diş"
+]
+},
+{
+"t": 121986,
+"e": "judged",
+"q": "bilim-1-D-4",
+"verdict": "correct"
+},
+{
+"t": 122257,
+"e": "host",
+"texts": [
+"Doğru.",
+"Yalnızca ya da çoğunlukla et yiyerek beslenen hayvanlara verilen ad... E ile başlıyor."
+],
+"q": "bilim-1-E-4"
+},
+{
+"t": 123653,
+"e": "result",
+"final": true,
+"alts": [
+" Diş diş"
+]
+},
+{
+"t": 126427,
+"e": "host-done"
+},
+{
+"t": 127480,
+"e": "result",
+"final": false,
+"alts": [
+" Etçil"
+]
+},
+{
+"t": 127480,
+"e": "judged",
+"q": "bilim-1-E-4",
+"verdict": "correct"
+},
+{
+"t": 127741,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Bitkilerin güneş ışığını kullanarak kendi besinini üretmesi... Fe ile başlıyor."
+],
+"q": "bilim-1-F-2"
+},
+{
+"t": 129357,
+"e": "result",
+"final": true,
+"alts": [
+" Etçil"
+]
+},
+{
+"t": 131694,
+"e": "host-done"
+},
+{
+"t": 132764,
+"e": "result",
+"final": false,
+"alts": [
+" Fotosentez"
+]
+},
+{
+"t": 132764,
+"e": "judged",
+"q": "bilim-1-F-2",
+"verdict": "correct"
+},
+{
+"t": 133025,
+"e": "host",
+"texts": [
+"Dünya'ya ışık ve ısı veren yıldız... Ge ile başlıyor."
+],
+"q": "bilim-1-G-1"
+},
+{
+"t": 134974,
+"e": "result",
+"final": true,
+"alts": [
+" Fotosentez"
+]
+},
+{
+"t": 135190,
+"e": "host-done"
+},
+{
+"t": 136388,
+"e": "result",
+"final": false,
+"alts": [
+" Pas"
+]
+},
+{
+"t": 136389,
+"e": "judged",
+"q": "bilim-1-G-1",
+"verdict": "pass"
+},
+{
+"t": 136405,
+"e": "host",
+"texts": [
+"Pas geçildi. Sıradaki yarışmacıya geçiyoruz."
+],
+"q": null
+},
+{
+"t": 137755,
+"e": "host",
+"texts": [
+"Sizdeyim efendim."
+],
+"q": null
+},
+{
+"t": 138074,
+"e": "result",
+"final": true,
+"alts": [
+" Pas"
+]
+},
+{
+"t": 138643,
+"e": "host",
+"texts": [
+"İşte sağ cepten sorular çıkıyor efendim.",
+"Çiçekleri kurutulup kış çayı olarak içilen ağaç... I ile başlıyor."
+],
+"q": "bilim-1-I-2"
+},
+{
+"t": 143172,
+"e": "host-done"
+},
+{
+"t": 147667,
+"e": "result",
+"final": false,
+"alts": [
+" Ihlamur"
+]
+},
+{
+"t": 147667,
+"e": "judged",
+"q": "bilim-1-I-2",
+"verdict": "correct"
+},
+{
+"t": 147926,
+"e": "host",
+"texts": [
+"İstiridyenin içinde oluşan değerli, parlak küre... İ ile başlıyor."
+],
+"q": "bilim-1-İ-3"
+},
+{
+"t": 149759,
+"e": "result",
+"final": true,
+"alts": [
+" Ihlamur"
+]
+},
+{
+"t": 150806,
+"e": "host-done"
+},
+{
+"t": 152475,
+"e": "result",
+"final": false,
+"alts": [
+" İnci"
+]
+},
+{
+"t": 152475,
+"e": "judged",
+"q": "bilim-1-İ-3",
+"verdict": "correct"
+},
+{
+"t": 152743,
+"e": "host",
+"texts": [
+"Doğru yanıt.",
+"Kayaları ve yer kabuğunu inceleyen bilim insanı... Je ile başlıyor."
+],
+"q": "bilim-1-J-4"
+},
+{
+"t": 154172,
+"e": "result",
+"final": true,
+"alts": [
+" İnci"
+]
+},
+{
+"t": 156003,
+"e": "host-done"
+},
+{
+"t": 159176,
+"e": "result",
+"final": false,
+"alts": [
+" Ar"
+]
+},
+{
+"t": 159179,
+"e": "result",
+"final": false,
+"alts": [
+" Arke"
+]
+},
+{
+"t": 159671,
+"e": "result",
+"final": false,
+"alts": [
+" Arkeolog"
+]
+},
+{
+"t": 160377,
+"e": "judged",
+"q": "bilim-1-J-4",
+"verdict": "wrong"
+},
+{
+"t": 160793,
+"e": "host",
+"texts": [
+"Jeolog olacaktı."
+],
+"q": null
+},
+{
+"t": 161377,
+"e": "result",
+"final": true,
+"alts": [
+" Arkeolog"
+]
+},
+{
+"t": 162053,
+"e": "host-done"
+},
+{
+"t": 162117,
+"e": "host",
+"texts": [],
+"q": null
+},
+{
+"t": 162117,
+"e": "host-done"
+}
+],
+"questions": {
+"bilim-1-A-4": {
+"letter": "A",
+"answers": [
+"Akciğer",
+"Akciğerler"
+]
+},
+"bilim-1-B-1": {
+"letter": "B",
+"answers": [
+"Beyin"
+]
+},
+"bilim-1-C-2": {
+"letter": "C",
+"answers": [
+"Cam"
+]
+},
+"bilim-1-Ç-4": {
+"letter": "Ç",
+"answers": [
+"Çığ"
+]
+},
+"bilim-1-A-2": {
+"letter": "A",
+"answers": [
+"Ay"
+]
+},
+"bilim-1-B-4": {
+"letter": "B",
+"answers": [
+"Balina"
+]
+},
+"bilim-1-C-3": {
+"letter": "C",
+"answers": [
+"Ceviz"
+]
+},
+"bilim-1-D-3": {
+"letter": "D",
+"answers": [
+"Dinozor",
+"Dinozorlar"
+]
+},
+"bilim-1-E-3": {
+"letter": "E",
+"answers": [
+"Ekvator"
+]
+},
+"bilim-1-F-4": {
+"letter": "F",
+"answers": [
+"Fındık"
+]
+},
+"bilim-1-G-4": {
+"letter": "G",
+"answers": [
+"Gezegen"
+]
+},
+"bilim-1-H-3": {
+"letter": "H",
+"answers": [
+"Hörgüç"
+]
+},
+"bilim-1-Ç-1": {
+"letter": "Ç",
+"answers": [
+"Çiçek"
+]
+},
+"bilim-1-D-4": {
+"letter": "D",
+"answers": [
+"Diş",
+"Dişler"
+]
+},
+"bilim-1-E-4": {
+"letter": "E",
+"answers": [
+"Etobur",
+"Etçil"
+]
+},
+"bilim-1-F-2": {
+"letter": "F",
+"answers": [
+"Fotosentez"
+]
+},
+"bilim-1-G-1": {
+"letter": "G",
+"answers": [
+"Güneş"
+]
+},
+"bilim-1-I-2": {
+"letter": "I",
+"answers": [
+"Ihlamur"
+]
+},
+"bilim-1-İ-3": {
+"letter": "İ",
+"answers": [
+"İnci"
+]
+},
+"bilim-1-J-4": {
+"letter": "J",
+"answers": [
+"Jeolog"
+]
+}
+}
+}

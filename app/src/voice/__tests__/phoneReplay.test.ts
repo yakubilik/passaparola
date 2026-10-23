@@ -158,3 +158,23 @@ test('#455: an off-letter short word inside the echo window is no verdict; said 
   expect(v[0]).toMatchObject({ q: 'bilim-1-A-3', heard: 'su', verdict: 'wrong' });
   expect(v[0].t).toBeGreaterThan(8116);
 });
+
+// Yakup's iPhone on 23 Oct 2026, 20:34 (this branch, trace mode, AirPods
+// off, Bilim level 1). What iOS really returned for short words said alone:
+// "Pas" an interim " Pas" 1.2 s after the clue; "Ay" a lone final with no
+// interim (" Ay / Ay ay / I") 3.2 s after it; "Cam" and "Diş" an interim
+// with the word twice (" Cam cam", " Diş diş"). And "Çığ" came as " ÇÇÇÇ" →
+// " ÇÇÇÇÇ" → " ÇÇÇÇÇÇ": iOS heard a word it could not spell, which the
+// phone graded wrong (isFragment took it for a word).
+const YAKUP_1023 = require('./phone-2026-10-23-yakup.json') as Session;
+
+test('#455: Yakup\'s short words on the phone: Pas passes, Ay (a lone final), Cam and Diş are right; "ÇÇÇÇ" for Çığ is no wrong answer', () => {
+  const shapes = YAKUP_1023.events.filter((e) => e.e === 'result' && e.alts?.some((a) => /^\s*(pas|ay|cam|diş)(\s|$)/i.test(a))).map((e) => `${e.final ? 'final' : 'interim'} ${e.alts!.join(' / ').trim()}`);
+  expect(shapes).toEqual(expect.arrayContaining(['final Ay /  Ay ay /  I', 'interim Cam cam', 'interim Diş diş', 'interim Pas']));
+  const v = Object.fromEntries(replay(YAKUP_1023).map((x) => [x.q, x.verdict]));
+  expect(v).toMatchObject({ 'bilim-1-G-1': 'pass', 'bilim-1-A-2': 'correct', 'bilim-1-C-2': 'correct', 'bilim-1-D-4': 'correct' });
+  expect(v['bilim-1-Ç-4']).toBeUndefined();
+  // Every other question gets the verdict the phone gave it.
+  const phone = YAKUP_1023.events.filter((e) => e.e === 'judged' && (e as { q?: string }).q !== 'bilim-1-Ç-4');
+  for (const e of phone) expect([e.q, v[e.q!]]).toEqual([e.q, e.verdict]);
+});
