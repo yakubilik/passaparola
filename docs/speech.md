@@ -283,6 +283,11 @@ and logs every result. What stopped it on 23 Oct:
   activation failed", `otherAudioPlaying` true): iOS starts no recording for
   an app that is not in front. The test needs the phone's screen on, with
   Harfiyen in front, for about five minutes.
+- 23 Oct, 10:36, with the phone unlocked: the mic opened and the first
+  recording played, but the output route was Bluetooth (AirPods connected),
+  so the recording went into the earbuds and the phone's mic heard nothing
+  (no result at all); the app then stopped running. The test needs no
+  Bluetooth audio device connected. Trace mode after it recorded no round.
 
 ## Echo cancellation and a steady volume (#438, scope of #439)
 
