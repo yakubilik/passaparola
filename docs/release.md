@@ -67,7 +67,14 @@ home screen stays "Harfiyen".
 - The main checkout's node_modules (which a worktree's symlink points at) can be reinstalled
   mid-build; a long release build is safer from a snapshot copy of app/ (`cp -cR` the
   node_modules) inside the worktree's gitignored `.work/`.
-- Yakup presses "Submit for Review" himself.
+- State on 4 Nov 2026: build 3 (1.0.0, main 06ac2b2a) uploaded, attached and submitted for
+  review on Yakup's word ("Waiting For Review"). `scripts/release.sh` built and signed it but
+  `upload_to_app_store` refused while the version sat in READY_FOR_REVIEW ("You cannot create
+  a new version of the App in the current state"); it was exported from the Xcode archive
+  (`xcodebuild -exportArchive`, manual signing, profile "Harfiyen App Store") and uploaded with
+  `ascelerate builds upload <ipa>`, then `ascelerate apps build attach-latest` and
+  `ascelerate apps review submit`.
+- Submit for Review only when Yakup says so.
 
 ## Later: TestFlight beta (prepared, not used)
 
