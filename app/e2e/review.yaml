@@ -1,0 +1,112 @@
+# App Review screen recording (scripts/review-video.sh). Based on store.yaml: menu, category,
+# level map, a seeded game with the ring and a clue, and the multiplayer
+# result card. Voice is switched off so no mic prompt shows; the simulator has
+# no front camera, so the ring shows the placeholder, never a face.
+appId: com.skolalabs.harfiyen
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    text: "Vazgeç"
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: "intro-start"
+    timeout: 180000
+- tapOn:
+    id: "intro-start"
+- extendedWaitUntil:
+    visible: ".*Hızlı oyun.*"
+    timeout: 10000
+- tapOn: "^Ayarlar$"
+- extendedWaitUntil:
+    visible: ".*Sesli oyun.*"
+    timeout: 10000
+- tapOn:
+    id: "setting-voice"
+- tapOn: ".*Geri.*"
+- extendedWaitUntil:
+    visible: ".*Hızlı oyun.*"
+    timeout: 10000
+- waitForAnimationToEnd
+- runFlow:
+    commands:
+      - waitForAnimationToEnd
+- tapOn: "^Kategoriler$"
+- tapOn:
+    id: "cat-tarih"
+- waitForAnimationToEnd
+- runFlow:
+    commands:
+      - waitForAnimationToEnd
+- tapOn: ".*Bölümlere git.*"
+- extendedWaitUntil:
+    visible: ".*BÖLÜM HARİTASI.*"
+    timeout: 10000
+- waitForAnimationToEnd
+- runFlow:
+    commands:
+      - waitForAnimationToEnd
+- openLink: "harfiyen://game?cats=tarih&level=1&seed=7"
+- tapOn:
+    text: "Aç"
+    optional: true
+- extendedWaitUntil:
+    visible: ".*Hazır mısın.*"
+    timeout: 10000
+- tapOn: "^Başla$"
+- inputText: "Ataturk"
+- pressKey: Enter
+- waitForAnimationToEnd
+- inputText: "Kale"
+- pressKey: Enter
+- waitForAnimationToEnd
+- tapOn:
+    id: "reveal"
+- tapOn:
+    id: "pass"
+- inputText: "Canakkale"
+- pressKey: Enter
+- waitForAnimationToEnd
+- inputText: "Divan"
+- pressKey: Enter
+- waitForAnimationToEnd
+- inputText: "Erzurum"
+- pressKey: Enter
+- waitForAnimationToEnd
+- hideKeyboard
+- waitForAnimationToEnd
+- runFlow:
+    commands:
+      - waitForAnimationToEnd
+- openLink: "harfiyen://match?names=%5B%22Ece%22%2C%22Can%22%5D&cats=tarih&level=1&seed=7"
+- tapOn:
+    text: "Aç"
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: "handover"
+    timeout: 10000
+- tapOn: "^Başla$"
+- inputText: "Ataturk"
+- pressKey: Enter
+- waitForAnimationToEnd
+- inputText: "Bursa"
+- pressKey: Enter
+- waitForAnimationToEnd
+- inputText: "Cumhurbaskani"
+- pressKey: Enter
+- waitForAnimationToEnd
+- inputText: "Cag"
+- pressKey: Enter
+- waitForAnimationToEnd
+- tapOn:
+    id: "pass"
+- extendedWaitUntil:
+    visible:
+      id: "turn-result"
+    timeout: 10000
+- waitForAnimationToEnd
+- runFlow:
+    commands:
+      - waitForAnimationToEnd
