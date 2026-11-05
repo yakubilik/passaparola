@@ -25,10 +25,22 @@ BUNDLE = 'com.skolalabs.harfiyen'
 VERSION = '1.0.0'  # = expo.version in app.json, the build's CFBundleShortVersionString
 API = 'https://api.appstoreconnect.apple.com'
 REVIEW_NOTES = (
-    'No sign-in and no network: everything stays on the device and works offline. '
-    'Tap "Başla" to reach the menu. Voice answers are optional (Ayarlar > Sesli oyun); '
-    'the front camera picture inside the letter ring is optional (Ayarlar > Ön kamera). '
-    'Çok oyunculu is pass-and-play on one phone.'
+    "1. Screen recording (launch, menu, settings, categories, level map, a single-player round "
+    "with answers, a wrong answer and a pass, then a pass-and-play round): "
+    "https://yakupkeskin.dev/review/harfiyen.mp4\n"
+    "2. Purpose and audience: Harfiyen is a Turkish word and general-knowledge quiz for Turkish "
+    "speakers of all ages. Each round has 28 questions, one per letter of the Turkish alphabet, "
+    "and a 3-minute clock; it trains vocabulary and general culture in a short, playful format.\n"
+    "3. How to use: no sign-in, no account, no sample files. Tap Başla, then Bölüm 1 (or Hızlı oyun "
+    "or Çok oyunculu). A host voice reads each question; type the answer and tap the arrow, or tap "
+    "PAS to come back to that letter later. Voice answers (Ayarlar > Sesli oyun) and the front "
+    "camera picture inside the letter ring (Ayarlar > Ön kamera) are optional; the camera image is "
+    "processed on the device only and never stored or sent.\n"
+    "4. External services: none of our own; no server, analytics or ads. Optional voice answers use "
+    "Apple's speech recognition (SFSpeechRecognizer). Everything else works offline.\n"
+    "5. Regions: the app works the same in every region; its content is in Turkish.\n"
+    "6. Not a regulated industry. All questions, the host voice recordings and the sound effects "
+    "were made by us; no third-party protected material."
 )
 
 
