@@ -75,7 +75,7 @@ platform :ios do
     upload_to_app_store(
       api_key: key,
       ipa: IPA,
-      app_version: "1.0.0",
+      app_version: JSON.parse(File.read(File.join(APP_ROOT, "app.json")))["expo"]["version"],
       skip_metadata: true,
       skip_screenshots: true,
       submit_for_review: false,
@@ -83,6 +83,6 @@ platform :ios do
       force: true,
       precheck_include_in_app_purchases: false
     )
-    UI.success("Harfiyen build #{build} is uploaded. Attach it to version 1.0 and press Submit for Review in App Store Connect.")
+    UI.success("Harfiyen build #{build} is uploaded. Attach it to the version and press Submit for Review in App Store Connect.")
   end
 end

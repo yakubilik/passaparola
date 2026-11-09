@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds the App Store IPA and uploads it to App Store Connect for version 1.0.0:
+# Builds the App Store IPA and uploads it to App Store Connect for the version in app.json (expo.version):
 #
 #   cd app && scripts/release.sh
 #

@@ -45,11 +45,11 @@ SESLİ OYUN VE KAMERA
 
 ## Keywords
 
-kelime,harf,bilgi,yarışma,soru,cevap,genel kültür,bulmaca,türkçe,alfabe,quiz,sözcük,arkadaş
+oyun,oyunu,bilmece,zeka,beyin,soru,cevap,bilgi,genel kültür,bulmaca,türkçe,alfabe,quiz,sözcük
 
 ## What's New
 
-İlk sürüm.
+Küçük iyileştirmeler.
 
 ## Other fields
 

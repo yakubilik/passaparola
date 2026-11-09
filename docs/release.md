@@ -74,6 +74,11 @@ home screen stays "Harfiyen".
   (`xcodebuild -exportArchive`, manual signing, profile "Harfiyen App Store") and uploaded with
   `ascelerate builds upload <ipa>`, then `ascelerate apps build attach-latest` and
   `ascelerate apps review submit`.
+- 9 Nov 2026: 1.0.0 is live (released 6 Nov). Version 1.0.1 was created only for new keywords
+  (`oyun,oyunu,…`; name words dropped), copyright "2026 Yakup Keskin", What's New "Küçük
+  iyileştirmeler."; same code as build 3. The release lane now takes the version from
+  `expo.version` in app.json instead of a hard-coded 1.0.0. Download counts: sales reports with
+  vendor number 94106965.
 - Submit for Review only when Yakup says so.
 
 ## Later: TestFlight beta (prepared, not used)
