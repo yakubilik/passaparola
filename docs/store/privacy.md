@@ -9,7 +9,7 @@ App Store Connect uses it as the Privacy Policy URL and the Support URL.
 
 ## Türkçe
 
-Harfiyen, Skola Labs tarafından geliştirilen bir kelime yarışması oyunudur.
+Harfiyen, Yakup Keskin tarafından geliştirilen bir kelime yarışması oyunudur.
 
 **Hiçbir veri toplamıyoruz.** Harfiyen'in bir sunucusu, hesap sistemi, reklamı ya da analiz aracı yoktur. Uygulama internete bağlanmaz ve senin hakkında hiçbir bilgiyi bize ya da üçüncü kişilere göndermez.
 
@@ -25,7 +25,7 @@ Bu politika değişirse yeni hâli bu sayfada yayımlanır. Sorular için: yakup
 
 ## English
 
-Harfiyen is a word quiz game made by Skola Labs.
+Harfiyen is a word quiz game made by Yakup Keskin.
 
 **We collect no data.** Harfiyen has no server, no accounts, no ads and no analytics. The app does not connect to the internet and sends no information about you to us or to anyone else.
 

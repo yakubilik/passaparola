@@ -56,6 +56,6 @@ kelime,harf,bilgi,yarışma,soru,cevap,genel kültür,bulmaca,türkçe,alfabe,qu
 - Category: Games > Trivia (primary), Games > Word (secondary)
 - Price: free, all countries and regions
 - Age rating: 4+ (every questionnaire answer "None" / "No")
-- Copyright: 2026 Skola Labs
+- Copyright: 2026 Yakup Keskin
 - Privacy policy URL and Support URL: https://yakupkeskin.dev/harfiyen/gizlilik (the page carries the contact address); no Marketing URL
 - App Review notes: "No sign-in. Everything is on the device and works offline. Voice answers are optional (Ayarlar > Sesli oyun); the front camera is optional (Ayarlar > Ön kamera)."

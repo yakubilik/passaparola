@@ -114,7 +114,7 @@ def main():
 
     # Version: copyright, no IDFA.
     call('PATCH', f"/v1/appStoreVersions/{version['id']}", json={'data': {'type': 'appStoreVersions', 'id': version['id'],
-         'attributes': {'versionString': VERSION, 'copyright': '2026 Skola Labs', 'usesIdfa': False}}})
+         'attributes': {'versionString': VERSION, 'copyright': '2026 Yakup Keskin', 'usesIdfa': False}}})
     print(f'✓ version {VERSION}: copyright, no IDFA')
 
     # App Review details.
